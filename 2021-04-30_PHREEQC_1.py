@@ -1,25 +1,14 @@
 # import libraries
 from matplotlib import pyplot 
-import subprocess
+from scipy import constants
 from itertools import chain
+import subprocess
 import datetime
 import pandas
 import math
 import time
 import os
 import re
-
-
-# unit conversions 
-mm_over_m = 1E3 
-mm_over_inch = 25.4
-nm_over_mm = 1E6
-grams_over_kilograms = 1E3
-hours_over_day = 24
-minutes_over_hour = 60
-seconds_over_minute = 60
-seconds_over_day = hours_over_day * minutes_over_hour * seconds_over_minute
-liters_over_cubic_meter = 1E3
 
 
 # calculation constants
@@ -40,7 +29,7 @@ def welcome(indent = 1):
     '''
     Print the software introductory box
     '''
-    
+    print('\n\n')
     message = ('''* ROSS 1.1.1 *
     Reverse Osmosis Scaling Simulation
     by Andrew P. Freiburger, Ethan S. Chan, and Heather L. Buckley
@@ -56,7 +45,7 @@ def welcome(indent = 1):
 
     box = chain(upper, middles, lower)
     box_print = ''.join(box)
-    print(box_print)
+    print(box_print, '\n')
     
 
 def make_general_conditions():
@@ -161,7 +150,7 @@ def make_reactive_transport():
             module_length =  1.016                   #m
             permeate_flow = 40                       #cubic meters / day
             max_feed_flow = 15.9                     #cubic meters / hour
-            membrane_thickness = 250 / nm_over_mm    #nm
+            membrane_thickness = 250 * (constants.milli / constants.nano)   #mm
             feed_thickness = 0.7112                  #mm
             permeate_thickness = 0.3                 #mm
             polysulfonic_layer_thickness = 0.05      #mm 
@@ -334,12 +323,12 @@ def make_reactive_transport():
 
         # calculate feed layer characteristics
         feed_cross_sectional_area = (feed_thickness / repeated_membrane_thickness) * filtration_cross_sectional_area     #squared millimeters
-        feed_volume = feed_cross_sectional_area * module_length / mm_over_m**2   #cubic meters
-        feed_mass = feed_volume * grams_over_liters_h2o * liters_over_cubic_meter / grams_over_kilograms    #kilograms, which assumes pure water for mass
-        feed_moles = feed_mass * grams_over_kilograms / grams_over_moles_h2o 
+        feed_volume = feed_cross_sectional_area * module_length / (1 / constants.milli)**2   #cubic meters
+        feed_mass = feed_volume * grams_over_liters_h2o * (1 / constants.liter) / constants.kilo    #kilograms, which assumes pure water for mass
+        feed_moles = feed_mass * constants.kilo / grams_over_moles_h2o 
 
         # calculate fluid flow characteristics
-        feed_velocity = max_feed_flow / (feed_cross_sectional_area / mm_over_m**2) / minutes_over_hour / seconds_over_minute     #meters / second
+        feed_velocity = max_feed_flow / (feed_cross_sectional_area / (1 / constants.milli)**2) / minutes_over_hour / seconds_over_minute     #meters / second
         reynolds_number = feed_velocity * module_length / kinematic_flow_velocity
 
         # calculate module cell characteristics
@@ -348,7 +337,7 @@ def make_reactive_transport():
 
         # calculate simulation parameters that will populate the PHREEQC simulation 
         maximal_timestep = cell_length / feed_velocity * timesteps_over_cell         #seconds, from the Courant condition
-        permeate_removal_per_cell = maximal_timestep * permeate_flow / (seconds_over_day) * liters_over_cubic_meter * grams_over_liters_h2o / grams_over_moles_h2o / cells_per_module      #moles / cell
+        permeate_removal_per_cell = maximal_timestep * permeate_flow / (constants.day) * liters_over_cubic_meter * grams_over_liters_h2o / grams_over_moles_h2o / cells_per_module      #moles / cell
 
         #============================================================
         # the TRANSPORT block is parameterized
@@ -538,7 +527,7 @@ def make_reactive_transport():
             reaction_line += ' '.join(evaporation_reaction_parameters) 
 
         # the calculated reaction parameters will be added and printed to a generated PHREEQC input file
-        final_solution_mass = initial_moles_cell * grams_over_moles_h2o / grams_over_kilograms  #kg water mass
+        final_solution_mass = initial_moles_cell * grams_over_moles_h2o / constants.kilo  #kg water mass
         final_cf_cell = feed_mass_cell / final_solution_mass
         print('Effluent module %s CF:' %(module + 1), final_cf_cell)
 
@@ -1612,10 +1601,15 @@ def make_brine_plot():
     pyplot.figtext(0.2, 0, 'Desalination CF: %s' %(simulation_cf), wrap=True, horizontalalignment='left', fontsize=12)
     pyplot.yscale('log')
     figure = pyplot.gcf()
-    pyplot.show()
+    print('\nClose the figure to proceed.')
     print(plot_caption)
+    pyplot.show()
+    export_figure = input('''Will you export the figure? < n > or < y >  __  ''')
+    while export_figure not in possible_answers:
+        print('ERROR: The entered mineral is not among the options.')  
+        export_figure = input('''\nWill you export the figure? < n > or < y >  __  ''')
     
-    # define a summarizing table of the concentration averages
+    # create a complementary concentration data table for the scaling figure 
     loop_iteration = 1
     table_view = {}
     average_concentrations_table = pandas.DataFrame()
@@ -1670,7 +1664,9 @@ def make_brine_plot():
         average_concentrations_table.index.name = 'Elements'
         dataframe_title = 'Average elemental molal concentrations of the feed water in the RO module for each %s seconds of simulation:' %(quantity_of_steps_index)
         
-    if simulation_perspective == 'Brine':
+        
+    # create a complementary concentration data table for the brine figure 
+    elif simulation_perspective == 'Brine':
         total_time = csv_data['time'].iloc[-1]
         for element in elements:  
             concentration_serie = []
@@ -1689,19 +1685,20 @@ def make_brine_plot():
     print(average_concentrations_table)
         
     # export the output graphic
-    export_filename_progenitor = re.sub('(\.\w+)', '', selected_output_file_name)
-    if not re.search('(scaling|brine)', export_filename_progenitor, flags=re.IGNORECASE):
-        export_name = '{}, {}'.format(export_filename_progenitor, simulation_perspective)
-    else:
-        export_name = export_filename_progenitor
-    
-    export_option = input('''- Would you like to export the figure? < y > or < n > __ ''')
-    if export_option == 'y':
-        export_plot()
-    while export_option not in possible_answers:
-        print('''ERROR: The value is not one of the options.''')  
-        export_option = input('''- Would you like to export the figure?
-        < y > or < n >''')
+    if export_figure == 'y':
+        export_filename_progenitor = re.sub('(\.\w+)', '', selected_output_file_name)
+        if not re.search('(scaling|brine)', export_filename_progenitor, flags=re.IGNORECASE):
+            export_name = '{}, {}'.format(export_filename_progenitor, simulation_perspective)
+        else:
+            export_name = export_filename_progenitor
+
+        export_option = input('''- Would you like to export the figure? < y > or < n > __ ''')
+        if export_option == 'y':
+            export_plot()
+        while export_option not in possible_answers:
+            print('''ERROR: The value is not one of the options.''')  
+            export_option = input('''- Would you like to export the figure?
+            < y > or < n >''')
     
 def make_scaling_plot():
     """
@@ -1776,6 +1773,7 @@ def make_scaling_plot():
         pyplot.legend(experimental_loop, loc='best', fontsize = 'x-large')
         pyplot.figtext(0.2, 0, 'Desalination CF: %s' %(simulation_cf), wrap=True, horizontalalignment='left', fontsize=12)
         figure = pyplot.gcf()
+        print('\nClose the figure to proceed.\n')
         pyplot.show()
         
         export_filename_progenitor = re.sub('(\.\w+)', '', selected_output_file_name)
@@ -1806,34 +1804,34 @@ def make_scaling_plot():
             individual_plots = input('- Would you like to plot each mineral on a separate figure?')
         
         if individual_plots == 'y':
-            exporting_plots = input('''How many mineral figures would you like to export?
+            viewing_plots = input('''How many mineral figures would you like to view?
     < All >, < A few >, or < None >''')
-            while exporting_plots != 'All' and exporting_plots != 'A few' and exporting_plots != 'None':
+            while viewing_plots != 'All' and exporting_plots != 'A few' and exporting_plots != 'None':
                 print('ERROR: The entered value is not accepted.')  
-                exporting_plots = input('- How many mineral figures would you like to export?')
+                viewing_plots = input('- How many mineral figures would you like to view?')
 
-            if exporting_plots == ('All' or 'A few'):
-                exporting_minerals = []
-                if exporting_plots == 'All':
-                    exporting_minerals = non_zero_minerals
+            if viewing_plots == ('All' or 'A few'):
+                viewing_minerals = []
+                if viewing_plots == 'All':
+                    viewing_minerals = non_zero_minerals
                 
                 elif exporting_plots == 'A few':
                     for mineral in non_zero_minerals:
                         print('< %s >' %(mineral))
 
-                    exporting_mineral = input('''- Which minerals will you export?
+                    viewing_mineral = input('''- Which minerals will you view?
         Type < done > when you are finished.''')
-                    while exporting_mineral not in non_zero_minerals:
+                    while viewing_mineral not in non_zero_minerals:
                         print('ERROR: The entered mineral is not among the options.')  
-                        exporting_mineral = input('- Which minerals will you export?')
-                    while exporting_mineral != 'done':
-                        exporting_minerals.append(exporting_mineral)
-                        exporting_mineral = input('- Which minerals will you export?')
-                        while exporting_mineral not in non_zero_minerals:
+                        viewing_mineral = input('- Which minerals will you view?')
+                    while viewing_mineral != 'done':
+                        viewing_minerals.append(exporting_mineral)
+                        viewing_mineral = input('- Which minerals will you view?')
+                        while viewing_mineral not in non_zero_minerals:
                             print('ERROR: The entered mineral is not among the options.')  
-                            exporting_mineral = input('- Which minerals will you export?')
+                            viewing_mineral = input('- Which minerals will you view?')
 
-                for mineral in exporting_minerals:
+                for mineral in viewing_minerals:
                     pyplot.figure(figsize = (17,10))
                     pyplot.title(plot_title, fontsize = 'xx-large')
                     
@@ -1906,16 +1904,22 @@ def make_scaling_plot():
                     pyplot.legend(experimental_loop, loc='best', fontsize = 'x-large')
                     pyplot.figtext(0.2, 0, 'Desalination CF: %s' %(simulation_cf), wrap=True, horizontalalignment='left', fontsize=12)
                     figure = pyplot.gcf()
+                    print('\nClose the figure to proceed.')
                     pyplot.show()
+                    export_figure = input('''Will you export the figure? < n > or < y >  __  ''')
+                    while export_figure not in possible_answers:
+                        print('ERROR: The entered mineral is not among the options.')  
+                        export_figure = input('''\nWill you export the figure? < n > or < y >  __  ''')
 
                     # export the direct figures
-                    export_filename_progenitor = re.sub('(\.\w+)', '', selected_output_file)
-                    if not re.search('(scaling|brine)', export_filename_progenitor, flags=re.IGNORECASE):
-                        export_name = '{}, {}'.format(export_filename_progenitor, simulation_perspective)
-                    else:
-                        export_name = export_filename_progenitor
-                        
-                    export_plot()
+                    if export_figure == 'y':
+                        export_filename_progenitor = re.sub('(\.\w+)', '', selected_output_file)
+                        if not re.search('(scaling|brine)', export_filename_progenitor, flags=re.IGNORECASE):
+                            export_name = '{}, {}'.format(export_filename_progenitor, simulation_perspective)
+                        else:
+                            export_name = export_filename_progenitor
+
+                        export_plot()
 
                     
         elif individual_plots == 'n':
@@ -1996,22 +2000,28 @@ def make_scaling_plot():
             pyplot.legend(experimental_loop, loc='best', fontsize = 'x-large')
             pyplot.figtext(0.2, 0, 'Desalination CF: %s' %(simulation_cf), wrap=True, horizontalalignment='left', fontsize=12)
             figure = pyplot.gcf()
+            print('\nClose the figure to proceed.')
             pyplot.show()
+            export_figure = input('''Will you export the figure? < n > or < y >  __  ''')
+            while export_figure not in possible_answers:
+                print('ERROR: The entered mineral is not among the options.')  
+                export_figure = input('''\nWill you export the figure? < n > or < y >  __  ''')
             
             # export the output graphic
-            export_filename_progenitor = re.sub('(\.\w+)', '', selected_output_file)
-            if not re.search('(scaling|brine)', export_filename_progenitor, flags=re.IGNORECASE):
-                export_name = '{}, {}'.format(export_filename_progenitor, simulation_perspective)
-            else:
-                export_name = export_filename_progenitor
-            
-            export_option = input('''Would you like to export the figure? < y > or < n > __ ''')
-            while export_option not in possible_answers:
-                print('''ERROR: The value is not one of the options.''')  
-                export_option = input('''Would you like to export the figure? < y > or < n > __ ''')       
+            if export_figure == 'y':
+                export_filename_progenitor = re.sub('(\.\w+)', '', selected_output_file)
+                if not re.search('(scaling|brine)', export_filename_progenitor, flags=re.IGNORECASE):
+                    export_name = '{}, {}'.format(export_filename_progenitor, simulation_perspective)
+                else:
+                    export_name = export_filename_progenitor
 
-            if export_option == 'y':
-                export_plot()
+                export_option = input('''Would you like to export the figure? < y > or < n > __ ''')
+                while export_option not in possible_answers:
+                    print('''ERROR: The value is not one of the options.''')  
+                    export_option = input('''Would you like to export the figure? < y > or < n > __ ''')       
+
+                if export_option == 'y':
+                    export_plot()
             
             
 def export_plot():
