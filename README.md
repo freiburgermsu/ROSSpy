@@ -1,4 +1,4 @@
-# Reverse Osmosis desalination
+# Reverse Osmosis Scaling Simulation (ROSS)
 
 Desalination is an increasingly critical technology for human sustainability. Reverse Osmosis (RO) is a prominent desalination technology, yet, some of the geochemical phenomena like brine formation and mineral scaling hinder RO efficacy. We developed a RO scaling simulation (ROSS) software that effectively evaluates brine formation and mineral scaling from desalination. The source code and executable files for this software, which incorporates batch PHREEQC into the executable files, is provided to support community research and user customization.
 
