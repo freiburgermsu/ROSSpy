@@ -100,7 +100,7 @@ def make_general_conditions():
     options_list = ['evaporation', 'transport']
     evaporation_or_transport = input('''- Will you simulate evaporation or transport?
     Default = < {} >  __ '''.format(options_list[1])) or options_list[1]
-    while module_selection not in options_list:
+    while evaporation_or_transport not in options_list:
         print('''The module selection is not supported by this simulation. Select one of the options.''')  
         evaporation_or_transport = input('''- Will you simulate evaporation or transport?
         Default = < {} >  __ '''.format(options_list[1])) or options_list[1]
@@ -150,7 +150,7 @@ def make_reactive_transport():
             module_length =  1.016                   #m
             permeate_flow = 40                       #cubic meters / day
             max_feed_flow = 15.9                     #cubic meters / hour
-            membrane_thickness = 250 * (constants.milli / constants.nano)   #mm
+            membrane_thickness = 250 * (constants.kilo / constants.giga)   #mm
             feed_thickness = 0.7112                  #mm
             permeate_thickness = 0.3                 #mm
             polysulfonic_layer_thickness = 0.05      #mm 
@@ -323,12 +323,12 @@ def make_reactive_transport():
 
         # calculate feed layer characteristics
         feed_cross_sectional_area = (feed_thickness / repeated_membrane_thickness) * filtration_cross_sectional_area     #squared millimeters
-        feed_volume = feed_cross_sectional_area * module_length / (1 / constants.milli)**2   #cubic meters
+        feed_volume = feed_cross_sectional_area * module_length / (constants.kilo)**2   #cubic meters
         feed_mass = feed_volume * grams_over_liters_h2o * (1 / constants.liter) / constants.kilo    #kilograms, which assumes pure water for mass
         feed_moles = feed_mass * constants.kilo / grams_over_moles_h2o 
 
         # calculate fluid flow characteristics
-        feed_velocity = max_feed_flow / (feed_cross_sectional_area / (1 / constants.milli)**2) / minutes_over_hour / seconds_over_minute     #meters / second
+        feed_velocity = max_feed_flow / (feed_cross_sectional_area / (constants.kilo)**2) / constants.hour     #meters / second
         reynolds_number = feed_velocity * module_length / kinematic_flow_velocity
 
         # calculate module cell characteristics
