@@ -93,89 +93,190 @@ def database_parsing(db):
     formula_list = list(minerals['formula'])
     
     return elements, minerals
+
+def parse_stoich(formula, ch_number):
+    ch_no = ch_number
+    stoich = ''
+    while re.search('[0-9\.]', formula[ch_no]):                    
+        stoich += formula[ch_no]
+        if ch_no == len(formula)-1:
+            break
+#             if not re.search('[0-9\.]', formula[ch_no+1]):
+#                 break
+        ch_no += 1
+    skips = ch_no - ch_number
+    return skips, float(stoich)
+
+def group_parsing(formula, ch_number, final):
+    group_mass = 0
+    group_mass2 = 0
+    ch_no2 = ch_number + 1
+    skip_characters = 0
+    double = False
+    final_mass2 = 0
+    while formula[ch_no2] != ')' and ch_no2 != len(formula)-1:
+        print('ch_number', ch_no2)
+        print('character', formula[ch_no2])
+        if skip_characters > 0:
+            skip_characters -= 1
+            ch_no2 += 1
+            continue
+        if formula[ch_no2] == '(':
+            ch_no2 += 1
+            double = True
+            continue
+            
+        if double:
+            skips, mass = parse_mineral_formula(formula, ch_no2, final = final)
+            group_mass2 += mass
+            skip_characters += skips
+            ch_no2 += 1
+    #                     print(ch_no2)
+            if formula[ch_no2] == ')':
+                print('group_mass2', group_mass2)
+                skips, stoich = parse_stoich(formula, ch_no2 + 1)
+                print('group_stoich2', stoich)
+                final_mass2 = group_mass2 * stoich
+                skip_characters = ch_no2 - ch_number + skips 
+                ch_no2 += 1
+                double = False
         
-def mineral_masses(minerals):
-    def parse_stoich(formula, ch_number):
-        ch_no = ch_number
-        stoich = ''
-        while re.search('[0-9\.]', formula[ch_no]):                    
-            stoich += formula[ch_no]
-            if ch_no == len(formula)-1:
-                break
-            ch_no += 1
-        skips = ch_no - ch_number
-        return skips, float(stoich)
+        else:
+            print(formula[ch_no2])
+            skips, mass = parse_mineral_formula(formula, ch_no2, final = final)
+            group_mass += mass
+            skip_characters += skips
+            ch_no2 += 1
+#                     print(ch_no2)
+        print('skips', skip_characters)
 
-    def parse_mineral_formula(formula, ch_number, final):
-        stoich = 0
-        skips = 0
-        if re.search('[A-Z]',formula[ch_number]):
-            if final:
-                element = formula[ch_number]
-                print('\n', element)
-                stoich = 1
+    print('group_mass', group_mass)
+    if ch_no2 == len(formula)-1:
+        stoich = 1
+    elif re.search('[A-Z:\(]', formula[ch_no2+1]):
+        stoich = 1
+    else:
+        skips, stoich = parse_stoich(formula, ch_no2 + 1)
+    print('group_stoich', stoich)
+    final_mass = group_mass * stoich + final_mass2
+    skip_characters = ch_no2 - ch_number + skips 
+    return skip_characters, final_mass
 
-                print('elemental_mass', elemental_masses[element])
-                print('stoich', stoich)
-                mass = stoich * elemental_masses[element] 
-                skip_characters = 0
-                print('mass', mass)
-                return skip_characters, mass
+def parse_mineral_formula(formula, ch_number, final):
+    stoich = 0
+    skips = 0
+    if re.search('\s|\+',formula[ch_number]):
+        skip_characters = 0
+        mass = 0
+        return skip_characters, mass
+    elif re.search('[A-Z]',formula[ch_number]):
+        if final:
+            element = formula[ch_number]
+            print('\n', element)
+            stoich = 1
 
-            elif re.search('[a-z]', formula[ch_number+1]):
-                element = formula[ch_number] + formula[ch_number+1]
-                print('\n', element)
+            print('elemental_mass', elemental_masses[element])
+            print('stoich', stoich)
+            mass = stoich * elemental_masses[element] 
+            skip_characters = 0
+            print('mass', mass)
+            return skip_characters, mass
+
+        elif re.search('[a-z]', formula[ch_number+1]):
+            element = formula[ch_number] + formula[ch_number+1]
+            print('\n', element)
+            if ch_number+1 != len(formula)-1:
                 if re.search('[0-9]', formula[ch_number+2]):
                     skips, stoich = parse_stoich(formula, ch_number+2) # float(formula[ch_number+2])
-                elif re.search('[A-Z\(]', formula[ch_number+2]):
+                elif re.search('[A-Z\(:]', formula[ch_number+2]):
                     stoich = 1
+                elif formula[ch_number+2] == '.':
+                    skips, stoich = parse_stoich(formula, ch_number+3) # float(formula[ch_number+2])
+                    skips += len('.')
+                    mantissa = re.sub('.0', '', str(stoich))
+                    stoich = float(f'0.{mantissa}')
+                elif formula[ch_number+2] == ' ':
+                    stoich = 1
+                    skips = 1
                 else:
                     print('--> ERROR: The mineral formula {} is unpredictable.'.format(formula))
-
-                print('elemental_mass1', elemental_masses[element])
-                print('stoich1', stoich)
-                mass = stoich * elemental_masses[element] 
-                skip_characters = skips + 1
-                print('mass1', mass)
-                return skip_characters, mass
-
-            elif re.search('[0-9]', formula[ch_number+1]):
-                skips, stoich = parse_stoich(formula, ch_number+1)
-
-                element = formula[ch_number]
-                print('\n', element)
-                stoich = float(stoich)
-
-                print('elemental_mass2', elemental_masses[element])
-                print('stoich2', stoich)
-                mass = stoich * elemental_masses[element] 
-                skip_characters = skips  + 1
-                print('mass2', mass)
-                return skip_characters, mass
-
-            elif re.search('[A-Z\(]', formula[ch_number+1]):
-                element = formula[ch_number]
-                print('\n', element)
+            else:
                 stoich = 1
 
-                print('elemental_mass3', elemental_masses[element])
-                print('stoich3', stoich)
-                mass = stoich * elemental_masses[element] 
-                skip_characters = 0
-                print('mass3', mass)
-                return skip_characters, mass
+            print('elemental_mass1', elemental_masses[element])
+            print('stoich1', stoich)
+            mass = stoich * elemental_masses[element] 
+            skip_characters = skips + 1
+            print('mass1', mass)
+            return skip_characters, mass
 
-        if re.search('[0-9]',formula[ch_number]):
-            stoich = formula[ch_number]
-            subbed = re.sub('H|2|O', '', formula[ch_number+1:ch_number+4])
-            if subbed == '':
-                skip_characters = 3
-                water_mass = elemental_masses['H'] * 2 + elemental_masses['O']
-                mass = float(stoich) * water_mass
-                return skip_characters, mass
-            else:
-                print(f'--> ERROR: The {formula} formula is not predictable.')
+        elif re.search('[0-9]', formula[ch_number+1]):
+            skips, stoich = parse_stoich(formula, ch_number+1)
 
+            element = formula[ch_number]
+            print('\n', element)
+            print('elemental_mass2', elemental_masses[element])
+            print('stoich2', stoich)
+            mass = stoich * elemental_masses[element] 
+            skip_characters = skips
+            print('mass2', mass)
+            return skip_characters, mass
+
+        elif formula[ch_number+1] == '.':
+            skips, stoich = parse_stoich(formula, ch_number+2)
+
+            element = formula[ch_number]
+            print('\n', element)
+            mantissa = re.sub('.0', '', str(stoich))
+            stoich = float(f'0.{mantissa}')
+            print('elemental_mass2', elemental_masses[element])
+            print('stoich2', stoich)
+            mass = stoich * elemental_masses[element] 
+            skip_characters = skips-1
+            print('mass2', mass)
+            return skip_characters, mass
+
+        elif re.search('[A-Z\(\):\+\s]', formula[ch_number+1]):
+            element = formula[ch_number]
+            print('\n', element)
+            stoich = 1
+
+            print('elemental_mass3', elemental_masses[element])
+            print('stoich3', stoich)
+            mass = stoich * elemental_masses[element] 
+            skip_characters = 0
+            print('mass3', mass)
+#                 print('skips', skip_characters)
+            return skip_characters, mass
+
+    elif re.search(':',formula[ch_number]):
+        print('element', formula[ch_number])
+        skips = stoich = space = 0
+        if re.search('[0-9]', formula[ch_number+1]):
+            skips, stoich = parse_stoich(formula, ch_number+1)
+        if ch_number+1+skips == ' ':
+            space = 1
+        if formula[ch_number+1+skips+space:ch_number+4+skips+space] == 'H2O':
+            print('subbed portion', formula[ch_number+1+skips+space:ch_number+4+skips+space])
+            skip_characters = len('H2O')+skips
+            water_mass = elemental_masses['H'] * 2 + elemental_masses['O']
+            mass = float(stoich) * water_mass
+            return skip_characters, mass
+        elif formula[ch_number+1+skips+space:ch_number+4+skips+space] == 'H\+':
+            print('subbed portion', formula[ch_number+1+skips+space:ch_number+4+skips+space])
+            skip_characters = len('H+')+skips
+            proton_mass = elemental_masses['H']
+            mass = float(stoich) * proton_mass
+            return skip_characters, mass
+        elif re.search('[A-Z]',formula[ch_number+skips+1]):
+            skip_characers, mass = group_parsing(formula, ch_number+skips, final)
+            group_mass = mass * stoich
+            return skip_characers, group_mass
+        else:
+            print(f'--> ERROR: The {formula} formula is not predictable.')
+            return 0, 0
+        
+def mineral_masses(minerals):
     # evaluate all of the described minerals
     for mineral in minerals:
         formula = minerals[mineral]['formula']
@@ -183,8 +284,9 @@ def mineral_masses(minerals):
         skip_characters = 0
         minerals[mineral]['mass'] = 0
         mass = 0
+        first = True
         for ch_number in range(len(formula)):
-            print('mass', minerals[mineral]['mass'])
+            print('total_mass', minerals[mineral]['mass'])
             print('ch_number', ch_number)
             print('character', formula[ch_number])
             if skip_characters > 0:
@@ -193,36 +295,22 @@ def mineral_masses(minerals):
 
             final = False
             if ch_number == len(formula)-1:
+                print('final')
                 final = True
-
-            if formula[ch_number] == ':':
-                continue
             elif formula[ch_number] == '(':
-                group_mass = 0
-                ch_no2 = ch_number + 1
-                while formula[ch_no2] != ')':
-                    if skip_characters > 0:
+                skip_characters, mass = group_parsing(formula, ch_number, final)
+                minerals[mineral]['mass'] += mass 
+                if mineral in ['Brochantite', 'Borax']:
+                    if first:
                         skip_characters -= 1
-                        ch_no2 += 1
-                        continue
-
-                    skips, mass = parse_mineral_formula(formula, ch_no2, final = final)
-                    group_mass += mass
-                    skip_characters += skips
-                    ch_no2 += 1
-
-                ch_no2 += 1
-                print('group_mass', group_mass)
-                skips, stoich = parse_stoich(formula, ch_no2)
-                print('group_stoich', stoich)
-                minerals[mineral]['mass'] += group_mass * stoich
-                skip_characters = ch_no2 - ch_number + skips - 1
-
-                print(skip_characters)
+                        first = False
             else:
-                skip_characters, mass = parse_mineral_formula(formula, ch_number, final = final)
+                print('element', formula[ch_number])
+                skip_characters, mass = parse_mineral_formula(formula, ch_number, final)
                 minerals[mineral]['mass'] += mass
 
+#         if mineral in ['Hydroxyapatite']:
+#             minerals[mineral]['mass'] += elemental_masses['O']
         print('{} mass: {}'.format(mineral, minerals[mineral]['mass']))
     
     return minerals
