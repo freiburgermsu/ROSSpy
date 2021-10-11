@@ -183,7 +183,7 @@ def group_parsing(formula, ch_number, final):
 def parse_mineral_formula(formula, ch_number, final = False, group = False):
     stoich = 0
     skips = 0
-    if re.search('\s|\+',formula[ch_number]):
+    if re.search('[ +)]',formula[ch_number]):
         skip_characters = 0
         mass = 0
         return skip_characters, mass
@@ -255,7 +255,7 @@ def parse_mineral_formula(formula, ch_number, final = False, group = False):
             print('mass2', mass)
             return skip_characters, mass
 
-        elif re.search('[A-Z\(\):\+\s]', formula[ch_number+1]):
+        elif re.search('[A-Z():+ ]', formula[ch_number+1]):
             element = formula[ch_number]
             print('\n', element)
             stoich = 1
@@ -271,15 +271,18 @@ def parse_mineral_formula(formula, ch_number, final = False, group = False):
 
     elif re.search(':',formula[ch_number]):
         print('element', formula[ch_number])
-        skips = stoich = space = 0
+        skips = stoich = space = back_space = 0
         if re.search('[0-9]', formula[ch_number+1]):
             skips, stoich = parse_stoich(formula, ch_number+1)
-        if ch_number+1+skips == ' ':
+        if re.search('[( ]',formula[ch_number+1+skips]):
             space = 1
+            back_space = 1
         if formula[ch_number+1+skips+space:ch_number+4+skips+space] == 'H2O':
             print('subbed portion', formula[ch_number+1+skips+space:ch_number+4+skips+space])
-            skip_characters = len('H2O')+skips
+            skip_characters = len('H2O')+skips+back_space
             water_mass = elemental_masses['H'] * 2 + elemental_masses['O']
+            print('water_mass', water_mass)
+            print('water_stoich', stoich)
             mass = float(stoich) * water_mass
             return skip_characters, mass
         elif formula[ch_number+1+skips+space:ch_number+4+skips+space] == 'H\+':
@@ -335,18 +338,29 @@ def mineral_masses(db, minerals):
                     skip_characters += 1 
                     if mineral == 'Berthierine_ISGS':
                         skip_characters += 3
+#                     if mineral == 'Glauconite':
+#                         skip_characters += 1
                     
                 if double:
                     if mineral in ['Boltwoodite', 'Corkite']:
                         skip_characters -= 1
+                    if mineral == 'Glauconite':
+                        skip_characters -= 5
+                    if mineral in ['Saponite_SapCa', 'Vermiculite_SO']:
+                        skip_characters -= 9
                     print('second')
                     triple = True
-
+                    double = False
+                    
                 if first:
-                    if mineral in ['Brochantite', 'Borax', 'Antlerite', 'Corkite', 'Kasolite', 'Phosgenite', 'Tsumebite', 'Artinite']:
+                    if mineral in ['Brochantite', 'Borax', 'Antlerite', 'Corkite', 'Kasolite', 'Phosgenite', 'Tsumebite', 'Artinite', 'Jaffeite'] or (mineral in ['Burkeite', 'Dawsonite'] and re.search('sit', db)):
                         skip_characters -= 1
                     if mineral == 'Berthierine_ISGS':
                         skip_characters -= 10
+                    if mineral == 'Glauconite':
+                        skip_characters -= 5
+                    if mineral in ['Saponite_SapCa', 'SmectiteMX', 'Vermiculite_SO']:
+                        skip_characters -= 9
                     first = False
                     double = True
                     print('first')
