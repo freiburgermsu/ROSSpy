@@ -1,0 +1,1887 @@
+{
+    "elements": {
+        "Alkalinity": {
+            "charge_specie": "2.0",
+            "gfw_formula": "HCO3",
+            "element_gfw": "61.0173"
+        },
+        "E": {
+            "charge_specie": "0",
+            "gfw_formula": "0",
+            "element_gfw": "0"
+        },
+        "O": {
+            "charge_specie": "0",
+            "gfw_formula": "O",
+            "element_gfw": "16.00"
+        },
+        "O(-2)": {
+            "charge_specie": "0",
+            "gfw_formula": "O",
+            "element_gfw": null
+        },
+        "O(0)": {
+            "charge_specie": "0",
+            "gfw_formula": "O",
+            "element_gfw": null
+        },
+        "Ag": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Ag",
+            "element_gfw": "107.868"
+        },
+        "Al": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Al",
+            "element_gfw": "26.9815"
+        },
+        "As": {
+            "charge_specie": "-1.0",
+            "gfw_formula": "As",
+            "element_gfw": "74.9216"
+        },
+        "As(3)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "As",
+            "element_gfw": null
+        },
+        "As(5)": {
+            "charge_specie": "-1.0",
+            "gfw_formula": "As",
+            "element_gfw": null
+        },
+        "B": {
+            "charge_specie": "0.0",
+            "gfw_formula": "B",
+            "element_gfw": "10.81"
+        },
+        "Ba": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Ba",
+            "element_gfw": "137.33"
+        },
+        "Be": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Be",
+            "element_gfw": "9.0122"
+        },
+        "Br": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Br",
+            "element_gfw": "79.904"
+        },
+        "C": {
+            "charge_specie": "2.0",
+            "gfw_formula": "CO3",
+            "element_gfw": "12.0111"
+        },
+        "C(4)": {
+            "charge_specie": "2.0",
+            "gfw_formula": "CO3",
+            "element_gfw": "12.0111"
+        },
+        "Cyanide": {
+            "charge_specie": "1.0",
+            "gfw_formula": "Cyanide",
+            "element_gfw": "26.0177"
+        },
+        "Dom_a": {
+            "charge_specie": "0.0",
+            "gfw_formula": "C",
+            "element_gfw": "12.0111"
+        },
+        "Dom_b": {
+            "charge_specie": "0.0",
+            "gfw_formula": "C",
+            "element_gfw": "12.0111"
+        },
+        "Dom_c": {
+            "charge_specie": "0.0",
+            "gfw_formula": "C",
+            "element_gfw": "12.0111"
+        },
+        "Ca": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Ca",
+            "element_gfw": "40.078"
+        },
+        "Cd": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Cd",
+            "element_gfw": "112.41"
+        },
+        "Cl": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Cl",
+            "element_gfw": "35.453"
+        },
+        "Co": {
+            "charge_specie": "-1.0",
+            "gfw_formula": "Co",
+            "element_gfw": "58.9332"
+        },
+        "Co(2)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Co",
+            "element_gfw": null
+        },
+        "Co(3)": {
+            "charge_specie": "-1.0",
+            "gfw_formula": "Co",
+            "element_gfw": null
+        },
+        "Cr": {
+            "charge_specie": "1.0",
+            "gfw_formula": "Cr",
+            "element_gfw": "51.996"
+        },
+        "Cr(2)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Cr",
+            "element_gfw": null
+        },
+        "Cr(3)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Cr",
+            "element_gfw": null
+        },
+        "Cr(6)": {
+            "charge_specie": "1.0",
+            "gfw_formula": "Cr",
+            "element_gfw": null
+        },
+        "Cu": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Cu",
+            "element_gfw": "63.546"
+        },
+        "Cu(1)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Cu",
+            "element_gfw": null
+        },
+        "Cu(2)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Cu",
+            "element_gfw": null
+        },
+        "F": {
+            "charge_specie": "0.0",
+            "gfw_formula": "F",
+            "element_gfw": "18.9984"
+        },
+        "Fe": {
+            "charge_specie": "-2.0",
+            "gfw_formula": "Fe",
+            "element_gfw": "55.847"
+        },
+        "Fe(2)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Fe",
+            "element_gfw": null
+        },
+        "Fe(3)": {
+            "charge_specie": "-2.0",
+            "gfw_formula": "Fe",
+            "element_gfw": null
+        },
+        "H": {
+            "charge_specie": "-1.0",
+            "gfw_formula": "H",
+            "element_gfw": "1.0079"
+        },
+        "H(0)": {
+            "charge_specie": "0",
+            "gfw_formula": "H",
+            "element_gfw": null
+        },
+        "H(1)": {
+            "charge_specie": "-1.0",
+            "gfw_formula": "H",
+            "element_gfw": null
+        },
+        "Hg": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Hg",
+            "element_gfw": "200.59"
+        },
+        "Hg(0)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Hg",
+            "element_gfw": null
+        },
+        "Hg(1)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Hg",
+            "element_gfw": null
+        },
+        "Hg(2)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Hg",
+            "element_gfw": null
+        },
+        "I": {
+            "charge_specie": "0.0",
+            "gfw_formula": "I",
+            "element_gfw": "126.904"
+        },
+        "K": {
+            "charge_specie": "0.0",
+            "gfw_formula": "K",
+            "element_gfw": "39.0983"
+        },
+        "Li": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Li",
+            "element_gfw": "6.941"
+        },
+        "Mg": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Mg",
+            "element_gfw": "24.305"
+        },
+        "Mn": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Mn",
+            "element_gfw": "54.938"
+        },
+        "Mn(2)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Mn",
+            "element_gfw": null
+        },
+        "Mn(3)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Mn",
+            "element_gfw": null
+        },
+        "Mn(6)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Mn",
+            "element_gfw": null
+        },
+        "Mn(7)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Mn",
+            "element_gfw": null
+        },
+        "Mo": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Mo",
+            "element_gfw": "95.94"
+        },
+        "N": {
+            "charge_specie": "0.0",
+            "gfw_formula": "N",
+            "element_gfw": "14.0067"
+        },
+        "N(-3)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "N",
+            "element_gfw": null
+        },
+        "N(3)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "N",
+            "element_gfw": null
+        },
+        "N(5)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "N",
+            "element_gfw": null
+        },
+        "Na": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Na",
+            "element_gfw": "22.9898"
+        },
+        "Ni": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Ni",
+            "element_gfw": "58.69"
+        },
+        "P": {
+            "charge_specie": "2.0",
+            "gfw_formula": "P",
+            "element_gfw": "30.9738"
+        },
+        "Pb": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Pb",
+            "element_gfw": "207.2"
+        },
+        "S": {
+            "charge_specie": "0.0",
+            "gfw_formula": "SO4",
+            "element_gfw": "32.066"
+        },
+        "S(-2)": {
+            "charge_specie": "1.0",
+            "gfw_formula": "S",
+            "element_gfw": null
+        },
+        "S(6)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "SO4",
+            "element_gfw": null
+        },
+        "Sb": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Sb",
+            "element_gfw": "121.75"
+        },
+        "Sb(3)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Sb",
+            "element_gfw": null
+        },
+        "Sb(5)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Sb",
+            "element_gfw": null
+        },
+        "Se": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Se",
+            "element_gfw": "78.96"
+        },
+        "Se(-2)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Se",
+            "element_gfw": null
+        },
+        "Se(4)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Se",
+            "element_gfw": null
+        },
+        "Se(6)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Se",
+            "element_gfw": null
+        },
+        "Si": {
+            "charge_specie": "0.0",
+            "gfw_formula": "SiO2",
+            "element_gfw": "28.0843"
+        },
+        "Sn": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Sn",
+            "element_gfw": "118.71"
+        },
+        "Sn(2)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Sn",
+            "element_gfw": null
+        },
+        "Sn(4)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Sn",
+            "element_gfw": null
+        },
+        "Sr": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Sr",
+            "element_gfw": "87.62"
+        },
+        "Tl": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Tl",
+            "element_gfw": "204.383"
+        },
+        "Tl(1)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Tl",
+            "element_gfw": null
+        },
+        "Tl(3)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Tl",
+            "element_gfw": null
+        },
+        "U": {
+            "charge_specie": "0.0",
+            "gfw_formula": "U",
+            "element_gfw": "238.029"
+        },
+        "U(3)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "U",
+            "element_gfw": null
+        },
+        "U(4)": {
+            "charge_specie": "-4.0",
+            "gfw_formula": "U",
+            "element_gfw": null
+        },
+        "U(5)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "U",
+            "element_gfw": null
+        },
+        "U(6)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "U",
+            "element_gfw": null
+        },
+        "V": {
+            "charge_specie": "-2.0",
+            "gfw_formula": "V",
+            "element_gfw": "50.94"
+        },
+        "V(2)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "V",
+            "element_gfw": null
+        },
+        "V(3)": {
+            "charge_specie": "-3.0",
+            "gfw_formula": "V",
+            "element_gfw": null
+        },
+        "V(4)": {
+            "charge_specie": "0.0",
+            "gfw_formula": "V",
+            "element_gfw": null
+        },
+        "V(5)": {
+            "charge_specie": "-2.0",
+            "gfw_formula": "V",
+            "element_gfw": null
+        },
+        "Zn": {
+            "charge_specie": "0.0",
+            "gfw_formula": "Zn",
+            "element_gfw": "65.39"
+        },
+        "Benzoate": {
+            "charge_specie": "0.0",
+            "gfw_formula": "121.116",
+            "element_gfw": "121.116"
+        },
+        "Phenylacetate": {
+            "charge_specie": "0.0",
+            "gfw_formula": "135.142",
+            "element_gfw": "135.142"
+        },
+        "Isophthalate": {
+            "charge_specie": "0.0",
+            "gfw_formula": "164.117",
+            "element_gfw": "164.117"
+        },
+        "Diethylamine": {
+            "charge_specie": "1.0",
+            "gfw_formula": "73.138",
+            "element_gfw": "73.138"
+        },
+        "Butylamine": {
+            "charge_specie": "1.0",
+            "gfw_formula": "73.138",
+            "element_gfw": "73.138"
+        },
+        "Methylamine": {
+            "charge_specie": "1.0",
+            "gfw_formula": "31.057",
+            "element_gfw": "31.057"
+        },
+        "Dimethylamine": {
+            "charge_specie": "1.0",
+            "gfw_formula": "45.084",
+            "element_gfw": "45.084"
+        },
+        "Hexylamine": {
+            "charge_specie": "1.0",
+            "gfw_formula": "101.192",
+            "element_gfw": "101.192"
+        },
+        "Ethylenediamine": {
+            "charge_specie": "2.0",
+            "gfw_formula": "60.099",
+            "element_gfw": "60.099"
+        },
+        "Propylamine": {
+            "charge_specie": "1.0",
+            "gfw_formula": "59.111",
+            "element_gfw": "59.111"
+        },
+        "Isopropylamine": {
+            "charge_specie": "1.0",
+            "gfw_formula": "59.111",
+            "element_gfw": "59.111"
+        },
+        "Trimethylamine": {
+            "charge_specie": "1.0",
+            "gfw_formula": "59.111",
+            "element_gfw": "59.111"
+        },
+        "Citrate": {
+            "charge_specie": "2.0",
+            "gfw_formula": "189.102",
+            "element_gfw": "189.102"
+        },
+        "Nta": {
+            "charge_specie": "1.0",
+            "gfw_formula": "188.117",
+            "element_gfw": "188.117"
+        },
+        "Edta": {
+            "charge_specie": "2.0",
+            "gfw_formula": "288.214",
+            "element_gfw": "288.214"
+        },
+        "Propionate": {
+            "charge_specie": "1.0",
+            "gfw_formula": "73.072",
+            "element_gfw": "73.072"
+        },
+        "Butyrate": {
+            "charge_specie": "1.0",
+            "gfw_formula": "87.098",
+            "element_gfw": "87.098"
+        },
+        "Isobutyrate": {
+            "charge_specie": "1.0",
+            "gfw_formula": "87.098",
+            "element_gfw": "87.098"
+        },
+        "Two_picoline": {
+            "charge_specie": "1.0",
+            "gfw_formula": "93.128",
+            "element_gfw": "93.128"
+        },
+        "Three_picoline": {
+            "charge_specie": "1.0",
+            "gfw_formula": "93.128",
+            "element_gfw": "93.128"
+        },
+        "Four_picoline": {
+            "charge_specie": "1.0",
+            "gfw_formula": "93.128",
+            "element_gfw": "93.128"
+        },
+        "Formate": {
+            "charge_specie": "0.0",
+            "gfw_formula": "45.018",
+            "element_gfw": "45.018"
+        },
+        "Isovalerate": {
+            "charge_specie": "1.0",
+            "gfw_formula": "101.125",
+            "element_gfw": "101.125"
+        },
+        "Valerate": {
+            "charge_specie": "1.0",
+            "gfw_formula": "101.125",
+            "element_gfw": "101.125"
+        },
+        "Acetate": {
+            "charge_specie": "1.0",
+            "gfw_formula": "59.045",
+            "element_gfw": "59.045"
+        },
+        "Tartarate": {
+            "charge_specie": "0.0",
+            "gfw_formula": "148.072",
+            "element_gfw": "148.072"
+        },
+        "Glycine": {
+            "charge_specie": "1.0",
+            "gfw_formula": "74.059",
+            "element_gfw": "74.059"
+        },
+        "Salicylate": {
+            "charge_specie": "1.0",
+            "gfw_formula": "136.107",
+            "element_gfw": "136.107"
+        },
+        "Glutamate": {
+            "charge_specie": "1.0",
+            "gfw_formula": "145.115",
+            "element_gfw": "145.115"
+        },
+        "Phthalate": {
+            "charge_specie": "1.0",
+            "gfw_formula": "164.117",
+            "element_gfw": "164.117"
+        }
+    },
+    "minerals": {
+        "Sulfur": {
+            "formula": "S",
+            "mass": 32.065
+        },
+        "Sbmetal": {
+            "formula": "Sb",
+            "mass": 121.76
+        },
+        "Pbmetal": {
+            "formula": "Pb",
+            "mass": 207.2
+        },
+        "Tlmetal": {
+            "formula": "Tl",
+            "mass": 204.3833
+        },
+        "Znmetal": {
+            "formula": "Zn",
+            "mass": 65.38
+        },
+        "Cumetal": {
+            "formula": "Cu",
+            "mass": 63.546
+        },
+        "Agmetal": {
+            "formula": "Ag",
+            "mass": 107.8682
+        },
+        "Crmetal": {
+            "formula": "Cr",
+            "mass": 51.9961
+        },
+        "Vmetal": {
+            "formula": "V",
+            "mass": 50.9415
+        },
+        "Stibnite": {
+            "formula": "Sb2S3",
+            "mass": 342.71500000000003
+        },
+        "Orpiment": {
+            "formula": "As2S3",
+            "mass": 249.0382
+        },
+        "Realgar": {
+            "formula": "AsS",
+            "mass": 106.9866
+        },
+        "SnS": {
+            "formula": "SnS2",
+            "mass": 184.831
+        },
+        "Galena": {
+            "formula": "PbS",
+            "mass": 239.265
+        },
+        "TlS": {
+            "formula": "Tl2S",
+            "mass": 440.8316
+        },
+        "Sphalerite": {
+            "formula": "ZnS",
+            "mass": 97.445
+        },
+        "Wurtzite": {
+            "formula": "ZnS",
+            "mass": 97.445
+        },
+        "Greenockite": {
+            "formula": "CdS",
+            "mass": 144.476
+        },
+        "HgS": {
+            "formula": "Hg2S",
+            "mass": 433.245
+        },
+        "Cinnabar": {
+            "formula": "HgS",
+            "mass": 232.655
+        },
+        "Metacinnabar": {
+            "formula": "HgS",
+            "mass": 232.655
+        },
+        "Chalcocite": {
+            "formula": "Cu2S",
+            "mass": 159.15699999999998
+        },
+        "Djurleite": {
+            "formula": "Cu0.066Cu1.868S",
+            "mass": 154.962964
+        },
+        "Anilite": {
+            "formula": "Cu0.25Cu1.5S",
+            "mass": 143.2705
+        },
+        "BlaubleiII": {
+            "formula": "Cu0.6Cu0.8S",
+            "mass": 121.02940000000001
+        },
+        "BlaubleiI": {
+            "formula": "Cu0.9Cu0.2S",
+            "mass": 101.9656
+        },
+        "Covellite": {
+            "formula": "CuS",
+            "mass": 95.61099999999999
+        },
+        "Chalcopyrite": {
+            "formula": "CuFeS2",
+            "mass": 185.521
+        },
+        "Acanthite": {
+            "formula": "Ag2S",
+            "mass": 247.8014
+        },
+        "Greigite": {
+            "formula": "Fe3S4",
+            "mass": 299.79499999999996
+        },
+        "Mackinawite": {
+            "formula": "FeS",
+            "mass": 87.91
+        },
+        "Pyrite": {
+            "formula": "FeS2",
+            "mass": 121.975
+        },
+        "MoS": {
+            "formula": "MoS2",
+            "mass": 162.08999999999997
+        },
+        "BeS": {
+            "formula": "BeS",
+            "mass": 41.07718199999999
+        },
+        "BaS": {
+            "formula": "BaS",
+            "mass": 169.392
+        },
+        "CuCyanide": {
+            "formula": "CuCN",
+            "mass": 89.5634
+        },
+        "AgCyanide": {
+            "formula": "AgCN",
+            "mass": 133.8856
+        },
+        "SbSe": {
+            "formula": "Sb2Se3",
+            "mass": 483.4
+        },
+        "SnSe": {
+            "formula": "SnSe2",
+            "mass": 278.621
+        },
+        "Clausthalite": {
+            "formula": "PbSe",
+            "mass": 286.15999999999997
+        },
+        "TlSe": {
+            "formula": "Tl2Se",
+            "mass": 487.72659999999996
+        },
+        "ZnSe": {
+            "formula": "ZnSe",
+            "mass": 144.33999999999997
+        },
+        "CdSe": {
+            "formula": "CdSe",
+            "mass": 191.37099999999998
+        },
+        "HgSe": {
+            "formula": "HgSe",
+            "mass": 279.55
+        },
+        "CuSe": {
+            "formula": "CuSe2",
+            "mass": 223.46599999999998
+        },
+        "AgSe": {
+            "formula": "Ag2Se",
+            "mass": 294.6964
+        },
+        "NiSe": {
+            "formula": "NiSe",
+            "mass": 137.65339999999998
+        },
+        "CoSe": {
+            "formula": "CoSe",
+            "mass": 137.89319999999998
+        },
+        "FeSe": {
+            "formula": "FeSe",
+            "mass": 134.805
+        },
+        "Ferroselite": {
+            "formula": "FeSe2",
+            "mass": 215.765
+        },
+        "MnSe": {
+            "formula": "MnSe",
+            "mass": 133.898049
+        },
+        "AlSb": {
+            "formula": "AlSb",
+            "mass": 148.741538
+        },
+        "ZnSb": {
+            "formula": "ZnSb",
+            "mass": 187.14
+        },
+        "CdSb": {
+            "formula": "CdSb",
+            "mass": 234.171
+        },
+        "CuSb": {
+            "formula": "Cu3Sb",
+            "mass": 312.398
+        },
+        "Breithauptite": {
+            "formula": "NiSb",
+            "mass": 180.4534
+        },
+        "MnSb": {
+            "formula": "Mn2Sb",
+            "mass": 231.636098
+        },
+        "USb": {
+            "formula": "U3Sb4",
+            "mass": 1205.12673
+        },
+        "MgSb": {
+            "formula": "Mg2Sb3",
+            "mass": 416.89000000000004
+        },
+        "CaSb": {
+            "formula": "Ca3Sb2",
+            "mass": 365.754
+        },
+        "NaSb": {
+            "formula": "Na3Sb",
+            "mass": 190.72931
+        },
+        "SeO": {
+            "formula": "SeO3",
+            "mass": 129.95819999999998
+        },
+        "SbO": {
+            "formula": "Sb2O4",
+            "mass": 311.5176
+        },
+        "Senarmontite": {
+            "formula": "Sb2O3",
+            "mass": 294.5182
+        },
+        "Valentinite": {
+            "formula": "Sb2O3",
+            "mass": 294.5182
+        },
+        "Chalcedony": {
+            "formula": "SiO2",
+            "mass": 62.0843
+        },
+        "Cristobalite": {
+            "formula": "SiO2",
+            "mass": 62.0843
+        },
+        "Quartz": {
+            "formula": "SiO2",
+            "mass": 62.0843
+        },
+        "SnO": {
+            "formula": "SnO2",
+            "mass": 152.69979999999998
+        },
+        "Massicot": {
+            "formula": "PbO",
+            "mass": 223.1994
+        },
+        "Litharge": {
+            "formula": "PbO",
+            "mass": 223.1994
+        },
+        "Plattnerite": {
+            "formula": "PbO2",
+            "mass": 241.19879999999998
+        },
+        "Boehmite": {
+            "formula": "AlOOH",
+            "mass": 59.988278
+        },
+        "Diaspore": {
+            "formula": "AlOOH",
+            "mass": 59.988278
+        },
+        "Gibbsite": {
+            "formula": "Al(OH)3",
+            "mass": 81.003558
+        },
+        "TlO": {
+            "formula": "Tl2O",
+            "mass": 424.76599999999996
+        },
+        "TlOH": {
+            "formula": "TlOH",
+            "mass": 221.39064
+        },
+        "Avicennite": {
+            "formula": "Tl2O3",
+            "mass": 459.7648
+        },
+        "Zincite": {
+            "formula": "ZnO",
+            "mass": 81.37939999999999
+        },
+        "Monteponite": {
+            "formula": "CdO",
+            "mass": 128.4104
+        },
+        "Montroydite": {
+            "formula": "HgO",
+            "mass": 216.5894
+        },
+        "Cuprite": {
+            "formula": "Cu2O",
+            "mass": 143.0914
+        },
+        "Tenorite": {
+            "formula": "CuO",
+            "mass": 79.5454
+        },
+        "AgO": {
+            "formula": "Ag2O",
+            "mass": 231.7358
+        },
+        "Bunsenite": {
+            "formula": "NiO",
+            "mass": 74.69279999999999
+        },
+        "CoO": {
+            "formula": "Co3O4",
+            "mass": 244.7972
+        },
+        "Ferrihydrite": {
+            "formula": "Fe(OH)3",
+            "mass": 109.86702
+        },
+        "Goethite": {
+            "formula": "FeOOH",
+            "mass": 88.85173999999999
+        },
+        "Pyrolusite": {
+            "formula": "MnO2",
+            "mass": 88.936849
+        },
+        "Birnessite": {
+            "formula": "MnO2",
+            "mass": 88.936849
+        },
+        "Nsutite": {
+            "formula": "MnO2",
+            "mass": 88.936849
+        },
+        "Pyrochroite": {
+            "formula": "Mn(OH)2",
+            "mass": 90.952729
+        },
+        "Manganite": {
+            "formula": "MnOOH",
+            "mass": 87.944789
+        },
+        "CrO": {
+            "formula": "Cr2O3",
+            "mass": 154.9904
+        },
+        "MoO": {
+            "formula": "MoO3",
+            "mass": 146.95819999999998
+        },
+        "VO": {
+            "formula": "V2O5",
+            "mass": 186.88
+        },
+        "Uraninite": {
+            "formula": "UO2",
+            "mass": 272.02771
+        },
+        "UO": {
+            "formula": "U3O8",
+            "mass": 850.0819299999999
+        },
+        "Gummite": {
+            "formula": "UO3",
+            "mass": 289.02711
+        },
+        "Schoepite": {
+            "formula": "UO2(OH)2:H2O",
+            "mass": 304.04239
+        },
+        "Brucite": {
+            "formula": "Mg(OH)2",
+            "mass": 60.31968
+        },
+        "Periclase": {
+            "formula": "MgO",
+            "mass": 40.3044
+        },
+        "Lime": {
+            "formula": "CaO",
+            "mass": 56.077400000000004
+        },
+        "Portlandite": {
+            "formula": "Ca(OH)2",
+            "mass": 76.09268
+        },
+        "Arsenolite": {
+            "formula": "As4O6",
+            "mass": 401.6828
+        },
+        "Claudetite": {
+            "formula": "As4O6",
+            "mass": 401.6828
+        },
+        "AsO": {
+            "formula": "As2O5",
+            "mass": 234.84019999999998
+        },
+        "PbO": {
+            "formula": "Pb2O3",
+            "mass": 465.3982
+        },
+        "Minium": {
+            "formula": "Pb3O4",
+            "mass": 689.5975999999999
+        },
+        "AlO": {
+            "formula": "Al2O3",
+            "mass": 104.961276
+        },
+        "CoFeO": {
+            "formula": "CoFe2O4",
+            "mass": 238.6208
+        },
+        "Magnetite": {
+            "formula": "Fe3O4",
+            "mass": 235.5326
+        },
+        "Hercynite": {
+            "formula": "FeAl2O4",
+            "mass": 177.805676
+        },
+        "Hematite": {
+            "formula": "Fe2O3",
+            "mass": 162.6882
+        },
+        "Maghemite": {
+            "formula": "Fe2O3",
+            "mass": 162.6882
+        },
+        "Lepidocrocite": {
+            "formula": "FeOOH",
+            "mass": 88.85173999999999
+        },
+        "Hausmannite": {
+            "formula": "Mn3O4",
+            "mass": 232.811747
+        },
+        "Bixbyite": {
+            "formula": "Mn2O3",
+            "mass": 160.874298
+        },
+        "Spinel": {
+            "formula": "MgAl2O4",
+            "mass": 146.265676
+        },
+        "Magnesioferrite": {
+            "formula": "Fe2MgO4",
+            "mass": 203.9926
+        },
+        "Natron": {
+            "formula": "Na2CO3:10H2O",
+            "mass": 286.14124000000004
+        },
+        "Cuprousferrite": {
+            "formula": "CuFeO2",
+            "mass": 153.38979999999998
+        },
+        "Cupricferrite": {
+            "formula": "CuFe2O4",
+            "mass": 243.2336
+        },
+        "FeCrO": {
+            "formula": "FeCr2O4",
+            "mass": 227.8348
+        },
+        "MgCrO": {
+            "formula": "MgCrO4",
+            "mass": 144.2987
+        },
+        "SbF": {
+            "formula": "SbF3",
+            "mass": 181.7552096
+        },
+        "PbF": {
+            "formula": "PbF2",
+            "mass": 247.19680639999999
+        },
+        "ZnF": {
+            "formula": "ZnF2",
+            "mass": 105.37680639999999
+        },
+        "CdF": {
+            "formula": "CdF2",
+            "mass": 152.4078064
+        },
+        "HgF": {
+            "formula": "Hg2F2",
+            "mass": 441.17680640000003
+        },
+        "CuF": {
+            "formula": "CuF2",
+            "mass": 103.54280639999999
+        },
+        "CoF": {
+            "formula": "CoF3",
+            "mass": 118.9284096
+        },
+        "CrF": {
+            "formula": "CrF3",
+            "mass": 111.9913096
+        },
+        "VF": {
+            "formula": "VF4",
+            "mass": 130.93511279999998
+        },
+        "UF": {
+            "formula": "UF4",
+            "mass": 318.0225228
+        },
+        "MgF": {
+            "formula": "MgF2",
+            "mass": 64.3018064
+        },
+        "Fluorite": {
+            "formula": "CaF2",
+            "mass": 80.0748064
+        },
+        "SrF": {
+            "formula": "SrF2",
+            "mass": 127.6168064
+        },
+        "BaF": {
+            "formula": "BaF2",
+            "mass": 177.3238064
+        },
+        "Cryolite": {
+            "formula": "Na3AlF6",
+            "mass": 215.9412672
+        },
+        "SbCl": {
+            "formula": "SbCl3",
+            "mass": 231.11900000000003
+        },
+        "SnCl": {
+            "formula": "SnCl2",
+            "mass": 191.607
+        },
+        "Cotunnite": {
+            "formula": "PbCl2",
+            "mass": 280.106
+        },
+        "Matlockite": {
+            "formula": "PbClF",
+            "mass": 261.6514032
+        },
+        "Phosgenite": {
+            "formula": "PbCl2:PbCO3",
+            "mass": 278.106
+        },
+        "Laurionite": {
+            "formula": "PbOHCl",
+            "mass": 259.66034
+        },
+        "TlCl": {
+            "formula": "TlCl",
+            "mass": 239.8363
+        },
+        "ZnCl": {
+            "formula": "ZnCl2",
+            "mass": 138.286
+        },
+        "CdCl": {
+            "formula": "CdCl2",
+            "mass": 185.317
+        },
+        "CdOHCl": {
+            "formula": "CdOHCl",
+            "mass": 164.87134
+        },
+        "Calomel": {
+            "formula": "Hg2Cl2",
+            "mass": 474.086
+        },
+        "HgCl": {
+            "formula": "HgCl2",
+            "mass": 273.496
+        },
+        "Nantokite": {
+            "formula": "CuCl",
+            "mass": 98.999
+        },
+        "Melanothallite": {
+            "formula": "CuCl2",
+            "mass": 136.452
+        },
+        "Atacamite": {
+            "formula": "Cu2(OH)3Cl",
+            "mass": 213.56701999999999
+        },
+        "Cerargyrite": {
+            "formula": "AgCl",
+            "mass": 143.3212
+        },
+        "CoCl": {
+            "formula": "CoCl2",
+            "mass": 131.8392
+        },
+        "CrCl": {
+            "formula": "CrCl3",
+            "mass": 161.3551
+        },
+        "VCl": {
+            "formula": "VCl3",
+            "mass": 160.3005
+        },
+        "VOCl": {
+            "formula": "VO2Cl",
+            "mass": 118.3933
+        },
+        "Halite": {
+            "formula": "NaCl",
+            "mass": 58.44277
+        },
+        "SbBr": {
+            "formula": "SbBr3",
+            "mass": 364.472
+        },
+        "SnBr": {
+            "formula": "SnBr4",
+            "mass": 442.317
+        },
+        "PbBr": {
+            "formula": "PbBr2",
+            "mass": 369.008
+        },
+        "PbBrF": {
+            "formula": "PbBrF",
+            "mass": 306.10240319999997
+        },
+        "TlBr": {
+            "formula": "TlBr",
+            "mass": 284.28729999999996
+        },
+        "HgBr": {
+            "formula": "HgBr2",
+            "mass": 362.398
+        },
+        "CuBr": {
+            "formula": "CuBr",
+            "mass": 143.45
+        },
+        "Bromyrite": {
+            "formula": "AgBr",
+            "mass": 187.7722
+        },
+        "CrBr": {
+            "formula": "CrBr3",
+            "mass": 294.7081
+        },
+        "AsI": {
+            "formula": "AsI3",
+            "mass": 458.63501
+        },
+        "SbI": {
+            "formula": "SbI3",
+            "mass": 505.47341
+        },
+        "PbI": {
+            "formula": "PbI2",
+            "mass": 463.00894
+        },
+        "TlI": {
+            "formula": "TlI",
+            "mass": 331.28777
+        },
+        "ZnI": {
+            "formula": "ZnI2",
+            "mass": 321.18894
+        },
+        "CdI": {
+            "formula": "CdI2",
+            "mass": 368.21994
+        },
+        "HgI": {
+            "formula": "Hg2I2",
+            "mass": 656.98894
+        },
+        "Coccinite": {
+            "formula": "HgI2",
+            "mass": 456.39894000000004
+        },
+        "CuI": {
+            "formula": "CuI",
+            "mass": 190.45047
+        },
+        "Iodyrite": {
+            "formula": "AgI",
+            "mass": 234.77267
+        },
+        "CrI": {
+            "formula": "CrI3",
+            "mass": 435.70951
+        },
+        "Cerussite": {
+            "formula": "PbCO3",
+            "mass": 270.20889999999997
+        },
+        "PbOCO": {
+            "formula": "Pb3O2CO3",
+            "mass": 716.6076999999999
+        },
+        "Hydrocerussite": {
+            "formula": "Pb3(OH)2(CO3)2",
+            "mass": 777.6324799999999
+        },
+        "TlCO": {
+            "formula": "Tl2CO3",
+            "mass": 471.77549999999997
+        },
+        "Smithsonite": {
+            "formula": "ZnCO3",
+            "mass": 128.38889999999998
+        },
+        "Otavite": {
+            "formula": "CdCO3",
+            "mass": 175.41989999999998
+        },
+        "HgCO": {
+            "formula": "Hg2CO3",
+            "mass": 464.1889
+        },
+        "HgOCO": {
+            "formula": "Hg3O2CO3",
+            "mass": 696.7777
+        },
+        "CuCO": {
+            "formula": "CuCO3",
+            "mass": 126.5549
+        },
+        "Malachite": {
+            "formula": "Cu2(OH)2CO3",
+            "mass": 224.11557999999997
+        },
+        "Azurite": {
+            "formula": "Cu3(OH)2(CO3)2",
+            "mass": 346.67048
+        },
+        "AgCO": {
+            "formula": "Ag2CO3",
+            "mass": 278.7453
+        },
+        "NiCO": {
+            "formula": "NiCO3",
+            "mass": 121.7023
+        },
+        "CoCO": {
+            "formula": "CoCO3",
+            "mass": 121.9421
+        },
+        "Siderite": {
+            "formula": "FeCO3",
+            "mass": 118.8539
+        },
+        "Rhodochrosite": {
+            "formula": "MnCO3",
+            "mass": 117.94694899999999
+        },
+        "Rutherfordine": {
+            "formula": "UO2CO3",
+            "mass": 333.03661
+        },
+        "Artinite": {
+            "formula": "MgCO3:Mg(OH)2:3H2O",
+            "mass": 84.31389999999999
+        },
+        "Hydromagnesite": {
+            "formula": "Mg5(CO3)4(OH)2:4H2O",
+            "mass": 467.63640000000004
+        },
+        "Magnesite": {
+            "formula": "MgCO3",
+            "mass": 87.31389999999999
+        },
+        "Nesquehonite": {
+            "formula": "MgCO3:3H2O",
+            "mass": 138.35974
+        },
+        "Aragonite": {
+            "formula": "CaCO3",
+            "mass": 103.0869
+        },
+        "Calcite": {
+            "formula": "CaCO3",
+            "mass": 103.0869
+        },
+        "Huntite": {
+            "formula": "CaMg3(CO3)4",
+            "mass": 357.0286
+        },
+        "Strontianite": {
+            "formula": "SrCO3",
+            "mass": 150.6289
+        },
+        "Witherite": {
+            "formula": "BaCO3",
+            "mass": 200.33589999999998
+        },
+        "Thermonatrite": {
+            "formula": "Na2CO3:H2O",
+            "mass": 105.98844
+        },
+        "TlNO": {
+            "formula": "TlNO3",
+            "mass": 269.3882
+        },
+        "SnSO": {
+            "formula": "SnSO4",
+            "mass": 218.7636
+        },
+        "Larnakite": {
+            "formula": "PbO:PbSO4",
+            "mass": 223.1994
+        },
+        "PbOSO": {
+            "formula": "Pb4O3SO4",
+            "mass": 976.8608
+        },
+        "Anglesite": {
+            "formula": "PbSO4",
+            "mass": 307.26259999999996
+        },
+        "AlOHSO": {
+            "formula": "AlOHSO4",
+            "mass": 144.051478
+        },
+        "TlSO": {
+            "formula": "Tl2SO4",
+            "mass": 508.82919999999996
+        },
+        "Zincosite": {
+            "formula": "ZnSO4",
+            "mass": 165.4426
+        },
+        "Bianchite": {
+            "formula": "ZnSO4:6H2O",
+            "mass": 269.53427999999997
+        },
+        "Goslarite": {
+            "formula": "ZnSO4:7H2O",
+            "mass": 287.54956
+        },
+        "CdSO": {
+            "formula": "CdSO4",
+            "mass": 212.4736
+        },
+        "HgSO": {
+            "formula": "HgSO4",
+            "mass": 300.6526
+        },
+        "CuSO": {
+            "formula": "CuSO4",
+            "mass": 163.6086
+        },
+        "Antlerite": {
+            "formula": "Cu3(OH)4SO4",
+            "mass": 330.66496
+        },
+        "Brochantite": {
+            "formula": "Cu4(OH)6SO4",
+            "mass": 430.22563999999994
+        },
+        "Langite": {
+            "formula": "Cu4(OH)6SO4:H2O",
+            "mass": 452.29063999999994
+        },
+        "CuOCuSO": {
+            "formula": "CuOCuSO4",
+            "mass": 243.154
+        },
+        "Chalcanthite": {
+            "formula": "CuSO4:5H2O",
+            "mass": 249.685
+        },
+        "AgSO": {
+            "formula": "Ag2SO4",
+            "mass": 315.799
+        },
+        "Retgersite": {
+            "formula": "NiSO4:6H2O",
+            "mass": 262.84767999999997
+        },
+        "Morenosite": {
+            "formula": "NiSO4:7H2O",
+            "mass": 280.86296
+        },
+        "CoSO": {
+            "formula": "CoSO4",
+            "mass": 158.9958
+        },
+        "Melanterite": {
+            "formula": "FeSO4:7H2O",
+            "mass": 278.01456
+        },
+        "MnSO": {
+            "formula": "MnSO4",
+            "mass": 155.000649
+        },
+        "VOSO": {
+            "formula": "VOSO4",
+            "mass": 167.0035
+        },
+        "Epsomite": {
+            "formula": "MgSO4:7H2O",
+            "mass": 246.47456
+        },
+        "Anhydrite": {
+            "formula": "CaSO4",
+            "mass": 140.1406
+        },
+        "Gypsum": {
+            "formula": "CaSO4:2H2O",
+            "mass": 172.17116000000001
+        },
+        "Celestite": {
+            "formula": "SrSO4",
+            "mass": 187.6826
+        },
+        "Barite": {
+            "formula": "BaSO4",
+            "mass": 237.3896
+        },
+        "Mirabilite": {
+            "formula": "Na2SO4:10H2O",
+            "mass": 322.19494
+        },
+        "Thenardite": {
+            "formula": "Na2SO4",
+            "mass": 146.04214
+        },
+        "Alunite": {
+            "formula": "KAl3(SO4)2(OH)6",
+            "mass": 420.212154
+        },
+        "PbCrO": {
+            "formula": "PbCrO4",
+            "mass": 327.1937
+        },
+        "TlCrO": {
+            "formula": "Tl2CrO4",
+            "mass": 528.7603
+        },
+        "HgCrO": {
+            "formula": "Hg2CrO4",
+            "mass": 521.1737
+        },
+        "CuCrO": {
+            "formula": "CuCrO4",
+            "mass": 183.5397
+        },
+        "AgCrO": {
+            "formula": "Ag2CrO4",
+            "mass": 335.7301
+        },
+        "CaCrO": {
+            "formula": "CaCrO4",
+            "mass": 160.0717
+        },
+        "SrCrO": {
+            "formula": "SrCrO4",
+            "mass": 207.61370000000002
+        },
+        "BaCrO": {
+            "formula": "BaCrO4",
+            "mass": 257.3207
+        },
+        "LiCrO": {
+            "formula": "Li2CrO4",
+            "mass": 133.8757
+        },
+        "NaCrO": {
+            "formula": "Na2Cr2O7",
+            "mass": 268.96754
+        },
+        "KCrO": {
+            "formula": "K2Cr2O7",
+            "mass": 301.18460000000005
+        },
+        "HgSeO": {
+            "formula": "HgSeO3",
+            "mass": 330.5482
+        },
+        "AgSeO": {
+            "formula": "Ag2SeO4",
+            "mass": 362.69399999999996
+        },
+        "CoSeO": {
+            "formula": "CoSeO3",
+            "mass": 188.89139999999998
+        },
+        "MnSeO": {
+            "formula": "MnSeO3",
+            "mass": 184.89624899999998
+        },
+        "SrSeO": {
+            "formula": "SrSeO4",
+            "mass": 234.5776
+        },
+        "BaSeO": {
+            "formula": "BaSeO4",
+            "mass": 284.28459999999995
+        },
+        "PbSeO": {
+            "formula": "PbSeO4",
+            "mass": 354.15759999999995
+        },
+        "TlSeO": {
+            "formula": "Tl2SeO4",
+            "mass": 555.7242
+        },
+        "NaSeO": {
+            "formula": "Na2SeO4",
+            "mass": 192.93714
+        },
+        "KSeO": {
+            "formula": "K2SeO4",
+            "mass": 225.1542
+        },
+        "HMoO": {
+            "formula": "H2MoO4",
+            "mass": 165.97348
+        },
+        "PbMoO": {
+            "formula": "PbMoO4",
+            "mass": 371.15759999999995
+        },
+        "TlMoO": {
+            "formula": "Tl2MoO4",
+            "mass": 572.7242
+        },
+        "ZnMoO": {
+            "formula": "ZnMoO4",
+            "mass": 229.33759999999998
+        },
+        "CdMoO": {
+            "formula": "CdMoO4",
+            "mass": 276.36859999999996
+        },
+        "CuMoO": {
+            "formula": "CuMoO4",
+            "mass": 227.5036
+        },
+        "AgMoO": {
+            "formula": "Ag2MoO4",
+            "mass": 379.69399999999996
+        },
+        "NiMoO": {
+            "formula": "NiMoO4",
+            "mass": 222.65099999999998
+        },
+        "CoMoO": {
+            "formula": "CoMoO4",
+            "mass": 222.89079999999998
+        },
+        "FeMoO": {
+            "formula": "FeMoO4",
+            "mass": 219.8026
+        },
+        "BeMoO": {
+            "formula": "BeMoO4",
+            "mass": 172.96978199999998
+        },
+        "MgMoO": {
+            "formula": "MgMoO4",
+            "mass": 188.2626
+        },
+        "CaMoO": {
+            "formula": "CaMoO4",
+            "mass": 204.03560000000002
+        },
+        "BaMoO": {
+            "formula": "BaMoO4",
+            "mass": 301.28459999999995
+        },
+        "LiMoO": {
+            "formula": "Li2MoO4",
+            "mass": 177.8396
+        },
+        "NaMoO": {
+            "formula": "Na2Mo2O7",
+            "mass": 356.89534000000003
+        },
+        "KMoO": {
+            "formula": "K2MoO4",
+            "mass": 242.1542
+        },
+        "PbHPO": {
+            "formula": "PbHPO4",
+            "mass": 307.17930099999995
+        },
+        "Pyromorphite": {
+            "formula": "Pb5(PO4)3Cl",
+            "mass": 1356.367083
+        },
+        "Hydroxylpyromorphite": {
+            "formula": "Pb5(PO4)3OH",
+            "mass": 1337.921423
+        },
+        "Plumbgummite": {
+            "formula": "PbAl3(PO4)2(OH)5:H2O",
+            "mass": 563.1240359999999
+        },
+        "Hinsdalite": {
+            "formula": "PbAl3PO4SO4(OH)6",
+            "mass": 587.2226149999999
+        },
+        "Tsumebite": {
+            "formula": "Pb2CuPO4(OH)3:3H2O",
+            "mass": 631.939381
+        },
+        "HgHPO": {
+            "formula": "Hg2HPO4",
+            "mass": 501.159301
+        },
+        "AgPO": {
+            "formula": "Ag3PO4",
+            "mass": 422.575961
+        },
+        "CoHPO": {
+            "formula": "CoHPO4",
+            "mass": 158.912501
+        },
+        "Vivianite": {
+            "formula": "Fe3(PO4)2:8H2O",
+            "mass": 501.599962
+        },
+        "Strengite": {
+            "formula": "FePO4:2H2O",
+            "mass": 186.846921
+        },
+        "MnHPO": {
+            "formula": "MnHPO4",
+            "mass": 154.91735
+        },
+        "FCOApatite": {
+            "formula": "Ca9.316Na0.36Mg0.144(PO4)4.8(CO3)1.2F2.48",
+            "mass": 968.1321379359999
+        },
+        "Hydroxylapatite": {
+            "formula": "Ca5(PO4)3OH",
+            "mass": 502.311423
+        },
+        "CaHPO": {
+            "formula": "CaHPO4",
+            "mass": 140.057301
+        },
+        "SrHPO": {
+            "formula": "SrHPO4",
+            "mass": 187.599301
+        },
+        "BaHPO": {
+            "formula": "BaHPO4",
+            "mass": 237.306301
+        },
+        "UOHPO": {
+            "formula": "UO2HPO4",
+            "mass": 370.00701100000003
+        },
+        "Uramphite": {
+            "formula": "(NH4)2(UO2)2(PO4)2",
+            "mass": 766.075062
+        },
+        "Przhevalskite": {
+            "formula": "Pb(UO2)2(PO4)2",
+            "mass": 939.198142
+        },
+        "Torbernite": {
+            "formula": "Cu(UO2)2(PO4)2",
+            "mass": 795.5441420000001
+        },
+        "Bassetite": {
+            "formula": "Fe(UO2)2(PO4)2",
+            "mass": 787.8431420000001
+        },
+        "Saleeite": {
+            "formula": "Mg(UO2)2(PO4)2",
+            "mass": 756.303142
+        },
+        "Ningyoite": {
+            "formula": "CaU(PO4)2:2H2O",
+            "mass": 504.08019199999995
+        },
+        "Autunite": {
+            "formula": "Ca(UO2)2(PO4)2",
+            "mass": 772.076142
+        },
+        "Uranocircite": {
+            "formula": "Ba(UO2)2(PO4)2",
+            "mass": 869.325142
+        },
+        "AgAsO": {
+            "formula": "Ag3AsO4",
+            "mass": 466.5238
+        },
+        "PbVO": {
+            "formula": "Pb2V2O7",
+            "mass": 635.2788
+        },
+        "AgVO": {
+            "formula": "AgVO3",
+            "mass": 209.8079
+        },
+        "AgHVO": {
+            "formula": "Ag3H2VO5",
+            "mass": 461.55898
+        },
+        "MgVO": {
+            "formula": "Mg2V2O7",
+            "mass": 269.48879999999997
+        },
+        "Carnotite": {
+            "formula": "KUO2VO4",
+            "mass": 428.06511
+        },
+        "Tyuyamunite": {
+            "formula": "Ca(UO2)2(VO4)2",
+            "mass": 812.01162
+        },
+        "CaVO": {
+            "formula": "Ca2V2O7",
+            "mass": 301.0348
+        },
+        "NaVO": {
+            "formula": "Na4V2O7",
+            "mass": 312.83788000000004
+        },
+        "Halloysite": {
+            "formula": "Al2Si2O5(OH)4",
+            "mass": 262.160436
+        },
+        "Kaolinite": {
+            "formula": "Al2Si2O5(OH)4",
+            "mass": 262.160436
+        },
+        "Greenalite": {
+            "formula": "Fe3Si2O5(OH)4",
+            "mass": 375.73235999999997
+        },
+        "Chrysotile": {
+            "formula": "Mg3Si2O5(OH)4",
+            "mass": 281.11235999999997
+        },
+        "Sepiolite": {
+            "formula": "Mg2Si3O7.5OH:3H2O",
+            "mass": 323.91518
+        }
+    }
+}

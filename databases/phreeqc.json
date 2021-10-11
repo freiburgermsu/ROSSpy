@@ -152,12 +152,12 @@
         },
         "N(+5)": {
             "charge_specie": "0",
-            "gfw_formula": "NO3",
+            "gfw_formula": "N",
             "element_gfw": null
         },
         "N(+3)": {
             "charge_specie": "0",
-            "gfw_formula": "NO2",
+            "gfw_formula": "N",
             "element_gfw": null
         },
         "N(0)": {
@@ -165,10 +165,10 @@
             "gfw_formula": "N",
             "element_gfw": null
         },
-        "Amm": {
+        "N(-3)": {
             "charge_specie": "0",
-            "gfw_formula": "AmmH",
-            "element_gfw": "17.031"
+            "gfw_formula": "N",
+            "element_gfw": "14.0067"
         },
         "B": {
             "charge_specie": "0",
