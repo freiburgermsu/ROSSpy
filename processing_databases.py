@@ -47,7 +47,7 @@ def database_parsing(db):
                     if all('#' not in entity for entity in reactants):
                         formula = reactants.split('+')[0].strip()
                         name = database.at[index, 'content']
-                        name = re.sub('\s*\d*', '', name)
+                        name = re.sub('(\s+\d*)', '', name)
                         minerals_rows.append([name, formula])
                 index+= 1
                 
@@ -359,7 +359,7 @@ def mineral_masses(db, minerals):
                         skip_characters -= 10
                     if mineral == 'Glauconite':
                         skip_characters -= 5
-                    if mineral in ['Saponite_SapCa', 'SmectiteMX', 'Vermiculite_SO']:
+                    if mineral in ['Saponite_SapCa', 'SmectiteMX80', 'Vermiculite_SO']:
                         skip_characters -= 9
                     first = False
                     double = True

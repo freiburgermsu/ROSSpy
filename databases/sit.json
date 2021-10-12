@@ -2650,11 +2650,19 @@
             "formula": "Na6(CO3)(SO4)2",
             "mass": 392.07272
         },
-        "CAH": {
+        "C3AH6": {
+            "formula": "Ca3Al2(OH)12",
+            "mass": 380.28515600000003
+        },
+        "C3FH6": {
+            "formula": "Ca3Fe2(OH)12",
+            "mass": 438.01207999999997
+        },
+        "C4AH13": {
             "formula": "Ca4Al2(OH)14:6H2O",
             "mass": 560.469516
         },
-        "CFH": {
+        "C4FH13": {
             "formula": "Ca4Fe2(OH)14:6H2O",
             "mass": 618.1964399999999
         },
@@ -3226,7 +3234,7 @@
             "formula": "KFe2Al3Si2O10(OH)2",
             "mass": 483.912594
         },
-        "SmectiteMX": {
+        "SmectiteMX80": {
             "formula": "Na0.409K0.024Ca0.009(Si3.738Al0.262)(Al1.598Mg0.214Fe0.173Fe0.035)O10(OH)2",
             "mass": 246.68816681
         },

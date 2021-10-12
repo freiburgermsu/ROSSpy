@@ -428,7 +428,7 @@
             "formula": "(NaKMg0.5)0.11Al2.33Si3.67O10(OH)2",
             "mass": 370.11591124
         },
-        "ChloriteA": {
+        "Chlorite14A": {
             "formula": "Mg5Al2Si3O10(OH)8",
             "mass": 563.797296
         },
@@ -560,6 +560,10 @@
             "formula": "Fe3S4",
             "mass": 299.79499999999996
         },
+        "Chlorite7A": {
+            "formula": "Mg5Al2Si3O10(OH)8",
+            "mass": 563.797296
+        },
         "Laumontite": {
             "formula": "CaAl2Si4O12:4H2O",
             "mass": 470.436996
@@ -608,7 +612,7 @@
             "formula": "CaAl2Si4O12:2H2O",
             "mass": 434.406436
         },
-        "MnSO": {
+        "MnSO4": {
             "formula": "MnSO4",
             "mass": 155.000649
         },
@@ -640,7 +644,7 @@
             "formula": "MnOOH",
             "mass": 87.944789
         },
-        "MnHPO": {
+        "MnHPO4": {
             "formula": "MnHPO4",
             "mass": 154.91735
         },
@@ -653,8 +657,8 @@
             "mass": 98.999
         },
         "CuF": {
-            "formula": "CuF2",
-            "mass": 103.54280639999999
+            "formula": "CuF",
+            "mass": 82.5444032
         },
         "Cuprite": {
             "formula": "Cu2O",
@@ -664,9 +668,9 @@
             "formula": "Cu2S",
             "mass": 159.15699999999998
         },
-        "CuSO": {
-            "formula": "CuSO4",
-            "mass": 163.6086
+        "Cu2SO4": {
+            "formula": "Cu2SO4",
+            "mass": 227.1546
         },
         "CuprousFerrite": {
             "formula": "CuFeO2",
@@ -676,9 +680,13 @@
             "formula": "CuCl2",
             "mass": 136.452
         },
-        "CuCO": {
+        "CuCO3": {
             "formula": "CuCO3",
             "mass": 126.5549
+        },
+        "CuF2": {
+            "formula": "CuF2",
+            "mass": 103.54280639999999
         },
         "Malachite": {
             "formula": "Cu2(OH)2CO3",
@@ -708,13 +716,17 @@
             "formula": "CuO",
             "mass": 79.5454
         },
-        "CuOCuSO": {
+        "CuOCuSO4": {
             "formula": "CuO:CuSO4",
             "mass": 79.5454
         },
         "Covellite": {
             "formula": "CuS",
             "mass": 95.61099999999999
+        },
+        "CuSO4": {
+            "formula": "CuSO4",
+            "mass": 163.6086
         },
         "Chalcanthite": {
             "formula": "CuSO4:5H2O",
@@ -732,7 +744,7 @@
             "formula": "Zn",
             "mass": 65.38
         },
-        "ZnCl": {
+        "ZnCl2": {
             "formula": "ZnCl2",
             "mass": 138.286
         },
@@ -740,7 +752,7 @@
             "formula": "ZnCO3",
             "mass": 128.38889999999998
         },
-        "ZnF": {
+        "ZnF2": {
             "formula": "ZnF2",
             "mass": 105.37680639999999
         },
@@ -752,7 +764,7 @@
             "formula": "ZnS",
             "mass": 97.445
         },
-        "ZnSiO": {
+        "ZnSiO3": {
             "formula": "ZnSiO3",
             "mass": 144.4637
         },
@@ -780,11 +792,11 @@
             "formula": "CdCO3",
             "mass": 175.41989999999998
         },
-        "CdCl": {
+        "CdCl2": {
             "formula": "CdCl2",
             "mass": 185.317
         },
-        "CdF": {
+        "CdF2": {
             "formula": "CdF2",
             "mass": 152.4078064
         },
@@ -796,11 +808,11 @@
             "formula": "CdO",
             "mass": 128.4104
         },
-        "CdSiO": {
+        "CdSiO3": {
             "formula": "CdSiO3",
             "mass": 191.4947
         },
-        "CdSO": {
+        "CdSO4": {
             "formula": "CdSO4",
             "mass": 212.4736
         },
@@ -844,7 +856,7 @@
             "formula": "PbCO3",
             "mass": 270.20889999999997
         },
-        "PbF": {
+        "PbF2": {
             "formula": "PbF2",
             "mass": 247.19680639999999
         },
@@ -856,19 +868,23 @@
             "formula": "PbO",
             "mass": 223.1994
         },
-        "PbOCO": {
-            "formula": "PbCO3:2PbO",
-            "mass": 681.6089
+        "Pb2OCO3": {
+            "formula": "PbO:PbCO3",
+            "mass": 223.1994
         },
         "Larnakite": {
             "formula": "PbO:PbSO4",
             "mass": 223.1994
         },
-        "PbOSO": {
+        "Pb3O2SO4": {
+            "formula": "PbSO4:2PbO",
+            "mass": 717.6625999999999
+        },
+        "Pb4O3SO4": {
             "formula": "PbSO4:3PbO",
             "mass": 924.8625999999999
         },
-        "PbHPO": {
+        "PbHPO4": {
             "formula": "PbHPO4",
             "mass": 307.17930099999995
         },
@@ -879,6 +895,10 @@
         "Hxypyromorphite": {
             "formula": "Pb5(PO4)3OH",
             "mass": 1337.921423
+        },
+        "Pb3O2CO3": {
+            "formula": "PbCO3:2PbO",
+            "mass": 681.6089
         },
         "Plumbogummite": {
             "formula": "PbAl3(PO4)2(OH)5:H2O",
@@ -892,7 +912,11 @@
             "formula": "Pb2CuPO4(OH)3:3H2O",
             "mass": 631.939381
         },
-        "PbSiO": {
+        "PbSiO3": {
+            "formula": "PbSiO3",
+            "mass": 286.28369999999995
+        },
+        "Pb2SiO4": {
             "formula": "Pb2SiO4",
             "mass": 510.4831
         },
@@ -908,7 +932,7 @@
             "formula": "PbO2",
             "mass": 241.19879999999998
         },
-        "PbO": {
+        "Pb2O3": {
             "formula": "Pb2O3",
             "mass": 465.3982
         },
@@ -924,15 +948,15 @@
             "formula": "Pb(OH)2:2PbCO3",
             "mass": 778.63248
         },
-        "FCOApatite": {
+        "FCO3Apatite": {
             "formula": "Ca9.316Na0.36Mg0.144(PO4)4.8(CO3)1.2F2.48",
             "mass": 968.1321379359999
         },
-        "BaF": {
+        "BaF2": {
             "formula": "BaF2",
             "mass": 177.3238064
         },
-        "SrF": {
+        "SrF2": {
             "formula": "SrF2",
             "mass": 127.6168064
         },
@@ -944,7 +968,7 @@
             "formula": "S",
             "mass": 32.065
         },
-        "NiCO": {
+        "NiCO3": {
             "formula": "NiCO3",
             "mass": 121.7023
         },
@@ -964,7 +988,7 @@
             "formula": "NiSO4:7H2O",
             "mass": 280.86296
         },
-        "NiSiO": {
+        "Ni2SiO4": {
             "formula": "Ni2SiO4",
             "mass": 213.4699
         },
@@ -984,7 +1008,7 @@
             "formula": "AgCl",
             "mass": 143.3212
         },
-        "AgCO": {
+        "Ag2CO3": {
             "formula": "Ag2CO3",
             "mass": 278.7453
         },
@@ -992,11 +1016,11 @@
             "formula": "AgI",
             "mass": 234.77267
         },
-        "AgO": {
+        "Ag2O": {
             "formula": "Ag2O",
             "mass": 231.7358
         },
-        "AgPO": {
+        "Ag3PO4": {
             "formula": "Ag3PO4",
             "mass": 422.575961
         },
@@ -1004,7 +1028,7 @@
             "formula": "Ag2S",
             "mass": 247.8014
         },
-        "AgSO": {
+        "Ag2SO4": {
             "formula": "Ag2SO4",
             "mass": 315.799
         },
@@ -1016,15 +1040,15 @@
             "formula": "CuI",
             "mass": 190.45047
         },
-        "ZnI": {
+        "ZnI2": {
             "formula": "ZnI2",
             "mass": 321.18894
         },
-        "CdI": {
+        "CdI2": {
             "formula": "CdI2",
             "mass": 368.21994
         },
-        "PbBr": {
+        "PbBr2": {
             "formula": "PbBr2",
             "mass": 369.008
         },
@@ -1032,7 +1056,7 @@
             "formula": "PbBrF",
             "mass": 306.10240319999997
         },
-        "PbI": {
+        "PbI2": {
             "formula": "PbI2",
             "mass": 463.00894
         },
@@ -1052,7 +1076,7 @@
             "formula": "FeAsO4:2H2O",
             "mass": 230.79476
         },
-        "AsI": {
+        "AsI3": {
             "formula": "AsI3",
             "mass": 458.63501
         },
@@ -1084,19 +1108,19 @@
             "formula": "Ca(OH)2",
             "mass": 76.09268
         },
-        "FeSe": {
+        "FeSe2": {
             "formula": "FeSe2",
             "mass": 215.765
         },
-        "SeO": {
+        "SeO2": {
             "formula": "SeO2",
             "mass": 112.9588
         },
-        "CaSeO": {
+        "CaSeO3": {
             "formula": "CaSeO3",
             "mass": 170.0362
         },
-        "BaSeO": {
+        "BaSeO3": {
             "formula": "BaSeO3",
             "mass": 267.2852
         },

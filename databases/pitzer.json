@@ -270,7 +270,11 @@
             "formula": "MgCO3",
             "mass": 87.31389999999999
         },
-        "MgCl_HO": {
+        "MgCl2_2H2O": {
+            "formula": "MgCl2:2H2O",
+            "mass": 131.24156000000002
+        },
+        "MgCl2_4H2O": {
             "formula": "MgCl2:4H2O",
             "mass": 167.27212000000003
         },

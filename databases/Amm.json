@@ -392,11 +392,11 @@
             "formula": "CdCO3",
             "mass": 175.41989999999998
         },
-        "CdSiO": {
+        "CdSiO3": {
             "formula": "CdSiO3",
             "mass": 191.4947
         },
-        "CdSO": {
+        "CdSO4": {
             "formula": "CdSO4",
             "mass": 212.4736
         },
