@@ -689,76 +689,114 @@ class ROSSPkg():
                                  
         # conducting the appropriate visualization function
         if self.parameters['graphical_selection'] == 'brine':
-            pyplot = self.plot_definition(plot_title, title_font, label_font,)
             self.brine_plot(pyplot, plot_title, title_font, label_font, plot_caption, table_title, export_figure, export_format)
         elif self.parameters['graphical_selection'] == 'scaling':
             self.scaling_plot(plot_title, title_font, label_font, plot_caption, table_title, individual_plots, export_figure, export_format)
-
                                  
-    def plot_definition(self, plot_title, title_font, label_font):
-        pyplot.figure(figsize = (17,10))
-        pyplot.title(plot_title, fontsize = title_font)                
-        pyplot.grid(True)
-                                 
-        if (self.parameters['graphical_selection'] or self.parameters['output_perspective']) == 'brine':
-            if plot_title == '':
-                 plot_title = 'Effluent brine elemental concentrations'
-            pyplot.figure(figsize = (17,10))
-            pyplot.xlabel('Time (s)', fontsize = label_font)
-            pyplot.ylabel('Concentration (ppm)', fontsize = label_font)
-            pyplot.yscale('log')
-            pyplot.legend(self.elements, loc='best', title = 'non-zero elements', fontsize = 'x-large')
-        else:
-            if plot_title == '':
-                 plot_title = 'scaling throughout the RO module'
-            pyplot.xlabel('Midpoint module distance (m)', fontsize = label_font)
-            pyplot.ylabel('Quantity (moles)', fontsize = label_font)  
-                                 
-        return pyplot
-                                 
-    def brine_plot(self, pyplot, plot_title, title_font, label_font, plot_caption, table_title, export_figure, export_format):
+    def brine_plot(self, pyplot, plot_title, title_font, label_font, plot_caption, table_title, export_figure, export_format, x_label_number = 6):
         """Generate plots of the elemental concentrations from effluent brine in the PHREEQC SELECTED_OUTPUT file  """
+        # define the plot        
         columns = []
         for column in self.results['csv_data'].columns:
-            if re.search('([A-Z][a-z]?\(?\d?\)?(?=\(mol\/kgw\)))', column) and not re.search('(_|H2O|pH)', column):
+            if re.search('([A-Z][a-z]?(?:\(\d\))?(?=\(mol\/kgw\)))', column) and not re.search('(_|H2O|pH)', column):
                 columns.append(column)
 
         self.results['csv_data'].drop(self.results['csv_data'].index[:3], inplace=True)
 
         # plot the brine concentrations figure
-        unit = 'mol/kgw'
-        concentration_array = []
-
-        for element in columns:  
-            concentration_serie = []
-            brine_serie = []
-            initial_solution_time = 0
-            for index, row in self.results['csv_data'].iterrows():
-                if all(row[element] > 1e-5 for element in columns):
-                    initial_solution_time += 1
-                else:
-                    concentration_serie.append(row[element])
-                    brine_serie.append(row['time'] - initial_solution_time * self.parameters['timestep'])
-                    print('concentration_serie', concentration_serie)
-                    print('brine_serie', brine_serie)
-                    
-            pyplot.plot(brine_serie,concentration_serie)
-            
-        pyplot.figtext(0.2, 0, 'Final CF: {}'.format(auto_notation(self.variables['simulation_cf'], 4)), wrap=True, horizontalalignment='left', fontsize=12)
-        figure = pyplot.gcf()
-        if plot_caption == '':
-            plot_caption = '''\n\nbrine Figure:\n%s 
-                    The effluent concentrations of each existing element in the brine. brine plots from brine data rapidly reach a steady state elemental concentration. brine plots from scaling data consist of vertical concentrations that represent the concentrations at each distance throughout the RO module at the specified time, where the low end represents the influent concentration while the high end represents the effluent concentration.''' %('='*len('brine Figure'))
-                                 
-        print(plot_caption)
-        pyplot.show()
-
-        # create a complementary concentration data table
+        pyplot.figure(figsize = (17,10))
+        non_zero_elements = []
         loop_iteration = 1
         table_view = {}
-        average_concentrations_table = pandas.DataFrame()
-        index_elements = []
-        if self.parameters['output_perspective'] == 'scaling':
+        # create a complementary concentration data table for the brine figure 
+        if self.parameters['output_perspective'] == 'brine':
+            total_time = self.results['csv_data']['time'].iloc[-1]
+            for element in columns:  
+                non_zero_elements.append(re.search('([A-Z][a-z]?(?:\(\d\))?(?=\(mol\/kgw\)))', element).group())
+                concentration_serie = []
+                time_serie = []
+                initial_solution_time = 0
+                for index, row in self.results['csv_data'].iterrows():
+                    if all(row[element] > 1e-12 for element in columns):
+                        concentration_serie.append(row[element])
+                        time_serie.append(auto_notation(row['time'], 4)) # - initial_solution_time * self.parameters['timestep'])
+                    else:
+                        initial_solution_time += 1
+                table_view[element] = concentration_serie
+                pyplot.plot(time_serie,concentration_serie)
+                
+#         pyplot.figure(figsize = (17,10))
+#         non_zero_elements = []
+#         loop_iteration = 1
+#         table_view = {}
+#         average_concentrations_table = pandas.DataFrame()
+#         # create a complementary concentration data table for the brine figure 
+#         if self.parameters['output_perspective'] == 'brine':
+#             total_time = self.results['csv_data']['time'].iloc[-1]
+#             for element in columns:  
+#                 non_zero_elements.append(re.search('([A-Z][a-z]?(?:\(\d\))?(?=\(mol\/kgw\)))', element).group())
+#                 concentration_serie = []
+#                 time_serie = []
+#                 initial_solution_time = 0
+#                 for index, row in self.results['csv_data'].iterrows():
+#                     if all(row[element] > 1e-8 for element in columns):
+#                         concentration_serie.append(row[element])
+#                         time_serie.append(row['time']) # - initial_solution_time * self.parameters['timestep'])
+# #                         print(row[element])
+#                     else:
+#                         initial_solution_time += 1
+#                 if len(concentration_serie) > 0:
+#                     average_concentration = sum(concentration_serie) / len(concentration_serie)
+#                 else:
+#                     average_concentration = 0
+#                     print('ERROR: The concentration_series is empty')
+#                 table_view[element] = average_concentration
+#                 pyplot.plot(time_serie,concentration_serie)
+
+            concentrations_table = pandas.DataFrame(table_view) #, ignore_index=True)
+            concentrations_table.index = time_serie
+            concentrations_table.index.name = 'time (sec)'
+            plotted_time = total_time - initial_solution_time*self.parameters['timestep']
+            if table_title is None:
+                table_title = f'Molal concentrations of feed elements over {auto_notation(plotted_time, 3)} seconds' 
+
+            pyplot.figtext(0.2, 0, 'Final CF: {}'.format(auto_notation(self.variables['simulation_cf'], 4)), wrap=True, horizontalalignment='left', fontsize=12)     
+            x_location = []
+            x_label_distance = float(time_serie[-1])/x_label_number
+            for x in range(x_label_number):
+                index = ceil(x * x_label_distance)
+                time = time_serie[index]
+                x_location.append(time)
+            x_location.append(time_serie[-1])
+            pyplot.xticks(x_location)
+            pyplot.grid(True)
+            if plot_title == '':
+                 plot_title = 'Effluent brine elemental concentrations'
+            pyplot.title(plot_title, fontsize = title_font)   
+            pyplot.xlabel('Time (s)', fontsize = label_font)
+            pyplot.ylabel('Concentration (molal)', fontsize = label_font)
+            pyplot.yscale('log')
+            pyplot.legend(non_zero_elements, loc='best', title = 'non-zero elements', fontsize = 'x-large')
+            figure = pyplot.gcf()
+            pyplot.show()
+            
+#             pyplot.figtext(0.2, 0, 'Final CF: {}'.format(auto_notation(self.variables['simulation_cf'], 4)), wrap=True, horizontalalignment='left', fontsize=12)          
+#             pyplot.locator_params(axis='x', nbins=4)
+#             pyplot.grid(True)
+#             if plot_title == '':
+#                  plot_title = 'Effluent brine elemental concentrations'
+#             pyplot.title(plot_title, fontsize = title_font)   
+#             pyplot.xlabel('Time (s)', fontsize = label_font)
+#             pyplot.ylabel('Concentration (molal)', fontsize = label_font)
+#             pyplot.yscale('log')
+#             pyplot.legend(non_zero_elements, loc='best', title = 'non-zero elements', fontsize = 'x-large')
+#             figure = pyplot.gcf()
+#             pyplot.show()
+
+            # create a complementary concentration data table
+                
+        elif self.parameters['output_perspective'] == 'scaling':
+            index_elements = []
             for element in self.elements:
                 quantity_of_steps_index = 0
                 average_iteration = 0
@@ -793,44 +831,25 @@ class ROSSPkg():
                         table_view['Time (s): %s' %(round(average_iteration * quantity_of_steps_index), 1)] = average_concentration
                         average_iteration += 1
                         index_elements.append(element)
-                        average_concentrations_table = average_concentrations_table.append(table_view, ignore_index=True)
+                        concentrations_table = concentrations_table.append(table_view, ignore_index=True)
                         loop_iteration += 1
 
                     else:
                         scaling_serie.append(self.results['csv_data'].at[index,element])
 
             # defining the index column of the DataFrame
-            average_concentrations_table.index = index_elements
-            average_concentrations_table.index.name = 'Elements'
+            concentrations_table.index = index_elements
+            concentrations_table.index.name = 'Elements'
             if table_title is None:
                 table_title = 'Average elemental molal concentrations of the feed water in the RO module for each %s seconds of simulation:' %(quantity_of_steps_index)
 
-        # create a complementary concentration data table for the brine figure 
-        elif self.parameters['output_perspective'] == 'brine':
-            total_time = self.results['csv_data']['time'].iloc[-1]
-            for element in columns:  
-                concentration_serie = []
-                for index, row in self.results['csv_data'].iterrows():
-                    if all(row[element] > 1e-5 for element in columns):
-                        concentration_serie.append(self.results['csv_data'].at[index,element])  
-                if len(concentration_serie) > 0:
-                    average_concentration = sum(concentration_serie) / len(concentration_serie)
-                else:
-                    print('ERROR: The concentration_series is 
-                table_view[element] = average_concentration
-
-            average_concentrations_table = average_concentrations_table.append(table_view, ignore_index=True)
-            average_concentrations_table.rename(index = {0:'Concentration (molal)'}, inplace = True)
-            if table_title is None:
-                table_title = f'Average molal concentrations of feed elements over {auto_notation(total_time, 3)} seconds' 
-
         print('\n\n\n',table_title,'\n%s'%('='*len(table_title)))
-        print(average_concentrations_table)
+        print(concentrations_table)
 
         # export the graphic
         if export_figure:
             self.export_plot(figure, plot_title, export_format = export_format)
-            average_concentrations_table.to_csv(os.path.join(self.simulation_path, 'brine_concentrations.csv'))
+            concentrations_table.to_csv(os.path.join(self.simulation_path, 'brine_concentrations.csv'))
                                  
 
     def scaling_plot(self, plot_title, title_font, label_font, plot_caption, table_title, individual_plots, export_figure, export_format = 'svg'):
@@ -949,7 +968,6 @@ class ROSSPkg():
                     if self.parameters['simulation_type'] == 'transport':
                         pyplot.xlabel('Midpoint module distance (m)', fontsize = label_font)
                         pyplot.ylabel('Quantity (g/m^2)', fontsize = label_font) 
-                        legend_entry = []
 
                         legend_entry = series_creation()
                         

@@ -1,0 +1,240 @@
+TITLE	 test
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\2021-10-12_ROSS__transport_pitzer_brine_LinPerm_22
+
+SOLUTION 0	
+
+
+
+
+units 	 ppm
+Ca		720	#
+Mg		335	#
+Na	1950	#
+Sr		13	#
+Cl	3550	#
+S(6)	2250	#
+Fe		0.2	#
+-water 	17.37815355638126
+
+SOLUTION 1-60	Initial solution in the RO module
+temp 	 25
+units 	 ppm
+Ca	0
+Mg	0
+Na	0
+Sr	0
+Cl	0
+S(6)	0
+Fe	0
+-water 	17.37815355638126
+
+EQUILIBRIUM_PHASES 1-30	
+Aragonite		0	0
+Artinite		0	0
+Bischofite		0	0
+Brucite		0	0
+Calcite		0	0
+Dolomite		0	0
+Gaylussite		0	0
+Halite			0	0
+Huntite		0	0
+Magnesite		0	0
+MgCl2_2H2O		0	0
+MgCl2_4H2O		0	0
+Natron			0	0
+Nesquehonite		0	0
+Pirssonite		0	0
+Portlandite		0	0
+
+
+REACTION 0
+	H2O -1; 11.221454918118873
+REACTION 1
+	H2O -1; 11.091199987868892
+REACTION 2
+	H2O -1; 10.960945057618911
+REACTION 3
+	H2O -1; 10.830690127368932
+REACTION 4
+	H2O -1; 10.700435197118951
+REACTION 5
+	H2O -1; 10.57018026686897
+REACTION 6
+	H2O -1; 10.439925336618991
+REACTION 7
+	H2O -1; 10.30967040636901
+REACTION 8
+	H2O -1; 10.17941547611903
+REACTION 9
+	H2O -1; 10.049160545869048
+REACTION 10
+	H2O -1; 9.918905615619067
+REACTION 11
+	H2O -1; 9.788650685369088
+        INCREMENTAL_REACTIONS 	true
+#linear_permeate
+    #Effluent module 1:
+        #Estimated CF: 1.150
+        #Estimated solution mass: 15.107171241700248
+
+
+
+
+REACTION 12
+	H2O -1; 11.221454918118873
+REACTION 13
+	H2O -1; 11.091199987868892
+REACTION 14
+	H2O -1; 10.960945057618911
+REACTION 15
+	H2O -1; 10.830690127368932
+REACTION 16
+	H2O -1; 10.700435197118951
+REACTION 17
+	H2O -1; 10.57018026686897
+REACTION 18
+	H2O -1; 10.439925336618991
+REACTION 19
+	H2O -1; 10.30967040636901
+REACTION 20
+	H2O -1; 10.17941547611903
+REACTION 21
+	H2O -1; 10.049160545869048
+REACTION 22
+	H2O -1; 9.918905615619067
+REACTION 23
+	H2O -1; 9.788650685369088
+        INCREMENTAL_REACTIONS 	true
+#linear_permeate
+    #Effluent module 2:
+        #Estimated CF: 1.354
+        #Estimated solution mass: 12.836188927019233
+
+
+
+
+REACTION 24
+	H2O -1; 11.221454918118873
+REACTION 25
+	H2O -1; 11.091199987868892
+REACTION 26
+	H2O -1; 10.960945057618911
+REACTION 27
+	H2O -1; 10.830690127368932
+REACTION 28
+	H2O -1; 10.700435197118951
+REACTION 29
+	H2O -1; 10.57018026686897
+REACTION 30
+	H2O -1; 10.439925336618991
+REACTION 31
+	H2O -1; 10.30967040636901
+REACTION 32
+	H2O -1; 10.17941547611903
+REACTION 33
+	H2O -1; 10.049160545869048
+REACTION 34
+	H2O -1; 9.918905615619067
+REACTION 35
+	H2O -1; 9.788650685369088
+        INCREMENTAL_REACTIONS 	true
+#linear_permeate
+    #Effluent module 3:
+        #Estimated CF: 1.645
+        #Estimated solution mass: 10.56520661233822
+
+
+
+
+REACTION 36
+	H2O -1; 11.221454918118873
+REACTION 37
+	H2O -1; 11.091199987868892
+REACTION 38
+	H2O -1; 10.960945057618911
+REACTION 39
+	H2O -1; 10.830690127368932
+REACTION 40
+	H2O -1; 10.700435197118951
+REACTION 41
+	H2O -1; 10.57018026686897
+REACTION 42
+	H2O -1; 10.439925336618991
+REACTION 43
+	H2O -1; 10.30967040636901
+REACTION 44
+	H2O -1; 10.17941547611903
+REACTION 45
+	H2O -1; 10.049160545869048
+REACTION 46
+	H2O -1; 9.918905615619067
+REACTION 47
+	H2O -1; 9.788650685369088
+        INCREMENTAL_REACTIONS 	true
+#linear_permeate
+    #Effluent module 4:
+        #Estimated CF: 2.095
+        #Estimated solution mass: 8.294224297657205
+
+
+
+
+REACTION 48
+	H2O -1; 11.221454918118873
+REACTION 49
+	H2O -1; 11.091199987868892
+REACTION 50
+	H2O -1; 10.960945057618911
+REACTION 51
+	H2O -1; 10.830690127368932
+REACTION 52
+	H2O -1; 10.700435197118951
+REACTION 53
+	H2O -1; 10.57018026686897
+REACTION 54
+	H2O -1; 10.439925336618991
+REACTION 55
+	H2O -1; 10.30967040636901
+REACTION 56
+	H2O -1; 10.17941547611903
+REACTION 57
+	H2O -1; 10.049160545869048
+REACTION 58
+	H2O -1; 9.918905615619067
+REACTION 59
+	H2O -1; 9.788650685369088
+        INCREMENTAL_REACTIONS 	true
+#linear_permeate
+    #Effluent module 5:
+        #Estimated CF: 2.885
+        #Estimated solution mass: 6.0232419829761925
+
+
+
+SELECTED_OUTPUT
+-file			2021-10-12__transport_pitzer_brine_0.txt
+-reaction		true
+-temperature		true
+-totals			Ca Mg Na Sr Cl S(6) Fe
+-saturation_indices	Aragonite Artinite Bischofite Brucite Calcite Dolomite Gaylussite Halite Huntite Magnesite MgCl2_2H2O MgCl2_4H2O Natron Nesquehonite Pirssonite Portlandite
+-equilibrium_phases	Aragonite Artinite Bischofite Brucite Calcite Dolomite Gaylussite Halite Huntite Magnesite MgCl2_2H2O MgCl2_4H2O Natron Nesquehonite Pirssonite Portlandite
+-pH			true
+-time			true
+-distance		true
+-simulation		true
+-high_precision	true
+-solution
+-step
+-water
+
+TRANSPORT
+-cells			12
+-shifts			30
+-lengths		0.08466666666666667
+-time_step		0.8148914581530474	# this satisfies the Courant condition with a feed velocity of 1.247 m/s
+-initial_time		0
+-boundary_conditions	constant	constant 	 # Dirichlet boundary condition
+-stagnant		1		1			0.1		0.9 	 # dual domain
+#			^stagnant cells	^exchange factor	^CP volume	^bulk volume
+-punch_cells		12
+-punch_frequency	1

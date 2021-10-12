@@ -1,0 +1,33 @@
+,parameter,value
+0,simulation,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\2021-10-12_ROSS__transport_pitzer_brine_LinPerm_31
+1,water_mw,18.015
+2,water_grams_per_liter,997.047021671824
+3,os,windows
+4,phreeqc_path,C:\Program Files\USGS\phreeqc-3.6.2-15100-x64
+5,simulation_type,transport
+6,root_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\..
+7,database_selection,pitzer
+8,module_diameter_mm,201
+9,permeate_tube_diameter_mm,29
+10,module_length_m,1.016
+11,permeate_flow_m3_per_day,240.0
+12,max_feed_flow_m3_per_hour,77.0
+13,membrane_thickness_mm,0.00025
+14,feed_thickness_mm,0.8636
+15,active_m2,37
+16,permeate_thickness_mm,0.3
+17,polysulfonic_layer_thickness_mm,0.05
+18,support_layer_thickness_mm,0.15
+19,repeated_membrane_winding_mm,1.5641
+20,quantity_of_modules,5
+21,cells_per_module,12
+22,active_m2_cell,3.0833333333333335
+23,timestep,0.8148914581530474
+24,permeate_moles_per_cell,10.439925336618991
+25,output_perspective,brine
+26,permeate_approach,linear_permeate
+27,solution_elements,"['Ca', 'Mg', 'Na', 'Sr', 'Cl', 'S(6)', 'Fe']"
+28,input_file_name,input.pqi
+29,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\2021-10-12_ROSS__transport_pitzer_brine_LinPerm_31\input.pqi
+30,output_file_name,selected_output.pqo
+31,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\2021-10-12_ROSS__transport_pitzer_brine_LinPerm_31\selected_output.pqo
