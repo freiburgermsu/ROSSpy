@@ -1,0 +1,156 @@
+TITLE	 test
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\2021-10-14_ROSS_red_sea_transport_pitzer_scaling_all_time_LinPerm_2
+
+SOLUTION 0	
+temp 	 24.5 	 #average of Al-Taani et al., 2014 and Longinelli and Craig, 1967..
+pH 		 8.22 charge #None
+pe 		 0.2679 	   #Al-Taani et al., 2014 // 4.00 is the default (?) // 4.00 is the default (?)
+
+units 	 ppm
+Mn	0.000306	#Al-Taani et al., 2014 for the Northern Gulf of Aqaba
+Fe	0.006281	#Al-Taani et al., 2014 for the Northern Gulf of Aqaba
+B	1.344	#Al-Taani et al., 2014
+Cl	24756	#https://www.lenntech.com/composition-seawater.htm in the Red Sea, and Longinelli and Craig, 1967
+Na	16417.2	#https://www.lenntech.com/composition-seawater.htm in the Red Sea, and Longinelli and Craig, 1967 describes [Na]=15834
+S(6)	9500	#Longinelli and Craig, 1967 and Llyod, 1967
+Ca	774	#Abdel-Aal et al., 2015
+K	301	#Abdel-Aal et al., 2015
+Mg	1646	#Abdel-Aal et al., 2015
+Sr	8.3	#Bernat, Church, and Allegre, 1972 from the Mediterranean
+Ba	0.011	#Bernat, Church, and Allegre, 1972 from the Mediterranean
+Li	0.228	#Stoffyn-Egli and Mackenzie, 1984 for the Mediterranean Sea
+-water 	17.378153556381264
+
+SOLUTION 1-12	Initial solution in the RO module
+temp 	 25
+units 	 ppm
+Mn	0
+Mn	0
+Fe	0
+Fe	0
+B	0
+B	0
+Cl	0
+Cl	0
+Na	0
+Na	0
+S(6)	0
+S(6)	0
+Ca	0
+Ca	0
+K	0
+K	0
+Mg	0
+Mg	0
+Sr	0
+Sr	0
+Ba	0
+Ba	0
+Li	0
+Li	0
+-water 	17.378153556381264
+
+EQUILIBRIUM_PHASES 1-12	
+Anhydrite		0	0
+Aragonite		0	0
+Arcanite		0	0
+Artinite		0	0
+Barite			0	0
+Bischofite		0	0
+Bloedite		0	0
+Brucite		0	0
+Burkeite		0	0
+Calcite		0	0
+Carnallite		0	0
+Celestite		0	0
+Dolomite		0	0
+Epsomite		0	0
+Gaylussite		0	0
+Glaserite		0	0
+Glauberite		0	0
+Goergeyite		0	0
+Gypsum			0	0
+Halite			0	0
+Hexahydrite		0	0
+Huntite		0	0
+Kainite		0	0
+Kieserite		0	0
+Labile_S		0	0
+Leonhardite		0	0
+Leonite		0	0
+Magnesite		0	0
+MgCl2_2H2O		0	0
+MgCl2_4H2O		0	0
+Mirabilite		0	0
+Natron			0	0
+Nesquehonite		0	0
+Pentahydrite		0	0
+Pirssonite		0	0
+Polyhalite		0	0
+Portlandite		0	0
+Schoenite		0	0
+Sylvite		0	0
+Syngenite		0	0
+Thenardite		0	0
+Teepleite		0	0
+
+
+REACTION 1
+	H2O -1; 67.92861860810955
+REACTION 2
+	H2O -1; 67.14012571272838
+REACTION 3
+	H2O -1; 66.35163281734721
+REACTION 4
+	H2O -1; 65.56313992196603
+REACTION 5
+	H2O -1; 64.77464702658486
+REACTION 6
+	H2O -1; 63.98615413120369
+REACTION 7
+	H2O -1; 63.19766123582252
+REACTION 8
+	H2O -1; 62.40916834044135
+REACTION 9
+	H2O -1; 61.62067544506018
+REACTION 10
+	H2O -1; 60.832182549679004
+REACTION 11
+	H2O -1; 60.043689654297836
+REACTION 12
+	H2O -1; 59.25519675891666
+        INCREMENTAL_REACTIONS 	true
+#linear_permeate
+    #Effluent module 1:
+        #Estimated CF: 4.786
+        #Estimated solution mass: 3.6308549533594
+
+
+
+SELECTED_OUTPUT
+-file			2021-10-14_red_sea_transport_pitzer_scaling_0.txt
+-reaction		true
+-temperature		true
+-totals			Mn Mn Fe Fe B B Cl Cl Na Na S(6) S(6) Ca Ca K K Mg Mg Sr Sr Ba Ba Li Li
+-saturation_indices	Anhydrite Aragonite Arcanite Artinite Barite Bischofite Bloedite Brucite Burkeite Calcite Carnallite Celestite Dolomite Epsomite Gaylussite Glaserite Glauberite Goergeyite Gypsum Halite Hexahydrite Huntite Kainite Kieserite Labile_S Leonhardite Leonite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Polyhalite Portlandite Schoenite Sylvite Syngenite Thenardite Teepleite
+-equilibrium_phases	Anhydrite Aragonite Arcanite Artinite Barite Bischofite Bloedite Brucite Burkeite Calcite Carnallite Celestite Dolomite Epsomite Gaylussite Glaserite Glauberite Goergeyite Gypsum Halite Hexahydrite Huntite Kainite Kieserite Labile_S Leonhardite Leonite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Polyhalite Portlandite Schoenite Sylvite Syngenite Thenardite Teepleite
+-pH			true
+-time			true
+-distance		true
+-simulation		true
+-high_precision	true
+-solution
+-step
+-water
+
+TRANSPORT
+-cells			12
+-shifts			51
+-lengths		0.08466666666666667
+-time_step		3.946329703005324	# this satisfies the Courant condition with a feed velocity of 0.2575 m/s
+-initial_time		0
+-boundary_conditions	constant	constant 	 # Dirichlet boundary condition
+-stagnant		1		1			0.1		0.9 	 # dual domain
+#			^stagnant cells	^exchange factor	^CP volume	^bulk volume
+-punch_cells		12
+-punch_frequency	1
