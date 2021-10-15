@@ -13,13 +13,25 @@ import pandas
 from math import pi, exp, ceil
 from glob import glob
 import zipfile
-import time
 import json
 import os
 import re
 
-# calculation constants
-simulated_time_over_computational_time = 9.29    
+
+def time_determination(time):
+    unit = 'seconds'
+    if time > 600:
+        if time > 7200:
+            if time > 2e5:
+                time /= day
+                unit = 'days'
+            else:
+                time /= hour
+                unit = 'hours'
+        else:
+            time /= minute
+            unit = 'minutes'
+    return auto_notation(time, 3), unit
 
 
 class ROSSPkg():
@@ -58,7 +70,7 @@ class ROSSPkg():
         self.elements = database['elements']
         self.minerals = database['minerals']
 
-    def transport(self, simulation_time, module_characteristics = {}, simulation_perspective = None, cells_per_module = 12, domain = 'dual', parameterized_timestep = None, kinematic_flow_velocity = None):
+    def transport(self, simulation_time, simulation_perspective = None, module_characteristics = {}, cells_per_module = 12, domain = 'dual', parameterized_timestep = None, kinematic_flow_velocity = None):
         '''Define the TRANSPORT block'''
         self.parameters['simulation_time'] = simulation_time
         self.parameters['simulation_perspective'] = simulation_perspective
@@ -167,7 +179,6 @@ class ROSSPkg():
         cfs = []
         cell_moles = []
         reaction_parameters = []
-        iteration = 0
         cumulative_cf = 1 
         self.results['reaction_block'] = []
         for module in range(self.parameters['quantity_of_modules']): 
@@ -184,9 +195,7 @@ class ROSSPkg():
                 moles_removed = sum(reaction_parameters)
                 cf = self.variables['feed_moles'] / (self.variables['feed_moles'] - moles_removed)
                 self.variables[f'module {module}'] = {'cumulative_cf': cf, 'permeate (moles/cell)': removed_moles_slope}
-                
                 moles_remaining = self.variables['feed_moles'] - moles_removed
-                iteration += 1
                 
                 if auto_notation(average_moles_removed,14) != auto_notation(self.parameters['permeate_moles_per_cell'], 14):
                     print('--> ERROR: Inconsistent REACTION calculations.', )
@@ -578,7 +587,7 @@ class ROSSPkg():
         variables_path = os.path.join(self.simulation_path, variables_file_name)
         variables_table.to_csv(variables_path)
 
-    def execute(self, print_output = True, simulated_to_real_time = 7):
+    def execute(self, print_output = True, simulated_to_real_time = 9.29):
         '''Execute a PHREEQC input file '''
         database_path = os.path.join(self.parameters['phreeqc_path'], 'database\\{}.dat'.format(self.parameters['database_selection']))
 
@@ -623,20 +632,10 @@ class ROSSPkg():
             self.variables['run_time (s)'] = run_time
 
         # communicate progress to the user
+        
         estimated_time = ceil(self.parameters['simulation_time'] / simulated_to_real_time)
         estimated_completion = datetime.datetime.now() + datetime.timedelta(seconds = estimated_time)
-        unit = 'seconds'
-        if estimated_time > 600:
-            if estimated_time > 7200:
-                if estimated_time > 2e5:
-                    estimated_time /= day
-                    unit = 'days'
-                else:
-                    estimated_time /= hour
-                    unit = 'hours'
-            else:
-                estimated_time /= minute
-                unit = 'minutes'
+        estimated_time, unit = time_determination(estimated_time)
                         
         print(f'\nEstimated completion in {estimated_time} {unit} by {estimated_completion} local time.')
         
@@ -651,7 +650,7 @@ class ROSSPkg():
             
         return self.results['csv_data']
 
-    def process_selected_output(self, selected_output_path = None, plot_title = '', title_font = 'xx-large', label_font = 'x-large', plot_caption = '', table_title = None, export_format = 'svg', individual_plots = True):
+    def process_selected_output(self, selected_output_path = None, plot_title = None, title_font = 'xx-large', label_font = 'x-large', plot_caption = '', table_title = None, export_format = 'svg', individual_plots = None):
         """Interpreting the PHREEQC SELECTED_OUTPUT file and conducting the plotting functions"""
         
         databases = [database for database in glob('./databases/*.json')]
@@ -698,15 +697,21 @@ class ROSSPkg():
                 new_column = column.strip()
                 self.results['csv_data'].rename(columns={column:new_column}, inplace = True)
 
-        self.variables['initial_solution_mass'] = self.results['csv_data'].at[0, 'mass_H2O']
-        final_solution_mass = self.results['csv_data']['mass_H2O'].iloc[-1]
-        self.variables['simulation_cf'] = self.variables['initial_solution_mass'] / final_solution_mass
+        self.results['csv_data'].drop(self.results['csv_data'].index[:3], inplace=True)
+        self.variables['initial_solution_mass'] = self.results['csv_data']['mass_H2O'][3]
+        self.variables['final_solution_mass'] = self.results['csv_data']['mass_H2O'].iloc[-1]
+        self.variables['simulation_cf'] = self.variables['initial_solution_mass'] / self.variables['final_solution_mass']
+        self.variables['final_time'] = self.results['csv_data']['time'].iloc[-1]
                                  
         # conducting the appropriate visualization function
         if self.parameters['simulation'] == 'brine':
+            if plot_title is None:
+                plot_title = 'Effluent brine concentrations'
             data = self.brine_plot(pyplot, plot_title, title_font, label_font, plot_caption, table_title, export_format)
+            
         elif self.parameters['simulation'] == 'scaling':
             data = self.scaling_plot(plot_title, title_font, label_font, plot_caption, table_title, individual_plots, export_format)
+            
         else:
             print('--> ERROR: The < simulation_perspective > parameter is unpredicted.')
         return data
@@ -718,17 +723,13 @@ class ROSSPkg():
         for column in self.results['csv_data'].columns:
             if re.search('([A-Z][a-z]?(?:\(\d\))?(?=\(mol\/kgw\)))', column) and not re.search('(_|H2O|pH)', column):
                 columns.append(column)
-        self.results['csv_data'].drop(self.results['csv_data'].index[:3], inplace=True)
 
         # parse the brine concentrations from the raw data
         pyplot.figure(figsize = (17,10))
-        pyplot.figtext(0.2, 0, 'Final CF: {}'.format(auto_notation(self.variables['simulation_cf'], 4)), wrap=True, horizontalalignment='left', fontsize=12)  
         non_zero_elements = []
-        loop_iteration = 1
         time = initial_solution_time = 0
         data = {} 
         concentration_serie = []
-        total_time = self.results['csv_data']['time'].iloc[-1]
         
         for element in columns:  
             stripped_element = re.search('([A-Z][a-z]?(?:\(\d\))?(?=\(mol\/kgw\)))', element).group()
@@ -747,7 +748,7 @@ class ROSSPkg():
                 pyplot.plot(time_serie,concentration_serie)
 
                 # define the brine figure
-                plotted_time = total_time - initial_solution_time*self.parameters['timestep']
+                plotted_time = self.variables['final_time'] - initial_solution_time*self.parameters['timestep']
                 if table_title is None:
                     table_title = f'Molal concentrations of feed elements over {auto_notation(plotted_time, 3)} seconds' 
                     
@@ -760,12 +761,10 @@ class ROSSPkg():
                 x_location.append(time_serie[-1])
                 pyplot.xticks(x_location)
                 x_label = 'Time (s)'
-                if plot_title == '':
-                    plot_title = 'Effluent brine concentrations'
                 
             elif self.parameters['simulation_perspective'] == 'all_distance':
                 distance_serie = []
-                quantity_of_steps_index = average_iteration = 0
+                quantity_of_steps_index = 0
                 data[element] = {}
                 for index, row in self.results['csv_data'].iterrows():
                     if row['time'] == 0:            
@@ -775,9 +774,7 @@ class ROSSPkg():
                         concentration_serie.append(row[element])
                         distance_serie.append(row['dist_x'])
                     elif index == len(self.results['csv_data'][element]) + 2:
-                        pyplot.plot(distance_serie,concentration_serie)   
-                        average_iteration += 1
-                        loop_iteration += 1
+                        pyplot.plot(distance_serie,concentration_serie)
                         
                         # define the dataframe
                         for x in distance_serie:
@@ -794,15 +791,9 @@ class ROSSPkg():
                     plot_title = 'Brine concentrations along the module'
                 
         # define the brine plot
-        pyplot.grid(True)
-        pyplot.title(plot_title, fontsize = title_font)   
-        pyplot.xlabel(x_label, fontsize = label_font)
-        pyplot.ylabel('Concentration (molal)', fontsize = label_font)
-        pyplot.yscale('log')
-        pyplot.legend(non_zero_elements, loc='best', title = 'non-zero elements', fontsize = 'x-large')
-        figure = pyplot.gcf()
-        pyplot.show()
-        self.export_plot(figure, plot_title, export_format = export_format)
+        legend_entries = non_zero_elements
+        legend_title = 'non-zero elements'
+        self.illustrate(figure, x_label, y_label, legend_entries, legend_title, plot_title, mineral, export_name, label_font, export_format)
 
         # defining the datatable of brine concentrations
         concentrations_table = pandas.DataFrame(data)
@@ -818,208 +809,213 @@ class ROSSPkg():
         return concentrations_table
                                  
 
-    def scaling_plot(self, plot_title, title_font, label_font, plot_caption, table_title, individual_plots, export_format = 'svg'):
+    def scaling_plot(self, plot_title, title_font, label_font, plot_caption, table_title, individual_plots, legend_title = None, export_name = None, export_format = 'svg'):
         """Generate plots of scaling along the module distance in the PHREEQC SELECTED_OUTPUT file  """
         # define reused functions
-        def series_creation():
-            time = iteration = quantity_of_steps_index = 0   
-            legend_entry = []
+        def series_creation(mineral,):
+            def legend_determination(time, mineral, mineral_formula):
+                time, unit = time_determination(time)
+                if self.parameters['simulation_perspective'] == "all_time":
+                    if self.parameters['individual_plots']:
+                        return f'{time} {unit}'
+                    elif not self.parameters['individual_plots']:
+                        return f'{mineral} [{mineral_formula}] {time} {unit}'
+                if self.parameters['simulation_perspective'] == "all_distance":
+                    if not self.parameters['individual_plots']:
+                        if len(set([t for t in self.results['csv_data']['time']])) == 2:
+                            return f'{mineral} [{mineral_formula}]'
+                        else:
+                            return f'{mineral} [{mineral_formula}] {time} {unit}'
+                    elif self.parameters['individual_plots']:
+                        return auto_notation(time, 3)
+                    
+            mineral_formula = self.minerals[mineral]['formula'] 
+            time = quantity_of_steps_index = 0   
+            legend_entries = []
             distance_serie = []
             scaling_serie = []
+            data[mineral] = {}
             for index, row in self.results['csv_data'].iterrows():
                 if row['time'] == 0:
                     quantity_of_steps_index += 1
                 elif self.results['csv_data'].at[index-1, 'soln'] == quantity_of_steps_index:
                     if time != 0:
-                        legend_entry.append(f'{mineral} [{mineral_formula}] ; {auto_notation(time, 3)} sec')
+                        legend_entries.append(legend_determination(time, mineral, mineral_formula))
+                                                    
                         pyplot.plot(distance_serie,scaling_serie)
-                        
-                        distance_serie = [] 
-                        scaling_serie = []
                         grams_area = (float(row[mineral]) * self.minerals[mineral]['mass']) / (self.parameters['active_m2_cell'])
                         scaling_serie.append(auto_notation(grams_area, 3))
                         distance_serie.append(row['dist_x'])
                     time = row['time']
 
-                elif index == len(self.results['csv_data'][mineral]) + 2:   
-                    legend_entry.append(f'{mineral} [{mineral_formula}] ; {auto_notation(time, 3)} sec')
+                elif index == len(self.results['csv_data'][mineral]) + 2:  
+                    legend_entries.append(legend_determination(time, mineral, mineral_formula)) 
                     pyplot.plot(distance_serie,scaling_serie)
                     
                     # define the dataframe
                     for x in distance_serie:
                         sigfig_x = auto_notation(x, 3)
                         index = distance_serie.index(x)
-                        data[mineral] = {}
                         data[mineral][f'{sigfig_x} m'] = auto_notation(scaling_serie[index], 3)
                         
                 else:
                     grams_area = (float(row[mineral]) * self.minerals[mineral]['mass']) / (self.parameters['active_m2_cell'])
                     scaling_serie.append(grams_area)
                     distance_serie.append(row['dist_x'])
-                    iteration += 1
                     
             if self.verbose:
-                print(mineral, self.minerals[mineral])
-                                 
-            return legend_entry, data
-                                 
-        def illustrate(pyplot, legend_entries):                     
-            pyplot.legend(legend_entry, loc='best', fontsize = 'x-large')
-            pyplot.figtext(0.2, 0, 'Final CF: {}'.format(auto_notation(self.variables['simulation_cf'], 4)), wrap=True, horizontalalignment='left', fontsize=12)
-            figure = pyplot.gcf()
-            pyplot.show()
+                print('mineral', mineral,' ', self.minerals[mineral]) 
+            return legend_entries, data
+        
+        def individual_plotting(plot_title):
+            scaling_data = pandas.DataFrame({})
+            legend = []
+            for mineral in self.variables['precipitated_minerals']:
+                mineral_formula = self.minerals[mineral]['formula']
+                if self.parameters['simulation_type'] == 'transport':
+                    legend_entries, data = series_creation(mineral)
+                    data_df = pandas.DataFrame(data)
+                    scaling_data = scaling_data.append(data_df)
+                    legend.extend(legend_entries)
+                elif self.parameters['simulation_type'] == 'evaporation':
+                    cf_series = []
+                    concentration_series = []
+                    data_length = len(self.results['csv_data']['mass_H2O'])
+                    for index, row in self.results['csv_data'].iterrows():
+                        if index < data_length:
+                            if row['step'] >= 1:
+                                concentration_series.append(row[mineral]) 
+                                cf_series.append(self.variables['initial_solution_mass'] / row['mass_H2O'])  
+                            elif index > 1:
+                                print('ERROR: The SELECTED_OUTPUT file possesses an unexcepted data structure.')
+
+                    concentration_series.append(self.results['csv_data'].at[index, mineral]) 
+                    cf_series.append(initial_solution_mass / row['mass_H2O'])  
+                    pyplot.plot(cf_series,concentration_series)                    
+
+                # export the scaling figure
+                if plot_title is None:
+                    time, units = time_determination(self.variables['final_time'])
+                    plot_title = f'{mineral} [{mineral_formula}] scaling after {time} {units}'
+            return legend, plot_title, scaling_data
+                
+        def combined_plotting(plot_title):
+            scaling_data = pandas.DataFrame({})
+            legend = []
+            for mineral in self.variables['precipitated_minerals']: 
+                if self.parameters['simulation_type'] == 'transport':
+                    legend_entries, data = series_creation(mineral)
+                    data_df = pandas.DataFrame(data)
+                    scaling_data = scaling_data.append(data_df)
+                    legend.extend(legend_entries)
+                elif self.parameters['simulation_type'] == 'evaporation':
+                    cf_series = []
+                    concentration_series = []
+                    for index, row in self.results['csv_data'].iterrows():
+                        if self.results['csv_data'].at[index+1, 'mass_H2O']:
+                            if row['step'] >= 1:
+                                concentration_series.append(row[mineral]) 
+                                cf_series.append(initial_solution_mass / row['mass_H2O'])   
+                            else:
+                                print('ERROR: The SELECTED_OUTPUT file possesses an unexcepted data structure.')
+
+                        concentration_series.append(row[mineral]) 
+                        cf_series.append(initial_solution_mass / row['mass_H2O'])  
+                        pyplot.plot(mass_series,concentration_series)
+
+                        cf_series = []
+                        concentration_series = []
+                        concentration_series.append(row[mineral]) 
+                        cf_series.append(initial_solution_mass / row['mass_H2O'])  
                         
-            return figure
-                                 
-        # the complete list of all minerals is created
-        if self.parameters['simulation_type'] == 'transport':
-            self.results['csv_data'].drop(self.results['csv_data'].index[:3], inplace=True)
-            
-        csv_minerals = []
-        for column in self.results['csv_data'].columns:
-            if re.search('([A-Z].{3,})', column) and not re.search('[(_:]', column):
-                csv_minerals.append(column)
+                if plot_title is None:
+                    time, units = time_determination(self.variables['final_time'])
+                    plot_title = 'Scaling from the {} after {} {}'.format(self.parameters['water_selection'],time,units)
+            return legend, plot_title, scaling_data
 
         # all of the non-zero minerals are identified and the chemical formulas are sorted into a list
+        csv_minerals = []
         non_zero_minerals = set()
-        for mineral in csv_minerals:
-            for value in self.results['csv_data'][mineral]:
-                if value != 0:
-                    non_zero_minerals.add(mineral)   
+        self.variables['precipitated_minerals'] = {}
+        for column in self.results['csv_data'].columns:
+            if re.search('([A-Z][a-z]{2,})', column) and not re.search('[_(]', column):
+                mineral = re.search('([A-Z][a-z]{2,})', column).group()
+                csv_minerals.append(mineral)
+                for value in self.results['csv_data'][mineral]:
+                    if value != 0:
+                        non_zero_minerals.add(mineral)   
+                        if column in self.minerals:
+                            self.variables['precipitated_minerals'][mineral] = self.minerals[mineral]
+        
         if non_zero_minerals == set():
             print('No scaling occurred.')
-            return None
-        
-        # define a dictionary of precipitated minerals
-        self.variables['precipitated_minerals'] = {}
-        for mineral in self.minerals:
-            if mineral in non_zero_minerals:
-                self.variables['precipitated_minerals'][mineral] = self.minerals[mineral]
+            return None            
 
         # plot the simulation depending upon the simulation perspective
         unit = 'moles'
         data = {}
-        scaling_data = pandas.DataFrame(data)
+        pyplot.figure(figsize = (17,10))
+        if self.parameters['simulation_type'] == 'transport':
+            x_label = 'Distance (m)'
+            y_label = 'Quantity (g/m^2)' 
+        elif self.parameters['simulation_type'] == 'evaporation':
+            x_label = 'Concentration Factor (CF)'
+            y_label = 'Quantity (g/m^2)' 
+        
         if self.parameters['simulation_perspective'] == "all_time":
-            legend_entry = []
-            formula_index = 0
-            for mineral in non_zero_minerals:
-                mineral_formula = self.minerals[mineral]['formula']  
-                mineral_serie = scaling_serie = []
-                for index, row in self.results['csv_data'].iterrows():
-                    mineral_serie.append(row[mineral]) 
-                    time = row['time']
-                    scaling_serie.append(time)
-
-                pyplot.plot(scaling_serie,mineral_serie)
-                pyplot.scatter(scaling_serie,mineral_serie)
-                legend_entry.append(f'{mineral} [{mineral_formula}]')   
-
-                # export the figure
-                figure = illustrate(pyplot, legend_entry)
-                self.results['figures'][self.parameters['selected_output_file_name']] = {'figure':figure, 'title':plot_title}
-                self.export_plot(figure, plot_title, export_format)
+            if individual_plots is None:
+                self.parameters['individual_plots'] = True
+            if self.parameters['individual_plots']:
+                legend, plot_title, scaling_data = individual_plotting(plot_title)
+                legend_title = 'time (s)'
+                self.illustrate(pyplot, x_label, y_label, legend, legend_title, plot_title, mineral, export_name, label_font, title_font, export_format)
+            elif not self.parameters['individual_plots']:
+                legend, plot_title, scaling_data = combined_plotting(plot_title)
+                mineral = None
+                self.illustrate(pyplot, x_label, y_label, legend, legend_title, plot_title, mineral, export_name, label_font, title_font, export_format)
 
         elif self.parameters['simulation_perspective'] == 'all_distance':
-            legend_entries = []
-            if individual_plots:
-                for mineral in non_zero_minerals:
-                    print(mineral)
-                    mineral_formula = self.minerals[mineral]['formula']
-                    pyplot.figure(figsize = (17,10))
-                    pyplot.title(plot_title, fontsize = title_font)
-
-                    if self.parameters['simulation_type'] == 'transport':
-                        pyplot.xlabel('Midpoint module distance (m)', fontsize = label_font)
-                        pyplot.ylabel('Quantity (g/m^2)', fontsize = label_font) 
-                        legend_entry, data = series_creation()
-                        data_df = pandas.DataFrame(data)
-                        scaling_data = scaling_data.append(data_df)
-
-                    elif self.parameters['simulation_type'] == 'evaporation':
-                        pyplot.xlabel('Concentration Factor (CF)', fontsize = label_font)
-                        pyplot.ylabel('Quantity (%s)' %(unit), fontsize = label_font)  
-
-                        legend_entry = []
-                        cf_series = []
-                        concentration_series = []
-                        data_length = len(self.results['csv_data']['mass_H2O'])
-                        for index, row in self.results['csv_data'].iterrows():
-                            if index < data_length:
-                                if self.results['csv_data'].at[index, 'step'] >= 1:
-                                    concentration_series.append(self.results['csv_data'].at[index, mineral]) 
-                                    solution_mass = self.results['csv_data'].at[index, 'mass_H2O']
-                                    cf_series.append(self.variables['initial_solution_mass'] / solution_mass)  
-                                elif index > 1:
-                                    print('ERROR: The SELECTED_OUTPUT file possesses an unexcepted data structure.')
-
-                        concentration_series.append(self.results['csv_data'].at[index, mineral]) 
-                        solution_mass = self.results['csv_data'].at[index, 'mass_H2O']
-                        cf_series.append(self.variables['initial_solution_mass'] / solution_mass)  
-
-                        legend_entry.append(f'{mineral} [{mineral_formula}]')
-                        pyplot.plot(cf_series,concentration_series)                    
-                    
-                    legend_entries.append(legend_entry)
-                    
-                    # export the figure
-                    figure = illustrate(pyplot, legend_entries)
-                    scaling_data.index.name = 'scale (g/m^2)'
-                    scaling_data.to_csv('scaling_data.csv')
-                    self.export_plot(figure, plot_title, mineral, export_format)
-
-            elif not individual_plots:
-                legend_entry = []
-                for mineral in non_zero_minerals:
-                    if self.parameters['simulation_type'] == 'transport':
-                        legend_entry = series_creation()
-
-                    elif self.parameters['simulation_type'] == 'evaporation':
-                        pyplot.xlabel('Concentration Factor (CF)', fontsize = label_font)
-                        pyplot.ylabel('Quantity (%s)' %(unit), fontsize = label_font)  
-
-                        legend_entry = []
-                        iteration = 0
-                        cf_series = []
-                        concentration_series = []
-                        self.variables['initial_solution_mass'] = self.results['csv_data'].at[0, 'mass_H2O']
-                        for index, row in self.results['csv_data'].iterrows():
-                            try:
-                                if self.results['csv_data'].at[index+1, 'mass_H2O']:
-                                    if self.results['csv_data'].at[index, 'step'] >= 1:
-                                        concentration_series.append(self.results['csv_data'].at[index, mineral]) 
-                                        solution_mass = self.results['csv_data'].at[index, 'mass_H2O']
-                                        cf_series.append(self.variables['initial_solution_mass'] / solution_mass)   
-                                    else:
-                                        print('ERROR: The SELECTED_OUTPUT file possesses an unexcepted data structure.')
-
-                            except:
-                                concentration_series.append(self.results['csv_data'].at[index, mineral]) 
-                                solution_mass = self.results['csv_data'].at[index, 'mass_H2O']
-                                cf_series.append(self.variables['initial_solution_mass'] / solution_mass)  
-
-                                legend_entry.append(f'{mineral} [{mineral_formula}]')
-                                pyplot.plot(mass_series,concentration_series)
-
-                                cf_series = []
-                                concentration_series = []
-                                concentration_series.append(self.results['csv_data'].at[index, mineral]) 
-                                solution_mass = self.results['csv_data'].at[index, 'mass_H2O']
-                                cf_series.append(self.variables['initial_solution_mass'] / solution_mass)         
-                                                         
-                # export the figure
-                figure = illustrate(pyplot, legend_entries)
-                if export_figure:
-                    self.export_plot(figure, plot_title, export_format = export_format)
-                       
+            if individual_plots is None:
+                self.parameters['individual_plots'] = False    
+            if not self.parameters['individual_plots']:
+                legend, plot_title, scaling_data = combined_plotting(plot_title)
+                legend_title = 'scale'
+                mineral = None
+                self.illustrate(pyplot, x_label, y_label, legend, legend_title, plot_title, mineral, export_name, label_font, title_font, export_format)
+            elif self.parameters['individual_plots']:
+                legend, plot_title, scaling_data = individual_plotting(plot_title)
+                self.illustrate(pyplot, x_label, y_label, legend, legend_title, plot_title, mineral, export_name, label_font, title_font, export_format)
+                                
+        # finalize the output data
+        scaling_data.index.name = x_label
+        scaling_data.to_csv(os.path.join(self.simulation_path, 'scaling_data.csv'))
+        
         return scaling_data
+    
+    def illustrate(self, pyplot, x_label, y_label, legend_entries, legend_title, plot_title, mineral, export_name, label_font, title_font, export_format):
+        pyplot.grid(True)
+        pyplot.title(plot_title, fontsize = title_font)
+        pyplot.xlabel(x_label, fontsize = label_font)
+        pyplot.ylabel(y_label, fontsize = label_font)  
+        pyplot.legend(legend_entries, title = legend_title, loc='best', title_fontsize = 'x-large', fontsize = 'large')
+        pyplot.title(plot_title, fontsize = title_font)   
+        pyplot.figtext(0.2, 0, 'Final CF: {}'.format(auto_notation(self.variables['simulation_cf'], 4)), wrap=True, horizontalalignment='left', fontsize=12)
+        if self.parameters['simulation'] == 'brine':
+            pyplot.yscale('log')
+        
+        figure = pyplot.gcf()
+        pyplot.show()
+        self.export_plot(figure, plot_title, mineral, export_name, export_format)
 
-    def export_plot(self, figure, plot_title, mineral = None, individual_plots = False, export_name = None, export_format = 'svg'):
+    def export_plot(self, figure, plot_title, mineral = None, export_name = None, export_format = 'svg'):
         """Export the plots to the current working directory  """
         # define the output name
         if export_name is None:
             if self.parameters['simulation'] == 'scaling':
-                export_name = mineral
+                if self.parameters['individual_plots']:
+                    export_name = mineral
+                else:
+                    export_name = 'all_minerals'
             if self.parameters['simulation'] == 'brine':
                 export_name = 'brine'
             
@@ -1029,12 +1025,11 @@ class ROSSPkg():
         file_number = 0
         figure_path = os.path.join(self.simulation_path, export_name)
         if not os.path.exists('{}.{}'.format(figure_path, export_format)):
-            self.results['figures'][export_name]['figure'].savefig('{}.{}'.format(figure_path, export_format))
+            figure.savefig('{}.{}'.format(figure_path, export_format))
         elif os.path.exists('{}.{}'.format(figure_path, export_format)):
             while os.path.exists('{}_{}.{}'.format(figure_path, file_number, export_format)):
                 file_number += 1
             figure.savefig('{}_{}.{}'.format(figure_path, file_number, export_format))
-
 
     def input_file(self, operating_system, phreeqc_path, database_selection, simulation_type, simulation_title, water_selection, quantity_of_modules = 1, module_characteristics = {}, simulation = 'scaling', domain = 'dual', permeate_approach = 'linear permeate', permeate_efficiency = 1, head_loss = -0.15, final_cf = 2, custom_water_parameters = {}, ignored_minerals = [], existing_parameters = {}, export_figure = True):
         """Concisely create an input file of the software """
@@ -1046,7 +1041,6 @@ class ROSSPkg():
         self.selected_output()
         self.export()
         
-            
     def complete_simulation():
         self.execute()
         self.process_selected_output(export_figure = export_figure)
