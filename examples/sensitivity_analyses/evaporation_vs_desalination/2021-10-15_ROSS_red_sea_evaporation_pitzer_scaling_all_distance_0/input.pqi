@@ -1,0 +1,91 @@
+TITLE	 test
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\evaporation_vs_desalination\2021-10-15_ROSS_red_sea_evaporation_pitzer_scaling_all_distance_1
+
+SOLUTION 1	
+temp 	 24.5 	 #average of Al-Taani et al., 2014 and Longinelli and Craig, 1967..
+pH 		 8.22 charge #None
+pe 		 0.2679 	   #Al-Taani et al., 2014 // 4.00 is the default (?) // 4.00 is the default (?)
+
+units 	 ppm
+Mn	0.000306	#Al-Taani et al., 2014 for the Northern Gulf of Aqaba
+Fe	0.006281	#Al-Taani et al., 2014 for the Northern Gulf of Aqaba
+B	1.344	#Al-Taani et al., 2014
+Cl	24756	#https://www.lenntech.com/composition-seawater.htm in the Red Sea, and Longinelli and Craig, 1967
+Na	16417.2	#https://www.lenntech.com/composition-seawater.htm in the Red Sea, and Longinelli and Craig, 1967 describes [Na]=15834
+S(6)	9500	#Longinelli and Craig, 1967 and Llyod, 1967
+Ca	774	#Abdel-Aal et al., 2015
+K	301	#Abdel-Aal et al., 2015
+Mg	1646	#Abdel-Aal et al., 2015
+Sr	8.3	#Bernat, Church, and Allegre, 1972 from the Mediterranean
+Ba	0.011	#Bernat, Church, and Allegre, 1972 from the Mediterranean
+Li	0.228	#Stoffyn-Egli and Mackenzie, 1984 for the Mediterranean Sea
+-water 	17.378153556381264
+
+EQUILIBRIUM_PHASES 1	
+Anhydrite		0	0
+Aragonite		0	0
+Arcanite		0	0
+Artinite		0	0
+Barite			0	0
+Bischofite		0	0
+Bloedite		0	0
+Brucite		0	0
+Burkeite		0	0
+Calcite		0	0
+Carnallite		0	0
+Celestite		0	0
+Dolomite		0	0
+Epsomite		0	0
+Gaylussite		0	0
+Glaserite		0	0
+Glauberite		0	0
+Goergeyite		0	0
+Gypsum			0	0
+Halite			0	0
+Hexahydrite		0	0
+Huntite		0	0
+Kainite		0	0
+Kieserite		0	0
+Labile_S		0	0
+Leonhardite		0	0
+Leonite		0	0
+Magnesite		0	0
+MgCl2_2H2O		0	0
+MgCl2_4H2O		0	0
+Mirabilite		0	0
+Natron			0	0
+Nesquehonite		0	0
+Pentahydrite		0	0
+Pirssonite		0	0
+Polyhalite		0	0
+Portlandite		0	0
+Schoenite		0	0
+Sylvite		0	0
+Syngenite		0	0
+Thenardite		0	0
+Teepleite		0	0
+REACTION 1
+	H2O -1; 0 76.18938320231324 19.04734580057831 4.761836450144577 1.1904591125361443 0.2976147781340361 0.07440369453350902 0.018600923633377255 0.004650230908344314 0.0011625577270860785 0.0002906394317715196 7.26598579428799e-05 1.8164964485719976e-05 4.541241121429994e-06 1.1353102803574985e-06 2.838275700893746e-07;
+INCREMENTAL_REACTIONS 	true
+#linear_permeate
+    #Effluent module 1:
+        #Estimated CF: 1.118
+        #Estimated solution mass: 15.545180409311685
+
+
+
+SELECTED_OUTPUT
+-file			2021-10-15_red_sea_evaporation_pitzer_scaling_0.txt
+-reaction		true
+-temperature		true
+-totals			Mn Mn Fe Fe B B Cl Cl Na Na S(6) S(6) Ca Ca K K Mg Mg Sr Sr Ba Ba Li Li
+-saturation_indices	Anhydrite Aragonite Arcanite Artinite Barite Bischofite Bloedite Brucite Burkeite Calcite Carnallite Celestite Dolomite Epsomite Gaylussite Glaserite Glauberite Goergeyite Gypsum Halite Hexahydrite Huntite Kainite Kieserite Labile_S Leonhardite Leonite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Polyhalite Portlandite Schoenite Sylvite Syngenite Thenardite Teepleite
+-equilibrium_phases	Anhydrite Aragonite Arcanite Artinite Barite Bischofite Bloedite Brucite Burkeite Calcite Carnallite Celestite Dolomite Epsomite Gaylussite Glaserite Glauberite Goergeyite Gypsum Halite Hexahydrite Huntite Kainite Kieserite Labile_S Leonhardite Leonite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Polyhalite Portlandite Schoenite Sylvite Syngenite Thenardite Teepleite
+-pH			true
+-time			true
+-distance		true
+-simulation		true
+-high_precision	true
+-solution
+-step
+-water
