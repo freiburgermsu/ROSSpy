@@ -312,17 +312,17 @@ class ROSSPkg():
         self.results['solution_block'] = []
         
         if water_selection == '' and custom_water_parameters == {}:
-            
             print('--> ERROR: Feed geochemistry is not provided.')
         
-        if water_selection != '':
-            self.parameters['water_selection'] = water_selection
-        elif water_selection == '':
-            self.parameters['water_selection'] = ''
-        if self.parameters['simulation_type'] == 'transport':
-            initial_solution_line = '\nSOLUTION 0\t%s' % (solution_description)
-        elif self.parameters['simulation_type'] == 'evaporation':
-            initial_solution_line = '\nSOLUTION 1\t%s' % (solution_description)
+        self.parameters['water_selection'] = water_selection
+        if water_selection == '':
+            self.parameters['water_selection'] = solution_description
+            
+        initial_number = 0
+        if self.parameters['simulation_type'] == 'evaporation':
+            initial_number = 1
+            
+        initial_solution_line = '\nSOLUTION {}\t{}'.format(initial_number, self.parameters['water_selection'])
         self.results['solution_block'].append(initial_solution_line)
 
         #=============================================================================
@@ -593,7 +593,7 @@ class ROSSPkg():
         
         # define a table of parameters
         parameters = {'parameter':[], 'value':[]}
-        parameters['parameter'].append('simulation')
+        parameters['parameter'].append('simulation_path')
         parameters['value'].append(self.simulation_path)
         for parameter in self.parameters:
             parameters['parameter'].append(parameter)
@@ -786,8 +786,9 @@ class ROSSPkg():
                 for index, row in self.results['csv_data'].iterrows():
                     if all(row[element] > 1e-16 for element in columns):
                         concentration_serie.append(row[element])
-                        time_serie.append(auto_notation(row['time'], 4)) # - initial_solution_time * self.parameters['timestep'])
-                        data[element][row['time']] = row[element]
+                        time = auto_notation(row['time'], 3)
+                        time_serie.append(time) # - initial_solution_time * self.parameters['timestep'])
+                        data[element][time] = auto_notation(row[element], 4)
                     else:
                         initial_solution_time += 1
                 pyplot.plot(time_serie,concentration_serie)
@@ -810,7 +811,7 @@ class ROSSPkg():
                         for x in distance_serie:
                             sigfig_x = auto_notation(x, 3)
                             index = distance_serie.index(x)
-                            data[element][f'{sigfig_x} m'] = auto_notation(concentration_serie[index], 3)
+                            data[element][sigfig_x] = auto_notation(concentration_serie[index], 4)
                     else:
                         concentration_serie.append(row[element])
                         distance_serie.append(row['dist_x'])                       
@@ -932,7 +933,7 @@ class ROSSPkg():
                 distance_serie = []
                 scaling_serie = []
                 data = {}
-                data[mineral] = {}
+                data[f'{mineral} (g/m^2)'] = {}
                 for index, row in self.results['csv_data'].iterrows():
                     if row['time'] == 0:
                         quantity_of_steps_index += 1
@@ -953,7 +954,7 @@ class ROSSPkg():
                         for x in distance_serie:
                             sigfig_x = auto_notation(x, 3)
                             index = distance_serie.index(x)
-                            data[mineral][f'{sigfig_x} m'] = auto_notation(scaling_serie[index], 3)
+                            data[f'{mineral} (g/m^2)'][sigfig_x] = auto_notation(scaling_serie[index], 3)
 
                     else:
                         grams_area = (float(row[mineral]) * self.minerals[mineral]['mass']) / (self.parameters['active_m2_cell'])
