@@ -4,10 +4,6 @@
             "concentration (ppm)": 9.780,
             "reference": "Peterman et al., 2017"
         },
-        "Fe": {
-            "concentration (ppm)": null,
-            "reference": null
-        },
         "B": {
             "concentration (ppm)": 5.54,
             "reference": "Peterman et al., 2017"

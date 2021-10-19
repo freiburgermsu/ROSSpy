@@ -1,0 +1,152 @@
+TITLE	 None
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\test\2021-10-19_ROSS_michigan_basin_transport_pitzer_brine_all_distance_LinPerm_0
+
+SOLUTION 0	michigan_basin
+temp 	 33.8 	 #Wilson and Long, 1993.
+pH 		 5.6 charge #Wilson and Long, 1993
+
+
+units 	 ppm
+Mn	9.78	#Peterman et al., 2017
+B	283	#Wilson and Long, 1993, esimated from adjacent samples
+Cl	206062	#Cl + Br + I, Wilson and Long, 1993; increased from 183062
+Na	73500	#Wilson and Long, 1993
+S(6)	150	#Wilson and Long, 1993
+Ca	35600	#Wilson and Long, 1993
+K	1620	#Wilson and Long, 1993
+Mg	6300	#Wilson and Long, 1993
+Sr	980	#Wilson and Long, 1993
+Ba	17500	#Peterman et al., 2017
+Li	24	#Wilson and Long, 1993
+-water 	17.378153556381264
+
+SOLUTION 1-12	Initial solution in the RO module
+temp 	 25
+units 	 ppm
+Mn	0
+Mn	0
+B	0
+B	0
+Cl	0
+Cl	0
+Na	0
+Na	0
+S(6)	0
+S(6)	0
+Ca	0
+Ca	0
+K	0
+K	0
+Mg	0
+Mg	0
+Sr	0
+Sr	0
+Ba	0
+Ba	0
+Li	0
+Li	0
+-water 	17.378153556381264
+
+EQUILIBRIUM_PHASES 1-12	None
+Anhydrite		0	0
+Aragonite		0	0
+Arcanite		0	0
+Artinite		0	0
+Barite			0	0
+Bischofite		0	0
+Bloedite		0	0
+Brucite		0	0
+Burkeite		0	0
+Calcite		0	0
+Carnallite		0	0
+Celestite		0	0
+Dolomite		0	0
+Epsomite		0	0
+Gaylussite		0	0
+Glaserite		0	0
+Glauberite		0	0
+Goergeyite		0	0
+Gypsum			0	0
+Halite			0	0
+Hexahydrite		0	0
+Huntite		0	0
+Kainite		0	0
+Kieserite		0	0
+Labile_S		0	0
+Leonhardite		0	0
+Leonite		0	0
+Magnesite		0	0
+MgCl2_2H2O		0	0
+MgCl2_4H2O		0	0
+Mirabilite		0	0
+Natron			0	0
+Nesquehonite		0	0
+Pentahydrite		0	0
+Pirssonite		0	0
+Polyhalite		0	0
+Portlandite		0	0
+Schoenite		0	0
+Sylvite		0	0
+Syngenite		0	0
+Thenardite		0	0
+Teepleite		0	0
+
+
+REACTION 1
+	H2O -1; 9.057149147747937
+REACTION 2
+	H2O -1; 8.952016761697115
+REACTION 3
+	H2O -1; 8.846884375646292
+REACTION 4
+	H2O -1; 8.74175198959547
+REACTION 5
+	H2O -1; 8.636619603544647
+REACTION 6
+	H2O -1; 8.531487217493824
+REACTION 7
+	H2O -1; 8.426354831443
+REACTION 8
+	H2O -1; 8.321222445392177
+REACTION 9
+	H2O -1; 8.216090059341354
+REACTION 10
+	H2O -1; 8.110957673290532
+REACTION 11
+	H2O -1; 8.005825287239709
+REACTION 12
+	H2O -1; 7.9006929011888865
+        INCREMENTAL_REACTIONS 	true
+#linear_permeate
+    #Effluent module 1:
+        #Estimated CF: 1.118
+        #Estimated solution mass: 15.545180409311685
+
+
+
+SELECTED_OUTPUT
+-file			2021-10-19_michigan_basin_transport_pitzer_brine_0.txt
+-reaction		true
+-temperature		true
+-totals			Mn Mn B B Cl Cl Na Na S(6) S(6) Ca Ca K K Mg Mg Sr Sr Ba Ba Li Li
+-saturation_indices	Anhydrite Aragonite Arcanite Artinite Barite Bischofite Bloedite Brucite Burkeite Calcite Carnallite Celestite Dolomite Epsomite Gaylussite Glaserite Glauberite Goergeyite Gypsum Halite Hexahydrite Huntite Kainite Kieserite Labile_S Leonhardite Leonite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Polyhalite Portlandite Schoenite Sylvite Syngenite Thenardite Teepleite
+-equilibrium_phases	Anhydrite Aragonite Arcanite Artinite Barite Bischofite Bloedite Brucite Burkeite Calcite Carnallite Celestite Dolomite Epsomite Gaylussite Glaserite Glauberite Goergeyite Gypsum Halite Hexahydrite Huntite Kainite Kieserite Labile_S Leonhardite Leonite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Polyhalite Portlandite Schoenite Sylvite Syngenite Thenardite Teepleite
+-pH			true
+-time			true
+-distance		true
+-simulation		true
+-high_precision	true
+-solution
+-step
+-water
+
+TRANSPORT
+-cells			12
+-shifts			26
+-lengths		0.08466666666666667
+-time_step		3.946329703005324	# this satisfies the Courant condition with a feed velocity of 0.2575 m/s
+-initial_time		0
+-boundary_conditions	constant	constant 	 # Dirichlet boundary condition
+
+-punch_cells		1-12
+-punch_frequency	26

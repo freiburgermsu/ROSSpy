@@ -43,7 +43,7 @@ class ROSSPkg():
         self.results['figures'] = {}
         self.verbose = verbose
         
-    def define_general(self, phreeqc_path, database_selection, simulation_title, simulation = 'scaling', domain = 'single', domain_phase = None, quantity_of_modules = 1, operating_system = 'windows', simulation_type = 'transport'):
+    def define_general(self, phreeqc_path, database_selection, simulation = 'scaling', domain = 'single', domain_phase = None, quantity_of_modules = 1, simulation_type = 'transport', operating_system = 'windows', simulation_title = None):
         '''Establish general conditions'''
         self.parameters['water_mw'] = float(get_compounds('water', 'name')[0].molecular_weight)
         self.parameters['water_grams_per_liter'] = water_density()
@@ -56,12 +56,12 @@ class ROSSPkg():
         self.parameters['quantity_of_modules'] = quantity_of_modules
         self.parameters['domain'] = domain
         self.parameters['domain_phase'] = domain_phase
-        self.parameters['root_path'] = os.path.join(os.path.dirname(__file__), '..')
+        self.parameters['root_path'] = os.path.join(os.path.dirname(__file__))
         database_path = os.path.join(self.parameters['root_path'], 'databases', f'{database_selection}.json') 
         
-        title_line = 'TITLE\t %s' %(simulation_title)
+        title_line = f'TITLE\t {simulation_title}'
         if operating_system == 'Windows':
-            database_line = 'DATABASE %s' %(database_path)
+            database_line = f'DATABASE {database_path}'
             self.results['general_conditions'] = [database_line, title_line]
         else:
             self.results['general_conditions'] = [title_line]
@@ -481,7 +481,7 @@ class ROSSPkg():
                 if possible_mineral in short_mineral_names:
                     mineral_line = f'{possible_mineral}\t\t' 
                 elif possible_mineral == 'Ca-Montmorillonite':
-                    mineral_line = f'{possible_mineral}'
+                    mineral_line = possible_mineral
                 else:
                     mineral_line = f'{possible_mineral}\t'
 
@@ -539,7 +539,7 @@ class ROSSPkg():
         self.results['selected_output_block'] = []
         self.results['selected_output_block'].extend((first_line, file_name_line, reaction_line, temperature_line, total_elements_line, saturation_indices_line, equilibrium_phases_line, ph_line, time_line, distance_line, simulation_line, high_precision_line, solution_line, step_line,water_line))
 
-    def export(self, input_path = None, output_path = None, print_block = True):
+    def export(self, input_path = None, output_path = None):
         """View and export the PHREEQC input file"""        
         # define the simulation input path 
         file_number = 0
@@ -570,14 +570,14 @@ class ROSSPkg():
             self.parameters['input_path'] = input_path
             
         # comment the corresponding simulation in the input file
-        simulation_line = '# {}'.format(self.simulation_path)
+        simulation_line = f'# {self.simulation_path}'
         self.results['solution_block'].insert(0, simulation_line)
         self.results['complete_lines'] = chain(self.results['general_conditions'], self.results['solution_block'], self.results['equilibrium_phases_block'], self.results['reaction_block'], self.results['selected_output_block'], self.results['transport_block']) 
             
         # printing and exporting the input file
         with open(self.parameters['input_path'],'w') as input_file:
             for line in self.results['complete_lines']:
-                if print_block:
+                if self.verbose:
                     print(line)
                 input_file.write(line + '\n')
             
@@ -599,11 +599,10 @@ class ROSSPkg():
             parameters['parameter'].append(parameter)
             parameters['value'].append(self.parameters[parameter])
         parameters_table = pandas.DataFrame(parameters)
-        if print_block:
-            display(parameters_table)
+        if self.verbose:
+            print(parameters_table)
         
-        parameters_file_name = 'parameters.csv'
-        parameters_path = os.path.join(self.simulation_path, parameters_file_name)
+        parameters_path = os.path.join(self.simulation_path, 'parameters.csv')
         parameters_table.to_csv(parameters_path)
         
         # define a table of variables
@@ -614,20 +613,19 @@ class ROSSPkg():
             variables['variable'].append(variable)
             variables['value'].append(self.variables[variable])
         variables_table = pandas.DataFrame(variables)
-        if print_block:
-            display(variables_table)
+        if self.verbose:
+            print(variables_table)
         
-        variables_file_name = 'variables.csv'
-        variables_path = os.path.join(self.simulation_path, variables_file_name)
+        variables_path = os.path.join(self.simulation_path, 'variables.csv')
         variables_table.to_csv(variables_path)
 
-    def execute(self, print_output = True, simulated_to_real_time = 9.29):
+    def execute(self, simulated_to_real_time = 9.29):
         '''Execute a PHREEQC input file '''
         database_path = os.path.join(self.parameters['phreeqc_path'], 'database\\{}.dat'.format(self.parameters['database_selection']))
 
         def run(input_file, first=False):
             phreeqc = phreeqc_mod.IPhreeqc()                 
-            phreeqc.load_database(r"%s" %(database_path))
+            phreeqc.load_database(database_path)
             phreeqc.run_string(input_file)
             
             # define the conc dictionary
@@ -643,7 +641,7 @@ class ROSSPkg():
                     
             return phreeqc, conc
 
-        def main(input_file, print_output):
+        def main(input_file):
             import timeit
 
             def measure_time(func, *args, **kwargs):
@@ -651,18 +649,18 @@ class ROSSPkg():
                 phreeqc, conc = func(*args, **kwargs)
                 return phreeqc, conc, timeit.default_timer() - start
 
-            phreeqc, conc, run_time = measure_time(run, input_file, print_output)            
+            phreeqc, conc, run_time = measure_time(run, input_file)            
             
             # export the simulation results
             fobj = open(self.parameters['output_path'], 'w')
             headers = conc.keys()
             self.results['csv_data'] = pandas.DataFrame(conc, columns = headers)
-            if print_output:
+            if self.verbose:
                 pandas.set_option('display.max_columns', None)
-                display(self.results['csv_data'])
+                print(self.results['csv_data'])
             fobj.write(self.results['csv_data'].to_string())
             
-            self.variables['run_time (s)'] = run_time
+            self.variables['run_time (s)'] = float(run_time)
 
         # communicate progress to the user
         estimated_time = ceil(self.parameters['simulation_time'] / simulated_to_real_time)
@@ -674,7 +672,7 @@ class ROSSPkg():
         print(f'\nEstimated completion in {estimated_time} {unit} by {estimated_completion} local time.')
         
         # execute the simulation
-        main(self.input_file, print_output)
+        main(self.input_file)
         if self.verbose:
             print('run_time (s):', self.variables['run_time (s)'])
         
@@ -686,10 +684,8 @@ class ROSSPkg():
 
     def process_selected_output(self, selected_output_path = None, plot_title = None, title_font = 'xx-large', label_font = 'x-large', plot_caption = '', legend_title = None, x_label_number = 6, export_name = None, export_format = 'svg', individual_plots = None):
         """Interpreting the PHREEQC SELECTED_OUTPUT file and conducting the plotting functions"""
+        databases = [re.search('(\w+)(?=.json)', database).group() for database in glob('./databases/*.json')]
         
-        databases = [database for database in glob('./databases/*.json')]
-        databases = [re.search('(\w+)(?=.json)', database).group() for database in databases]
-
         if 'csv_data' not in self.results:
             # determining the appropriate variables
             if selected_output_path is not None:
@@ -705,7 +701,7 @@ class ROSSPkg():
                         self.parameters['simulation_type'] = 'evaporation'
 
                 # define the database contents
-                self.parameters['database_selection'] = 'llnl'
+                self.parameters['database_selection'] = 'pitzer'
                 for database in databases:
                     names = database.split('_')
                     if all(re.search(name, selected_output_path, re.IGNORECASE) for name in names):
@@ -718,7 +714,6 @@ class ROSSPkg():
 
                 # define the simulation
                 self.parameters['selected_output_file_name'] = re.search('(\w+)(?=\.)', selected_output_path).group()
-
             else:
                 working_directory = os.getcwd()
                 selected_output_path = os.path.join(working_directory, self.parameters['selected_output_file_name'])                     
@@ -838,8 +833,7 @@ class ROSSPkg():
         concentrations_table.to_csv(os.path.join(self.simulation_path, 'brine_concentrations.csv'))
         if self.verbose:
             print(concentrations_table)
-        return concentrations_table
-                                 
+        return concentrations_table            
 
     def scaling_plot(self, plot_title, title_font, label_font, plot_caption, individual_plots, legend_title = None, x_label_number = 6, export_name = None, export_format = 'svg'):
         """Generate plots of scaling along the module distance in the PHREEQC SELECTED_OUTPUT file  """
@@ -848,7 +842,7 @@ class ROSSPkg():
             time, unit = time_determination(time)
             if self.parameters['simulation_perspective'] == "all_time":
                 if self.parameters['individual_plots']:
-                    return f'{time}'
+                    return time
                 elif not self.parameters['individual_plots']:
                     return f'{mineral} [{mineral_formula}] {time} {unit}'
             if self.parameters['simulation_perspective'] == "all_distance":
@@ -883,13 +877,12 @@ class ROSSPkg():
                     x_location.append(time)
                 x_location.extend([time_serie[0], time_serie[-1]])
                 x_location = [ceil(float(x)) for x in x_location] 
-                pyplot.xticks(x_location, x_location) #range(len(x_location)), x_location)                
+                pyplot.xticks(x_location, x_location)        
                 pyplot.plot(time_serie,scaling_serie)
                 
                 # assigning the data dictionary
                 data_df = pandas.DataFrame(data)
                 scaling_data = scaling_data.merge(data_df, how = 'outer', left_index = True, right_index = True)
-#                 scaling_data.sort_index(inplace = True)
                 return legend_entries, scaling_data
             
             scaling_data = pandas.DataFrame({})
@@ -1066,9 +1059,7 @@ class ROSSPkg():
                 x_label = 'Time (s)'
         elif self.parameters['simulation_type'] == 'evaporation':
             x_label = 'Concentration Factor (CF)'
-            
         return x_label, y_label
-            
     
     def illustrate(self, pyplot, legend, legend_title, plot_title, mineral, export_name, label_font, title_font, export_format):
         # apply the attributes of the figure
