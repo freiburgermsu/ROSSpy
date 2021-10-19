@@ -2,4 +2,4 @@
 
 Desalination is an unavoidable technology for meeting the 6th SDG. Reverse Osmosis (RO) is the leading desalination technology, although, even greater energy efficiencies are possible by mitigating mineral scaling in the RO module. The geochemistry of scaling phenomena is generally inaccessible to physical experimentation, thus a number of software -- like TOUGHREACT and French Creek -- have been developed to simulate scaling phenomena. These software, however, are esoteric -- e.g. use FORTRAN and geochemical jargon -- and are computationally and financially expensive. We therefore developed ROSS as an open-source software -- in the Python and PHREEQC languages -- that evaluates scaling and brine formation during the reactive transport of desalination. We encourage community critiques and reformulations to support open-science and expedited research towards resolving water insecurities.
 
-ROSSpy is available (in PyPI)[https://test.pypi.org/project/ROSSpy/0.0.6/] as a Python API.
+ROSSpy is available [in PyPI](https://test.pypi.org/project/ROSSpy/0.0.6/) as a Python API.
