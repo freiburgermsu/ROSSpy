@@ -9,9 +9,9 @@ setup(
   package_dir = {'core':'rosspy'},
   packages = find_packages(),
   package_data = {
-	'rosspy':['water_bodies/*.json','databases/*.json'],
+	'rosspy':['water_bodies/*.json','databases/*.json', 'test/*', 'test/*/*'],
   },
-  version = '0.0.5',
+  version = '0.0.6',
   license = 'GNU',
   description = "Software for predicting the brine and scaling consequences of a Desalination system.", 
   long_description = readme,
