@@ -1,0 +1,69 @@
+{
+    "element": {
+        "Mn": {
+            "concentration (ppm)": 0.000734,
+                "reference": "El Sayed, Aminot, and Kerouel, 1994"
+        },
+        "Fe": {
+            "concentration (ppm)": 0.0005566,
+                "reference": "Sherrell and Boyle, 1988; El Sayed, Aminot, and Kerouel, 1994; Sarthou and Jeandel, 2001"
+        },
+        "B": {
+            "concentration (ppm)": 5.98,
+                "reference": "Lee et al., 2009 for the Atlantic Ocean"
+        },
+        "Cl": {
+            "concentration (ppm)": 22590,
+                "reference": "https://www.lenntech.com/composition-seawater.htm; Sherrell and Boyle, 1988; El Sayed, Aminot, and Kerouel, 1994 ; reduced from 24090 ppm"
+        },
+        "Na": {
+            "concentration (ppm)": 15120,
+                "reference": "https://www.lenntech.com/composition-seawater.htm; Sherrell and Boyle, 1988; El Sayed, Aminot, and Kerouel, 1994 ; increased from 13410 ppm"
+        },
+        "S(6)": {
+            "concentration (ppm)": 9500,
+                "reference": "Longinelli and Craig, 1967 and Llyod, 1967 for the Red Sea"
+        },
+        "Ca": {
+            "concentration (ppm)": 610,
+                "reference": "Abdel-Aal et al., 2015; Culkin and Cox, 1966; Kumgalz, 1982"
+        },
+        "K": {
+            "concentration (ppm)": 410,
+                "reference": "Abdel-Aal et al., 2015; Culkin and Cox, 1966"
+        },
+        "Mg": {
+            "concentration (ppm)": 1655,
+                "reference": "Abdel-Aal et al., 2015; Culkin and Cox, 1966"
+        },
+        "Sr": {
+            "concentration (ppm)": 9.0,
+                "reference": "Bernat, Church, and Allegre, 1972; Culkin and Cox, 1966"
+        },
+        "Ba": {
+            "concentration (ppm)": 0.011,
+                "reference": "Bernat, Church, and Allegre, 1972 "
+        },
+        "Li": {
+            "concentration (ppm)": 0.228,
+                "reference": "Stoffyn-Egli and Mackenzie, 1984"
+        }
+    },
+    "temperature": {
+        "celcius": 18.5,
+            "reference": "Sherrell and Boyle, 1988; El Sayed, Aminot, and Kerouel, 1994"
+    },
+    "pe": {
+        "value": null
+            "reference": null
+    },
+    "Alkalinity": {
+        "value": null,
+        "reference": null
+    },
+   "pH": {
+
+        "value": 8.22,
+        "reference": null
+    }
+}

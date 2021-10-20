@@ -1,0 +1,65 @@
+{
+    "element": {
+        "Mn": {
+            "concentration (ppm)": 9.780,
+            "reference": "Peterman et al., 2017"
+        },
+        "B": {
+            "concentration (ppm)": 283,
+            "reference": "Wilson and Long, 1993, esimated from adjacent samples"
+        },
+        "Cl": {
+            "concentration (ppm)": 206062,
+            "reference": "Cl + Br + I, Wilson and Long, 1993; increased from 183062"
+        },
+        "Na": {
+            "concentration (ppm)": 73500,
+            "reference": "Wilson and Long, 1993"
+        },
+        "S(6)": {
+            "concentration (ppm)": 150,
+            "reference": "Wilson and Long, 1993"
+        },
+        "Ca": {
+            "concentration (ppm)": 35600,
+            "reference": "Wilson and Long, 1993"
+        },
+        "K": {
+            "concentration (ppm)": 1620,
+            "reference": "Wilson and Long, 1993"
+        },
+        "Mg": {
+            "concentration (ppm)": 6300,
+            "reference": "Wilson and Long, 1993"
+        },
+        "Sr": {
+            "concentration (ppm)": 980,
+            "reference": "Wilson and Long, 1993"
+        },
+        "Ba": {
+            "concentration (ppm)": 17500,
+            "reference": "Peterman et al., 2017"
+        },
+        "Li": {
+            "concentration (ppm)": 24,
+            "reference": "Wilson and Long, 1993"
+        }
+    },
+    "temperature": {
+        "celcius": 33.8,
+        "reference": "Wilson and Long, 1993"
+    },
+    "pe": {
+        "value": null,
+        "reference": null
+    },
+    "Alkalinity": {
+        "value": null,
+        "reference": null
+    },
+    "pH": {
+
+        "value": 5.6,
+        "reference": "Wilson and Long, 1993"
+    }
+}

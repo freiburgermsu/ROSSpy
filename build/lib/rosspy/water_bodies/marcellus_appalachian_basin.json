@@ -1,0 +1,68 @@
+{
+    "element": {
+        "Mn": {
+            "concentration (ppm)": 3000,
+            "reference": "Haluszczak, Rose, and Kump, 2013 [estimated from another Marcellus publication]"
+        },
+        "Fe": {
+            "concentration (ppm)": 26.6,
+            "reference": "Chapman et al., 2012"
+        },
+        "B": {
+            "concentration (ppm)": 20,
+            "reference": "Haluszczak, Rose, and Kump, 2013 [reported average form another Marcellus publication]"
+        },
+        "Cl": {
+            "concentration (ppm)": 81900,
+            "reference": "Chapman et al., 2012"
+        },
+        "Na": {
+            "concentration (ppm)": 39630,
+            "reference": "Chapman et al., 2012; increased from 32800"
+        },
+        "S(6)": {
+            "concentration (ppm)": 45,
+            "reference": "Haluszczak, Rose, and Kump, 2013 [estimated from another Marcellus publication]"
+        },
+        "Ca": {
+            "concentration (ppm)": 8786,
+            "reference": "Chapman et al., 2012"
+        },
+        "K": {
+            "concentration (ppm)": 350,
+            "reference": "Haluszczak, Rose, and Kump, 2013 [estimated from another Marcellus publication]"
+        },
+        "Mg": {
+            "concentration (ppm)": 841,
+            "reference": "Chapman et al., 2012"
+        },
+        "Sr": {
+            "concentration (ppm)": 2415,
+            "reference": "Chapman et al., 2012"
+        },
+        "Ba": {
+            "concentration (ppm)": 962,
+            "reference": "Chapman et al., 2012"
+        },
+        "Li": {
+            "concentration (ppm)": 95,
+            "reference": "Haluszczak, Rose, and Kump, 2013 [reported average from another Marcellus publication]"
+        }
+    },
+    "temperature": {
+        "celcius": 24,
+        "reference": "Dresel and Rose, 2010"
+    },
+    "pe": {
+        "value": null,
+        "reference": null
+    },
+    "Alkalinity": {
+        "value": 71,
+        "reference": "Haluszczak, Rose, and Kump, 2013 [reported average from another Marcellus publication]"
+    },
+    "pH": {
+
+        "value": 7,
+        "reference": "Haluszczak, Rose, and Kump, 2013 [estimated from another Marcellus publication]"
+    }

@@ -1,0 +1,64 @@
+{
+    "element": {
+        "Mn": {
+            "concentration (ppm)": 9.780,
+            "reference": "Peterman et al., 2017"
+        },
+        "B": {
+            "concentration (ppm)": 5.54,
+            "reference": "Kloppman et al., 2001"
+        },
+        "Cl": {
+            "concentration (ppm)": 198765,
+            "reference": "Cl + Br, Kloppman et al., 2001; increased from 183065"
+        },
+        "Na": {
+            "concentration (ppm)": 121000,
+            "reference": "Kloppman et al., 2001"
+        },
+        "S(6)": {
+            "concentration (ppm)": 5870,
+            "reference": "Kloppman et al., 2001"
+        },
+        "Ca": {
+            "concentration (ppm)": 1270,
+            "reference": "Kloppman et al., 2001"
+        },
+        "K": {
+            "concentration (ppm)": 1290,
+            "reference": "Kloppman et al., 2001"
+        },
+        "Mg": {
+            "concentration (ppm)": 1340,
+            "reference": "Kloppman et al., 2001"
+        },
+        "Sr": {
+            "concentration (ppm)": 24.19,
+            "reference": "Kloppman et al., 2001"
+        },
+        "Ba": {
+            "concentration (ppm)": 17500,
+            "reference": "Peterman et al., 2017"
+        },
+        "Li": {
+            "concentration (ppm)": 0.23,
+            "reference": "Kloppman et al., 2001"
+        }
+    },
+    "temperature": {
+        "celcius": 33.8,
+        "reference": "Wilson and Long, 1993"
+    },
+    "pe": {
+        "value": null,
+        "reference": null
+    },
+    "Alkalinity": {
+        "value": null,
+        "reference": null
+    },
+    "pH": {
+
+        "value": 6.8,
+        "reference": "Kloppman et al., 2001"
+    }

@@ -1,0 +1,39 @@
+,parameter,value
+0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\test\2021-10-19_ROSS_michigan_basin_transport_pitzer_brine_all_distance_LinPerm_0
+1,water_mw,18.015
+2,water_grams_per_liter,997.047021671824
+3,os,windows
+4,phreeqc_path,C:\Program Files\USGS\phreeqc-3.6.2-15100-x64
+5,simulation_type,transport
+6,simulation,brine
+7,quantity_of_modules,1
+8,domain,single
+9,domain_phase,
+10,root_path,C:\Users\Andrew Freiburger\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\rosspy
+11,database_selection,pitzer
+12,simulation_time,100
+13,exchange_factor,10000000000.0
+14,simulation_perspective,all_distance
+15,module_diameter_mm,201
+16,permeate_tube_diameter_mm,29
+17,module_length_m,1.016
+18,permeate_flow_m3_per_day,40
+19,max_feed_flow_m3_per_hour,15.9
+20,membrane_thickness_mm,0.00025
+21,feed_thickness_mm,0.8636
+22,active_m2,37
+23,permeate_thickness_mm,0.3
+24,polysulfonic_layer_thickness_mm,0.05
+25,support_layer_thickness_mm,0.15
+26,repeated_membrane_winding_mm,1.5641
+27,cells_per_module,12
+28,active_m2_cell,3.0833333333333335
+29,timestep,3.946329703005324
+30,permeate_moles_per_cell,8.426354831443001
+31,permeate_approach,linear_permeate
+32,water_selection,michigan_basin
+33,solution_elements,"['Mn', 'Mn', 'B', 'B', 'Cl', 'Cl', 'Na', 'Na', 'S(6)', 'S(6)', 'Ca', 'Ca', 'K', 'K', 'Mg', 'Mg', 'Sr', 'Sr', 'Ba', 'Ba', 'Li', 'Li']"
+34,input_file_name,input.pqi
+35,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\test\2021-10-19_ROSS_michigan_basin_transport_pitzer_brine_all_distance_LinPerm_0\input.pqi
+36,output_file_name,selected_output.pqo
+37,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\test\2021-10-19_ROSS_michigan_basin_transport_pitzer_brine_all_distance_LinPerm_0\selected_output.pqo

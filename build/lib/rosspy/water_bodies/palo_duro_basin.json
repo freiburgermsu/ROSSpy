@@ -1,0 +1,68 @@
+{
+    "element": {
+        "Mn": {
+            "concentration (ppm)": 11.12,
+            "reference": "Dresel and Rose, 2010, decreased proportionally to match the TDS values"
+        },
+        "Fe": {
+            "concentration (ppm)": 3.7,
+            "reference": "Fisher and Kreitler, 1987"
+        },
+        "B": {
+            "concentration (ppm)": 2.77,
+            "reference": "Kloppman et al., 2001, decreased proportionally to match the TDS values"
+        },
+        "Cl": {
+            "concentration (ppm)": 138109.3,
+            "reference": "Fisher and Kreitler, 1987, Cl + Br + I"
+        },
+        "Na": {
+            "concentration (ppm)": 80130,
+            "reference": "Fisher and Kreitler, 1987; increased from 78400"
+        },
+        "S(6)": {
+            "concentration (ppm)": 1220,
+            "reference": "Fisher and Kreitler, 1987"
+        },
+        "Ca": {
+            "concentration (ppm)": 5960,
+            "reference": "Fisher and Kreitler, 1987"
+        },
+        "K": {
+            "concentration (ppm)": 369,
+            "reference": "Fisher and Kreitler, 1987"
+        },
+        "Mg": {
+            "concentration (ppm)": 1320,
+            "reference": "Fisher and Kreitler, 1987"
+        },
+        "Sr": {
+            "concentration (ppm)": 99.5,
+            "reference": "Fisher and Kreitler, 1987"
+        },
+        "Ba": {
+            "concentration (ppm)": 962,
+            "reference": "Chapman et al., 2012"
+        },
+        "Li": {
+            "concentration (ppm)": 30.33,
+            "reference": "Dresel and Rose, 2010, decreased proportionally to match the TDS values"
+        }
+    },
+    "temperature": {
+        "celcius": 41,
+        "reference": "Fisher and Kreitler, 1987"
+    },
+    "pe": {
+        "value": null,
+        "reference": null
+    },
+    "Alkalinity": {
+        "value": 131,
+        "reference": "Fisher and Kreitler, 1987"
+    },
+    "pH": {
+
+        "value": 5.6,
+        "reference": "Fisher and Kreitler, 1987"
+    }
