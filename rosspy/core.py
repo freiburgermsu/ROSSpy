@@ -647,7 +647,7 @@ class ROSSPkg():
                     
             return phreeqc, conc
 
-        def main(input_file):
+        def main(input_file, db):
             import timeit
 
             def measure_time(func, *args, **kwargs):
@@ -655,7 +655,7 @@ class ROSSPkg():
                 phreeqc, conc = func(*args, **kwargs)
                 return phreeqc, conc, timeit.default_timer() - start
 
-            phreeqc, conc, run_time = measure_time(run, input_file)            
+            phreeqc, conc, run_time = measure_time(run, input_file, db)            
             
             # export the simulation results
             fobj = open(self.parameters['output_path'], 'w')
