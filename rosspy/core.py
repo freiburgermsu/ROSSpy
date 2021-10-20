@@ -631,11 +631,11 @@ class ROSSPkg():
 
     def execute(self, simulated_to_real_time = 9.29):
         '''Execute a PHREEQC input file '''
-        database_path = os.path.join(self.parameters['root_path'], 'databases','{}.dat'.format(self.parameters['database_selection']))
+        self.parameters['database_path'] = os.path.join(self.parameters['root_path'], 'databases','{}.dat'.format(self.parameters['database_selection']))
 
         def run(input_file, first=False):
             phreeqc = self.phreeqc_mod.IPhreeqc()                 
-            phreeqc.load_database(database_path)
+            phreeqc.load_database(self.parameters['database_path'])
             phreeqc.run_string(input_file)
             
             # define the conc dictionary
