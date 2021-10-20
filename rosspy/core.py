@@ -73,6 +73,7 @@ class ROSSPkg():
             
         # establish the database content
         self.parameters['database_selection'] = database_selection 
+        self.parameters['database_path'] = os.path.join(self.parameters['root_path'], 'databases',f'{database_selection}.dat')
         database = json.load(open(database_path, 'r'))
         self.elements = database['elements']
         self.minerals = database['minerals']
@@ -544,26 +545,24 @@ class ROSSPkg():
         self.results['selected_output_block'] = []
         self.results['selected_output_block'].extend((first_line, file_name_line, reaction_line, temperature_line, total_elements_line, saturation_indices_line, equilibrium_phases_line, ph_line, time_line, distance_line, simulation_line, high_precision_line, solution_line, step_line,water_line))
 
-    def export(self, input_path = None, output_path = None):
+    def export(self, simulation_name = None, input_path = None, output_path = None):
         """View and export the PHREEQC input file"""        
         # define the simulation input path 
-        file_number = 0
-        if self.parameters['simulation_type'] == 'evaporation':
-            simulation_name = '_'.join([str(x) for x in [datetime.date.today(), 'ROSS', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], file_number]])
-            while os.path.exists(simulation_name):
-                file_number += 1
-                simulation_name = '_'.join([str(x) for x in [datetime.date.today(), 'ROSS', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], file_number]])
-                
-        elif self.parameters['simulation_type'] == 'transport':
-            if self.parameters['permeate_approach'] == 'linear_permeate':
-                permeate_approach_name = 'LinPerm'
-            elif self.parameters['permeate_approach'] == 'linear_cf':
-                permeate_approach_name = 'LinCF'
-
-            simulation_name = '_'.join([str(x) for x in [datetime.date.today(), 'ROSS', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], permeate_approach_name, file_number]])
-            while os.path.exists(simulation_name):
-                file_number += 1
-                simulation_name = '_'.join([str(x) for x in [datetime.date.today(), 'ROSS', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], permeate_approach_name, file_number]])
+        simulation_number = 1
+        if simulation_name is None:
+            if self.parameters['simulation_type'] == 'evaporation':
+                simulation_name = '_'.join([str(x) for x in [datetime.date.today(), 'ROSS', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective']]])
+            elif self.parameters['simulation_type'] == 'transport':
+                if self.parameters['permeate_approach'] == 'linear_permeate':
+                    permeate_approach_name = 'LinPerm'
+                elif self.parameters['permeate_approach'] == 'linear_cf':
+                    permeate_approach_name = 'LinCF'
+                simulation_name = '_'.join([str(x) for x in [datetime.date.today(), 'ROSS', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], permeate_approach_name]])
+            
+        while os.path.exists(simulation_name):
+            simulation_number += 1
+            simulation_name = re.sub('(\_\d$)', '', simulation_name)
+            simulation_name = '_'.join([simulation_name, str(simulation_number)])
 
         if input_path is None:
             self.parameters['input_file_name'] = 'input.pqi'
@@ -631,8 +630,6 @@ class ROSSPkg():
 
     def execute(self, simulated_to_real_time = 9.29):
         '''Execute a PHREEQC input file '''
-        self.parameters['database_path'] = os.path.join(self.parameters['root_path'], 'databases','{}.dat'.format(self.parameters['database_selection']))
-
         def run(input_file, first=False):
             phreeqc = self.phreeqc_mod.IPhreeqc()                 
             phreeqc.load_database(self.parameters['database_path'])
@@ -1123,6 +1120,6 @@ class ROSSPkg():
         self.solutions(water_selection = 'red_sea')
         self.equilibrium_phases()
         self.selected_output()
-        self.export()
+        self.export(simulation_name = 'rosspy_test')
         self.execute()
         self.process_selected_output()

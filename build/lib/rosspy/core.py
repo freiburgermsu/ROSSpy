@@ -544,26 +544,27 @@ class ROSSPkg():
         self.results['selected_output_block'] = []
         self.results['selected_output_block'].extend((first_line, file_name_line, reaction_line, temperature_line, total_elements_line, saturation_indices_line, equilibrium_phases_line, ph_line, time_line, distance_line, simulation_line, high_precision_line, solution_line, step_line,water_line))
 
-    def export(self, input_path = None, output_path = None):
+    def export(self, simulation_name = None, input_path = None, output_path = None):
         """View and export the PHREEQC input file"""        
         # define the simulation input path 
-        file_number = 0
-        if self.parameters['simulation_type'] == 'evaporation':
-            simulation_name = '_'.join([str(x) for x in [datetime.date.today(), 'ROSS', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], file_number]])
-            while os.path.exists(simulation_name):
-                file_number += 1
+        if simulation_name is None:
+            file_number = 0
+            if self.parameters['simulation_type'] == 'evaporation':
                 simulation_name = '_'.join([str(x) for x in [datetime.date.today(), 'ROSS', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], file_number]])
-                
-        elif self.parameters['simulation_type'] == 'transport':
-            if self.parameters['permeate_approach'] == 'linear_permeate':
-                permeate_approach_name = 'LinPerm'
-            elif self.parameters['permeate_approach'] == 'linear_cf':
-                permeate_approach_name = 'LinCF'
+                while os.path.exists(simulation_name):
+                    file_number += 1
+                    simulation_name = '_'.join([str(x) for x in [datetime.date.today(), 'ROSS', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], file_number]])
 
-            simulation_name = '_'.join([str(x) for x in [datetime.date.today(), 'ROSS', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], permeate_approach_name, file_number]])
-            while os.path.exists(simulation_name):
-                file_number += 1
+            elif self.parameters['simulation_type'] == 'transport':
+                if self.parameters['permeate_approach'] == 'linear_permeate':
+                    permeate_approach_name = 'LinPerm'
+                elif self.parameters['permeate_approach'] == 'linear_cf':
+                    permeate_approach_name = 'LinCF'
+
                 simulation_name = '_'.join([str(x) for x in [datetime.date.today(), 'ROSS', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], permeate_approach_name, file_number]])
+                while os.path.exists(simulation_name):
+                    file_number += 1
+                    simulation_name = '_'.join([str(x) for x in [datetime.date.today(), 'ROSS', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], permeate_approach_name, file_number]])
 
         if input_path is None:
             self.parameters['input_file_name'] = 'input.pqi'
@@ -1123,6 +1124,6 @@ class ROSSPkg():
         self.solutions(water_selection = 'red_sea')
         self.equilibrium_phases()
         self.selected_output()
-        self.export()
+        self.export(simulation_name = 'test')
         self.execute()
         self.process_selected_output()
