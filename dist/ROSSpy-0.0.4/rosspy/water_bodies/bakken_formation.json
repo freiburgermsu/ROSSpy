@@ -1,0 +1,63 @@
+{
+    "element": {
+        "Mn": {
+            "concentration (ppm)": 9.780,
+            "reference": "Peterman et al., 2017"
+        },
+        "B": {
+            "concentration (ppm)": 5.54,
+            "reference": "Peterman et al., 2017"
+        },
+        "Cl": {
+            "concentration (ppm)": 198765,
+            "reference": "Cl + Br + F, Peterman et al., 2017"
+        },
+        "Na": {
+            "concentration (ppm)": 121000,
+            "reference": "Peterman et al., 2017, elevated from 84000 ppm to match the reported charge balance -1.3"
+        },
+        "S(6)": {
+            "concentration (ppm)": 5870,
+            "reference": "Peterman et al., 2017"
+        },
+        "Ca": {
+            "concentration (ppm)": 1270,
+            "reference": "Peterman et al., 2017"
+        },
+        "K": {
+            "concentration (ppm)": 1290,
+            "reference": "Peterman et al., 2017"
+        },
+        "Mg": {
+            "concentration (ppm)": 1340,
+            "reference": "Peterman et al., 2017"
+        },
+        "Sr": {
+            "concentration (ppm)": 24.19,
+            "reference": "Peterman et al., 2017"
+        },
+        "Ba": {
+            "concentration (ppm)": 17500,
+            "reference": "Peterman et al., 2017"
+        },
+        "Li": {
+            "concentration (ppm)": 0.23,
+            "reference": "Peterman et al., 2017"
+        }
+    },
+    "temperature": {
+        "celcius": 27,
+        "reference": "Wilson and Long, 1993"
+    },
+    "pe": {
+        "value": null,
+        "reference": null
+    },
+    "Alkalinity": {
+        "value": null,
+        "reference": null
+    },
+    "pH": {
+        "value": 6.22,
+        "reference": "Dresel and Rose, 2010"
+    }

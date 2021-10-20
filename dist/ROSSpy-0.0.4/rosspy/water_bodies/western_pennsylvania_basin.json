@@ -1,0 +1,68 @@
+{
+    "element": {
+        "Mn": {
+            "concentration (ppm)": 15.8,
+            "reference": "Dresel and Rose, 2010"
+        },
+        "Fe": {
+            "concentration (ppm)": 90,
+            "reference": "Dresel and Rose, 2010"
+        },
+        "B": {
+            "concentration (ppm)": 3.934,
+            "reference": "Kloppman et al., 2001, decreased proportionally to match the TDS values "
+        },
+        "Cl": {
+            "concentration (ppm)": 124144,
+            "reference": "Cl + Br + I, Dresel and Rose, 2010; increased from 124144"
+        },
+        "Na": {
+            "concentration (ppm)": 58500,
+            "reference": "Dresel and Rose, 2010"
+        },
+        "S(6)": {
+            "concentration (ppm)": 4,
+            "reference": "Dresel and Rose, 2010, estimated from the adjacent sample values"
+        },
+        "Ca": {
+            "concentration (ppm)": 19000,
+            "reference": "Dresel and Rose, 2010"
+        },
+        "K": {
+            "concentration (ppm)": 193,
+            "reference": "Dresel and Rose, 2010"
+        },
+        "Mg": {
+            "concentration (ppm)": 2520,
+            "reference": "Dresel and Rose, 2010"
+        },
+        "Sr": {
+            "concentration (ppm)": 1470,
+            "reference": "Dresel and Rose, 2010"
+        },
+        "Ba": {
+            "concentration (ppm)": 815,
+            "reference": "Dresel and Rose, 2010"
+        },
+        "Li": {
+            "concentration (ppm)": 45.5,
+            "reference": "Dresel and Rose, 2010"
+        }
+    },
+    "temperature": {
+        "celcius": 24,
+        "reference": "Dresel and Rose, 2010"
+    },
+    "pe": {
+        "value": null,
+        "reference": null
+    },
+    "Alkalinity": {
+        "value": 90,
+        "reference": null
+    },
+    "pH": {
+
+        "value": 6.45,
+        "reference": "Dresel and Rose, 2010"
+    }

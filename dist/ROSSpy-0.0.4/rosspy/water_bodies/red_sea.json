@@ -1,0 +1,68 @@
+{
+  "element": {
+    "Mn": {
+      "concentration (ppm)": 0.000306,
+      "reference": "Al-Taani et al., 2014 for the Northern Gulf of Aqaba"
+    },
+    "Fe": {
+      "concentration (ppm)": 0.006281,
+      "reference": "Al-Taani et al., 2014 for the Northern Gulf of Aqaba"
+    },
+    "B": {
+      "concentration (ppm)": 1.344,
+      "reference": "Al-Taani et al., 2014"
+    },
+    "Cl": {
+      "concentration (ppm)": 24756,
+      "reference": "https://www.lenntech.com/composition-seawater.htm in the Red Sea, and Longinelli and Craig, 1967"
+    },
+    "Na": {
+      "concentration (ppm)": 16417.2,
+      "reference": "https://www.lenntech.com/composition-seawater.htm in the Red Sea, and Longinelli and Craig, 1967 describes [Na]=15834"
+    },
+    "S(6)": {
+      "concentration (ppm)": 9500,
+      "reference": "Longinelli and Craig, 1967 and Llyod, 1967"
+    },
+    "Ca": {
+      "concentration (ppm)": 774,
+      "reference": "Abdel-Aal et al., 2015"
+    },
+    "K": {
+      "concentration (ppm)": 301,
+      "reference": "Abdel-Aal et al., 2015"
+    },
+    "Mg": {
+      "concentration (ppm)": 1646,
+      "reference": "Abdel-Aal et al., 2015"
+    },
+    "Sr": {
+      "concentration (ppm)": 8.3,
+      "reference": "Bernat, Church, and Allegre, 1972 from the Mediterranean"
+    },
+    "Ba": {
+      "concentration (ppm)": 0.011,
+      "reference": "Bernat, Church, and Allegre, 1972 from the Mediterranean"
+    },
+    "Li": {
+      "concentration (ppm)": 0.228,
+      "reference": "Stoffyn-Egli and Mackenzie, 1984 for the Mediterranean Sea"
+    }
+  },
+  "temperature": {
+    "celcius": 24.5,
+    "reference": "average of Al-Taani et al., 2014 and Longinelli and Craig, 1967."
+  },
+  "pe": {
+    "value": 0.2679,
+    "reference": "Al-Taani et al., 2014 // 4.00 is the default (?)"
+  },
+  "Alkalinity": {
+    "value": 2,
+    "reference": "Sabine et al., 2002 as reported for the Indian Ocean"
+  },
+  "pH": {
+    "value": 8.22,
+    "reference": null
+  }
+}
