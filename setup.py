@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-with open('README.md') as file:
+with open('rosspy/README_pypi.md') as file:
     readme = file.read()
     
 setup(
@@ -9,9 +9,9 @@ setup(
   package_dir = {'core':'rosspy'},
   packages = find_packages(),
   package_data = {
-	'rosspy':['water_bodies/*.json','databases/*.json', 'test/*', 'test/*/*'],
+	'rosspy':['water_bodies/*.json','databases/*.json', 'test/*', 'test/*/*', 'README_pypi.md'],
   },
-  version = '0.0.6',
+  version = '0.0.3',
   license = 'GNU',
   description = "Software for predicting the brine and scaling consequences of a Desalination system.", 
   long_description = readme,
@@ -20,5 +20,5 @@ setup(
   author_email = 'andrewfreiburger@gmail.com',
   url = 'https://github.com/freiburgermsu/ROSS',   
   keywords = ['desalination', 'reactive transport', 'geochemistry'],
-  install_requires = ['matplotlib', 'chemicals', 'chempy', 'to_precision', 'scipy', 'pubchempy', 'pandas']
+  install_requires = ['matplotlib', 'chemicals', 'chempy', 'to_precision', 'scipy', 'pubchempy', 'pandas', 'phreeqpy']
 )

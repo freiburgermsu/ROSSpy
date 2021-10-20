@@ -5,7 +5,6 @@ Desalination is an unavoidable technology for meeting the 6th SDG. Reverse Osmos
 The module to_precision is not available via PyPI, thus, the module must be [clone and installed from the source](https://bitbucket.org/william_rusnack/to-precision/src/master/). The directions for this process: 
 1) Navigate to a directory for ROSSpy content
 2) execute -- git clone https://bitbucket.org/william_rusnack/to-precision/src/master/ -- in this directory.
-3) Natigate to the cloned folder
-4) execute -- pip install . -- in this cloned directory
+3) execute -- pip install . -- in this directory
 
 The ROSSpy module additionally requires a [batch version of PHREEQC](https://www.usgs.gov/software/phreeqc-version-3). The path of this PHREEQC software is an essential parameter in ROSSpy: e.g. "C:\\Program Files\\USGS\\phreeqc-3.6.2-15100-x64".

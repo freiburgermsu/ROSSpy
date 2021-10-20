@@ -4,7 +4,6 @@ from to_precision import auto_notation
 from scipy.constants import nano, kilo, milli, centi, liter, minute, day, hour
 from itertools import chain
 from chempy.properties.water_density_tanaka_2001 import water_density
-import phreeqpy.iphreeqc.phreeqc_com as phreeqc_mod
 from pubchempy import get_compounds 
 from chemicals import periodic_table
 import subprocess
@@ -35,21 +34,28 @@ def time_determination(time):
 
 
 class ROSSPkg():
-    def __init__(self, verbose = False):       
+    def __init__(self, operating_system = 'windows', verbose = False, jupyter = False):      
         # establish the general organization structures
         self.parameters = {}
         self.variables = {}
         self.results = {}
         self.results['figures'] = {}
         self.verbose = verbose
+        if operating_system == 'mac':
+            import phreeqpy.iphreeqc.phreeqc_dll as phreeqc_mod
+        elif operating_system == 'windows':
+            import phreeqpy.iphreeqc.phreeqc_com as phreeqc_mod
+        else:
+            print(f'--> ERROR: The operating system {operating_system} is not supported.')
+        self.phreeqc_mod = phreeqc_mod
+        self.parameters['os'] =  operating_system
         
-    def define_general(self, phreeqc_path, database_selection, simulation = 'scaling', domain = 'single', domain_phase = None, quantity_of_modules = 1, simulation_type = 'transport', operating_system = 'windows', simulation_title = None):
+    def define_general(self, phreeqc_path, database_selection, simulation = 'scaling', domain = 'single', domain_phase = None, quantity_of_modules = 1, simulation_type = 'transport', simulation_title = None):
         '''Establish general conditions'''
         self.parameters['water_mw'] = float(get_compounds('water', 'name')[0].molecular_weight)
         self.parameters['water_grams_per_liter'] = water_density()
         
         # parameterize the input file
-        self.parameters['os'] =  operating_system
         self.parameters['phreeqc_path'] = phreeqc_path
         self.parameters['simulation_type'] = simulation_type
         self.parameters['simulation'] = simulation
@@ -60,7 +66,7 @@ class ROSSPkg():
         database_path = os.path.join(self.parameters['root_path'], 'databases', f'{database_selection}.json') 
         
         title_line = f'TITLE\t {simulation_title}'
-        if operating_system == 'Windows':
+        if self.parameters['os'] == 'Windows':
             database_line = f'DATABASE {database_path}'
             self.results['general_conditions'] = [database_line, title_line]
         else:
@@ -589,7 +595,6 @@ class ROSSPkg():
             self.parameters['output_path'] = os.path.join(self.simulation_path, self.parameters['output_file_name'])
         else:
             self.parameters['output_path'] = output_path    
-            
         
         # define a table of parameters
         parameters = {'parameter':[], 'value':[]}
@@ -600,7 +605,10 @@ class ROSSPkg():
             parameters['value'].append(self.parameters[parameter])
         parameters_table = pandas.DataFrame(parameters)
         if self.verbose:
-            print(parameters_table)
+            if jupyter:
+                display(parameters_table)
+            else:
+                print(parameters_table)
         
         parameters_path = os.path.join(self.simulation_path, 'parameters.csv')
         parameters_table.to_csv(parameters_path)
@@ -614,7 +622,10 @@ class ROSSPkg():
             variables['value'].append(self.variables[variable])
         variables_table = pandas.DataFrame(variables)
         if self.verbose:
-            print(variables_table)
+            if jupyter:
+                display(variables_table)
+            else:
+                print(variables_table)
         
         variables_path = os.path.join(self.simulation_path, 'variables.csv')
         variables_table.to_csv(variables_path)
@@ -624,7 +635,7 @@ class ROSSPkg():
         database_path = os.path.join(self.parameters['phreeqc_path'], 'database\\{}.dat'.format(self.parameters['database_selection']))
 
         def run(input_file, first=False):
-            phreeqc = phreeqc_mod.IPhreeqc()                 
+            phreeqc = self.phreeqc_mod.IPhreeqc()                 
             phreeqc.load_database(database_path)
             phreeqc.run_string(input_file)
             
@@ -656,8 +667,11 @@ class ROSSPkg():
             headers = conc.keys()
             self.results['csv_data'] = pandas.DataFrame(conc, columns = headers)
             if self.verbose:
-                pandas.set_option('display.max_columns', None)
-                print(self.results['csv_data'])
+                if jupyter:
+                    pandas.set_option('display.max_columns', None)
+                    display(self.results['csv_data'])
+                else:
+                    print(self.results['csv_data'])
             fobj.write(self.results['csv_data'].to_string())
             
             self.variables['run_time (s)'] = float(run_time)
@@ -832,7 +846,10 @@ class ROSSPkg():
         concentrations_table.index.name = x_label
         concentrations_table.to_csv(os.path.join(self.simulation_path, 'brine_concentrations.csv'))
         if self.verbose:
-            print(concentrations_table)
+            if jupyter:
+                display(concentrations_table)
+            else:
+                print(concentrations_table)
         return concentrations_table            
 
     def scaling_plot(self, plot_title, title_font, label_font, plot_caption, individual_plots, legend_title = None, x_label_number = 6, export_name = None, export_format = 'svg'):
@@ -1101,16 +1118,13 @@ class ROSSPkg():
                 file_number += 1
             figure.savefig('{}_{}.{}'.format(figure_path, file_number, export_format))
 
-    def input_file(self, operating_system, phreeqc_path, database_selection, simulation_type, simulation_title, water_selection, quantity_of_modules = 1, module_characteristics = {}, simulation = 'scaling', domain = 'dual', permeate_approach = 'linear permeate', permeate_efficiency = 1, head_loss = -0.15, final_cf = 2, custom_water_parameters = {}, ignored_minerals = [], existing_parameters = {}, export_figure = True):
-        """Concisely create an input file of the software """
-        self.define_general(operating_system, phreeqc_path, database_selection, simulation_type, simulation_title)
-        self.transport(module_characteristics = module_characteristics, quantity_of_modules = quantity_of_modules, domain = domain, simulation = simulation)
-        self.reaction(permeate_approach = permeate_approach, permeate_efficiency = permeate_efficiency, head_loss = head_loss, final_cf = final_cf)
-        self.solutions(water_selection = water_selection, custom_water_parameters = custom_water_parameters)
-        self.equilibrium_phases(ignored_minerals = ignored_minerals, existing_parameters = existing_parameters)
-        self.selected_output()
-        self.export()
-        
-    def complete_simulation():
-        self.execute()
-        self.process_selected_output(export_figure = export_figure)
+    def test(self, phreeqc_path):
+        self.define_general(phreeqc_path, database_selection = 'pitzer'):
+        self.transport(simulation_time = 200):
+        self.reaction():
+        self.solutions(water_selection = 'red_sea'):
+        self.equilibrium_phases():
+        self.selected_output():
+        self.export():
+        self.execute():
+        self.process_selected_output():
