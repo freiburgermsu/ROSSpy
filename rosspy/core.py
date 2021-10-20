@@ -62,7 +62,8 @@ class ROSSPkg():
         self.parameters['domain'] = domain
         self.parameters['domain_phase'] = domain_phase
         self.parameters['root_path'] = os.path.join(os.path.dirname(__file__))
-        database_path = os.path.join(self.parameters['root_path'], 'databases', f'{database_selection}.json') 
+        database_json = os.path.join(self.parameters['root_path'], 'databases', f'{database_selection}.json') 
+        self.parameters['database_path'] = os.path.join(self.parameters['root_path'], 'databases',f'{database_selection}.dat')
         
         title_line = f'TITLE\t {simulation_title}'
         database_line = f'DATABASE {database_path}'
@@ -70,8 +71,8 @@ class ROSSPkg():
             
         # establish the database content
         self.parameters['database_selection'] = database_selection 
-        self.parameters['database_path'] = os.path.join(self.parameters['root_path'], 'databases',f'{database_selection}.dat')
-        database = json.load(open(database_path, 'r'))
+        
+        database = json.load(open(database_json, 'r'))
         self.elements = database['elements']
         self.minerals = database['minerals']
 
