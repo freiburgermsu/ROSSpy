@@ -67,8 +67,8 @@ class ROSSPkg():
         
         title_line = f'TITLE\t {simulation_title}'
         database_line = 'DATABASE {}'.format(self.parameters['database_path'])
-        if self.parameters['os'] == 'mac':
-            database_line = 'DATABASE C:{}'.format(self.parameters['database_path'])
+#         if self.parameters['os'] == 'mac':
+#             database_line = 'DATABASE C:{}'.format(self.parameters['database_path'])
         self.results['general_conditions'] = [database_line, title_line]
             
         # establish the database content
@@ -631,9 +631,9 @@ class ROSSPkg():
     def execute(self, simulated_to_real_time = 9.29):
         '''Execute a PHREEQC input file '''
         def run(input_file, first=False):
-            phreeqc = self.phreeqc_mod.IPhreeqc()                 
-            if self.parameters['os'] == 'windows':
-                phreeqc.load_database(self.parameters['database_path'])                
+            phreeqc = self.phreeqc_mod.IPhreeqc()  
+            print(self.parameters['database_path'])
+            phreeqc.load_database(self.parameters['database_path'])                
             phreeqc.run_string(input_file)
             
             # define the conc dictionary
