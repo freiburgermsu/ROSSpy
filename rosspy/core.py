@@ -630,9 +630,9 @@ class ROSSPkg():
 
     def execute(self, simulated_to_real_time = 9.29):
         '''Execute a PHREEQC input file '''
-        def run(input_file, first=False):
+        def run(input_file, db, first=False):
             phreeqc = self.phreeqc_mod.IPhreeqc()                 
-            phreeqc.load_database(self.parameters['database_path'])
+            phreeqc.load_database(db)
             phreeqc.run_string(input_file)
             
             # define the conc dictionary
@@ -681,7 +681,7 @@ class ROSSPkg():
         print(f'\nEstimated completion in {estimated_time} {unit} by {estimated_completion} local time.')
         
         # execute the simulation
-        main(self.input_file)
+        main(self.input_file, self.parameters['database_path'])
         if self.verbose:
             print('run_time (s):', self.variables['run_time (s)'])
         
