@@ -68,8 +68,6 @@ class ROSSPkg():
         if self.parameters['os'] == 'Windows':
             database_line = f'DATABASE {database_path}'
             self.results['general_conditions'] = [database_line, title_line]
-        else:
-            self.results['general_conditions'] = [title_line]
             
         # establish the database content
         self.parameters['database_selection'] = database_selection 
@@ -630,9 +628,9 @@ class ROSSPkg():
 
     def execute(self, simulated_to_real_time = 9.29):
         '''Execute a PHREEQC input file '''
-        def run(input_file, db, first=False):
+        def run(input_file, first=False):
             phreeqc = self.phreeqc_mod.IPhreeqc()                 
-            phreeqc.load_database(db)
+            phreeqc.load_database(self.parameters['database_path'])
             phreeqc.run_string(input_file)
             
             # define the conc dictionary
@@ -647,7 +645,7 @@ class ROSSPkg():
                     
             return phreeqc, conc
 
-        def main(input_file, db):
+        def main(input_file):
             import timeit
 
             def measure_time(func, *args, **kwargs):
@@ -655,7 +653,7 @@ class ROSSPkg():
                 phreeqc, conc = func(*args, **kwargs)
                 return phreeqc, conc, timeit.default_timer() - start
 
-            phreeqc, conc, run_time = measure_time(run, input_file, db)            
+            phreeqc, conc, run_time = measure_time(run, input_file)            
             
             # export the simulation results
             fobj = open(self.parameters['output_path'], 'w')
@@ -681,7 +679,7 @@ class ROSSPkg():
         print(f'\nEstimated completion in {estimated_time} {unit} by {estimated_completion} local time.')
         
         # execute the simulation
-        main(self.input_file, self.parameters['database_path'])
+        main(self.input_file)
         if self.verbose:
             print('run_time (s):', self.variables['run_time (s)'])
         
