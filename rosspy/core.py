@@ -65,9 +65,8 @@ class ROSSPkg():
         database_path = os.path.join(self.parameters['root_path'], 'databases', f'{database_selection}.json') 
         
         title_line = f'TITLE\t {simulation_title}'
-        if self.parameters['os'] == 'Windows':
-            database_line = f'DATABASE {database_path}'
-            self.results['general_conditions'] = [database_line, title_line]
+        database_line = f'DATABASE {database_path}'
+        self.results['general_conditions'] = [database_line, title_line]
             
         # establish the database content
         self.parameters['database_selection'] = database_selection 
