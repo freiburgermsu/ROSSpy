@@ -1,5 +1,5 @@
 ,variable,value
-0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\evaporation_vs_desalination\2021-10-15_ROSS_red_sea_evaporation_pitzer_scaling_all_distance_1
+0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\exchange_factor\2021-10-26_ROSSpy_red_sea_transport_pitzer_brine_all_distance_LinPerm
 1,cell_meters,0.08466666666666667
 2,feed_cubic_meters,0.017429622854940183
 3,feed_kg,17.378153556381264

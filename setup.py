@@ -20,5 +20,5 @@ setup(
   author_email = 'andrewfreiburger@gmail.com',
   url = 'https://github.com/freiburgermsu/ROSS',   
   keywords = ['desalination', 'reactive transport', 'geochemistry'],
-  install_requires = ['matplotlib', 'chemicals', 'chempy', 'to_precision', 'scipy', 'pubchempy', 'pandas', 'phreeqpy']
+  install_requires = ['matplotlib', 'chemicals', 'chempy', 'to_precision', 'scipy', 'pubchempy', 'pandas', 'phreeqpy', 'sigfig']
 )
