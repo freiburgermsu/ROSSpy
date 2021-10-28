@@ -1,0 +1,21 @@
+,parameter,value
+0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\test\2021-10-28-ROSSpy-michigan_basin-transport-pitzer-scaling-all_distance-LinPerm-2
+1,os,windows
+2,root_path,C:\Users\Andrew Freiburger\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\rosspy
+3,simulation_type,transport
+4,permeate_approach,linear_permeate
+5,water_selection,michigan_basin
+6,simulation,scaling
+7,domain_phase,Immobile
+8,database_selection,pitzer
+9,database_path,C:\Users\Andrew Freiburger\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\rosspy\databases\pitzer.dat
+10,cells_per_module,12.0
+11,timestep,0.3000636
+12,simulation_time,7.2015264
+13,simulation_perspective,all_distance
+14,active_m2,37
+15,active_m2_cell,3.0833333333333335
+16,input_file_name,input.pqi
+17,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\test\2021-10-28-ROSSpy-michigan_basin-transport-pitzer-scaling-all_distance-LinPerm-2\input.pqi
+18,output_file_name,selected_output.pqo
+19,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\test\2021-10-28-ROSSpy-michigan_basin-transport-pitzer-scaling-all_distance-LinPerm-2\selected_output.pqo

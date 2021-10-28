@@ -41,6 +41,7 @@ class ROSSPkg():
         self.results = {}
         self.results['figures'] = {}
         self.verbose = verbose
+        self.plot_title = None
         if operating_system == 'mac':
             import phreeqpy.iphreeqc.phreeqc_dll as phreeqc_mod
         elif operating_system == 'windows':
@@ -63,7 +64,7 @@ class ROSSPkg():
         self.parameters['domain'] = domain
         self.parameters['domain_phase'] = domain_phase
         self.parameters['database_path'] = os.path.join(self.parameters['root_path'], 'databases',f'{database_selection}.dat')
-        
+
         title_line = f'TITLE\t {simulation_title}'
         database_line = 'DATABASE {}'.format(self.parameters['database_path'])
 #         if self.parameters['os'] == 'mac':
@@ -142,7 +143,7 @@ class ROSSPkg():
         if self.parameters['timestep'] < courant_timestep:
             self.parameters['timestep'] = courant_timestep
             
-        self.parameters['permeate_moles_per_cell'] = (self.parameters['permeate_flow_m3_per_day'] / day / liter * self.parameters['water_grams_per_liter'] / self.parameters['water_mw']) * (self.parameters['timestep'] / self.parameters['cells_per_module'])      #moles / (cell * self.parameters['timestep'])
+        self.parameters['permeate_moles_per_cell'] = (self.parameters['permeate_flow_m3_per_day']/day/liter * self.parameters['water_grams_per_liter'] / self.parameters['water_mw']) * (self.parameters['timestep'] / self.parameters['cells_per_module'])      #moles / (cell * self.parameters['timestep'])
         
         # exit the function for evaporation simulations
         self.results['transport_block'] = []
@@ -164,10 +165,9 @@ class ROSSPkg():
         domain_line = ''
         if self.parameters['domain'] == 'dual':
             domain_line = f'-stagnant\t\t1\t\t{exchange_factor}\t\t\t0.1\t\t0.9 \t # dual domain\n#\t\t\t^stagnant cells\t^exchange factor\t^CP volume\t^bulk volume'
-        
         if self.parameters['domain'] == 'single' or (self.parameters['domain'] == 'dual' and self.parameters['domain_phase'] == 'mobile'):
             first_cell = 1
-            final_cell = self.parameters['cells_per_module'] * self.parameters['quantity_of_modules']
+            final_cell = self.parameters['cells_per_module']*self.parameters['quantity_of_modules']
             if self.parameters['simulation_perspective'] == 'all_distance':
                 punch_cells_line = '-punch_cells\t\t{}-{}'.format(first_cell, final_cell)
                 punch_frequency_line = f'-punch_frequency\t{self.simulation_shifts}'
@@ -176,8 +176,8 @@ class ROSSPkg():
                 punch_frequency_line = '-punch_frequency\t1'    
             
         elif self.parameters['domain'] == 'dual' and self.parameters['domain_phase'] == 'immobile':
-            first_cell = self.parameters['cells_per_module']* self.parameters['quantity_of_modules']+2
-            final_cell = self.parameters['cells_per_module']* self.parameters['quantity_of_modules']*2+1
+            first_cell = self.parameters['cells_per_module']*self.parameters['quantity_of_modules']+2
+            final_cell = self.parameters['cells_per_module']*self.parameters['quantity_of_modules']*2+1
             if self.parameters['simulation_perspective'] == 'all_distance':
                 punch_cells_line = '-punch_cells\t\t{}-{}'.format(first_cell, final_cell)
                 punch_frequency_line = f'-punch_frequency\t{self.simulation_shifts}'
@@ -552,18 +552,18 @@ class ROSSPkg():
         simulation_number = 1
         if simulation_name is None:
             if self.parameters['simulation_type'] == 'evaporation':
-                simulation_name = '_'.join([str(x) for x in [datetime.date.today(), 'ROSSpy', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective']]])
+                simulation_name = '-'.join([re.sub(' ', '_', str(x)) for x in [datetime.date.today(), 'ROSSpy', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective']]])
             elif self.parameters['simulation_type'] == 'transport':
                 if self.parameters['permeate_approach'] == 'linear_permeate':
                     permeate_approach_name = 'LinPerm'
                 elif self.parameters['permeate_approach'] == 'linear_cf':
                     permeate_approach_name = 'LinCF'
-                simulation_name = '_'.join([str(x) for x in [datetime.date.today(), 'ROSSpy', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], permeate_approach_name]])
+                simulation_name = '-'.join([re.sub(' ', '_', str(x)) for x in [datetime.date.today(), 'ROSSpy', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], permeate_approach_name]])
             
         while os.path.exists(simulation_name):
             simulation_number += 1
-            simulation_name = re.sub('(\_\d$)', '', simulation_name)
-            simulation_name = '_'.join([simulation_name, str(simulation_number)])
+            simulation_name = re.sub('(\-\d+$)', '', simulation_name)
+            simulation_name = '-'.join([simulation_name, str(simulation_number)])
 
         if input_path is None:
             self.parameters['input_file_name'] = 'input.pqi'
@@ -630,7 +630,7 @@ class ROSSPkg():
         variables_path = os.path.join(self.simulation_path, 'variables.csv')
         variables_table.to_csv(variables_path)
         
-    def parse_input(self, input_file_path, simulation, simulation_name = None, active_feed_area = None, water_selection = None):        
+    def parse_input(self, input_file_path, simulation, water_selection = None, simulation_name = None, active_feed_area = None):        
         # open the input file
         with open(input_file_path, 'r') as file:
             self.input_file = file.read()
@@ -642,8 +642,10 @@ class ROSSPkg():
         input_df = input_df.squeeze()
         self.parameters['simulation_type'] = 'evaporation'
         self.parameters['permeate_approach'] = 'linear_permeate'
+        self.parameters['water_selection'] = water_selection
+        self.parameters['simulation'] = simulation
+        self.parameters['domain_phase'] = False
         for index, row in input_df.iteritems():
-#             print(row)
             if re.search('DATABASE', row):
                 row = re.sub('DATABASE ','',row)
                 self.parameters['database_selection'] = re.sub('\.dat', '', os.path.basename(row))
@@ -651,6 +653,11 @@ class ROSSPkg():
                 self.define_database()
             elif re.search('linear_cf', row):
                 self.parameters['permeate_approach'] = 'linear_cf'
+            elif re.search('EQUILIBRIUM_PHASES', row):
+                row = re.sub('EQUILIBRIUM_PHASES ','',row)
+                row = float(re.sub('(\-\d+)', '', row))
+                if row != 1:
+                    self.parameters['domain_phase'] = 'Mobile'
             elif re.search('TRANSPORT', row):
                 self.parameters['simulation_type'] = 'transport'
             elif re.search('-cells', row):
@@ -660,6 +667,11 @@ class ROSSPkg():
             elif re.search('-time_step', row):
                 self.parameters['timestep'] = float(re.sub('-time_step\s+', '', row).split('\t')[0])
                 self.parameters['simulation_time'] = self.parameters['timestep'] * self.simulation_shifts
+            elif re.search('-punch_cells', row):
+                row = re.sub('-punch_cells ','',row)
+                row = float(re.sub('(\-\d+)', '', row))
+                if row != 1:
+                    self.parameters['domain_phase'] = 'Immobile'
             elif re.search('-punch_frequency', row):
                 row = float(re.sub('-punch_frequency ','',row))
                 if row > 1:
@@ -668,8 +680,8 @@ class ROSSPkg():
                     self.parameters['simulation_perspective'] = 'all_time'
                     
         # define the simulation folder and parameters
-        self.parameters['water_selection'] = water_selection
-        self.parameters['simulation'] = simulation
+        if self.parameters['domain_phase'] is not None:
+            self.plot_title = '{} phase {} from the {} after {}'.format(self.parameters['domain_phase'], self.parameters['simulation'], self.parameters['water_selection'], sigfigs_conversion(self.parameters['simulation_time']))
         if active_feed_area is None:
             self.parameters['active_m2'] = 37
             self.parameters['active_m2_cell'] = self.parameters['active_m2']/self.parameters['cells_per_module']
@@ -679,7 +691,6 @@ class ROSSPkg():
         '''Execute a PHREEQC input file '''
         def run(input_file, first=False):
             phreeqc = self.phreeqc_mod.IPhreeqc()  
-            print(self.parameters['database_path'])
             phreeqc.load_database(self.parameters['database_path'])                
             phreeqc.run_string(input_file)
             
@@ -742,6 +753,8 @@ class ROSSPkg():
     def process_selected_output(self, selected_output_path = None, plot_title = None, title_font = 'xx-large', label_font = 'x-large', plot_caption = '', legend_title = None, x_label_number = 6, export_name = None, export_format = 'svg', individual_plots = None):
         """Interpreting the PHREEQC SELECTED_OUTPUT file and conducting the plotting functions"""
         databases = [re.search('(\w+)(?=.json)', database).group() for database in glob('./databases/*.json')]
+        if plot_title is not None:
+            self.plot_title = plot_title
         
         if 'csv_data' not in self.results:
             # determining the appropriate variables
@@ -793,16 +806,14 @@ class ROSSPkg():
                                  
         # conducting the appropriate visualization function
         if self.parameters['simulation'] == 'brine':
-            if plot_title is None:
-                plot_title = 'Effluent brine concentrations'
-            data = self.brine_plot(pyplot, plot_title, title_font, label_font, plot_caption, export_format, x_label_number)
+            data = self.brine_plot(pyplot, title_font, label_font, plot_caption, export_format, x_label_number)
         elif self.parameters['simulation'] == 'scaling':
-            data = self.scaling_plot(plot_title, title_font, label_font, plot_caption, individual_plots, legend_title, x_label_number, export_name, export_format)
+            data = self.scaling_plot(title_font, label_font, plot_caption, individual_plots, legend_title, x_label_number, export_name, export_format)
         else:
             print('--> ERROR: The < simulation_perspective > parameter is unpredicted.')
         return data
                                  
-    def brine_plot(self, pyplot, plot_title, title_font, label_font, plot_caption, export_format, x_label_number = 6):
+    def brine_plot(self, pyplot, title_font, label_font, plot_caption, export_format, x_label_number = 6):
         """Generate plots of the elemental concentrations from effluent brine in the PHREEQC SELECTED_OUTPUT file"""
         # determine the minerals in the simulation      
         columns = []
@@ -818,15 +829,21 @@ class ROSSPkg():
         concentration_serie = []
         
         # plot parameters
+        if self.parameters['domain_phase'] is not None:
+            if self.parameters['simulation_perspective'] == 'all_distance':
+                title_end = 'after {}'.format(sigfigs_conversion(self.parameters['simulation_time']))
+            elif self.parameters['simulation_perspective'] == 'all_time':
+                title_end = 'over time'     
+            self.plot_title = '{} phase {} from the {} {}'.format(self.parameters['domain_phase'].capitalize(), self.parameters['simulation'], self.parameters['water_selection'], title_end)
         if self.parameters['simulation_perspective'] == 'all_distance':
             x_label = 'Distance (m)'
-            if plot_title == '':
-                plot_title = 'Brine concentrations along the module'
+            if self.plot_title is None:
+                plotted_time = sigfigs_conversion(self.variables['final_time'] - initial_solution_time*self.parameters['timestep'])
+                self.plot_title = f'Brine concentrations along the module after {plotted_time} seconds'
         elif self.parameters['simulation_perspective'] == 'all_time':
             x_label = 'Time (s)'
-            if plot_title == '':
-                plotted_time = self.variables['final_time'] - initial_solution_time*self.parameters['timestep']
-                plot_title = 'Effluent brine concentration' 
+            if self.plot_title is None:
+                self.plot_title = 'Effluent brine concentration over time' 
         
         for element in columns:  
             stripped_element = re.search('([A-Z][a-z]?(?:\(\d\))?(?=\(mol\/kgw\)))', element).group()
@@ -882,7 +899,7 @@ class ROSSPkg():
         legend_title = 'non-zero elements'
         pyplot.yscale('log')
         mineral = export_name = None
-        self.illustrate(pyplot, legend, legend_title, plot_title, mineral, export_name, label_font, title_font, export_format)
+        self.illustrate(pyplot, legend, legend_title, mineral, export_name, label_font, title_font, export_format)
 
         # defining the datatable of brine concentrations
         concentrations_table = pandas.DataFrame(data)
@@ -895,7 +912,7 @@ class ROSSPkg():
                 print(concentrations_table)
         return concentrations_table            
 
-    def scaling_plot(self, plot_title, title_font, label_font, plot_caption, individual_plots, legend_title = None, x_label_number = 6, export_name = None, export_format = 'svg'):
+    def scaling_plot(self, title_font, label_font, plot_caption, individual_plots, legend_title = None, x_label_number = 6, export_name = None, export_format = 'svg'):
         """Generate plots of scaling along the module distance in the PHREEQC SELECTED_OUTPUT file  """
         # define reused functions
         def legend_determination(time, mineral, mineral_formula):
@@ -916,7 +933,7 @@ class ROSSPkg():
                 elif self.parameters['individual_plots']:
                     return sigfigs_conversion(time, 3)
                 
-        def evaporation(plot_title):
+        def evaporation():
             self.parameters['individual_plots'] = False
             scaling_data = pandas.DataFrame({})
             pyplot.figure(figsize = (17,10))
@@ -942,12 +959,12 @@ class ROSSPkg():
                 data_df = pandas.DataFrame(data)
                 scaling_data = scaling_data.merge(data_df, how = 'outer', left_index = True, right_index = True)
                     
-            if plot_title is None:
-                plot_title = 'Evaporation precipiation from the {}'.format(self.parameters['water_selection'])                    
-            self.illustrate(pyplot, legend, legend_title, plot_title, mineral, export_name, label_font, title_font, export_format)
+            if self.plot_title is None:
+                self.plot_title = 'Evaporation precipiation from the {}'.format(self.parameters['water_selection'])                    
+            self.illustrate(pyplot, legend, legend_title, mineral, export_name, label_font, title_font, export_format)
             return scaling_data
         
-        def all_time_plotting(plot_title):
+        def all_time_plotting():
             def time_serie(mineral, scaling_data):
                 legend_entries = []
                 scaling_serie = []
@@ -979,9 +996,6 @@ class ROSSPkg():
                 return legend_entries, scaling_data
             
             scaling_data = pandas.DataFrame({})
-            custom_plot = False
-            if plot_title is not None:
-                custom_plot = True
             
             for mineral in self.variables['precipitated_minerals']:
                 pyplot.figure(figsize = (17,10))
@@ -989,13 +1003,13 @@ class ROSSPkg():
                 legend_entry, scaling_data = time_serie(mineral, scaling_data)                
 
                 # export the scaling figure
-                if not custom_plot:
-                    plot_title = f'Module end scaling of {mineral} [{mineral_formula}]'
+                if self.plot_title is None:
+                    self.plot_title = f'Module end scaling of {mineral} [{mineral_formula}]'
                 legend_title = legend = None
-                self.illustrate(pyplot, legend, legend_title, plot_title, mineral, export_name, label_font, title_font, export_format)
+                self.illustrate(pyplot, legend, legend_title, mineral, export_name, label_font, title_font, export_format)
             return scaling_data
             
-        def all_distance_plotting(plot_title):
+        def all_distance_plotting():
             def distance_serie(mineral,):          
                 mineral_formula = self.minerals[mineral]['formula'] 
                 time = quantity_of_steps_index = 0   
@@ -1045,11 +1059,11 @@ class ROSSPkg():
                 legend.extend(legend_entries)
                         
             #pyplot.yscale('log')
-            if plot_title is None:
+            if self.plot_title is None:
                 time, units = time_determination(self.variables['final_time'])
-                plot_title = 'Scaling from the {} after {} {}'.format(self.parameters['water_selection'],time,units)
+                self.plot_title = 'Scaling from the {} after {} {}'.format(self.parameters['water_selection'],time,units)
             
-            return legend, plot_title, scaling_data
+            return legend, scaling_data
 
         # all of the non-zero minerals are identified and the chemical formulas are sorted into a list
         csv_minerals = []
@@ -1071,27 +1085,27 @@ class ROSSPkg():
 
         # plot the simulation depending upon the simulation perspective       
         if self.parameters['simulation_type'] == 'evaporation':
-            scaling_data = evaporation(plot_title)
+            scaling_data = evaporation()
         elif self.parameters['simulation_perspective'] == "all_time":
             if individual_plots is None:
                 self.parameters['individual_plots'] = True
             if self.parameters['individual_plots']:
-                scaling_data = all_time_plotting(plot_title)
+                scaling_data = all_time_plotting()
             elif not self.parameters['individual_plots']:
-                legend, plot_title, scaling_data = all_distance_plotting(plot_title)
+                legend, scaling_data = all_distance_plotting()
                 mineral = None
-                self.illustrate(pyplot, legend, legend_title, plot_title, mineral, export_name, label_font, title_font, export_format)
+                self.illustrate(pyplot, legend, legend_title, mineral, export_name, label_font, title_font, export_format)
 
         elif self.parameters['simulation_perspective'] == 'all_distance':
             if individual_plots is None:
                 self.parameters['individual_plots'] = False    
             if not self.parameters['individual_plots']:
-                legend, plot_title, scaling_data = all_distance_plotting(plot_title)
+                legend, scaling_data = all_distance_plotting()
                 legend_title = 'scale'
                 mineral = None
-                self.illustrate(pyplot, legend, legend_title, plot_title, mineral, export_name, label_font, title_font, export_format)
+                self.illustrate(pyplot, legend, legend_title, mineral, export_name, label_font, title_font, export_format)
             elif self.parameters['individual_plots']:
-                scaling_data = all_time_plotting(plot_title)
+                scaling_data = all_time_plotting()
                                 
         # finalize the output data
         x_label, y_label = self.determine_labels()
@@ -1121,23 +1135,22 @@ class ROSSPkg():
             x_label = 'Concentration Factor (CF)'
         return x_label, y_label
     
-    def illustrate(self, pyplot, legend, legend_title, plot_title, mineral, export_name, label_font, title_font, export_format):
+    def illustrate(self, pyplot, legend, legend_title, mineral, export_name, label_font, title_font, export_format):
         # apply the attributes of the figure
         x_label, y_label = self.determine_labels()
         pyplot.grid(True)
-        pyplot.title(plot_title, fontsize = title_font)
+        pyplot.title(self.plot_title, fontsize = title_font)
         pyplot.xlabel(x_label, fontsize = label_font)
         pyplot.ylabel(y_label, fontsize = label_font)  
         if legend is not None:
-            pyplot.legend(legend, title = legend_title, loc='best', title_fontsize = 'x-large', fontsize = 'large')
-        pyplot.title(plot_title, fontsize = title_font)   
+            pyplot.legend(legend, title = legend_title, loc='best', title_fontsize = 'x-large', fontsize = 'large')   
         pyplot.figtext(0.2, 0.07, 'Final CF: {}'.format(sigfigs_conversion(self.variables['simulation_cf'], 4)), wrap=True, horizontalalignment='left', fontsize=12)
         
         figure = pyplot.gcf()
         pyplot.show()
-        self.export_plot(figure, plot_title, mineral, export_name, export_format)
+        self.export_plot(figure, mineral, export_name, export_format)
 
-    def export_plot(self, figure, plot_title, mineral = None, export_name = None, export_format = 'svg'):
+    def export_plot(self, figure, mineral = None, export_name = None, export_format = 'svg'):
         """Export the plots to the current working directory  """
         # define the output name
         if export_name is None:
@@ -1149,7 +1162,7 @@ class ROSSPkg():
             if self.parameters['simulation'] == 'brine':
                 export_name = 'brine'
             
-        self.results['figures'][export_name] = {'figure':figure, 'title':plot_title}
+        self.results['figures'][export_name] = {'figure':figure, 'title':self.plot_title}
                                 
         # export the plot
         file_number = 0

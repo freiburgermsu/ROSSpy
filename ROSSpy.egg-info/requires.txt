@@ -6,3 +6,4 @@ scipy
 pubchempy
 pandas
 phreeqpy
+sigfig

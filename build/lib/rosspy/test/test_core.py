@@ -78,11 +78,10 @@ def test_transport():
 
 def test_reaction():
     ross = rosspy.ROSSPkg(verbose = False)
-    phreeqc_path = 'C:\\Program Files\\USGS\\phreeqc-3.6.2-15100-x64'
     database_selection = 'pitzer'
     simulation_time = 100
     
-    ross.define_general(phreeqc_path, database_selection)
+    ross.define_general(database_selection)
     ross.transport(simulation_time)
     ross.reaction()
 
@@ -94,13 +93,12 @@ def test_reaction():
             assert re.search('REACTION|\#',line) 
 
 def test_solutions():
-    phreeqc_path = 'C:\\Program Files\\USGS\\phreeqc-3.6.2-15100-x64'
     database_selection = 'pitzer'
     water_selection = 'michigan_basin'
     simulation_time = 100
     
     ross = rosspy.ROSSPkg(verbose = False)    
-    ross.define_general(phreeqc_path, database_selection)
+    ross.define_general(database_selection)
     ross.transport(simulation_time)
     ross.reaction()
     ross.solutions(water_selection)
@@ -114,14 +112,13 @@ def test_solutions():
         assert type(ross.parameters[param]) is str
 
 def test_equilibrium_phases():
-    phreeqc_path = 'C:\\Program Files\\USGS\\phreeqc-3.6.2-15100-x64'
     database_selection = 'pitzer'
     water_selection = 'michigan_basin'
     ignored_minerals = ['gypsum']
     simulation_time = 100
     
     ross = rosspy.ROSSPkg(verbose = False)
-    ross.define_general(phreeqc_path, database_selection)
+    ross.define_general(database_selection)
     ross.transport(simulation_time)
     ross.reaction()
     ross.solutions(water_selection) 
@@ -135,13 +132,12 @@ def test_equilibrium_phases():
         assert type(line) is str   
 
 def test_selected_output():
-    phreeqc_path = 'C:\\Program Files\\USGS\\phreeqc-3.6.2-15100-x64'
     database_selection = 'pitzer'
     water_selection = 'michigan_basin'
     simulation_time = 100
     
     ross = rosspy.ROSSPkg(verbose = False)
-    ross.define_general(phreeqc_path, database_selection)
+    ross.define_general(database_selection)
     ross.transport(simulation_time)
     ross.reaction()
     ross.solutions(water_selection) 
@@ -153,13 +149,12 @@ def test_selected_output():
         assert type(line) is str   
 
 def test_export():
-    phreeqc_path = 'C:\\Program Files\\USGS\\phreeqc-3.6.2-15100-x64'
     database_selection = 'pitzer'
     water_selection = 'michigan_basin'
     simulation_time = 100
     
     ross = rosspy.ROSSPkg(verbose = False)
-    ross.define_general(phreeqc_path, database_selection)
+    ross.define_general(database_selection)
     ross.transport(simulation_time)
     ross.reaction()
     ross.solutions(water_selection) 
@@ -178,15 +173,28 @@ def test_export():
 
     assert os.path.exists(os.path.join(ross.simulation_path, 'parameters.csv'))
     assert os.path.exists(os.path.join(ross.simulation_path, 'variabless.csv'))
+    
+def test_parse_input():
+    simulation = 'scaling'
+    water_selection = 'michigan_basin'
+    input_file_path = '2020-09-03_APF_Palo Duro Basin-BW30-400_PE=100%_1.1.phr'
+    
+    ross = rosspy.ROSSPkg(verbose = False)
+    ross.parse_input(input_file_path, simulation, water_selection)
+    ross.execute()
+    ross.process_selected_output()
+    
+    # affirm the execution of the simulation
+    for file in ['all_minerals.svg', 'parameters.csv', 'scaling_data.csv', 'selected_output.pqo', 'variables.csv']:
+        assert os.path.exists(os.path.join(ross.simulation_path, file))
 
-def test_export():
-    phreeqc_path = 'C:\\Program Files\\USGS\\phreeqc-3.6.2-15100-x64'
+def test_execute():
     database_selection = 'pitzer'
     water_selection = 'michigan_basin'
     simulation_time = 100
     
     ross = rosspy.ROSSPkg(verbose = False)
-    ross.define_general(phreeqc_path, database_selection)
+    ross.define_general(database_selection)
     ross.transport(simulation_time)
     ross.reaction()
     ross.solutions(water_selection) 
@@ -204,14 +212,13 @@ def test_export():
 
 def test_process_selected_output_all_distance_brine():
     ross = rosspy.ROSSPkg(verbose = False)
-    phreeqc_path = 'C:\\Program Files\\USGS\\phreeqc-3.6.2-15100-x64'
     database_selection = 'pitzer'
     water_selection = 'michigan_basin'
     simulation_time = 100
     simulation = 'brine'
     simulation_perspective = 'all_distance'
     
-    ross.define_general(phreeqc_path, database_selection, simulation)
+    ross.define_general(database_selection, simulation)
     ross.transport(simulation_time, simulation_perspective)
     ross.reaction()
     ross.solutions(water_selection) 
@@ -225,22 +232,17 @@ def test_process_selected_output_all_distance_brine():
     for var in ['initial_solution_mass', 'final_solution_mass','simulation_cf','final_time']:
         ross.variables[var]
 
-    csv_path = os.path.join(ross.simulation_path, 'brine_concentrations.csv')
-    print(csv_path)
-    assert os.path.exists(csv_path)
-    figure_path = os.path.join(ross.simulation_path, 'brine.svg')
-    print(figure_path)
-    assert os.path.exists(figure_path)        
+    for file in ['brine.svg', 'input.pqi', 'parameters.csv', 'brine_concentrations.csv', 'selected_output.pqo', 'variables.csv']:
+        assert os.path.exists(os.path.join(ross.simulation_path, file))
 
 def test_process_selected_output_all_time_brine():
     ross = rosspy.ROSSPkg(verbose = False)
-    phreeqc_path = 'C:\\Program Files\\USGS\\phreeqc-3.6.2-15100-x64'
     database_selection = 'pitzer'
     water_selection = 'michigan_basin'
     simulation_time = 100
     simulation = 'brine'
 
-    ross.define_general(phreeqc_path, database_selection, simulation)
+    ross.define_general(database_selection, simulation)
     ross.transport(simulation_time)
     
     ross.reaction()
@@ -254,22 +256,17 @@ def test_process_selected_output_all_time_brine():
     # affirm qualities of the simulation
     for var in ['initial_solution_mass', 'final_solution_mass','simulation_cf','final_time']:
         ross.variables[var]
-
-    csv_path = os.path.join(ross.simulation_path, 'brine_concentrations.csv')
-    print(csv_path)
-    assert os.path.exists(csv_path)
-    figure_path = os.path.join(ross.simulation_path, 'brine.svg')
-    print(figure_path)
-    assert os.path.exists(figure_path)     
+        
+    for file in ['brine.svg', 'input.pqi', 'parameters.csv', 'brine_concentrations.csv', 'selected_output.pqo', 'variables.csv']:
+        assert os.path.exists(os.path.join(ross.simulation_path, file))
 
 def test_process_selected_output_all_distance_scaling():
     ross = rosspy.ROSSPkg(verbose = False)
-    phreeqc_path = 'C:\\Program Files\\USGS\\phreeqc-3.6.2-15100-x64'
     database_selection = 'pitzer'
     water_selection = 'michigan_basin'
     simulation_time = 100
     
-    ross.define_general(phreeqc_path, database_selection)
+    ross.define_general(database_selection)
     ross.transport(simulation_time)
     ross.reaction()
     ross.solutions(water_selection) 
@@ -283,23 +280,17 @@ def test_process_selected_output_all_distance_scaling():
     for var in ['precipitated_minerals']:
         ross.variables[var]
 
-    csv_path = os.path.join(ross.simulation_path, 'scaling_data.csv')
-    print(csv_path)
-    assert os.path.exists(csv_path)
-    figure_path = os.path.join(ross.simulation_path, 'all_minerals.svg')
-    print(figure_path)
-    assert os.path.exists(figure_path)   
-
+    for file in ['all_mineral.svg', 'input.pqi', 'parameters.csv', 'scaling_data.csv', 'selected_output.pqo', 'variables.csv']:
+        assert os.path.exists(os.path.join(ross.simulation_path, file))
 
 def test_process_selected_output_all_time_scaling():
     ross = rosspy.ROSSPkg(verbose = False)
-    phreeqc_path = 'C:\\Program Files\\USGS\\phreeqc-3.6.2-15100-x64'
     database_selection = 'pitzer'
     water_selection = 'michigan_basin'
     simulation_time = 100
     simulation_perspective = 'all_time'
     
-    ross.define_general(phreeqc_path, database_selection)
+    ross.define_general(database_selection)
     ross.transport(simulation_time, simulation_perspective)
     ross.reaction()
     ross.solutions(water_selection) 
@@ -310,12 +301,16 @@ def test_process_selected_output_all_time_scaling():
     ross.process_selected_output()
 
     # affirm qualities of the simulation
-    for var in ['initial_solution_mass', 'final_solution_mass','simulation_cf','final_time']:
+    for var in ['initial_solution_mass', 'final_solution_mass', 'simulation_cf', 'final_time']:
         ross.variables[var]
 
-    csv_path = os.path.join(ross.simulation_path, 'scaling_data.csv')
-    print(csv_path)
-    assert os.path.exists(csv_path)
-    figure_path = glob(os.path.join(ross.simulation_path, '*.svg'))
-    print(figure_path)
-    assert figure_path
+    for file in ['Barite.svg', 'Halite.svg', 'input.pqi', 'parameters.csv', 'scaling_data.csv', 'selected_output.pqo', 'variables.csv']:
+        assert os.path.exists(os.path.join(ross.simulation_path, file))
+    
+def test_test():    
+    ross = rosspy.ROSSPkg(verbose = False)
+    ross.test()
+    
+    # affirm the execution of the simulation
+    for file in ['all_minerals.svg', 'input.pqi', 'parameters.csv', 'scaling_data.csv', 'selected_output.pqo', 'variables.csv']:
+        assert os.path.exists(os.path.join(ross.simulation_path, file))
