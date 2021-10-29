@@ -11,7 +11,7 @@ setup(
   package_data = {
 	'rosspy':['water_bodies/*','databases/*', 'test/*', 'test/*/*', 'README_pypi.md'],
   },
-  version = '0.0.4',
+  version = '0.0.5',
   license = 'GNU',
   description = "Software for predicting the brine and scaling consequences of a Desalination system.", 
   long_description = readme,
