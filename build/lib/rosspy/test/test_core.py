@@ -22,9 +22,8 @@ def test_define_general():
     ross = rosspy.ROSSPkg(verbose = False)
 
     # execute the general_conditions function of ROSSpy
-    phreeqc_path = 'C:\\Program Files\\USGS\\phreeqc-3.6.2-15100-x64'
     database_selection = 'pitzer'
-    ross.define_general(phreeqc_path, database_selection)
+    ross.define_general(database_selection)
 
     # affirm qualities of the simulation
     assert int(auto_notation(ross.parameters['water_mw'], 2)) == 18
@@ -34,7 +33,7 @@ def test_define_general():
         
     assert type(ross.parameters['quantity_of_modules']) is int
 
-    for path in ['phreeqc_path', 'root_path']:
+    for path in ['root_path']:
         assert os.path.exists(ross.parameters[path])
 
     assert type(ross.elements) is dict
@@ -58,9 +57,8 @@ def test_transport():
         'polysulfonic_layer_thickness_mm':0.05,     
         'support_layer_thickness_mm':0.15
     }   
-    phreeqc_path = 'C:\\Program Files\\USGS\\phreeqc-3.6.2-15100-x64'
     database_selection = 'pitzer'
-    ross.define_general(phreeqc_path, database_selection)
+    ross.define_general(database_selection)
     ross.transport(simulation_time, module_characteristics = module_characteristics)
 
     # affirm qualities of the simulation
@@ -170,9 +168,9 @@ def test_export():
 
     for line in ross.results['complete_lines']:
         assert type(line) is str
-
-    assert os.path.exists(os.path.join(ross.simulation_path, 'parameters.csv'))
-    assert os.path.exists(os.path.join(ross.simulation_path, 'variabless.csv'))
+        
+    for file in ['parameters.csv', 'variables.csv']:
+        assert os.path.exists(os.path.join(ross.simulation_path, file))
     
 def test_parse_input():
     simulation = 'scaling'
@@ -280,7 +278,7 @@ def test_process_selected_output_all_distance_scaling():
     for var in ['precipitated_minerals']:
         ross.variables[var]
 
-    for file in ['all_mineral.svg', 'input.pqi', 'parameters.csv', 'scaling_data.csv', 'selected_output.pqo', 'variables.csv']:
+    for file in ['all_minerals.svg', 'input.pqi', 'parameters.csv', 'scaling_data.csv', 'selected_output.pqo', 'variables.csv']:
         assert os.path.exists(os.path.join(ross.simulation_path, file))
 
 def test_process_selected_output_all_time_scaling():

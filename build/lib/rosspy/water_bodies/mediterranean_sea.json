@@ -51,11 +51,11 @@
     },
     "temperature": {
         "celcius": 18.5,
-            "reference": "Sherrell and Boyle, 1988; El Sayed, Aminot, and Kerouel, 1994"
+        "reference": "Sherrell and Boyle, 1988; El Sayed, Aminot, and Kerouel, 1994"
     },
     "pe": {
-        "value": null
-            "reference": null
+        "value": null,
+        "reference": null
     },
     "Alkalinity": {
         "value": null,

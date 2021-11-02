@@ -197,8 +197,11 @@ class ROSSPkg():
             print('permeate_removal_per_cell', self.parameters['permeate_moles_per_cell'])
             print('active_cm_squared_cell', (self.parameters['active_m2_cell'] / centi**2))
 
-    def reaction(self, permeate_approach = 'linear_permeate', permeate_efficiency = 1, head_loss = -0.15, final_cf = 2):
-        '''Define the REACTION block'''        
+    def reaction(self, permeate_approach = 'linear_permeate', permeate_efficiency = 1, head_loss = 0.89, final_cf = 2):
+        '''
+        Define the REACTION block
+            The head_loss parameter default of 11% is sourced from “Reverse osmosis desalination: Modeling and experiment” by Fraidenraich et al.; 2009.
+        '''        
         # establish parameters
         self.parameters['permeate_approach'] = permeate_approach
         
@@ -209,8 +212,8 @@ class ROSSPkg():
         cumulative_cf = 1 
         for module in range(self.parameters['quantity_of_modules']): 
             if permeate_approach == 'linear_permeate':
-                initial_moles_removed = self.parameters['permeate_moles_per_cell'] * 2 / (1 + exp(head_loss))
-                final_moles_removed = initial_moles_removed * exp(head_loss)
+                initial_moles_removed = self.parameters['permeate_moles_per_cell'] * 2 / (1 + head_loss)
+                final_moles_removed = initial_moles_removed * head_loss
                 removed_moles_slope = ((final_moles_removed - initial_moles_removed) / (self.parameters['cells_per_module'])) / permeate_efficiency
                 average_moles_removed = (final_moles_removed + initial_moles_removed) / 2
 
@@ -305,7 +308,7 @@ class ROSSPkg():
                 if permeate_approach == 'linear permeate':
                     self.results['reaction_block'].append(f'''
         #Permeate efficiency parameter: {permeate_efficiency}
-        #Head loss parameter: {head_loss}''')
+        #Effluent relative pressure: {head_loss}''')
 
                 self.results['reaction_block'].append(f'''    #Effluent module {module + 1}:
         #Estimated CF: {sigfigs_conversion(cf, 4)}
@@ -314,12 +317,12 @@ class ROSSPkg():
             if self.verbose:
                 print('Effluent module %s CF:' %(module + 1), final_cf_cell)
 
-    def solutions(self, water_selection = '', custom_water_parameters = {}, solution_description = '', parameterized_alkalinity = False, parameterized_ph_charge = True):
+    def solutions(self, water_selection = '', water_characteristics = {}, solution_description = '', parameterized_alkalinity = False, parameterized_ph_charge = True):
         """Specify the SOLUTION block of the simulation."""
         # create the solution line of the input file
         self.results['solution_block'] = []
         
-        if water_selection == '' and custom_water_parameters == {}:
+        if (water_selection == '' or water_selection == 'custom') and water_characteristics == {}:
             print('--> ERROR: Feed geochemistry is not provided.')
         
         self.parameters['water_selection'] = water_selection
@@ -368,8 +371,8 @@ class ROSSPkg():
                     ph = information['value']
                     ph_reference = information['reference']
 
-        if custom_water_parameters != {}:
-            for content, information in custom_water_parameters.items():
+        if water_characteristics != {}:
+            for content, information in water_characteristics.items():
                 if content == 'element':
                     for element, information2 in information.items():
                         self.parameters['solution_elements'].append(element)
@@ -385,17 +388,17 @@ class ROSSPkg():
                                     
                 # create the temperature line of the input file
                 elif content == 'temperature':                    
-                    temperature = custom_water_parameters['temperature']['value']
-                    temperature_reference = custom_water_parameters['temperature']['reference']
+                    temperature = water_characteristics['temperature']['value']
+                    temperature_reference = water_characteristics['temperature']['reference']
                 elif content == 'pe':       
-                    pe = custom_water_parameters['pe']['value']
-                    pe_reference = custom_water_parameters['pe']['reference']
+                    pe = water_characteristics['pe']['value']
+                    pe_reference = water_characteristics['pe']['reference']
                 elif content == 'Alkalinity':
-                    alkalinity = custom_water_parameters['Alkalinity']['value']
-                    alkalinity_reference = custom_water_parameters['Alkalinity']['reference'] 
+                    alkalinity = water_characteristics['Alkalinity']['value']
+                    alkalinity_reference = water_characteristics['Alkalinity']['reference'] 
                 elif content == 'pH':
-                    ph = custom_water_parameters['ph']['value']
-                    ph_reference = custom_water_parameters['ph']['reference']
+                    ph = water_characteristics['ph']['value']
+                    ph_reference = water_characteristics['ph']['reference']
                     
         # parameterize the lines of the SOLUTIONS block
         temperature_line = ''
@@ -442,13 +445,7 @@ class ROSSPkg():
             water_line = '-water \t{}'.format(self.variables['feed_kg'])
             self.results['solution_block'].append(water_line)
 
-
-    def equilibrium_phases(self, block_comment = '', ignored_minerals = [], existing_parameters = {}):
-        """Specify the EQUILIBRIUM_PHASES block of the simulation."""
-        # define mineral sizes for later spacing
-        short_mineral_names = ['Barite', 'Gypsum','Halite', 'Natron', 'Quartz', 'Talc','Trona', 'Borax', 'Albite', 'K-mica','Illite', 'Pyrite', 'Sulfur',]
-        long_mineral_names = ['Anthophyllite', 'Hexahydrite', 'Leonhardite', 'Nesquehonite', 'Pentahydrite', 'Portlandite','Sepiolite(d)', 'Boric_acid,s', 'K2B4O7:4H2O', 'NaB5O8:5H2O', 'Rhodochrosite', 'Strontianite','Hydroxyapatite', 'Chlorite(14A)', 'Mackinawite', 'Hausmannite', 'Pyrochroite']
-        
+    def described_minerals(self,):
         # determine the set of possible minerals 
         self.variables['described_minerals'] = {}
         for mineral in self.minerals:
@@ -468,7 +465,14 @@ class ROSSPkg():
                 elif element not in self.parameters['solution_elements']:
                     if self.verbose:
                         print('--> The {} element is absent in the solution to describe the mineral < {} / {} >.'.format(element, original_formula, mineral))
-                        
+            
+
+    def equilibrium_phases(self, block_comment = '', ignored_minerals = [], existing_parameters = {}):
+        """Specify the EQUILIBRIUM_PHASES block of the simulation."""
+        # define mineral sizes for later spacing
+        short_mineral_names = ['Barite', 'Gypsum','Halite', 'Natron', 'Quartz', 'Talc','Trona', 'Borax', 'Albite', 'K-mica','Illite', 'Pyrite', 'Sulfur',]
+        long_mineral_names = ['Anthophyllite', 'Hexahydrite', 'Leonhardite', 'Nesquehonite', 'Pentahydrite', 'Portlandite','Sepiolite(d)', 'Boric_acid,s', 'K2B4O7:4H2O', 'NaB5O8:5H2O', 'Rhodochrosite', 'Strontianite','Hydroxyapatite', 'Chlorite(14A)', 'Mackinawite', 'Hausmannite', 'Pyrochroite']
+
         # define the equilibrium_phases block
         self.results['equilibrium_phases_block'] = []
         if self.parameters['simulation_type'] == 'transport':
@@ -483,6 +487,7 @@ class ROSSPkg():
         self.results['equilibrium_phases_block'].append(equilibrium_phases_line)
 
         # define the equilibrium_phases lines for the code block
+        self.described_minerals()
         for possible_mineral in self.variables['described_minerals']:
             if possible_mineral not in ignored_minerals:
                 if possible_mineral in short_mineral_names:
@@ -508,8 +513,7 @@ class ROSSPkg():
         if self.verbose:
             print(self.variables['described_minerals'])
             
-    def selected_output(self, output_filename = None):
-        '''Specify the output file after a PHREEQC simulation'''
+    def selected_output_file_name(self,):
         # create parameter lines             
         if output_filename is None:
             count = 0
@@ -521,13 +525,19 @@ class ROSSPkg():
             selected_output_file_name = output_filename
 
         selected_output_file_name += '.txt'
+        
+        return selected_output_file_name
+            
+    def selected_output(self, output_filename = None):
+        '''Specify the output file after a PHREEQC simulation'''
+        self.parameters['selected_output_file_name'] = self.selected_output_file_name()
 
         minerals_line = ' '.join([mineral for mineral in self.variables['described_minerals']])
         elements_line = ' '.join([element for element in self.parameters['solution_elements']])
 
         # define parameter lines
         first_line = '\nSELECTED_OUTPUT'
-        file_name_line = f'-file\t\t\t{selected_output_file_name}'
+        file_name_line = '-file\t\t\t{}'.format(self.parameters['selected_output_file_name'])
         reaction_line = '-reaction\t\ttrue'
         temperature_line = '-temperature\t\ttrue'
         total_elements_line = '-totals\t\t\t' + elements_line    
@@ -545,10 +555,9 @@ class ROSSPkg():
         # establish the selected_output_block
         self.results['selected_output_block'] = []
         self.results['selected_output_block'].extend((first_line, file_name_line, reaction_line, temperature_line, total_elements_line, saturation_indices_line, equilibrium_phases_line, ph_line, time_line, distance_line, simulation_line, high_precision_line, solution_line, step_line,water_line))
-
-    def export(self, simulation_name = None, input_path = None, output_path = None, external_file = False):
-        """View and export the PHREEQC input file"""        
-        # define the simulation input path 
+        
+    def define_paths(self, simulation_name = None):
+        # define the simulation name 
         simulation_number = 1
         if simulation_name is None:
             if self.parameters['simulation_type'] == 'evaporation':
@@ -564,7 +573,8 @@ class ROSSPkg():
             simulation_number += 1
             simulation_name = re.sub('(\-\d+$)', '', simulation_name)
             simulation_name = '-'.join([simulation_name, str(simulation_number)])
-
+            
+        # define the simulation input path 
         if input_path is None:
             self.parameters['input_file_name'] = 'input.pqi'
             working_directory = os.getcwd()
@@ -573,6 +583,20 @@ class ROSSPkg():
             self.parameters['input_path'] = os.path.join(self.simulation_path, self.parameters['input_file_name'])
         else:
             self.parameters['input_path'] = input_path
+            
+        # define the simulation output path 
+        if output_path is None:
+            self.parameters['output_file_name'] = 'selected_output.pqo'
+            self.parameters['output_path'] = os.path.join(self.simulation_path, self.parameters['output_file_name'])
+        else:
+            self.parameters['output_path'] = output_path 
+            
+            
+        return simulation_name, input_path, output_path
+
+    def export(self, simulation_name = None, input_path = None, output_path = None, external_file = False):
+        """View and export the PHREEQC input file"""    
+        simulation_name, input_path, output_path = self.define_paths(simulation_name)
             
         # comment the corresponding simulation in the input file
         simulation_line = f'# {self.simulation_path}'
@@ -589,12 +613,7 @@ class ROSSPkg():
             
             self.input_file = open(self.parameters['input_path'],'r').read()
         
-        # define the simulation output path 
-        if output_path is None:
-            self.parameters['output_file_name'] = 'selected_output.pqo'
-            self.parameters['output_path'] = os.path.join(self.simulation_path, self.parameters['output_file_name'])
-        else:
-            self.parameters['output_path'] = output_path    
+   
         
         # define a table of parameters
         parameters = {'parameter':[], 'value':[]}
@@ -750,7 +769,7 @@ class ROSSPkg():
             
         return self.results['csv_data']
 
-    def process_selected_output(self, selected_output_path = None, plot_title = None, title_font = 'xx-large', label_font = 'x-large', plot_caption = '', legend_title = None, x_label_number = 6, export_name = None, export_format = 'svg', individual_plots = None):
+    def process_selected_output(self, selected_output_path = None, plot_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', individual_plots = None):
         """Interpreting the PHREEQC SELECTED_OUTPUT file and conducting the plotting functions"""
         databases = [re.search('(\w+)(?=.json)', database).group() for database in glob('./databases/*.json')]
         if plot_title is not None:
@@ -806,14 +825,14 @@ class ROSSPkg():
                                  
         # conducting the appropriate visualization function
         if self.parameters['simulation'] == 'brine':
-            data = self.brine_plot(pyplot, title_font, label_font, plot_caption, export_format, x_label_number)
+            data = self.brine_plot(pyplot, title_font, label_font, export_format, x_label_number, export_name)
         elif self.parameters['simulation'] == 'scaling':
-            data = self.scaling_plot(title_font, label_font, plot_caption, individual_plots, legend_title, x_label_number, export_name, export_format)
+            data = self.scaling_plot(title_font, label_font, individual_plots, x_label_number, export_name, export_format)
         else:
             print('--> ERROR: The < simulation_perspective > parameter is unpredicted.')
         return data
                                  
-    def brine_plot(self, pyplot, title_font, label_font, plot_caption, export_format, x_label_number = 6):
+    def brine_plot(self, pyplot, title_font, label_font, export_format, x_label_number, export_name):
         """Generate plots of the elemental concentrations from effluent brine in the PHREEQC SELECTED_OUTPUT file"""
         # determine the minerals in the simulation      
         columns = []
@@ -898,7 +917,7 @@ class ROSSPkg():
         legend = non_zero_elements
         legend_title = 'non-zero elements'
         pyplot.yscale('log')
-        mineral = export_name = None
+        mineral = None
         self.illustrate(pyplot, legend, legend_title, mineral, export_name, label_font, title_font, export_format)
 
         # defining the datatable of brine concentrations
@@ -912,7 +931,7 @@ class ROSSPkg():
                 print(concentrations_table)
         return concentrations_table            
 
-    def scaling_plot(self, title_font, label_font, plot_caption, individual_plots, legend_title = None, x_label_number = 6, export_name = None, export_format = 'svg'):
+    def scaling_plot(self, title_font, label_font, individual_plots, x_label_number, export_name, export_format = 'svg'):
         """Generate plots of scaling along the module distance in the PHREEQC SELECTED_OUTPUT file  """
         # define reused functions
         def legend_determination(time, mineral, mineral_formula):
@@ -1149,9 +1168,8 @@ class ROSSPkg():
         figure = pyplot.gcf()
         pyplot.show()
         self.export_plot(figure, mineral, export_name, export_format)
-
-    def export_plot(self, figure, mineral = None, export_name = None, export_format = 'svg'):
-        """Export the plots to the current working directory  """
+        
+    def figure_name(self,):
         # define the output name
         if export_name is None:
             if self.parameters['simulation'] == 'scaling':
@@ -1161,7 +1179,12 @@ class ROSSPkg():
                     export_name = 'all_minerals'
             if self.parameters['simulation'] == 'brine':
                 export_name = 'brine'
-            
+        return export_name
+
+    def export_plot(self, figure, mineral = None, export_name = None, export_format = 'svg'):
+        """Export the plots to the current working directory  """
+        if export_name is None:
+            export_name = self.figure_name()
         self.results['figures'][export_name] = {'figure':figure, 'title':self.plot_title}
                                 
         # export the plot
