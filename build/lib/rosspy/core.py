@@ -10,6 +10,7 @@ from glob import glob
 import datetime
 import pandas
 import sigfig
+from pprint import pprint
 import json
 import os
 import re
@@ -41,6 +42,7 @@ class ROSSPkg():
         self.results = {}
         self.results['figures'] = {}
         self.verbose = verbose
+        self.jupyter = jupyter
         self.plot_title = None
         if operating_system == 'mac':
             import phreeqpy.iphreeqc.phreeqc_dll as phreeqc_mod
@@ -111,6 +113,8 @@ class ROSSPkg():
 
         # calculate module properties
         self.parameters['repeated_membrane_winding_mm'] = 2 * self.parameters['membrane_thickness_mm'] + self.parameters['feed_thickness_mm'] + self.parameters['permeate_thickness_mm'] + 2 * self.parameters['polysulfonic_layer_thickness_mm'] + 2 * self.parameters['support_layer_thickness_mm']     
+        if self.parameters['repeated_membrane_winding_mm'] == 0:
+            print('--> ERROR: The module dimensions are not sensible.')
         self.parameters['cells_per_module'] = cells_per_module
         self.variables['cell_meters'] = self.parameters['module_length_m'] / self.parameters['cells_per_module']        
         self.parameters['active_m2_cell'] = self.parameters['active_m2'] / self.parameters['cells_per_module']
@@ -342,7 +346,7 @@ class ROSSPkg():
         elements_lines = []
         self.parameters['solution_elements'] = []
         temperature = ph = alkalinity = pe = None
-        if water_selection != '':       
+        if water_selection not in ['', 'custom']:       
             # import the predefined water body
             water_file_path = os.path.join(self.parameters['root_path'], 'water_bodies', f'{water_selection}.json')
             water_body = json.load(open(water_file_path))
@@ -397,8 +401,8 @@ class ROSSPkg():
                     alkalinity = water_characteristics['Alkalinity']['value']
                     alkalinity_reference = water_characteristics['Alkalinity']['reference'] 
                 elif content == 'pH':
-                    ph = water_characteristics['ph']['value']
-                    ph_reference = water_characteristics['ph']['reference']
+                    ph = water_characteristics['pH']['value']
+                    ph_reference = water_characteristics['pH']['reference']
                     
         # parameterize the lines of the SOLUTIONS block
         temperature_line = ''
@@ -511,9 +515,9 @@ class ROSSPkg():
                 self.results['equilibrium_phases_block'].append(mineral_line)     
                 
         if self.verbose:
-            print(self.variables['described_minerals'])
+            pprint(self.variables['described_minerals'])
             
-    def selected_output_file_name(self,):
+    def selected_output_file_name(self,output_filename):
         # create parameter lines             
         if output_filename is None:
             count = 0
@@ -530,7 +534,7 @@ class ROSSPkg():
             
     def selected_output(self, output_filename = None):
         '''Specify the output file after a PHREEQC simulation'''
-        self.parameters['selected_output_file_name'] = self.selected_output_file_name()
+        self.parameters['selected_output_file_name'] = self.selected_output_file_name(output_filename)
 
         minerals_line = ' '.join([mineral for mineral in self.variables['described_minerals']])
         elements_line = ' '.join([element for element in self.parameters['solution_elements']])
@@ -556,7 +560,7 @@ class ROSSPkg():
         self.results['selected_output_block'] = []
         self.results['selected_output_block'].extend((first_line, file_name_line, reaction_line, temperature_line, total_elements_line, saturation_indices_line, equilibrium_phases_line, ph_line, time_line, distance_line, simulation_line, high_precision_line, solution_line, step_line,water_line))
         
-    def define_paths(self, simulation_name = None):
+    def define_paths(self, simulation_name = None, input_path = None, output_path = None):
         # define the simulation name 
         simulation_number = 1
         if simulation_name is None:
@@ -592,11 +596,11 @@ class ROSSPkg():
             self.parameters['output_path'] = output_path 
             
             
-        return simulation_name, input_path, output_path
+        return simulation_name, self.parameters['input_path'], self.parameters['output_path']
 
     def export(self, simulation_name = None, input_path = None, output_path = None, external_file = False):
         """View and export the PHREEQC input file"""    
-        simulation_name, input_path, output_path = self.define_paths(simulation_name)
+        simulation_name, input_path, output_path = self.define_paths(simulation_name, input_path, output_path)
             
         # comment the corresponding simulation in the input file
         simulation_line = f'# {self.simulation_path}'
@@ -605,6 +609,7 @@ class ROSSPkg():
             self.results['complete_lines'] = chain(self.results['general_conditions'], self.results['solution_block'], self.results['equilibrium_phases_block'], self.results['reaction_block'], self.results['selected_output_block'], self.results['transport_block']) 
             
             # printing and exporting the input file
+            print('\n\n')
             with open(self.parameters['input_path'],'w') as input_file:
                 for line in self.results['complete_lines']:
                     if self.verbose:
@@ -612,9 +617,7 @@ class ROSSPkg():
                     input_file.write(line + '\n')
             
             self.input_file = open(self.parameters['input_path'],'r').read()
-        
-   
-        
+
         # define a table of parameters
         parameters = {'parameter':[], 'value':[]}
         parameters['parameter'].append('simulation_path')
@@ -624,7 +627,7 @@ class ROSSPkg():
             parameters['value'].append(self.parameters[parameter])
         parameters_table = pandas.DataFrame(parameters)
         if self.verbose:
-            if jupyter:
+            if self.jupyter:
                 display(parameters_table)
             else:
                 print(parameters_table)
@@ -641,7 +644,7 @@ class ROSSPkg():
             variables['value'].append(self.variables[variable])
         variables_table = pandas.DataFrame(variables)
         if self.verbose:
-            if jupyter:
+            if self.jupyter:
                 display(variables_table)
             else:
                 print(variables_table)
@@ -740,7 +743,7 @@ class ROSSPkg():
             headers = conc.keys()
             self.results['csv_data'] = pandas.DataFrame(conc, columns = headers)
             if self.verbose:
-                if jupyter:
+                if self.jupyter:
                     pandas.set_option('display.max_columns', None)
                     display(self.results['csv_data'])
                 else:
@@ -925,7 +928,7 @@ class ROSSPkg():
         concentrations_table.index.name = x_label
         concentrations_table.to_csv(os.path.join(self.simulation_path, 'brine_concentrations.csv'))
         if self.verbose:
-            if jupyter:
+            if self.jupyter:
                 display(concentrations_table)
             else:
                 print(concentrations_table)
