@@ -465,11 +465,10 @@ class iROSSpy():
         announcement = '\nParse the existing input file:'
         print(announcement, '\n', '='*len(announcement))      
         
-        default_simulation_name, default_input_path, default_output_path = self.ross.define_paths()
         # load the input file
         input_file_path = input('What is the input file path?')
-        while not os.path.exists(input_path):
-            print(f'''--> ERROR: The input file path {input_path} does not exist. Provide a valid input file path.''')
+        while not os.path.exists(input_file_path):
+            print(f'''--> ERROR: The input file path {input_file_path} does not exist. Provide a valid input file path.''')
             input_file_path = input('What is the input file path?')
                   
         # define simulation
@@ -482,11 +481,11 @@ class iROSSpy():
             Default = < scaling >  __ ''') or 'scaling'
                   
         # define water_selection
-        solution_description = input('- What is the description of the custom water source?')
+        solution_description = input('- What is a 1-2 word description of the simulated water source?')
                   
         # define simulation_name
         simulation_name = input(f'''- What is the simulation_name?
-        Default = {default_simulation_name}''') or default_simulation_name     
+        Default = Date-ROSSpy-water_body-simulation_type-database-scaling/brine-perspective-permeate_approach''') or None      
                   
         # define active_feed_area
         active_feed_area = input(f'''- What is the active_feed_area?
@@ -500,14 +499,14 @@ class iROSSpy():
                 active_feed_area = input(f'''- What is the active_feed_area?
                 Default = 37''') or 37
                          
-        self.ross.parse_input(input_file_path = input_file_path, simulation = simulation, water_selection = water_selection, simulation_name = simulation_name, active_feed_area = active_feed_area)
+        self.ross.parse_input(input_file_path = input_file_path, simulation = simulation, water_selection = solution_description, simulation_name = simulation_name, active_feed_area = active_feed_area)
         
         
     def execute(self,):
         # print the announcement
         announcement = '\nExecute the input file:'
         print(announcement, '\n', '='*len(announcement))
-      
+
         # execute the PHREEQC batch software
         output_path = os.path.join(self.working_directory, self.ross.parameters['output_path'])
         phreeqc_path = os.path.join('C:','Program Files','USGS','phreeqc-3.6.2-15100-x64')
@@ -584,21 +583,30 @@ class iROSSpy():
         if self.ross.parameters['simulation_perspective'] == 'all_time':
             default_individual_plots = True
         individual_plots = input(f'''- Will each mineral be individually plotted?
-        Default = {default_individual_plots} ____ ''') or default_individual_plots
-        while True:
-            try:
-                individual_plots = bool(individual_plots)
-                break
-            except:            
-                print(f'''--> ERROR: Only < True > or < False > are supported.''')    
-                individual_plots = input(f'''- Will each mineral be individually plotted?
-                Default = {default_individual_plots} ____ ''') or default_individual_plots
+        < True > or < False > ; Default = {default_individual_plots} ____ ''') or default_individual_plots
+        while individual_plots not in ['True', 'False', False]:
+            print(f'''--> ERROR: Only < True > or < False > are supported.''')    
+            individual_plots = input(f'''- Will each mineral be individually plotted?
+            < True > or < False > ; Default = {default_individual_plots} ____ ''') or default_individual_plots
+        individual_plots = bool(individual_plots)
             
         self.processed_data = self.ross.execute(selected_output_path = selected_output_path, plot_title = plot_title, title_font = title_font, label_font = label_font, x_label_number = x_label_number, export_name = export_name, export_format = export_format, individual_plots = individual_plots)
         
 
-def conduct_iROSSpy(create_input = True):
+def conduct_iROSSpy():
     iross = iROSSpy()
+    
+    # execute iROSSpy
+    create_input = input('''- You will create an input file?
+    Default = < True >''') or True
+    while create_input not in ['True', 'False', True]:
+        print(f'''--> ERROR: Only < True > or < False > are supported.''')    
+        create_input = input('''- You will create an input file?
+        < True > or < False > ; Default = < True >''') or True
+    if create_input == 'False':
+        create_input = False
+    else:
+        create_input = True
     
     # create or import the simulation input file
     if create_input:
@@ -616,4 +624,5 @@ def conduct_iROSSpy(create_input = True):
     iross.execute()
     iross.process_selected_output()
     
+
 conduct_iROSSpy()

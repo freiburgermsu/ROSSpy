@@ -690,12 +690,12 @@ class ROSSPkg():
                 self.parameters['timestep'] = float(re.sub('-time_step\s+', '', row).split('\t')[0])
                 self.parameters['simulation_time'] = self.parameters['timestep'] * self.simulation_shifts
             elif re.search('-punch_cells', row):
-                row = re.sub('-punch_cells ','',row)
+                row = re.sub('-punch_cells\s+','',row)
                 row = float(re.sub('(\-\d+)', '', row))
                 if row != 1:
                     self.parameters['domain_phase'] = 'Immobile'
             elif re.search('-punch_frequency', row):
-                row = float(re.sub('-punch_frequency ','',row))
+                row = float(re.sub('-punch_frequency\s+','',row))
                 if row > 1:
                     self.parameters['simulation_perspective'] = 'all_distance'               
                 elif row == 1:
