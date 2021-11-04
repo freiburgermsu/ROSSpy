@@ -163,7 +163,7 @@ class ROSSPkg():
         lengths_line = '-lengths\t\t{}'.format(self.variables['cell_meters'])
         timestep_line = '-time_step\t\t{}\t# this satisfies the Courant condition with a feed velocity of {} m/s'.format(self.parameters['timestep'], sigfigs_conversion(feed_velocity, 4))
         initial_time_line = '-initial_time\t\t0'    
-        boundary_conditions_line = '-boundary_conditions\tconstant\tconstant \t # Dirichlet boundary condition'
+        boundary_conditions_line = '-boundary_conditions\tconstant\tflux \t # Dirichlet and Cachy boundary conditions'
         
         # define the domain-dependent parameters
         domain_line = ''
@@ -417,9 +417,9 @@ class ROSSPkg():
             if parameterized_ph_charge and not parameterized_alkalinity:
                 ph_line = f'pH \t\t {ph} charge #{ph_reference}'
                 alkalinity_line = ''      
-            elif parameterized_alkalinity and not parameterized_ph_charge:
-                if alkalinity is not None:
-                    ph_line = f'pH \t\t {ph} #{ph_reference}'
+            elif not parameterized_ph_charge:
+                ph_line = f'pH \t\t {ph} #{ph_reference}'
+                if parameterized_alkalinity and alkalinity is not None:
                     alkalinity_line = f'Alkalinity \t {alkalinity} #{alkalinity_reference}'
                    
         unit_line = 'units \t ppm' 
