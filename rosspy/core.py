@@ -281,8 +281,7 @@ class ROSSPkg():
                     if cell < self.parameters['cells_per_module']:
                         reaction_line += f'\n\tH2O -1; {reaction_parameters[reaction_index]}' 
                     elif cell == self.parameters['cells_per_module']:
-                        reaction_line += f'''\n\tH2O -1; {reaction_parameters[reaction_index]}
-        INCREMENTAL_REACTIONS \ttrue'''   
+                        reaction_line += f'''\n\tH2O -1; {reaction_parameters[reaction_index]}'''   
                            
                     self.results['reaction_block'].append(reaction_line)
 
@@ -316,7 +315,7 @@ class ROSSPkg():
 
                 self.results['reaction_block'].append(f'''    #Effluent module {module + 1}:
         #Estimated CF: {sigfigs_conversion(cf, 4)}
-        #Estimated solution mass: {final_solution_mass}\n\n''')
+        #Estimated final water mass: {final_solution_mass}\n\n''')
 
             if self.verbose:
                 print('Effluent module %s CF:' %(module + 1), final_cf_cell)
@@ -440,14 +439,8 @@ class ROSSPkg():
             if self.parameters['domain'] == 'dual':
                 total_cells = total_cells*2+1
             feed_solution_line = f'\nSOLUTION 1-{total_cells}\tInitial solution in the RO module'
-            self.results['solution_block'].extend([feed_solution_line,'temp \t 25','units \t ppm'])
-
-            for element in self.parameters['solution_elements']:
-                element_line = f'{element}\t0'    
-                self.results['solution_block'].append(element_line)
-
             water_line = '-water \t{}'.format(self.variables['feed_kg'])
-            self.results['solution_block'].append(water_line)
+            self.results['solution_block'].extend([feed_solution_line,'temp \t 25','units \t ppm',water_line])
 
     def described_minerals(self,):
         # determine the set of possible minerals 
@@ -1172,16 +1165,15 @@ class ROSSPkg():
         pyplot.show()
         self.export_plot(figure, mineral, export_name, export_format)
         
-    def figure_name(self,):
+    def figure_name(self):
         # define the output name
-        if export_name is None:
-            if self.parameters['simulation'] == 'scaling':
-                if self.parameters['individual_plots']:
-                    export_name = mineral
-                else:
-                    export_name = 'all_minerals'
-            if self.parameters['simulation'] == 'brine':
-                export_name = 'brine'
+        if self.parameters['simulation'] == 'scaling':
+            if self.parameters['individual_plots']:
+                export_name = mineral
+            else:
+                export_name = 'all_minerals'
+        if self.parameters['simulation'] == 'brine':
+            export_name = 'brine'
         return export_name
 
     def export_plot(self, figure, mineral = None, export_name = None, export_format = 'svg'):

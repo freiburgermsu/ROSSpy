@@ -47,6 +47,30 @@
     "Li": {
       "concentration (ppm)": 0.228,
       "reference": "Stoffyn-Egli and Mackenzie, 1984 for the Mediterranean Sea"
+    },
+    "Zn": {
+      "concentration (ppm)": 0.00021,
+      "reference": "Shriadah, Okbah, and El-Deek, 2004 for the Red Sea @ 1-100m deep"
+    },
+    "Ni": {
+      "concentration (ppm)": 0.00012,
+      "reference": "Shriadah, Okbah, and El-Deek, 2004 for the Red Sea @ 1-100m deep"
+    },
+    "Cu": {
+      "concentration (ppm)": 0.00011,
+      "reference": "Shriadah, Okbah, and El-Deek, 2004 for the Red Sea @ 1-100m deep"
+    },
+    "Cd": {
+      "concentration (ppm)": 0.00037,
+      "reference": "Shriadah, Okbah, and El-Deek, 2004 for the Red Sea @ 1-100m deep"
+    },
+    "Co": {
+      "concentration (ppm)": 0.00013,
+      "reference": "Shriadah, Okbah, and El-Deek, 2004 for the Red Sea @ 1-100m deep"
+    },
+    "Pb": {
+      "concentration (ppm)": 0.00036,
+      "reference": "Shriadah, Okbah, and El-Deek, 2004 for the Red Sea @ 1-100m deep"
     }
   },
   "temperature": {

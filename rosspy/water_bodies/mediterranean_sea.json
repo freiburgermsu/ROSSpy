@@ -47,6 +47,22 @@
         "Li": {
             "concentration (ppm)": 0.228,
                 "reference": "Stoffyn-Egli and Mackenzie, 1984"
+        },
+        "Cu": {
+            "concentration (ppm)": 0.000445,
+                "reference": "El Sayed, Aminot, and Kerouel, 1994"
+        },
+        "Co": {
+            "concentration (ppm)": 0.000000027,
+                "reference": "Morley et al., 1997 @ WMDWs"
+        },
+        "Ni": {
+            "concentration (ppm)": 0.000176,
+                "reference": "Morley et al., 1997 @ WMDWs"
+        },
+        "Pb": {
+            "concentration (ppm)": 0.0000133,
+                "reference": "Morley et al., 1997 @ WMDWs"
         }
     },
     "temperature": {
@@ -58,8 +74,8 @@
         "reference": null
     },
     "Alkalinity": {
-        "value": null,
-        "reference": null
+        "value": 560,
+        "reference": "Schneider, Wallace, and Kortzinger, 2007"
     },
    "pH": {
 

@@ -1,0 +1,128 @@
+DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+TITLE	 None
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\2021-11-04-ROSSpy-Zaman-transport-pitzer-brine-all_time-LinCF
+
+SOLUTION 0	Zaman
+
+pH 		 9.125 charge #
+
+
+units 	 ppm
+Ca	8.41638	#
+Mg	2.4305000000000003	#
+Na	2506.8045208000003	#
+Sr	3.85528	#
+Cl	2578.4966900000004	#
+S(6)	12.024375	#
+Ba	2.609213	#
+B	2.9189700000000003	#
+K	14.466371	#
+-water 	17.378153556381264
+
+SOLUTION 1-12	Initial solution in the RO module
+temp 	 25
+units 	 ppm
+-water 	17.378153556381264
+
+EQUILIBRIUM_PHASES 1-12	
+Anhydrite		0	0
+Aragonite		0	0
+Arcanite		0	0
+Artinite		0	0
+Barite			0	0
+Bischofite		0	0
+Bloedite		0	0
+Brucite		0	0
+Burkeite		0	0
+Calcite		0	0
+Carnallite		0	0
+Celestite		0	0
+Dolomite		0	0
+Epsomite		0	0
+Gaylussite		0	0
+Glaserite		0	0
+Glauberite		0	0
+Goergeyite		0	0
+Gypsum			0	0
+Halite			0	0
+Hexahydrite		0	0
+Huntite		0	0
+Kainite		0	0
+Kieserite		0	0
+Labile_S		0	0
+Leonhardite		0	0
+Leonite		0	0
+Magnesite		0	0
+MgCl2_2H2O		0	0
+MgCl2_4H2O		0	0
+Mirabilite		0	0
+Natron			0	0
+Nesquehonite		0	0
+Pentahydrite		0	0
+Pirssonite		0	0
+Polyhalite		0	0
+Portlandite		0	0
+Schoenite		0	0
+Sylvite		0	0
+Syngenite		0	0
+Thenardite		0	0
+Teepleite		0	0
+
+
+REACTION 1
+	H2O -1; 242.71368670888376
+REACTION 2
+	H2O -1; 145.12920868707522
+REACTION 3
+	H2O -1; 96.54577752533606
+REACTION 4
+	H2O -1; 68.86014685943013
+REACTION 5
+	H2O -1; 51.5899149977231
+REACTION 6
+	H2O -1; 40.092827799663496
+REACTION 7
+	H2O -1; 32.05370800972855
+REACTION 8
+	H2O -1; 26.212183397965987
+REACTION 9
+	H2O -1; 21.834158139384158
+REACTION 10
+	H2O -1; 18.468437352754336
+REACTION 11
+	H2O -1; 15.825262011104996
+REACTION 12
+	H2O -1; 13.7116243439948
+#linear_cf
+    #Effluent module 1:
+        #Estimated CF: 5.034E0
+        #Estimated final water mass: 144.49789020732706
+
+
+
+SELECTED_OUTPUT
+-file			2021-11-04_Zaman_transport_pitzer_brine_0.txt
+-reaction		true
+-temperature		true
+-totals			Ca Mg Na Sr Cl S(6) Ba B K
+-saturation_indices	Anhydrite Aragonite Arcanite Artinite Barite Bischofite Bloedite Brucite Burkeite Calcite Carnallite Celestite Dolomite Epsomite Gaylussite Glaserite Glauberite Goergeyite Gypsum Halite Hexahydrite Huntite Kainite Kieserite Labile_S Leonhardite Leonite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Polyhalite Portlandite Schoenite Sylvite Syngenite Thenardite Teepleite
+-equilibrium_phases	Anhydrite Aragonite Arcanite Artinite Barite Bischofite Bloedite Brucite Burkeite Calcite Carnallite Celestite Dolomite Epsomite Gaylussite Glaserite Glauberite Goergeyite Gypsum Halite Hexahydrite Huntite Kainite Kieserite Labile_S Leonhardite Leonite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Polyhalite Portlandite Schoenite Sylvite Syngenite Thenardite Teepleite
+-pH			true
+-time			true
+-distance		true
+-simulation		true
+-high_precision	true
+-solution
+-step
+-water
+
+TRANSPORT
+-cells			12
+-shifts			70
+-lengths		0.08466666666666667
+-time_step		3.946329703005324	# this satisfies the Courant condition with a feed velocity of 2.575E-1 m/s
+-initial_time		0
+-boundary_conditions	constant	constant 	 # Dirichlet boundary condition
+
+-punch_cells		12
+-punch_frequency	1
