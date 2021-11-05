@@ -541,17 +541,20 @@ class ROSSPkg():
         saturation_indices_line = f'-saturation_indices\t{minerals_line}'
         equilibrium_phases_line = f'-equilibrium_phases\t{minerals_line}'
         ph_line = '-pH\t\t\ttrue'
+        alkalinity_line ='-alkalinity\ttrue' 
         solution_line = '-solution'
         time_line = '-time\t\t\ttrue'
         distance_line = '-distance\t\ttrue'
         simulation_line = '-simulation\t\ttrue'
         high_precision_line = '-high_precision\ttrue'
+        charge_balance_line = '-charge_balance\ttrue'
+        ionic_strength_line = '-ionic_strength\ttrue'
         step_line = '-step'
         water_line = '-water'
 
         # establish the selected_output_block
         self.results['selected_output_block'] = []
-        self.results['selected_output_block'].extend((first_line, file_name_line, reaction_line, temperature_line, total_elements_line, saturation_indices_line, equilibrium_phases_line, ph_line, time_line, distance_line, simulation_line, high_precision_line, solution_line, step_line,water_line))
+        self.results['selected_output_block'].extend((first_line, file_name_line, reaction_line, temperature_line, total_elements_line, saturation_indices_line, equilibrium_phases_line, ph_line, time_line, distance_line, simulation_line, high_precision_line, alkalinity_line, solution_line, charge_balance_line, ionic_strength_line, step_line, water_line))
         
     def define_paths(self, simulation_name = None, input_path = None, output_path = None):
         # define the simulation name 
