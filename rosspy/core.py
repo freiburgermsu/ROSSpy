@@ -213,21 +213,26 @@ class ROSSPkg():
         cell_moles = []
         reaction_parameters = []
         self.results['reaction_block'] = []
-        cumulative_cf = 1 
+        self.cumulative_cf = 1 
         for module in range(self.parameters['quantity_of_modules']): 
             if permeate_approach == 'linear_permeate':
                 initial_moles_removed = self.parameters['permeate_moles_per_cell'] * 2 / (1 + head_loss)
                 final_moles_removed = initial_moles_removed * head_loss
                 removed_moles_slope = ((final_moles_removed - initial_moles_removed) / (self.parameters['cells_per_module'])) / permeate_efficiency
                 average_moles_removed = (final_moles_removed + initial_moles_removed) / 2
+                module_parameters = []
 
                 for cell in range(self.parameters['cells_per_module']):
                     removed_moles_in_cell = (cell * removed_moles_slope + initial_moles_removed)
                     reaction_parameters.append(removed_moles_in_cell)
+                    module_parameters.append(removed_moles_in_cell)
                     
                 moles_removed = sum(reaction_parameters)
-                cf = self.variables['feed_moles'] / (self.variables['feed_moles'] - moles_removed)
-                self.variables[f'module {module}'] = {'cumulative_cf': cf, 'permeate (moles/cell)': removed_moles_slope}
+                self.cumulative_cf = self.variables['feed_moles'] / (self.variables['feed_moles'] - moles_removed)
+                module_moles_removed = sum(module_parameters)
+                cf = self.variables['feed_moles'] / (self.variables['feed_moles'] - module_moles_removed)
+                
+                self.variables[f'module {module}'] = {'cf': cf, 'permeate (moles/cell)': removed_moles_slope}
                 moles_remaining = self.variables['feed_moles'] - moles_removed
                 
                 if sigfigs_conversion(average_moles_removed,14) != sigfigs_conversion(self.parameters['permeate_moles_per_cell'], 14):
@@ -241,7 +246,7 @@ class ROSSPkg():
                     print('moles_remaining', moles_remaining)
                     print('moles_removed', moles_removed)
 
-            if permeate_approach == 'linear_cf':
+            elif permeate_approach == 'linear_cf':
                 module_iteration = module_previous_moles_removed = moles_removed = 0
                 initial_cf = 1
 
@@ -264,8 +269,9 @@ class ROSSPkg():
                     module_iteration += 1
 
                 cf = cfs[-1]
-                cumulative_cf *= cf
+                self.cumulative_cf *= cf
                 moles_remaining = self.variables['feed_moles'] - moles_removed  
+                self.variables[f'module {module}'] = {'cf': cf}
 
             if self.parameters['simulation_type'] == 'transport':
                 self.results['reaction_block'].append('\n')
@@ -304,8 +310,6 @@ class ROSSPkg():
 
             # the calculated reaction parameters will be added and printed to a generated PHREEQC input file
             final_solution_mass = moles_remaining * self.parameters['water_mw'] * milli  #kg water mass
-            final_cf_cell = self.variables['feed_kg'] / final_solution_mass
-
             if self.parameters['os'] == 'windows':
                 self.results['reaction_block'].append('#%s' %(permeate_approach))
                 if permeate_approach == 'linear permeate':
@@ -318,7 +322,7 @@ class ROSSPkg():
         #Estimated final water mass: {final_solution_mass}\n\n''')
 
             if self.verbose:
-                print('Effluent module %s CF:' %(module + 1), final_cf_cell)
+                print(f'Effluent module {module + 1} CF: {cf}')
 
     def solutions(self, water_selection = '', water_characteristics = {}, solution_description = '', parameterized_alkalinity = False, parameterized_ph_charge = True):
         """Specify the SOLUTION block of the simulation."""
@@ -341,8 +345,24 @@ class ROSSPkg():
 
         #=============================================================================
         # determine which predefined solution should be simulated
-
-        elements_lines = []
+        
+        def define_elements():
+            elements_lines = []
+            predicted_effluent = {}
+            for element, information2 in information.items():
+                self.parameters['solution_elements'].append(element)
+                conc = information2['concentration (ppm)']
+                predicted_effluent[element] = conc*self.cumulative_cf
+                ref = information2['reference']
+                if element in self.elements:                          
+                    if len(str(conc)) <= 3:
+                        elements_lines.append(f'{element}\t\t{conc}\t#{ref}')
+                    else:
+                        elements_lines.append(f'{element}\t{conc}\t#{ref}')
+                else:
+                    print('\n--> ERROR: The {} element is not accepted by the {} database'.format(element, self.parameters['database_selection']))
+            return elements_lines, predicted_effluent
+            
         self.parameters['solution_elements'] = []
         temperature = ph = alkalinity = pe = None
         if water_selection not in ['', 'custom']:       
@@ -352,15 +372,7 @@ class ROSSPkg():
             
             for content, information in water_body.items():
                 if content == 'element':
-                    for element, information2 in information.items():
-                        if element in self.elements:
-                            self.parameters['solution_elements'].append(element)
-                            conc = information2['concentration (ppm)']
-                            ref = information2['reference']
-                            elements_lines.append(f'{element}\t{conc}\t#{ref}')
-                        else:
-                            print('\n--> ERROR: The {} element is not accepted by the {} database'.format(element, self.parameters['database_selection']))
-                                
+                    elements_lines, self.predicted_effluent = define_elements()                                
                 elif content == 'temperature':
                     temperature = information['celcius']
                     temperature_reference = information['reference']
@@ -377,18 +389,7 @@ class ROSSPkg():
         if water_characteristics != {}:
             for content, information in water_characteristics.items():
                 if content == 'element':
-                    for element, information2 in information.items():
-                        self.parameters['solution_elements'].append(element)
-                        conc = information2['concentration (ppm)']
-                        ref = information2['reference']
-                        if element in self.elements:                          
-                            if len(str(conc)) <= 3:
-                                elements_lines.append(f'{element}\t\t{conc}\t#{ref}')
-                            else:
-                                elements_lines.append(f'{element}\t{conc}\t#{ref}')
-                        else:
-                            print('\n--> ERROR: The {} element is not accepted by the {} database'.format(element, self.parameters['database_selection']))
-                                    
+                    elements_lines, self.predicted_effluent = define_elements()
                 # create the temperature line of the input file
                 elif content == 'temperature':                    
                     temperature = water_characteristics['temperature']['value']
@@ -647,6 +648,13 @@ class ROSSPkg():
         
         variables_path = os.path.join(self.simulation_path, 'variables.csv')
         variables_table.to_csv(variables_path)
+        
+        # export the predicted effluent concentrations
+        effluent_concentrations = pandas.DataFrame(list(self.predicted_effluent.items()), columns = ['elements', 'ppm conc'])
+        effluent_concentrations.index = effluent_concentrations['elements']
+        del effluent_concentrations['elements']
+        effluent_path = os.path.join(self.simulation_path, 'effluent_predictions.csv')
+        effluent_concentrations.to_csv(effluent_path)
         
     def parse_input(self, input_file_path, simulation, water_selection = None, simulation_name = None, active_feed_area = None):        
         # open the input file

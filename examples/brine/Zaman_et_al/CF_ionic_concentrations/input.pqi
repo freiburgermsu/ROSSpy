@@ -101,7 +101,7 @@ REACTION 12
 
 
 SELECTED_OUTPUT
--file			2021-11-04_Zaman_transport_pitzer_brine_0.txt
+-file			2021-11-05_Zaman_transport_pitzer_brine_0.txt
 -reaction		true
 -temperature		true
 -totals			Ca Mg Na Sr Cl S(6) Ba B K

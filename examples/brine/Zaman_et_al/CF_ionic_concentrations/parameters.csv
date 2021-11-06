@@ -33,7 +33,7 @@
 31,permeate_approach,linear_cf
 32,water_selection,Zaman
 33,solution_elements,"['Ca', 'Mg', 'Na', 'Sr', 'Cl', 'S(6)', 'Ba', 'B', 'K']"
-34,selected_output_file_name,2021-11-04_Zaman_transport_pitzer_brine_0.txt
+34,selected_output_file_name,2021-11-05_Zaman_transport_pitzer_brine_0.txt
 35,input_file_name,input.pqi
 36,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\CF_ionic_concentrations\input.pqi
 37,output_file_name,selected_output.pqo

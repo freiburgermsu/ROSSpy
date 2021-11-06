@@ -1,11 +1,10 @@
-README.md
+README.rst
 setup.py
 ROSSpy.egg-info/PKG-INFO
 ROSSpy.egg-info/SOURCES.txt
 ROSSpy.egg-info/dependency_links.txt
 ROSSpy.egg-info/requires.txt
 ROSSpy.egg-info/top_level.txt
-rosspy/README_pypi.md
 rosspy/__init__.py
 rosspy/core.py
 rosspy/processing_databases.py

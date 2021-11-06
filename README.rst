@@ -1,14 +1,3 @@
-Metadata-Version: 2.1
-Name: ROSSpy
-Version: 0.0.7
-Summary: Software for predicting the brine and scaling consequences of RO desalination.
-Home-page: https://github.com/freiburgermsu/ROSS
-Author: Andrew Freiburger
-Author-email: andrewfreiburger@gmail.com
-License: GNU
-Keywords: desalination,reactive transport,geochemistry
-Platform: UNKNOWN
-
 ROSSpy
 _______
 
@@ -271,4 +260,3 @@ The ``process_selected_output`` function processes the output data from the simu
 - *individual_plots* ``bool``: specifies whether each mineral of "scaling" simulations are plotted individually or combined in a single figure, where "None" allows the default of "True" for the "all_time" *simulation_perspective* or "False" otherwise.
 
 The processed simulation data that is the basis of the generated figures is returned by this function as a ``pandas.DataFrame`` object, which can be manipulated by the user for other purposes beyond ROSSpy.
-

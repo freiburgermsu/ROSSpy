@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-with open('rosspy/README_pypi.md') as file:
+with open('README.rst') as file:
     readme = file.read()
     
 setup(
@@ -9,13 +9,12 @@ setup(
   package_dir = {'core':'rosspy'},
   packages = find_packages(),
   package_data = {
-	'rosspy':['water_bodies/*','databases/*', 'test/*', 'test/*/*', 'README_pypi.md'],
+	'rosspy':['water_bodies/*','databases/*', 'test/*', 'test/*/*'],
   },
-  version = '0.0.5',
+  version = '0.0.7',
   license = 'GNU',
-  description = "Software for predicting the brine and scaling consequences of a Desalination system.", 
+  description = "Software for predicting the brine and scaling consequences of RO desalination.", 
   long_description = readme,
-  long_description_content_type = "text/markdown",
   author = 'Andrew Freiburger',               
   author_email = 'andrewfreiburger@gmail.com',
   url = 'https://github.com/freiburgermsu/ROSS',   
