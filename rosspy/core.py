@@ -713,7 +713,7 @@ class ROSSPkg():
             self.parameters['active_m2_cell'] = self.parameters['active_m2']/self.parameters['cells_per_module']
         self.export(simulation_name, external_file = True)
 
-    def execute(self, input_file_path = None, simulated_to_real_time = 9.29):
+    def execute(self, simulated_to_real_time = 9.29):
         '''Execute a PHREEQC input file '''
         def run(input_file, first=False):
             phreeqc = self.phreeqc_mod.IPhreeqc()  
