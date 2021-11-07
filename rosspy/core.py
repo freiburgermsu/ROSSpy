@@ -44,7 +44,7 @@ class ROSSPkg():
         self.verbose = verbose
         self.jupyter = jupyter
         self.plot_title = None
-        if operating_system == 'mac':
+        if operating_system == 'unix':
             import phreeqpy.iphreeqc.phreeqc_dll as phreeqc_mod
         elif operating_system == 'windows':
             import phreeqpy.iphreeqc.phreeqc_com as phreeqc_mod
@@ -69,7 +69,7 @@ class ROSSPkg():
 
         title_line = f'TITLE\t {simulation_title}'
         database_line = 'DATABASE {}'.format(self.parameters['database_path'])
-#         if self.parameters['os'] == 'mac':
+#         if self.parameters['os'] == 'unix':
 #             database_line = 'DATABASE C:{}'.format(self.parameters['database_path'])
         self.results['general_conditions'] = [database_line, title_line]
             
