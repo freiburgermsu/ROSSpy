@@ -671,7 +671,7 @@ class ROSSPkg():
         effluent_path = os.path.join(self.simulation_path, 'effluent_predictions.csv')
         effluent_concentrations.to_csv(effluent_path)
         
-    def parse_input(self, input_file_path, simulation, water_selection = None, simulation_name = None, active_feed_area = None):        
+    def parse_input(self, input_file_path, simulation, water_selection = None, simulation_name = None, active_m2 = None):        
         # open the input file
         with open(input_file_path, 'r') as file:
             self.input_file = file.read()
@@ -748,9 +748,10 @@ class ROSSPkg():
         # define the simulation folder and parameters
         if self.parameters['domain_phase'] is not None:
             self.plot_title = '{} phase {} from the {} after {}'.format(self.parameters['domain_phase'], self.parameters['simulation'], self.parameters['water_selection'], sigfigs_conversion(self.parameters['simulation_time']))
-        if active_feed_area is None:
+        self.parameters['active_m2'] = active_m2
+        if self.parameters['active_m2'] is None:
             self.parameters['active_m2'] = 37
-            self.parameters['active_m2_cell'] = self.parameters['active_m2']/self.parameters['cells_per_module']
+        self.parameters['active_m2_cell'] = self.parameters['active_m2']/self.parameters['cells_per_module']
         self.export(simulation_name, input_file_path, external_file = True)
 
     def execute(self, simulated_to_real_time = 9.29):
@@ -862,7 +863,6 @@ class ROSSPkg():
                 new_column = column.strip()
                 self.results['csv_data'].rename(columns={column:new_column}, inplace = True)
 
-        
         self.variables['initial_solution_mass'] = self.results['csv_data']['mass_H2O'][0]
         if self.parameters['simulation_type'] == 'transport':
             self.results['csv_data'].drop(self.results['csv_data'].index[:3], inplace=True)
@@ -1150,11 +1150,12 @@ class ROSSPkg():
             print('No scaling occurred.')
             return None            
 
-        # plot the simulation depending upon the simulation perspective       
+        # plot the simulation depending upon the simulation perspective   
+        self.parameters['individual_plots'] = individual_plots
         if self.parameters['simulation_type'] == 'evaporation':
             scaling_data = evaporation()
         elif self.parameters['simulation_perspective'] == "all_time":
-            if individual_plots is None:
+            if self.parameters['individual_plots'] is None:
                 self.parameters['individual_plots'] = True
             if self.parameters['individual_plots']:
                 scaling_data = all_time_plotting()
@@ -1164,7 +1165,7 @@ class ROSSPkg():
                 self.illustrate(pyplot, legend, legend_title, mineral, export_name, label_font, title_font, export_format)
 
         elif self.parameters['simulation_perspective'] == 'all_distance':
-            if individual_plots is None:
+            if self.parameters['individual_plots'] is None:
                 self.parameters['individual_plots'] = False    
             if not self.parameters['individual_plots']:
                 legend, scaling_data = all_distance_plotting()

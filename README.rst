@@ -25,7 +25,7 @@ The ROSSpy framework represents RO desalination as one-dimensional reactive tran
 
 
 ----------------------
-Numerical execution
+Functions
 ----------------------
 
 ROSSpy essentially translates user specifications of an RO system into PHREEQ parameters that are executed via `PHREEQpy <https://pypi.org/project/phreeqpy/>`_. The translation of the specifications are organized into the following Python functions of a single class object ``ROSSPkg``, whose underlying calculations and logic are detailed in the ROSSpy manuscript. 
@@ -260,3 +260,30 @@ The ``process_selected_output`` function processes the output data from the simu
 - *individual_plots* ``bool``: specifies whether each mineral of "scaling" simulations are plotted individually or combined in a single figure, where "None" allows the default of "True" for the "all_time" *simulation_perspective* or "False" otherwise.
 
 The processed simulation data that is the basis of the generated figures is returned by this function as a ``pandas.DataFrame`` object, which can be manipulated by the user for other purposes beyond ROSSpy.
+
+
+----------------------
+Execution
+----------------------
+
+ROSSpy is executed through a deliberate sequence of the aforementioned functions::
+ 
+ import rosspy
+ ross = rosspy.ROSSPkg()
+ ross.define_general(database_selection, simulation)
+ ross.transport(simulation_time, simulation_perspective, )
+ ross.reaction(permeate_approach, final_cf)
+ ross.solutions(water_selection, custom_water_parameters, solution_description)
+ ross.equilibrium_phases()
+ ross.selected_output()
+ ross.export()
+ raw_data = ross.execute()
+ processed_data = ross.process_selected_output()
+
+ROSSpy can be tested via a simple sequence with the ``test`` function::
+
+ pip install rosspy
+ ross = rosspy.ROSSPkg(operating_system = 'windows', verbose = False, jupyter = False)
+ ross.test()
+
+This is execute a predefined simulation with simple parameters, which should emulate the same exported files and processes of a cusotmized simulation experiment.

@@ -486,18 +486,18 @@ class iROSSpy():
         Default = Date-ROSSpy-water_body-simulation_type-database-scaling/brine-perspective-permeate_approach''') or None      
                   
         # define active_feed_area
-        active_feed_area = input(f'''- What is the active_feed_area?
+        active_m2 = input(f'''- What is the active_m2?
         Default = 37''') or 37
         while True:
             try:
-                active_feed_area = float(active_feed_area)
+                active_m2 = float(active_m2)
                 break
             except:            
-                print('''--> ERROR: The active_feed_area must be a number.''')
-                active_feed_area = input(f'''- What is the active_feed_area?
+                print('''--> ERROR: The active_m2 must be a number.''')
+                active_m2 = input(f'''- What is the active_m2?
                 Default = 37''') or 37
                          
-        self.ross.parse_input(input_file_path = input_file_path, simulation = simulation, water_selection = solution_description, simulation_name = simulation_name, active_feed_area = active_feed_area)
+        self.ross.parse_input(input_file_path = input_file_path, simulation = simulation, water_selection = solution_description, simulation_name = simulation_name, active_m2 = active_m2)
         
         
     def execute(self,):
@@ -519,7 +519,7 @@ class iROSSpy():
         proc.wait()
 
         self.raw_data = self.ross.execute(simulated_to_real_time = 9.29)
-        self.ross.results['csv_data'] = pandas.read_table(open(output_path), sep='\t')
+#         self.ross.results['csv_data'] = pandas.read_table(open(output_path), sep='\t')
 
 # execute and process the input file
     def process_selected_output(self,):
@@ -581,11 +581,11 @@ class iROSSpy():
         
         # define export_name
         if individual_plots:
-            default_figure_name = '< mineral_names >'
+            default_figure_name = 'mineral_names'
         else:
-            default_figure_name = '\"all_minerals\"'
+            default_figure_name = 'all_minerals'
         export_name = input(f'''- What is the export name for the figure(s)?
-        Default = {default_figure_name} ____ ''') or default_figure_name
+        Default = < {default_figure_name} > ____ ''') or default_figure_name
                   
         # define export_name
         figure_formats = ['svg', 'pdf', 'png', 'jpeg', 'jpg', 'eps']
