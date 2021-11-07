@@ -13,9 +13,8 @@ class iROSSpy():
         
         # print the welcome message
         print('\n\n')
-        message = ('''* iROSSpy *
-        Interactive Reverse Osmosis Scaling Simulation in Python
-        Andrew Philip Freiburger, Green Safe Water Lab, University of Victoria''')
+        message = ('''* iROSSpy: Interactive Reverse Osmosis Scaling Simulation in Python *
+    Andrew Philip Freiburger, Green Safe Water Lab, University of Victoria''')
 
         lines = message.split('\n')
         space = " " * indent
@@ -60,12 +59,11 @@ class iROSSpy():
         print(announcement, '\n', '='*len(announcement))       
                              
         # define database
-        databases = ['pitzer', 'phreeqc', 'Amm', 'ColdChem', 'core10', 'frezchem', 'iso', 'llnl', 'minteq', 'minteq.v4', 'sit', 'Tipping_Hurley', 'wateq4f']
-        for database in databases:
+        for database in ross.databases:
             print(f'< {database} >') 
         database_selection = input('''- What database do you select?
         Default = < pitzer >  __ ''') or 'pitzer'
-        while database_selection not in databases:
+        while database_selection not in ross.databases:
             print('''The database is not current defined in this interface.
             Only < pitzer > and < phreeqc > are defined for Windows and < pitzer > is defined for Macintosh. __ ''')    
             database_selection = input('- What database do you select?')
@@ -508,10 +506,10 @@ class iROSSpy():
         print(announcement, '\n', '='*len(announcement))
 
         # execute the PHREEQC batch software
-        output_path = os.path.join(self.working_directory, self.ross.parameters['output_path'])
         phreeqc_path = os.path.join('C:','Program Files','USGS','phreeqc-3.6.2-15100-x64')
         bat_path = os.path.join(phreeqc_path, 'bin', 'phreeqc.bat')
         input_path = self.ross.parameters['input_path']
+        output_path = self.ross.parameters['output_path']
         database_path = self.ross.parameters['database_path']
         
         proc = subprocess.Popen('cmd.exe', stdin=subprocess.PIPE)
@@ -520,17 +518,24 @@ class iROSSpy():
         proc.stdin.close()  
         proc.wait()
 
+        self.raw_data = self.ross.execute(simulated_to_real_time = 9.29)
         self.ross.results['csv_data'] = pandas.read_table(open(output_path), sep='\t')
-        self.raw_data = self.ross.execute(input_file_path = None, simulated_to_real_time = 9.29)
 
 # execute and process the input file
     def process_selected_output(self,):
         # announcement
         announcement = '\nProcess the output:'
-        print(announcement, '\n', '='*len(announcement))      
+        print(announcement, '\n', '='*len(announcement))     
+        
+        selected_output_path = input('''- What is the selected_output_path?
+        Default = {} ____ '''.format(self.ross.parameters['output_path'])) or self.ross.parameters['output_path']
+        while not os.path.exists(selected_output_path):
+            selected_output_path = input('''- What is the selected_output_path?
+            Default = {} ____ '''.format(self.ross.parameters['output_path'])) or self.ross.parameters['output_path']
         
         # define plot_title
-        plot_title = input('- What is the title of the plot?')
+        plot_title = input('''- What is the title of the plot?
+        Default = None ____ ''')
                   
         # define the fonts
         possible_fonts = ['xx-small','x-small','small', 'medium', 'large', 'x-large', 'xx-large']
@@ -561,9 +566,24 @@ class iROSSpy():
                 print('''--> ERROR: The x_label_number must be a number.''')
                 x_label_number = input('''- How many x-axis ticks are desired for the plot?
                 Default = 6 ____ ''') or 6
-                  
+                
+        # define individual_plots
+        default_individual_plots = False
+        if self.ross.parameters['simulation_perspective'] == 'all_time':
+            default_individual_plots = True
+        individual_plots = input(f'''- Will each mineral be individually plotted?
+        < True > or < False > ; Default = {default_individual_plots} ____ ''') or default_individual_plots
+        while individual_plots not in ['True', 'False', True, False]:
+            print(f'''--> ERROR: Only < True > or < False > are supported.''')    
+            individual_plots = input(f'''- Will each mineral be individually plotted?
+            < True > or < False > ; Default = {default_individual_plots} ____ ''') or default_individual_plots
+        individual_plots = bool(individual_plots)   
+        
         # define export_name
-        default_figure_name = self.ross.figure_name()
+        if individual_plots:
+            default_figure_name = '< mineral_names >'
+        else:
+            default_figure_name = '\"all_minerals\"'
         export_name = input(f'''- What is the export name for the figure(s)?
         Default = {default_figure_name} ____ ''') or default_figure_name
                   
@@ -577,20 +597,8 @@ class iROSSpy():
             print(f'''--> ERROR: Only one of the {figure_formats} formats is supported.''')    
             export_format = input('''- What is the title font?
             Default = svg ___ ''') or 'svg'
-                  
-        # define individual_plots
-        default_individual_plots = False
-        if self.ross.parameters['simulation_perspective'] == 'all_time':
-            default_individual_plots = True
-        individual_plots = input(f'''- Will each mineral be individually plotted?
-        < True > or < False > ; Default = {default_individual_plots} ____ ''') or default_individual_plots
-        while individual_plots not in ['True', 'False', False]:
-            print(f'''--> ERROR: Only < True > or < False > are supported.''')    
-            individual_plots = input(f'''- Will each mineral be individually plotted?
-            < True > or < False > ; Default = {default_individual_plots} ____ ''') or default_individual_plots
-        individual_plots = bool(individual_plots)
             
-        self.processed_data = self.ross.execute(selected_output_path = selected_output_path, plot_title = plot_title, title_font = title_font, label_font = label_font, x_label_number = x_label_number, export_name = export_name, export_format = export_format, individual_plots = individual_plots)
+        self.processed_data = self.ross.process_selected_output(selected_output_path = selected_output_path, plot_title = plot_title, title_font = title_font, label_font = label_font, x_label_number = x_label_number, export_name = export_name, export_format = export_format, individual_plots = individual_plots)
         
 
 def conduct_iROSSpy():

@@ -1,0 +1,19 @@
+,parameter,value
+0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rossui\2021-11-06-ROSSpy--transport-pitzer-scaling-all_time-LinCF
+1,os,windows
+2,root_path,C:\Users\Andrew Freiburger\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\rosspy
+3,simulation_type,transport
+4,permeate_approach,linear_cf
+5,water_selection,
+6,simulation,scaling
+7,domain_phase,Immobile
+8,database_selection,pitzer
+9,database_path,C:\Users\Andrew Freiburger\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\rosspy\databases\pitzer.dat
+10,cells_per_module,12.0
+11,timestep,3.946329703005324
+12,simulation_time,276.2430792103727
+13,simulation_perspective,all_time
+14,input_file_name,input.pqi
+15,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rossui\2021-11-06-ROSSpy--transport-pitzer-scaling-all_time-LinCF\input.pqi
+16,output_file_name,selected_output.pqo
+17,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rossui\2021-11-06-ROSSpy--transport-pitzer-scaling-all_time-LinCF\selected_output.pqo

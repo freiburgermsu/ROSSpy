@@ -1,6 +1,7 @@
 # import libraries
 from scipy.constants import nano, kilo, milli, centi, liter, minute, day, hour
 from chempy.properties.water_density_tanaka_2001 import water_density
+from chemicals import periodic_table
 from pubchempy import get_compounds 
 from math import pi, exp, ceil
 from matplotlib import pyplot 
@@ -17,6 +18,10 @@ import re
 
 def sigfigs_conversion(num, sigfigs_in = 2):
     return round(num, sigfigs=sigfigs_in, notation = 'sci')
+
+elemental_masses = {}
+for element in periodic_table:
+    elemental_masses[element.symbol] = element.MW
 
 def time_determination(time):
     unit = 'seconds'
@@ -53,6 +58,7 @@ class ROSSPkg():
         self.phreeqc_mod = phreeqc_mod
         self.parameters['os'] =  operating_system
         self.parameters['root_path'] = os.path.join(os.path.dirname(__file__))
+        self.databases = [re.search('(\w+)(?=.json)', database).group() for database in glob('./databases/*.json')]
         
     def define_general(self, database_selection, simulation = 'scaling', domain = 'single', domain_phase = None, quantity_of_modules = 1, simulation_type = 'transport', simulation_title = None):
         '''Establish general conditions'''
@@ -570,7 +576,12 @@ class ROSSPkg():
                     permeate_approach_name = 'LinCF'
                 simulation_name = '-'.join([re.sub(' ', '_', str(x)) for x in [datetime.date.today(), 'ROSSpy', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], permeate_approach_name]])
             
-        while os.path.exists(simulation_name):
+        if input_path is None:
+            directory = os.getcwd()
+        else:
+            directory = os.path.dirname(input_path)
+            
+        while os.path.exists(os.path.join(directory, simulation_name)):
             simulation_number += 1
             simulation_name = re.sub('(\-\d+$)', '', simulation_name)
             simulation_name = '-'.join([simulation_name, str(simulation_number)])
@@ -578,16 +589,17 @@ class ROSSPkg():
         # define the simulation input path 
         if input_path is None:
             self.parameters['input_file_name'] = 'input.pqi'
-            working_directory = os.getcwd()
-            self.simulation_path = os.path.join(working_directory, simulation_name)
+            self.simulation_path = os.path.join(directory, simulation_name)
             os.mkdir(self.simulation_path)
             self.parameters['input_path'] = os.path.join(self.simulation_path, self.parameters['input_file_name'])
         else:
             self.parameters['input_path'] = input_path
+            self.simulation_path = os.path.join(directory, simulation_name)
+            os.mkdir(self.simulation_path)
             
         # define the simulation output path 
         if output_path is None:
-            self.parameters['output_file_name'] = 'selected_output.pqo'
+            self.parameters['output_file_name'] = 'selected_output.csv'
             self.parameters['output_path'] = os.path.join(self.simulation_path, self.parameters['output_file_name'])
         else:
             self.parameters['output_path'] = output_path 
@@ -601,6 +613,9 @@ class ROSSPkg():
             
         # comment the corresponding simulation in the input file
         simulation_line = f'# {self.simulation_path}'
+        if external_file:
+            with open(os.path.join(self.simulation_path, 'input.pqi'), 'w') as input:
+                input.write(self.input_file)
         if not external_file:
             self.results['solution_block'].insert(0, simulation_line)
             self.results['complete_lines'] = chain(self.results['general_conditions'], self.results['solution_block'], self.results['equilibrium_phases_block'], self.results['reaction_block'], self.results['selected_output_block'], self.results['transport_block']) 
@@ -650,7 +665,7 @@ class ROSSPkg():
         variables_table.to_csv(variables_path)
         
         # export the predicted effluent concentrations
-        effluent_concentrations = pandas.DataFrame(list(self.predicted_effluent.items()), columns = ['elements', 'ppm conc'])
+        effluent_concentrations = pandas.DataFrame(list(self.predicted_effluent.items()), columns = ['elements', 'conc (input units)'])
         effluent_concentrations.index = effluent_concentrations['elements']
         del effluent_concentrations['elements']
         effluent_path = os.path.join(self.simulation_path, 'effluent_predictions.csv')
@@ -662,6 +677,12 @@ class ROSSPkg():
             self.input_file = file.read()
         if self.verbose:
             print(self.input_file)
+           
+        # identify the database in the name
+        self.parameters['database_selection'] = 'pitzer'
+        for db in self.databases:
+            if re.search(db, input_file_path):
+                self.parameters['database_selection'] = db
             
         # parse the input_file       
         input_df = pandas.read_table(input_file_path, names = ['content'], sep='\n')
@@ -671,12 +692,18 @@ class ROSSPkg():
         self.parameters['water_selection'] = water_selection
         self.parameters['simulation'] = simulation
         self.parameters['domain_phase'] = False
+        self.predicted_effluent = {}
+        permeate_moles = 0
         for index, row in input_df.iteritems():
             if re.search('DATABASE', row):
                 row = re.sub('DATABASE ','',row)
                 self.parameters['database_selection'] = re.sub('\.dat', '', os.path.basename(row))
-                self.parameters['database_path'] = os.path.join(self.parameters['root_path'], 'databases','{}.dat'.format(self.parameters['database_selection']))
-                self.define_database()
+            elif re.search('(^[A-Z][a-z \(]?[\s\d])', row):
+                element = re.search('(^[A-Z][a-z]?)', row).group()
+                conc = re.search('(?<!\()([\d\.]+)', row).group()
+                self.predicted_effluent[element] = float(conc)
+            elif re.search('-water\s+\d', row):
+                water_mass = float(re.sub('(-water\s+)', '', row))
             elif re.search('linear_cf', row):
                 self.parameters['permeate_approach'] = 'linear_cf'
             elif re.search('EQUILIBRIUM_PHASES', row):
@@ -684,6 +711,8 @@ class ROSSPkg():
                 row = float(re.sub('(\-\d+)', '', row))
                 if row != 1:
                     self.parameters['domain_phase'] = 'Mobile'
+            elif re.search('H2O -1; ', row):
+                permeate_moles += float(re.sub('(H2O -1; )', '', row))
             elif re.search('TRANSPORT', row):
                 self.parameters['simulation_type'] = 'transport'
             elif re.search('-cells', row):
@@ -705,13 +734,24 @@ class ROSSPkg():
                 elif row == 1:
                     self.parameters['simulation_perspective'] = 'all_time'
                     
+        # open the respective database
+        self.parameters['database_path'] = os.path.join(self.parameters['root_path'], 'databases','{}.dat'.format(self.parameters['database_selection']))
+        self.define_database()
+                    
+        # predict the effluent concentrations
+        water_molar_mass = 2*elemental_masses['H']+elemental_masses['O']
+        final_water_mass = water_mass - permeate_moles*water_molar_mass*milli
+        self.cumulative_cf = water_mass/final_water_mass
+        for element in self.predicted_effluent:
+            self.predicted_effluent[element] = self.predicted_effluent[element]*self.cumulative_cf
+                
         # define the simulation folder and parameters
         if self.parameters['domain_phase'] is not None:
             self.plot_title = '{} phase {} from the {} after {}'.format(self.parameters['domain_phase'], self.parameters['simulation'], self.parameters['water_selection'], sigfigs_conversion(self.parameters['simulation_time']))
         if active_feed_area is None:
             self.parameters['active_m2'] = 37
             self.parameters['active_m2_cell'] = self.parameters['active_m2']/self.parameters['cells_per_module']
-        self.export(simulation_name, external_file = True)
+        self.export(simulation_name, input_file_path, external_file = True)
 
     def execute(self, simulated_to_real_time = 9.29):
         '''Execute a PHREEQC input file '''
@@ -729,7 +769,6 @@ class ROSSPkg():
             for row in output[1:]:
                 for col, head in enumerate(header):
                     conc[head].append(row[col])
-                    
             return phreeqc, conc
 
         def main(input_file):
@@ -743,17 +782,15 @@ class ROSSPkg():
             phreeqc, conc, run_time = measure_time(run, input_file)            
             
             # export the simulation results
-            fobj = open(self.parameters['output_path'], 'w')
             headers = conc.keys()
             self.results['csv_data'] = pandas.DataFrame(conc, columns = headers)
+            self.results['csv_data'].to_csv(self.parameters['output_path'])
             if self.verbose:
                 if self.jupyter:
                     pandas.set_option('display.max_columns', None)
                     display(self.results['csv_data'])
                 else:
                     print(self.results['csv_data'])
-            fobj.write(self.results['csv_data'].to_string())
-            
             self.variables['run_time (s)'] = float(run_time)
 
         # communicate progress to the user
@@ -778,7 +815,6 @@ class ROSSPkg():
 
     def process_selected_output(self, selected_output_path = None, plot_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', individual_plots = None):
         """Interpreting the PHREEQC SELECTED_OUTPUT file and conducting the plotting functions"""
-        databases = [re.search('(\w+)(?=.json)', database).group() for database in glob('./databases/*.json')]
         if plot_title is not None:
             self.plot_title = plot_title
         
@@ -798,7 +834,7 @@ class ROSSPkg():
 
                 # define the database contents
                 self.parameters['database_selection'] = 'pitzer'
-                for database in databases:
+                for database in self.databases:
                     names = database.split('_')
                     if all(re.search(name, selected_output_path, re.IGNORECASE) for name in names):
                         self.parameters['database_selection'] = database                   
@@ -816,12 +852,17 @@ class ROSSPkg():
 
             # preparing the SELECTED_OUTPUT file into a dataframe
             selected_output = open(selected_output_path, 'r')
-            original_data = pandas.read_table(selected_output, sep = '\t')
+            if re.search('pqo', selected_output_path):
+                sep = '\t'
+            else:
+                sep = ','
+            original_data = pandas.read_table(selected_output, sep = sep)
             self.results['csv_data'] = pandas.DataFrame(original_data)
             for column in self.results['csv_data'].columns:
                 new_column = column.strip()
                 self.results['csv_data'].rename(columns={column:new_column}, inplace = True)
 
+        
         self.variables['initial_solution_mass'] = self.results['csv_data']['mass_H2O'][0]
         if self.parameters['simulation_type'] == 'transport':
             self.results['csv_data'].drop(self.results['csv_data'].index[:3], inplace=True)
@@ -1175,22 +1216,18 @@ class ROSSPkg():
         figure = pyplot.gcf()
         pyplot.show()
         self.export_plot(figure, mineral, export_name, export_format)
-        
-    def figure_name(self):
-        # define the output name
-        if self.parameters['simulation'] == 'scaling':
-            if self.parameters['individual_plots']:
-                export_name = mineral
-            else:
-                export_name = 'all_minerals'
-        if self.parameters['simulation'] == 'brine':
-            export_name = 'brine'
-        return export_name
 
     def export_plot(self, figure, mineral = None, export_name = None, export_format = 'svg'):
         """Export the plots to the current working directory  """
         if export_name is None:
-            export_name = self.figure_name()
+            # define the output name
+            if self.parameters['simulation'] == 'scaling':
+                if self.parameters['individual_plots']:
+                    export_name = mineral
+                else:
+                    export_name = 'all_minerals'
+            if self.parameters['simulation'] == 'brine':
+                export_name = 'brine'
         self.results['figures'][export_name] = {'figure':figure, 'title':self.plot_title}
                                 
         # export the plot
