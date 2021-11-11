@@ -563,7 +563,7 @@ class ROSSPkg():
         self.results['selected_output_block'] = []
         self.results['selected_output_block'].extend((first_line, file_name_line, reaction_line, temperature_line, total_elements_line, saturation_indices_line, equilibrium_phases_line, ph_line, time_line, distance_line, simulation_line, high_precision_line, alkalinity_line, solution_line, charge_balance_line, ionic_strength_line, step_line, water_line))
         
-    def define_paths(self, simulation_name = None, input_path = None, output_path = None):
+    def define_paths(self, simulation_name = None, input_path = None, output_path = None, external_file = False):
         # define the simulation name 
         simulation_number = 1
         if simulation_name is None:
@@ -598,18 +598,21 @@ class ROSSPkg():
             os.mkdir(self.simulation_path)
             
         # define the simulation output path 
-        if output_path is None:
-            self.parameters['output_file_name'] = 'selected_output.csv'
+        if external_file:
+            self.parameters['output_file_name'] = 'output.pqo'
             self.parameters['output_path'] = os.path.join(self.simulation_path, self.parameters['output_file_name'])
-        else:
-            self.parameters['output_path'] = output_path 
-            
+        else:            
+            if output_path is None:
+                self.parameters['output_file_name'] = 'selected_output.csv'
+                self.parameters['output_path'] = os.path.join(self.simulation_path, self.parameters['output_file_name'])
+            else:
+                self.parameters['output_path'] = output_path 
             
         return simulation_name, self.parameters['input_path'], self.parameters['output_path']
 
     def export(self, simulation_name = None, input_path = None, output_path = None, external_file = False):
         """View and export the PHREEQC input file"""    
-        simulation_name, input_path, output_path = self.define_paths(simulation_name, input_path, output_path)
+        simulation_name, input_path, output_path = self.define_paths(simulation_name, input_path, output_path, external_file)
             
         # comment the corresponding simulation in the input file
         simulation_line = f'# {self.simulation_path}'
@@ -719,6 +722,8 @@ class ROSSPkg():
                 self.parameters['cells_per_module'] = float(re.sub('-cells\s+', '', row))
             elif re.search('-shifts', row):
                 self.simulation_shifts = float(re.sub('-shifts\s+', '', row))
+            elif re.search('-file', row):
+                self.selected_output_file_name = re.sub('-file\s+', '', row)
             elif re.search('-time_step', row):
                 self.parameters['timestep'] = float(re.sub('-time_step\s+', '', row).split('\t')[0])
                 self.parameters['simulation_time'] = self.parameters['timestep'] * self.simulation_shifts

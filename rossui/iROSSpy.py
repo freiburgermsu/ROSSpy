@@ -506,11 +506,17 @@ class iROSSpy():
         print(announcement, '\n', '='*len(announcement))
 
         # execute the PHREEQC batch software
-        phreeqc_path = os.path.join('C:','Program Files','USGS','phreeqc-3.6.2-15100-x64')
+        phreeqc_path = os.path.join('C:\\Program Files','USGS','phreeqc-3.6.2-15100-x64')
         bat_path = os.path.join(phreeqc_path, 'bin', 'phreeqc.bat')
         input_path = self.ross.parameters['input_path']
         output_path = self.ross.parameters['output_path']
         database_path = self.ross.parameters['database_path']
+        
+        # hard-coded examples
+#         simulation_path = os.path.join('C:\\', 'Users', 'Andrew Freiburger', 'Dropbox', 'My PC (DESKTOP-M302P50)', 'Documents', 'UVic Civil Engineering', 'PHREEQC', 'PHREEQC', '2021-10-07_ROSS_red_sea_transport_pitzer_scaling_LinPerm_5')
+#         input_path = simulation_path + '.pqi'
+#         output_path = simulation_path + '.pqo'
+#         database_path = os.path.join(simulation_path, '..', '..', 'ROSS', 'rosspy', 'databases', 'pitzer.dat')
         
         proc = subprocess.Popen('cmd.exe', stdin=subprocess.PIPE)
         command = str.encode("\"" + bat_path + "\" \"" + input_path + "\" \"" + output_path + "\"  \"" + database_path + "\"\n") 
@@ -518,8 +524,8 @@ class iROSSpy():
         proc.stdin.close()  
         proc.wait()
 
-        self.raw_data = self.ross.execute(simulated_to_real_time = 9.29)
-#         self.ross.results['csv_data'] = pandas.read_table(open(output_path), sep='\t')
+#         self.raw_data = self.ross.execute(simulated_to_real_time = 9.29)
+        self.ross.results['csv_data'] = pandas.read_table(open(self.ross.selected_output_file_name), sep='\t')
 
 # execute and process the input file
     def process_selected_output(self,):

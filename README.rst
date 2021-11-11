@@ -67,7 +67,7 @@ The ``define_general`` function defines general conditions of the simulation::
 transport
 +++++++++++
 
-The ``transport`` function defines conditions for reactive transport simulations::
+The ``transport`` function defines spatiotemporal conditions for reactive transport simulations in the TRANSPORT block of PHREEQ code::
 
  ross.transport(simulation_time, simulation_perspective = None, 
  module_characteristics = {}, cells_per_module = 12, parameterized_timestep = None, 
@@ -101,7 +101,7 @@ The ``values`` for the dictionary are all floats in the units of the correspondi
 reaction
 +++++++++++
 
-The ``reaction`` function calculates and parameterizes the permeate flux gradient in reactive transport simulations or the rate of evaporation in evaporation simulations::
+The ``reaction`` function calculates and parameterizes the permeate flux gradient in reactive transport simulations, or the rate of evaporation in evaporation simulations, in the REACTION blocks of PHREEQ code::
 
  ross.reaction(permeate_approach = 'linear_permeate', permeate_efficiency = 1, 
  head_loss = 0.89, final_cf = 2)
@@ -116,7 +116,7 @@ The ``reaction`` function calculates and parameterizes the permeate flux gradien
 solutions
 +++++++++++
 
-The ``solutions`` function parameterizes the feed solution geochemistry and corresponding references::
+The ``solutions`` function parameterizes the feed solution geochemistry and corresponding references into the SOLUTION block of PHREEQ code, either from a predefined water body or from a customized geochemical feed source. The elements that are not accepted by each database automatically rejected by ROSSpy to avoid PHREEQ errors in the computation::
 
  ross.solutions(water_selection = '', water_characteristics = {}, 
  solution_description = '', parameterized_alkalinity = False, parameterized_ph_charge = True)
@@ -166,7 +166,7 @@ The ``value`` of each of these keys is itself a dictionary, with the keys of "va
 equilibrium_phases
 +++++++++++++++++++++
 
-The ``equilibrium_phases`` function parameterizes the minerals, and the pre-existing geochemical equilibria, that will be explored as scale in the simulation::
+The ``equilibrium_phases`` function parameterizes the EQUILIBRIUM_PHASES block of PHREEQ code with the minerals, and the pre-existing geochemical equilibria, that will be explored in scaling. The set of minerals that can precipitate from the parameterized ions is parameterized automatically into the simulation, however, may customize this set of analyzed minerals::
 
  ross.equilibrium_phases(block_comment = '', ignored_minerals = [], 
  existing_parameters = {})
@@ -198,7 +198,7 @@ The ``selected_output`` function defines the content that will be incorporated t
 export
 +++++++++++
 
-The ``export`` function prepares and exports simulation content to a designated folder for the simulation experiment::
+The ``export`` function prepares and exports simulation content -- simulation parameters, raw and processed data, figures, and the input file -- into a discretely labeled that is designated for the simulation experiment::
 
  ross.export(simulation_name = None, input_path = None, output_path = None, 
  external_file = False)

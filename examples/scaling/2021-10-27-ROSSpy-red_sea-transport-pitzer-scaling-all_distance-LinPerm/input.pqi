@@ -142,3 +142,7 @@ TRANSPORT
 
 -punch_cells		1-12
 -punch_frequency	51
+
+USER_PRINT
+10 PRINT "gamma_Ca: ", GAMMA("Ca+2")
+20 PRINT "gamma_SO4: ", GAMMA("SO4-2")
