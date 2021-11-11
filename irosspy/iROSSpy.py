@@ -5,6 +5,7 @@ import subprocess
 import rosspy
 import pandas
 import os
+import re
 
 # create the input file
 class iROSSpy():
@@ -527,8 +528,13 @@ class iROSSpy():
 #         self.raw_data = self.ross.execute(simulated_to_real_time = 9.29)
         selected_output_path = os.path.join(os.path.dirname(__file__), self.ross.selected_output_file_name)
         self.ross.results['csv_data'] = pandas.read_table(open(selected_output_path), sep='\t')
+        for column in self.ross.results['csv_data'].columns:
+            new_column = column.strip()
+            self.ross.results['csv_data'].rename(columns={column:new_column}, inplace = True)
+            if re.search('Unnamed', column):
+                del self.ross.results['csv_data'][column]
         self.selected_output_new_path = os.path.join(self.ross.simulation_path, 'selected_output.csv')
-        self.ross.results['csv_data'].to_csv(selected_output_new_path)
+        self.ross.results['csv_data'].to_csv(self.selected_output_new_path)
 
 # execute and process the input file
     def process_selected_output(self,):
@@ -536,11 +542,11 @@ class iROSSpy():
         announcement = '\nProcess the output:'
         print(announcement, '\n', '='*len(announcement))     
         
-        selected_output_path = input('''- What is the selected_output_path?
-        Default = {} ____ '''.format(self.ross.parameters['output_path'])) or self.selected_output_new_path
+        selected_output_path = input(f'''- What is the selected_output_path?
+        Default = {self.selected_output_new_path} ____ ''') or self.selected_output_new_path
         while not os.path.exists(selected_output_path):
-            selected_output_path = input('''- What is the selected_output_path?
-            Default = {} ____ '''.format(self.ross.parameters['output_path'])) or self.selected_output_new_path
+            selected_output_path = input(f'''- What is the selected_output_path?
+            Default = {self.selected_output_new_path} ____ ''') or self.selected_output_new_path
         
         # define plot_title
         plot_title = input('''- What is the title of the plot?

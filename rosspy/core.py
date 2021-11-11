@@ -703,8 +703,9 @@ class ROSSPkg():
                 self.parameters['database_selection'] = re.sub('\.dat', '', os.path.basename(row))
             elif re.search('(^[A-Z][a-z \(]?[\s\d])', row):
                 element = re.search('(^[A-Z][a-z]?)', row).group()
-                conc = re.search('(?<!\()([\d\.]+)', row).group()
-                self.predicted_effluent[element] = float(conc)
+                conc = re.search('(?<!\()([\d\.]+)', row).group(1)
+                if float(conc) > 0:
+                    self.predicted_effluent[element] = float(conc)
             elif re.search('-water\s+\d', row):
                 water_mass = float(re.sub('(-water\s+)', '', row))
             elif re.search('linear_cf', row):
@@ -868,7 +869,6 @@ class ROSSPkg():
                 new_column = column.strip()
                 self.results['csv_data'].rename(columns={column:new_column}, inplace = True)
 
-        print(self.results['csv_data'].columns)
         self.variables['initial_solution_mass'] = self.results['csv_data']['mass_H2O'][0]
         if self.parameters['simulation_type'] == 'transport':
             self.results['csv_data'].drop(self.results['csv_data'].index[:3], inplace=True)
