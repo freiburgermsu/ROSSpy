@@ -49,10 +49,10 @@ class ROSSPkg():
         self.verbose = verbose
         self.jupyter = jupyter
         self.plot_title = None
-        if operating_system == 'unix':
-            import phreeqpy.iphreeqc.phreeqc_dll as phreeqc_mod
-        elif operating_system == 'windows':
+        if operating_system == 'windows':
             import phreeqpy.iphreeqc.phreeqc_com as phreeqc_mod
+        elif operating_system == 'unix':
+            import phreeqpy.iphreeqc.phreeqc_dll as phreeqc_mod
         else:
             print(f'--> ERROR: The operating system {operating_system} is not supported.')
         self.phreeqc_mod = phreeqc_mod
@@ -764,6 +764,7 @@ class ROSSPkg():
         '''Execute a PHREEQC input file '''
         def run(input_file, first=False):
             phreeqc = self.phreeqc_mod.IPhreeqc()  
+            print(self.parameters['database_path'])
             phreeqc.load_database(self.parameters['database_path'])                
             phreeqc.run_string(input_file)
             
