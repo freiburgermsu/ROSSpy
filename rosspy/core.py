@@ -868,6 +868,7 @@ class ROSSPkg():
                 new_column = column.strip()
                 self.results['csv_data'].rename(columns={column:new_column}, inplace = True)
 
+        print(self.results['csv_data'].columns)
         self.variables['initial_solution_mass'] = self.results['csv_data']['mass_H2O'][0]
         if self.parameters['simulation_type'] == 'transport':
             self.results['csv_data'].drop(self.results['csv_data'].index[:3], inplace=True)

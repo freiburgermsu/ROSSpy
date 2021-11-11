@@ -525,7 +525,10 @@ class iROSSpy():
         proc.wait()
 
 #         self.raw_data = self.ross.execute(simulated_to_real_time = 9.29)
-        self.ross.results['csv_data'] = pandas.read_table(open(self.ross.selected_output_file_name), sep='\t')
+        selected_output_path = os.path.join(os.path.dirname(__file__), self.ross.selected_output_file_name)
+        self.ross.results['csv_data'] = pandas.read_table(open(selected_output_path), sep='\t')
+        self.selected_output_new_path = os.path.join(self.ross.simulation_path, 'selected_output.csv')
+        self.ross.results['csv_data'].to_csv(selected_output_new_path)
 
 # execute and process the input file
     def process_selected_output(self,):
@@ -534,10 +537,10 @@ class iROSSpy():
         print(announcement, '\n', '='*len(announcement))     
         
         selected_output_path = input('''- What is the selected_output_path?
-        Default = {} ____ '''.format(self.ross.parameters['output_path'])) or self.ross.parameters['output_path']
+        Default = {} ____ '''.format(self.ross.parameters['output_path'])) or self.selected_output_new_path
         while not os.path.exists(selected_output_path):
             selected_output_path = input('''- What is the selected_output_path?
-            Default = {} ____ '''.format(self.ross.parameters['output_path'])) or self.ross.parameters['output_path']
+            Default = {} ____ '''.format(self.ross.parameters['output_path'])) or self.selected_output_new_path
         
         # define plot_title
         plot_title = input('''- What is the title of the plot?
