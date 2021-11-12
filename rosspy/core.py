@@ -767,14 +767,17 @@ class ROSSPkg():
             print(self.parameters['database_path'])
             print(type(self.parameters['database_path']))
             #loading a file
-            phreeqc.load_database("/Users/Andrew/Documents/Research/University of Victoria Civil Engineering/ROSSpy/rosspy/databases/pitzer.dat")  
+            error = phreeqc.load_database("/Users/Andrew/Documents/Research/University of Victoria Civil Engineering/ROSSpy/rosspy/databases/unix/pitzer.dat")  
+            print(error)
     
             # loading a string
-            db = open(self.parameters['database_path'])
-            database = '\n'.join([line for line in db])
-            print(database)
-            phreeqc.load_database_string(database)
+#             db = open(self.parameters['database_path'])
+#             database = '\n'.join([line for line in db])
+#             print(database)
+#             phreeqc.load_database_string(database)
             print(dir(phreeqc))
+#             database = '\n'.join([line for line in db])
+            print(phreeqc.get_error_string())
             
             # run the simulation
             phreeqc.run_string(input_file)
