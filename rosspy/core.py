@@ -207,11 +207,8 @@ class ROSSPkg():
             print('permeate_removal_per_cell', self.parameters['permeate_moles_per_cell'])
             print('active_cm_squared_cell', (self.parameters['active_m2_cell'] / centi**2))
 
-    def reaction(self, permeate_approach = 'linear_permeate', permeate_efficiency = 1, head_loss = 0.89, final_cf = 2):
-        '''
-        Define the REACTION block
-            The head_loss parameter default of 11% is sourced from “Reverse osmosis desalination: Modeling and experiment” by Fraidenraich et al.; 2009.
-        '''        
+    def reaction(self, permeate_approach = 'linear_permeate', permeate_efficiency = 1, head_loss = 0.89, final_cf = 2, evaporation_steps = 15):     
+        '''Define the REACTION blocks'''
         # establish parameters
         self.parameters['permeate_approach'] = permeate_approach
         
@@ -280,7 +277,6 @@ class ROSSPkg():
                 self.variables[f'module {module}'] = {'cf': cf}
 
             if self.parameters['simulation_type'] == 'transport':
-                self.results['reaction_block'].append('\n')
                 for cell in range(1, self.parameters['cells_per_module']+1):
                     if self.parameters['domain'] == 'single':
                         cell_number = cell + self.parameters['cells_per_module'] * module
@@ -289,43 +285,34 @@ class ROSSPkg():
                         cell_number = cell + self.parameters['cells_per_module'] * (module + self.parameters['quantity_of_modules']) + 1
                         reaction_index = (cell + self.parameters['cells_per_module'] * module)-1
                         
-                    reaction_line = f'REACTION {cell_number}'
+                    reaction_line = f'\nREACTION {cell_number}'
                     if cell < self.parameters['cells_per_module']:
                         reaction_line += f'\n\tH2O -1; {reaction_parameters[reaction_index]}' 
                     elif cell == self.parameters['cells_per_module']:
                         reaction_line += f'''\n\tH2O -1; {reaction_parameters[reaction_index]}'''   
                            
                     self.results['reaction_block'].append(reaction_line)
+                    
+                # the calculated reaction parameters will be added and printed to a generated PHREEQC input file
+                final_solution_mass = moles_remaining * self.parameters['water_mw'] * milli  #kg water mass
+                if self.parameters['os'] == 'windows':
+                    self.results['reaction_block'].append('#%s' %(permeate_approach))
+                    if permeate_approach == 'linear permeate':
+                        self.results['reaction_block'].append(f'''
+                #Permeate efficiency parameter: {permeate_efficiency}
+                #Effluent relative pressure: {head_loss}''')
+
+                        self.results['reaction_block'].append(f'''    #Effluent module {module + 1}:
+                #Estimated CF: {sigfigs_conversion(cf, 4)}
+                #Estimated final water mass: {final_solution_mass}\n\n''')
 
             elif self.parameters['simulation_type'] == 'evaporation':
-                parameter_quantity = 15                          
-                recursive_asymptote_multiplier = 1.335449219     # ??? arbitrary assignment of kg of water in the simulation?
-                moles_removed = sum(reaction_parameters)
-                initial_evaporation_parameter = moles_removed / recursive_asymptote_multiplier
-                evaporation_reaction_parameters = ['0', initial_evaporation_parameter]  # ???
-                for parameter in range(1, parameter_quantity):
-                    evaporation_reaction_parameter = evaporation_reaction_parameters[parameter] * 1/4
-                    evaporation_reaction_parameters.append(evaporation_reaction_parameter)
-
                 # define the reaction block
-                reaction_line = 'REACTION 1'
+                reaction_line = '\nREACTION 1'
                 reaction_line += '\n\tH2O -1; '
-                reaction_line += ' '.join([str(x) for x in evaporation_reaction_parameters]) 
+                reaction_line += f'{moles_removed} in {evaporation_steps} step'
                 reaction_line += ';\nINCREMENTAL_REACTIONS \ttrue'
                 self.results['reaction_block'].append(reaction_line)
-
-            # the calculated reaction parameters will be added and printed to a generated PHREEQC input file
-            final_solution_mass = moles_remaining * self.parameters['water_mw'] * milli  #kg water mass
-            if self.parameters['os'] == 'windows':
-                self.results['reaction_block'].append('#%s' %(permeate_approach))
-                if permeate_approach == 'linear permeate':
-                    self.results['reaction_block'].append(f'''
-        #Permeate efficiency parameter: {permeate_efficiency}
-        #Effluent relative pressure: {head_loss}''')
-
-                self.results['reaction_block'].append(f'''    #Effluent module {module + 1}:
-        #Estimated CF: {sigfigs_conversion(cf, 4)}
-        #Estimated final water mass: {final_solution_mass}\n\n''')
 
             if self.verbose:
                 print(f'Effluent module {module + 1} CF: {cf}')
@@ -1016,24 +1003,26 @@ class ROSSPkg():
             for mineral in self.variables['precipitated_minerals']: 
                 mineral_formula = self.minerals[mineral]['formula']
                 legend.append(legend_determination(0, mineral, mineral_formula))
-                data[f'{mineral} (mol)'] = {}
+                data[f'{mineral} (g)'] = {}
                 cf_series = []        
                 scaling_series = []
                 for index, row in self.results['csv_data'].iterrows():
                     if index != len(self.results['csv_data']['mass_H2O']):
                         if row['step'] >= 1:
                             cf = self.variables['initial_solution_mass'] / row['mass_H2O']
-                            scale = row[mineral]
-                            scaling_series.append(scale) 
+                            scale_mass = row[mineral] * self.minerals[mineral]['mass']
+                            scaling_series.append(scale_mass) 
                             cf_series.append(cf)   
-                            data[f'{mineral} (mol)'][sigfigs_conversion(cf, 6)] = scale              
+                            data[f'{mineral} (g)'][sigfigs_conversion(cf, 6)] = scale_mass            
 
                 pyplot.plot(cf_series,scaling_series)
                 data_df = pandas.DataFrame(data)
                 scaling_data = scaling_data.merge(data_df, how = 'outer', left_index = True, right_index = True)
                     
+            legend_title = 'scale'
+            mineral = None
             if self.plot_title is None:
-                self.plot_title = 'Evaporation precipiation from the {}'.format(self.parameters['water_selection'])                    
+                self.plot_title = 'Evaporation scaling from the {}'.format(self.parameters['water_selection'])                    
             self.illustrate(pyplot, legend, legend_title, mineral, export_name, label_font, title_font, export_format)
             return scaling_data
         
@@ -1193,9 +1182,9 @@ class ROSSPkg():
         # determine the y-axis label
         if self.parameters['simulation'] == 'scaling':
             if self.parameters['simulation_type'] == 'transport':
-                y_label = 'Quantity (g/m^2)'
+                y_label = 'Mass concentration (g/m^2)'
             elif self.parameters['simulation_type'] == 'evaporation':
-                y_label = 'Quantity (moles)'
+                y_label = 'Mass (g)'
         elif self.parameters['simulation'] == 'brine':
             y_label = 'Concentration (molal)'
         
@@ -1217,8 +1206,9 @@ class ROSSPkg():
         pyplot.xlabel(x_label, fontsize = label_font)
         pyplot.ylabel(y_label, fontsize = label_font)  
         if legend is not None:
-            pyplot.legend(legend, title = legend_title, loc='best', title_fontsize = 'x-large', fontsize = 'large')   
-        pyplot.figtext(0.2, 0.07, 'Final CF: {}'.format(sigfigs_conversion(self.variables['simulation_cf'], 4)), wrap=True, horizontalalignment='left', fontsize=12)
+            pyplot.legend(legend, title = legend_title, loc='best', title_fontsize = 'x-large', fontsize = 'large')  
+        if self.parameters['simulation_type'] == 'transport':
+            pyplot.figtext(0.2, 0.07, 'Final CF: {}'.format(sigfigs_conversion(self.variables['simulation_cf'], 4)), wrap=True, horizontalalignment='left', fontsize=12)
         
         figure = pyplot.gcf()
         pyplot.show()

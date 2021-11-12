@@ -36,7 +36,7 @@ The ROSSpy framework represents RO desalination as one-dimensional reactive tran
 
 
 ----------------------
-Numerical execution
+Functions
 ----------------------
 
 ROSSpy essentially translates user specifications of an RO system into PHREEQ parameters that are executed via `PHREEQpy <https://pypi.org/project/phreeqpy/>`_. The translation of the specifications are organized into the following Python functions of a single class object ``ROSSPkg``, whose underlying calculations and logic are detailed in the ROSSpy manuscript. 
@@ -78,7 +78,7 @@ The ``define_general`` function defines general conditions of the simulation::
 transport
 +++++++++++
 
-The ``transport`` function defines conditions for reactive transport simulations::
+The ``transport`` function defines spatiotemporal conditions for reactive transport simulations in the TRANSPORT block of PHREEQ code::
 
  ross.transport(simulation_time, simulation_perspective = None, 
  module_characteristics = {}, cells_per_module = 12, parameterized_timestep = None, 
@@ -112,7 +112,7 @@ The ``values`` for the dictionary are all floats in the units of the correspondi
 reaction
 +++++++++++
 
-The ``reaction`` function calculates and parameterizes the permeate flux gradient in reactive transport simulations or the rate of evaporation in evaporation simulations::
+The ``reaction`` function calculates and parameterizes the permeate flux gradient in reactive transport simulations, or the rate of evaporation in evaporation simulations, in the REACTION blocks of PHREEQ code::
 
  ross.reaction(permeate_approach = 'linear_permeate', permeate_efficiency = 1, 
  head_loss = 0.89, final_cf = 2)
@@ -120,14 +120,14 @@ The ``reaction`` function calculates and parameterizes the permeate flux gradien
 - *permeate_approach* ``str``: specifies either the "linear_permeate" or "linear_cf" the gradients of permeate flux in reactive transport simulations.
 - *permeate_efficiency* ``float``: specifies 0<=PE<=1 proportion of calculated permeate flux that actually filters from the feed solution.
 - *head_loss* ``float``: specifies the 0<=PE<=1 proportion of effluent pressure relative to the influent.
-- *final_cf* ``float``: specifies the final CF of the effluent for the linear_cf gradient of permeate flux in reactive transport simulations.
+- *final_cf* ``float``: specifies the final CF of the effluent for the linear_cf gradient of permeate flux in reactive transport simulations. The default value of 0.89 -- an 11% pressure drop -- is sourced from “Reverse osmosis desalination: Modeling and experiment” by Fraidenraich et al., 2009.
 
 
 +++++++++++
 solutions
 +++++++++++
 
-The ``solutions`` function parameterizes the feed solution geochemistry and corresponding references::
+The ``solutions`` function parameterizes the feed solution geochemistry and corresponding references into the SOLUTION block of PHREEQ code, either from a predefined water body or from a customized geochemical feed source. The elements that are not accepted by each database automatically rejected by ROSSpy to avoid PHREEQ errors in the computation::
 
  ross.solutions(water_selection = '', water_characteristics = {}, 
  solution_description = '', parameterized_alkalinity = False, parameterized_ph_charge = True)
@@ -177,7 +177,7 @@ The ``value`` of each of these keys is itself a dictionary, with the keys of "va
 equilibrium_phases
 +++++++++++++++++++++
 
-The ``equilibrium_phases`` function parameterizes the minerals, and the pre-existing geochemical equilibria, that will be explored as scale in the simulation::
+The ``equilibrium_phases`` function parameterizes the EQUILIBRIUM_PHASES block of PHREEQ code with the minerals, and the pre-existing geochemical equilibria, that will be explored in scaling. The set of minerals that can precipitate from the parameterized ions is parameterized automatically into the simulation, however, may customize this set of analyzed minerals::
 
  ross.equilibrium_phases(block_comment = '', ignored_minerals = [], 
  existing_parameters = {})
@@ -209,7 +209,7 @@ The ``selected_output`` function defines the content that will be incorporated t
 export
 +++++++++++
 
-The ``export`` function prepares and exports simulation content to a designated folder for the simulation experiment::
+The ``export`` function prepares and exports simulation content -- simulation parameters, raw and processed data, figures, and the input file -- into a discretely labeled that is designated for the simulation experiment::
 
  ross.export(simulation_name = None, input_path = None, output_path = None, 
  external_file = False)
@@ -271,4 +271,31 @@ The ``process_selected_output`` function processes the output data from the simu
 - *individual_plots* ``bool``: specifies whether each mineral of "scaling" simulations are plotted individually or combined in a single figure, where "None" allows the default of "True" for the "all_time" *simulation_perspective* or "False" otherwise.
 
 The processed simulation data that is the basis of the generated figures is returned by this function as a ``pandas.DataFrame`` object, which can be manipulated by the user for other purposes beyond ROSSpy.
+
+
+----------------------
+Execution
+----------------------
+
+ROSSpy is executed through a deliberate sequence of the aforementioned functions::
+ 
+ import rosspy
+ ross = rosspy.ROSSPkg()
+ ross.define_general(database_selection, simulation)
+ ross.transport(simulation_time, simulation_perspective, )
+ ross.reaction(permeate_approach, final_cf)
+ ross.solutions(water_selection, custom_water_parameters, solution_description)
+ ross.equilibrium_phases()
+ ross.selected_output()
+ ross.export()
+ raw_data = ross.execute()
+ processed_data = ross.process_selected_output()
+
+ROSSpy can be tested via a simple sequence with the ``test`` function::
+
+ pip install rosspy
+ ross = rosspy.ROSSPkg(operating_system = 'windows', verbose = False, jupyter = False)
+ ross.test()
+
+This is execute a predefined simulation with simple parameters, which should emulate the same exported files and processes of a cusotmized simulation experiment.
 

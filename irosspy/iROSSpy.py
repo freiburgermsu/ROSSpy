@@ -513,12 +513,6 @@ class iROSSpy():
         output_path = self.ross.parameters['output_path']
         database_path = self.ross.parameters['database_path']
         
-        # hard-coded examples
-#         simulation_path = os.path.join('C:\\', 'Users', 'Andrew Freiburger', 'Dropbox', 'My PC (DESKTOP-M302P50)', 'Documents', 'UVic Civil Engineering', 'PHREEQC', 'PHREEQC', '2021-10-07_ROSS_red_sea_transport_pitzer_scaling_LinPerm_5')
-#         input_path = simulation_path + '.pqi'
-#         output_path = simulation_path + '.pqo'
-#         database_path = os.path.join(simulation_path, '..', '..', 'ROSS', 'rosspy', 'databases', 'pitzer.dat')
-        
         proc = subprocess.Popen('cmd.exe', stdin=subprocess.PIPE)
         command = str.encode("\"" + bat_path + "\" \"" + input_path + "\" \"" + output_path + "\"  \"" + database_path + "\"\n") 
         proc.stdin.write(command)

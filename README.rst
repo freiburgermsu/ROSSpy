@@ -109,7 +109,7 @@ The ``reaction`` function calculates and parameterizes the permeate flux gradien
 - *permeate_approach* ``str``: specifies either the "linear_permeate" or "linear_cf" the gradients of permeate flux in reactive transport simulations.
 - *permeate_efficiency* ``float``: specifies 0<=PE<=1 proportion of calculated permeate flux that actually filters from the feed solution.
 - *head_loss* ``float``: specifies the 0<=PE<=1 proportion of effluent pressure relative to the influent.
-- *final_cf* ``float``: specifies the final CF of the effluent for the linear_cf gradient of permeate flux in reactive transport simulations.
+- *final_cf* ``float``: specifies the final CF of the effluent for the linear_cf gradient of permeate flux in reactive transport simulations. The default value of 0.89 -- an 11% pressure drop -- is sourced from “Reverse osmosis desalination: Modeling and experiment” by Fraidenraich et al., 2009.
 
 
 +++++++++++
