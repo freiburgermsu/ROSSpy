@@ -756,12 +756,13 @@ class ROSSPkg():
             #loading a file
             error = phreeqc.load_database("/Users/Andrew/Documents/Research/University of Victoria Civil Engineering/ROSSpy/rosspy/databases/unix/pitzer.dat")  
             print(error)
+            print(phreeqc.get_error_string())
     
             # loading a string
 #             db = open(self.parameters['database_path'])
 #             database = '\n'.join([line for line in db])
 #             print(database)
-#             phreeqc.load_database_string(database)
+            phreeqc.load_database_string('solution_master_species')
             print(dir(phreeqc))
 #             database = '\n'.join([line for line in db])
             print(phreeqc.get_error_string())
