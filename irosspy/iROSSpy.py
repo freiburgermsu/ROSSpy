@@ -507,7 +507,7 @@ class iROSSpy():
         print(announcement, '\n', '='*len(announcement))
 
         # execute the PHREEQC batch software
-        phreeqc_path = os.path.join('C:\\Program Files','USGS','phreeqc-3.6.2-15100-x64')
+        phreeqc_path = '.' # os.path.join('C:\\Program Files','USGS','phreeqc-3.6.2-15100-x64')
         bat_path = os.path.join(phreeqc_path, 'bin', 'phreeqc.bat')
         input_path = self.ross.parameters['input_path']
         output_path = self.ross.parameters['output_path']
