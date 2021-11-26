@@ -174,7 +174,7 @@ class ROSSPkg():
         # define the domain-dependent parameters
         domain_line = ''
         if self.parameters['domain'] == 'dual':
-            domain_line = f'-stagnant\t\t1\t\t{exchange_factor}\t\t\t0.1\t\t0.9 \t # dual domain\n#\t\t\t^stagnant cells\t^exchange factor\t^CP volume\t^bulk volume'
+            domain_line = f'-stagnant\t\t1\t\t{exchange_factor}\t\t\t0\t\t0 \t # dual domain\n#\t\t\t^stagnant cells\t^exchange factor\t^CP porosity\t^bulk porosity'
         if self.parameters['domain'] == 'single' or (self.parameters['domain'] == 'dual' and self.parameters['domain_phase'] == 'mobile'):
             first_cell = 1
             final_cell = self.parameters['cells_per_module']*self.parameters['quantity_of_modules']
