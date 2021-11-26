@@ -89,7 +89,7 @@ class ROSSPkg():
         self.elements = database['elements']
         self.minerals = database['minerals']
 
-    def transport(self, simulation_time, simulation_perspective = None, module_characteristics = {}, cells_per_module = 12, parameterized_timestep = None, kinematic_flow_velocity = None, exchange_factor = 1e10):
+    def transport(self, simulation_time, simulation_perspective = None, module_characteristics = {}, cells_per_module = 12, parameterized_timestep = None, kinematic_flow_velocity = None, exchange_factor = 1e-5):
         '''Define the TRANSPORT block'''
         self.parameters['simulation_time'] = simulation_time
         self.parameters['exchange_factor'] = exchange_factor
@@ -751,21 +751,22 @@ class ROSSPkg():
         '''Execute a PHREEQC input file '''
         def run(input_file, first=False):
             phreeqc = self.phreeqc_mod.IPhreeqc()  
-            print(self.parameters['database_path'])
-            print(type(self.parameters['database_path']))
+            phreeqc.load_database(self.parameters['database_path'])
+#             print(self.parameters['database_path'])
+#             print(type(self.parameters['database_path']))
             #loading a file
-            error = phreeqc.load_database("/Users/Andrew/Documents/Research/University of Victoria Civil Engineering/ROSSpy/rosspy/databases/unix/pitzer.dat")  
-            print(error)
-            print(phreeqc.get_error_string())
+#             error = phreeqc.load_database("/Users/Andrew/Documents/Research/University of Victoria Civil Engineering/ROSSpy/rosspy/databases/unix/pitzer.dat")  
+#             print(error)
+#             print(phreeqc.get_error_string())
     
             # loading a string
 #             db = open(self.parameters['database_path'])
 #             database = '\n'.join([line for line in db])
 #             print(database)
-            phreeqc.load_database_string('solution_master_species')
-            print(dir(phreeqc))
+#             phreeqc.load_database_string('solution_master_species')
+#             print(dir(phreeqc))
 #             database = '\n'.join([line for line in db])
-            print(phreeqc.get_error_string())
+#             print(phreeqc.get_error_string())
             
             # run the simulation
             phreeqc.run_string(input_file)
@@ -900,6 +901,7 @@ class ROSSPkg():
         # parse the brine concentrations from the raw data
         pyplot.figure(figsize = (17,10))
         non_zero_elements = []
+        non_zero_columns = []
         time = initial_solution_time = 0
         data = {} 
         concentration_serie = []
@@ -923,19 +925,23 @@ class ROSSPkg():
         
         for element in columns:  
             stripped_element = re.search('([A-Z][a-z]?(?:\(\d\))?(?=\(mol\/kgw\)))', element).group()
-            non_zero_elements.append(stripped_element)
+            if self.results['csv_data'][element].iloc[-1] > 0: 
+                non_zero_elements.append(stripped_element)
+                non_zero_columns.append(element)
             concentration_serie = []
             if self.parameters['simulation_perspective'] == 'all_time':
                 time_serie = []
                 data[element] = {}
                 for index, row in self.results['csv_data'].iterrows():
-                    if all(row[element] > 1e-16 for element in columns):
+                    if all(row[element] > 1e-16 for element in non_zero_columns):
                         concentration_serie.append(row[element])
                         time = sigfigs_conversion(row['time'], 3)
                         time_serie.append(time) # - initial_solution_time * self.parameters['timestep'])
                         data[element][time] = sigfigs_conversion(row[element], 4)
                     else:
                         initial_solution_time += 1
+                if len(time_serie) == 0:
+                    print('-> ERROR: The elemental concentrations never fully concentrated.')
                 pyplot.plot(time_serie,concentration_serie)
                                     
             elif self.parameters['simulation_perspective'] == 'all_distance':

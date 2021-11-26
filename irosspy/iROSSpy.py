@@ -1,6 +1,26 @@
+# print the welcome message
+from itertools import chain
+print('\n\n')
+message = ('''* iROSSpy: Interactive Reverse Osmosis Scaling Simulation in Python *
+Andrew Philip Freiburger, Green Safe Water Lab, University of Victoria''')
+
+indent = 1
+lines = message.split('\n')
+space = " " * indent
+width = max(map(len, lines))
+
+upper = f'╔{"═" * (width + indent * 2)}╗\n'
+middles = ''.join([f'║{space}{line:<{width}}{space}║\n' for line in lines])
+lower = f'╚{"═" * (width + indent * 2)}╝' 
+
+box = chain(upper, middles, lower)
+box_print = ''.join(box)
+print(box_print, '\n')
+
+print('The program is loading. It may take a few minutes...\n\n')
+
 # import libraries
 from scipy.constants import nano, milli, minute
-from itertools import chain
 import subprocess
 import rosspy
 import pandas
@@ -9,26 +29,9 @@ import re
 
 # create the input file
 class iROSSpy():
-    def __init__(self, indent = 1):
+    def __init__(self):
         self.working_directory = os.getcwd()
         
-        # print the welcome message
-        print('\n\n')
-        message = ('''* iROSSpy: Interactive Reverse Osmosis Scaling Simulation in Python *
-    Andrew Philip Freiburger, Green Safe Water Lab, University of Victoria''')
-
-        lines = message.split('\n')
-        space = " " * indent
-        width = max(map(len, lines))
-
-        upper = f'╔{"═" * (width + indent * 2)}╗\n'
-        middles = ''.join([f'║{space}{line:<{width}}{space}║\n' for line in lines])
-        lower = f'╚{"═" * (width + indent * 2)}╝' 
-
-        box = chain(upper, middles, lower)
-        box_print = ''.join(box)
-        print(box_print, '\n')
-                       
         # announcements
         announcement = 'Parameterize initial details:'
         print(announcement, '\n', '='*len(announcement))
@@ -60,7 +63,7 @@ class iROSSpy():
         print(announcement, '\n', '='*len(announcement))       
                              
         # define database
-        for database in ross.databases:
+        for database in self.ross.databases:
             print(f'< {database} >') 
         database_selection = input('''- What database do you select?
         Default = < pitzer >  __ ''') or 'pitzer'
@@ -505,10 +508,12 @@ class iROSSpy():
         # print the announcement
         announcement = '\nExecute the input file:'
         print(announcement, '\n', '='*len(announcement))
+        
+        print(self.ross.simulation_path)
 
         # execute the PHREEQC batch software
         phreeqc_path = '.' # os.path.join('C:\\Program Files','USGS','phreeqc-3.6.2-15100-x64')
-        bat_path = os.path.join(phreeqc_path, 'bin', 'phreeqc.bat')
+        bat_path = os.path.join(phreeqc_path, 'phreeqc.bat')
         input_path = self.ross.parameters['input_path']
         output_path = self.ross.parameters['output_path']
         database_path = self.ross.parameters['database_path']
