@@ -1,0 +1,104 @@
+DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+TITLE	 None
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Lee_et_al_wastewater
+
+SOLUTION 0	waterwater
+temp 	 20 	 #.
+pH 		 7.5 #
+
+Alkalinity 	 500 #
+units 	 ppm
+Li	0.04	#
+Na		161	#
+Mg		3.5	#
+Ca	1303	#
+K		37	#
+Mn	0.09	#
+Fe		9.8	#
+-water 	17.378153556381264
+
+SOLUTION 1-12	Initial solution in the RO module
+temp 	 25
+units 	 ppm
+-water 	17.378153556381264
+
+EQUILIBRIUM_PHASES 1-12	
+Aragonite		0	0
+Artinite		0	0
+Brucite		0	0
+Calcite		0	0
+Dolomite		0	0
+Gaylussite		0	0
+Huntite		0	0
+Magnesite		0	0
+Natron			0	0
+Nesquehonite		0	0
+Pirssonite		0	0
+Portlandite		0	0
+
+REACTION 1
+	H2O -1; 8.916777599410583
+
+REACTION 2
+	H2O -1; 8.835040471415986
+
+REACTION 3
+	H2O -1; 8.75330334342139
+
+REACTION 4
+	H2O -1; 8.671566215426791
+
+REACTION 5
+	H2O -1; 8.589829087432195
+
+REACTION 6
+	H2O -1; 8.508091959437598
+
+REACTION 7
+	H2O -1; 8.426354831443001
+
+REACTION 8
+	H2O -1; 8.344617703448403
+
+REACTION 9
+	H2O -1; 8.262880575453806
+
+REACTION 10
+	H2O -1; 8.18114344745921
+
+REACTION 11
+	H2O -1; 8.099406319464613
+
+REACTION 12
+	H2O -1; 8.017669191470016
+#linear_permeate
+
+SELECTED_OUTPUT
+-file			2021-12-22_waterwater_transport_pitzer_scaling_0.txt
+-reaction		true
+-temperature		true
+-totals			Li Na Mg Ca K Mn Fe Co Cu
+-saturation_indices	Aragonite Artinite Brucite Calcite Dolomite Gaylussite Huntite Magnesite Natron Nesquehonite Pirssonite Portlandite
+-equilibrium_phases	Aragonite Artinite Brucite Calcite Dolomite Gaylussite Huntite Magnesite Natron Nesquehonite Pirssonite Portlandite
+-pH			true
+-time			true
+-distance		true
+-simulation		true
+-high_precision	true
+-alkalinity	true
+-solution
+-charge_balance	true
+-ionic_strength	true
+-step
+-water
+
+TRANSPORT
+-cells			12
+-shifts			51
+-lengths		0.08466666666666667
+-time_step		3.946329703005324	# this satisfies the Courant condition with a feed velocity of 2.575E-1 m/s
+-initial_time		0
+-boundary_conditions	constant	flux 	 # Dirichlet and Cachy boundary conditions
+
+-punch_cells		1-12
+-punch_frequency	51

@@ -89,7 +89,7 @@ class ROSSPkg():
         self.elements = database['elements']
         self.minerals = database['minerals']
 
-    def transport(self, simulation_time, simulation_perspective = None, module_characteristics = {}, cells_per_module = 12, parameterized_timestep = None, kinematic_flow_velocity = None, exchange_factor = 1e-5):
+    def transport(self, simulation_time, simulation_perspective = None, module_characteristics = {}, cells_per_module = 12, parameterized_timestep = None, kinematic_flow_velocity = None, exchange_factor = 1e5):
         '''Define the TRANSPORT block'''
         self.parameters['simulation_time'] = simulation_time
         self.parameters['exchange_factor'] = exchange_factor
@@ -173,8 +173,10 @@ class ROSSPkg():
         
         # define the domain-dependent parameters
         domain_line = ''
+        cp_cell_volume_proportion = 0.05 #/self.parameters['cells_per_module']
+        bulk_cell_volume_proportion = 0.95 #/self.parameters['cells_per_module']
         if self.parameters['domain'] == 'dual':
-            domain_line = f'-stagnant\t\t1\t\t{exchange_factor}\t\t\t0\t\t0 \t # dual domain\n#\t\t\t^stagnant cells\t^exchange factor\t^CP porosity\t^bulk porosity'
+            domain_line = f'-stagnant\t\t1\t\t{exchange_factor}\t\t\t{cp_cell_volume_proportion}\t\t{bulk_cell_volume_proportion} \t # dual domain\n#\t\t\t^stagnant cells\t^exchange factor\t^CP porosity\t^bulk porosity'
         if self.parameters['domain'] == 'single' or (self.parameters['domain'] == 'dual' and self.parameters['domain_phase'] == 'mobile'):
             first_cell = 1
             final_cell = self.parameters['cells_per_module']*self.parameters['quantity_of_modules']
@@ -317,7 +319,7 @@ class ROSSPkg():
             if self.verbose:
                 print(f'Effluent module {module + 1} CF: {cf}')
 
-    def solutions(self, water_selection = '', water_characteristics = {}, solution_description = '', parameterized_alkalinity = False, parameterized_ph_charge = True):
+    def solutions(self, water_selection = '', water_characteristics = {}, solution_description = '', parameterized_ph_charge = True):
         """Specify the SOLUTION block of the simulation."""
         # create the solution line of the input file
         self.results['solution_block'] = []
@@ -338,15 +340,17 @@ class ROSSPkg():
 
         #=============================================================================
         # determine which predefined solution should be simulated
-        
         def define_elements():
             elements_lines = []
             predicted_effluent = {}
             for element, information2 in information.items():
                 self.parameters['solution_elements'].append(element)
+                
                 conc = information2['concentration (ppm)']
                 predicted_effluent[element] = conc*self.cumulative_cf
-                ref = information2['reference']
+                ref = ''
+                if 'reference' in information2:
+                    ref = information2['reference']
                 if element in self.elements:                          
                     if len(str(conc)) <= 3:
                         elements_lines.append(f'{element}\t\t{conc}\t#{ref}')
@@ -358,14 +362,18 @@ class ROSSPkg():
             
         self.parameters['solution_elements'] = []
         temperature = ph = alkalinity = pe = None
-        if water_selection not in ['', 'custom']:       
+        water_file_path = os.path.join(self.parameters['root_path'], 'water_bodies', f'{water_selection}.json')
+        water_files = glob(os.path.join(self.parameters['root_path'], 'water_bodies','*.json'))
+        water_bodies = [re.search('([a-z\_]+)(?=\.)', file).group() for file in water_files]
+        if water_selection in water_bodies:       
             # import the predefined water body
             water_file_path = os.path.join(self.parameters['root_path'], 'water_bodies', f'{water_selection}.json')
             water_body = json.load(open(water_file_path))
             
             for content, information in water_body.items():
                 if content == 'element':
-                    elements_lines, self.predicted_effluent = define_elements()                                
+                    elements_lines, self.predicted_effluent = define_elements()       
+                    print('yes')
                 elif content == 'temperature':
                     temperature = information['celcius']
                     temperature_reference = information['reference']
@@ -379,23 +387,31 @@ class ROSSPkg():
                     ph = information['value']
                     ph_reference = information['reference']
 
-        if water_characteristics != {}:
+        elif water_characteristics != {}:
             for content, information in water_characteristics.items():
                 if content == 'element':
                     elements_lines, self.predicted_effluent = define_elements()
                 # create the temperature line of the input file
                 elif content == 'temperature':                    
                     temperature = water_characteristics['temperature']['value']
-                    temperature_reference = water_characteristics['temperature']['reference']
+                    temperature_reference = ''
+                    if 'reference' in water_characteristics['temperature']:
+                        temperature_reference = water_characteristics['temperature']['reference']
                 elif content == 'pe':       
                     pe = water_characteristics['pe']['value']
-                    pe_reference = water_characteristics['pe']['reference']
+                    pe_reference = ''
+                    if 'reference' in water_characteristics['pe']:
+                        pe_reference = water_characteristics['pe']['reference']
                 elif content == 'Alkalinity':
                     alkalinity = water_characteristics['Alkalinity']['value']
-                    alkalinity_reference = water_characteristics['Alkalinity']['reference'] 
+                    alkalinity_reference = ''
+                    if 'reference' in water_characteristics['Alkalinity']:
+                        alkalinity_reference = water_characteristics['Alkalinity']['reference']
                 elif content == 'pH':
                     ph = water_characteristics['pH']['value']
-                    ph_reference = water_characteristics['pH']['reference']
+                    ph_reference = ''
+                    if 'reference' in water_characteristics['pH']:
+                        ph_reference = water_characteristics['pH']['reference']
                     
         # parameterize the lines of the SOLUTIONS block
         temperature_line = ''
@@ -407,14 +423,13 @@ class ROSSPkg():
 
         alkalinity_line = ''
         ph_line = ''
+        if alkalinity:
+            alkalinity_line = f'Alkalinity \t {alkalinity} #{alkalinity_reference}'
         if ph is not None:
-            if parameterized_ph_charge and not parameterized_alkalinity:
+            ph_line = f'pH \t\t {ph} #{ph_reference}'
+            if parameterized_ph_charge and not alkalinity:
                 ph_line = f'pH \t\t {ph} charge #{ph_reference}'
-                alkalinity_line = ''      
-            elif not parameterized_ph_charge:
-                ph_line = f'pH \t\t {ph} #{ph_reference}'
-                if parameterized_alkalinity and alkalinity is not None:
-                    alkalinity_line = f'Alkalinity \t {alkalinity} #{alkalinity_reference}'
+                alkalinity_line = ''
                    
         unit_line = 'units \t ppm' 
         elements_line = '\n'.join(elements_lines)
@@ -752,23 +767,6 @@ class ROSSPkg():
         def run(input_file, first=False):
             phreeqc = self.phreeqc_mod.IPhreeqc()  
             phreeqc.load_database(self.parameters['database_path'])
-#             print(self.parameters['database_path'])
-#             print(type(self.parameters['database_path']))
-            #loading a file
-#             error = phreeqc.load_database("/Users/Andrew/Documents/Research/University of Victoria Civil Engineering/ROSSpy/rosspy/databases/unix/pitzer.dat")  
-#             print(error)
-#             print(phreeqc.get_error_string())
-    
-            # loading a string
-#             db = open(self.parameters['database_path'])
-#             database = '\n'.join([line for line in db])
-#             print(database)
-#             phreeqc.load_database_string('solution_master_species')
-#             print(dir(phreeqc))
-#             database = '\n'.join([line for line in db])
-#             print(phreeqc.get_error_string())
-            
-            # run the simulation
             phreeqc.run_string(input_file)
             
             # define the conc dictionary
@@ -940,8 +938,6 @@ class ROSSPkg():
                         data[element][time] = sigfigs_conversion(row[element], 4)
                     else:
                         initial_solution_time += 1
-                if len(time_serie) == 0:
-                    print('-> ERROR: The elemental concentrations never fully concentrated.')
                 pyplot.plot(time_serie,concentration_serie)
                                     
             elif self.parameters['simulation_perspective'] == 'all_distance':
@@ -968,6 +964,8 @@ class ROSSPkg():
                         distance_serie.append(row['dist_x'])                       
                 
         # define the brine plot
+        if len(time_serie) == 0:
+            print('-> ERROR: The elemental concentrations never fully concentrated.')
         if self.parameters['simulation_perspective'] == 'all_time':
             x_location = []
             index_space = len(time_serie)/x_label_number

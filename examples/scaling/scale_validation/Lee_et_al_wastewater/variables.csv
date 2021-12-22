@@ -1,0 +1,11 @@
+,variable,value
+0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Lee_et_al_wastewater
+1,cell_meters,0.08466666666666667
+2,feed_cubic_meters,0.017429622854940183
+3,feed_kg,17.378153556381264
+4,feed_moles,964.6491011035951
+5,Reynold's number,47.46212128445787
+6,feed_kg_cell,1.448179463031772
+7,feed_moles_cell,80.38742509196625
+8,module 0,"{'cf': 1.1177308071405103, 'permeate (moles/cell)': -0.08173712799459702}"
+9,described_minerals,"{'Aragonite': {'formula': 'CaCO3', 'mass': 103.0869}, 'Artinite': {'formula': 'Mg2CO3(OH)2:3H2O', 'mass': 149.63358}, 'Brucite': {'formula': 'Mg(OH)2', 'mass': 60.31968}, 'Calcite': {'formula': 'CaCO3', 'mass': 103.0869}, 'Dolomite': {'formula': 'CaMg(CO3)2', 'mass': 186.4008}, 'Gaylussite': {'formula': 'CaNa2(CO3)2:5H2O', 'mass': 296.15174}, 'Huntite': {'formula': 'CaMg3(CO3)4', 'mass': 357.0286}, 'Magnesite': {'formula': 'MgCO3', 'mass': 87.31389999999999}, 'Natron': {'formula': 'Na2CO3:10H2O', 'mass': 286.14124000000004}, 'Nesquehonite': {'formula': 'MgCO3:3H2O', 'mass': 138.35974}, 'Pirssonite': {'formula': 'Na2Ca(CO3)2:2H2O', 'mass': 242.1059}, 'Portlandite': {'formula': 'Ca(OH)2', 'mass': 76.09268}}"
