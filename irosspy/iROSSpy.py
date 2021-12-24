@@ -291,7 +291,8 @@ class iROSSpy():
         print(announcement, '\n', '='*len(announcement))      
         
         # define water_selection
-        self.water_bodies = ['red_sea', 'mediterranean_sea', 'palo_duro_basin', 'western_pennsylvania_basin', 'north_german_basin', 'michigan_basin', 'marcellus_appalachian_basin', 'bakken_formation', 'custom']
+        water_files = glob(os.path.join(self.parameters['root_path'], 'water_bodies','*.json'))
+        self.water_bodies = [re.search('([a-z\_]+)(?=\.)', file).group() for file in water_files].append('custom')
         for water in self.water_bodies:
             print(f'< {water} >')   
         water_selection = input('''- Which water body will you simulate?  __ ''')
@@ -500,9 +501,8 @@ class iROSSpy():
                 print('''--> ERROR: The active_m2 must be a number.''')
                 active_m2 = input(f'''- What is the active_m2?
                 Default = 37''') or 37
-                         
+                      
         self.ross.parse_input(input_file_path = input_file_path, simulation = simulation, water_selection = solution_description, simulation_name = simulation_name, active_m2 = active_m2)
-        
         
     def execute(self,):
         # print the announcement
@@ -510,14 +510,18 @@ class iROSSpy():
         print(announcement, '\n', '='*len(announcement))
 
         # execute the PHREEQC batch software
-#         phreeqc_path = '.' # os.path.join('C:\\Program Files','USGS','phreeqc-3.6.2-15100-x64')
+#         bat_path = os.path.join(os.getcwd(), 'phreeqc.bat')
         bat_path = 'phreeqc.bat'
         input_path = self.ross.parameters['input_path']
         output_path = self.ross.parameters['output_path']
         database_path = self.ross.parameters['database_path']
         
+        for path in [bat_path, input_path, os.path.dirname(output_path), database_path]:
+            if not os.path.exists(path):
+                print(f'-> ERROR: The < {path} > path does not exist\n')
+        
         proc = subprocess.Popen('cmd.exe', stdin=subprocess.PIPE)
-        command = str.encode("\"" + bat_path + "\" \"" + input_path + "\" \"" + output_path + "\"  \"" + database_path + "\"\n") 
+        command = str.encode("\"" + bat_path + "\" \"" + input_path + "\" \"" + output_path + "\" \"" + database_path + "\"\n") 
         proc.stdin.write(command)
         proc.stdin.close()  
         proc.wait()

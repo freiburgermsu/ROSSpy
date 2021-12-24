@@ -319,7 +319,7 @@ class ROSSPkg():
             if self.verbose:
                 print(f'Effluent module {module + 1} CF: {cf}')
 
-    def solutions(self, water_selection = '', water_characteristics = {}, solution_description = '', parameterized_ph_charge = True):
+    def solutions(self, water_selection = '', water_characteristics = {}, solution_description = '', parameterized_ph_charge = True, alkalinity_form = 'CaCO3'):
         """Specify the SOLUTION block of the simulation."""
         # create the solution line of the input file
         self.results['solution_block'] = []
@@ -362,7 +362,6 @@ class ROSSPkg():
             
         self.parameters['solution_elements'] = []
         temperature = ph = alkalinity = pe = None
-        water_file_path = os.path.join(self.parameters['root_path'], 'water_bodies', f'{water_selection}.json')
         water_files = glob(os.path.join(self.parameters['root_path'], 'water_bodies','*.json'))
         water_bodies = [re.search('([a-z\_]+)(?=\.)', file).group() for file in water_files]
         if water_selection in water_bodies:       
@@ -424,7 +423,7 @@ class ROSSPkg():
         alkalinity_line = ''
         ph_line = ''
         if alkalinity:
-            alkalinity_line = f'Alkalinity \t {alkalinity} #{alkalinity_reference}'
+            alkalinity_line = f'Alkalinity \t {alkalinity} as {alkalinity_form} #{alkalinity_reference}'
         if ph is not None:
             ph_line = f'pH \t\t {ph} #{ph_reference}'
             if parameterized_ph_charge and not alkalinity:
@@ -523,10 +522,10 @@ class ROSSPkg():
         # create parameter lines             
         if output_filename is None:
             count = 0
-            selected_output_file_name = '_'.join([str(x) for x in [datetime.date.today(), self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], count]]) 
+            selected_output_file_name = '-'.join([str(x) for x in [datetime.date.today(), self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], count]]) 
             while os.path.exists(f'{selected_output_file_name}.txt'):
                 count += 1
-                selected_output_file_name = '_'.join([str(x) for x in [datetime.date.today(), self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], count]]) 
+                selected_output_file_name = '-'.join([str(x) for x in [datetime.date.today(), self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], count]]) 
         else:
             selected_output_file_name = output_filename
 
@@ -599,7 +598,7 @@ class ROSSPkg():
             self.simulation_path = os.path.join(directory, simulation_name)
             os.mkdir(self.simulation_path)
             
-        # define the simulation output path 
+        # define the simulation output path             
         if external_file:
             self.parameters['output_file_name'] = 'output.pqo'
             self.parameters['output_path'] = os.path.join(self.simulation_path, self.parameters['output_file_name'])
@@ -761,6 +760,7 @@ class ROSSPkg():
             self.parameters['active_m2'] = 37
         self.parameters['active_m2_cell'] = self.parameters['active_m2']/self.parameters['cells_per_module']
         self.export(simulation_name, input_file_path, external_file = True)
+        
 
     def execute(self, simulated_to_real_time = 9.29):
         '''Execute a PHREEQC input file '''
