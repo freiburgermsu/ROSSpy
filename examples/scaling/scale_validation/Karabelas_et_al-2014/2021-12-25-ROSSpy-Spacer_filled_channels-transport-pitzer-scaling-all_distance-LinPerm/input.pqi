@@ -1,15 +1,15 @@
 DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
 TITLE	 None
-# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al_2014
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2014\2021-12-25-ROSSpy-Spacer_filled_channels-transport-pitzer-scaling-all_distance-LinPerm
 
-SOLUTION 0	Spacer-filled_channels
+SOLUTION 0	Spacer_filled_channels
 
 pH 		 6.4 charge #
 
 
 units 	 ppm
-Ca		800	#
-S(6)	1975	#
+Ca		800		#
+S(6)	1975		#
 -water 	17.378153556381264
 
 SOLUTION 1-12	Initial solution in the RO module
@@ -61,8 +61,17 @@ REACTION 12
 	H2O -1; 8.017669191470016
 #linear_permeate
 
+    #Permeate efficiency parameter: 1
+    #Effluent relative pressure: 0.89
+    
+        #Effluent module 1:
+    #Estimated CF: 1.118E0
+    #Estimated final water mass: 15.54770920275498
+
+
+
 SELECTED_OUTPUT
--file			2021-12-23_Spacer-filled_channels_transport_pitzer_scaling_0.txt
+-file			2021-12-25-Spacer_filled_channels-transport-pitzer-scaling-0.txt
 -reaction		true
 -temperature		true
 -totals			Ca S(6)

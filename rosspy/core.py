@@ -104,7 +104,7 @@ class ROSSPkg():
         self.parameters['module_diameter_mm'] =  201                 
         self.parameters['permeate_tube_diameter_mm'] =  29            
         self.parameters['module_length_m'] =  1.016                 
-        self.parameters['permeate_flow_m3_per_day'] = 40                  
+        self.parameters['permeate_flow_m3_per_hour'] = 40/(day/hour)                  
         self.parameters['max_feed_flow_m3_per_hour'] = 15.9                  
         self.parameters['membrane_thickness_mm'] = 250 * (nano / milli)   
         self.parameters['feed_thickness_mm'] = 0.8636
@@ -153,7 +153,7 @@ class ROSSPkg():
         if self.parameters['timestep'] < courant_timestep:
             self.parameters['timestep'] = courant_timestep
             
-        self.parameters['permeate_moles_per_cell'] = (self.parameters['permeate_flow_m3_per_day']/day/liter * self.parameters['water_grams_per_liter'] / self.parameters['water_mw']) * (self.parameters['timestep'] / self.parameters['cells_per_module'])      #moles / (cell * self.parameters['timestep'])
+        self.parameters['permeate_moles_per_cell'] = (self.parameters['permeate_flow_m3_per_hour']/hour/liter * self.parameters['water_grams_per_liter'] / self.parameters['water_mw']) * (self.parameters['timestep'] / self.parameters['cells_per_module'])      #moles / (cell * self.parameters['timestep'])
         
         # exit the function for evaporation simulations
         self.results['transport_block'] = []
@@ -299,14 +299,15 @@ class ROSSPkg():
                 final_solution_mass = moles_remaining * self.parameters['water_mw'] * milli  #kg water mass
                 if self.parameters['os'] == 'windows':
                     self.results['reaction_block'].append('#%s' %(permeate_approach))
-                    if permeate_approach == 'linear permeate':
+                    if permeate_approach == 'linear_permeate':
                         self.results['reaction_block'].append(f'''
-                #Permeate efficiency parameter: {permeate_efficiency}
-                #Effluent relative pressure: {head_loss}''')
+    #Permeate efficiency parameter: {permeate_efficiency}
+    #Effluent relative pressure: {head_loss}''')
 
-                        self.results['reaction_block'].append(f'''    #Effluent module {module + 1}:
-                #Estimated CF: {sigfigs_conversion(cf, 4)}
-                #Estimated final water mass: {final_solution_mass}\n\n''')
+                        self.results['reaction_block'].append(f'''    
+        #Effluent module {module + 1}:
+    #Estimated CF: {sigfigs_conversion(cf, 4)}
+    #Estimated final water mass: {final_solution_mass}\n\n''')
 
             elif self.parameters['simulation_type'] == 'evaporation':
                 # define the reaction block
@@ -319,7 +320,7 @@ class ROSSPkg():
             if self.verbose:
                 print(f'Effluent module {module + 1} CF: {cf}')
 
-    def solutions(self, water_selection = '', water_characteristics = {}, solution_description = '', parameterized_ph_charge = True, alkalinity_form = 'CaCO3'):
+    def solutions(self, water_selection = '', water_characteristics = {}, solution_description = '', parameterized_ph_charge = True):
         """Specify the SOLUTION block of the simulation."""
         # create the solution line of the input file
         self.results['solution_block'] = []
@@ -351,11 +352,16 @@ class ROSSPkg():
                 ref = ''
                 if 'reference' in information2:
                     ref = information2['reference']
+                
+                form = ''
+                if 'form' in information2:
+                    form = 'as {}'.format(information2['form'])
+                    
                 if element in self.elements:                          
                     if len(str(conc)) <= 3:
-                        elements_lines.append(f'{element}\t\t{conc}\t#{ref}')
+                        elements_lines.append(f'{element}\t\t{conc}\t{form}\t#{ref}')
                     else:
-                        elements_lines.append(f'{element}\t{conc}\t#{ref}')
+                        elements_lines.append(f'{element}\t{conc}\t{form}\t#{ref}')
                 else:
                     print('\n--> ERROR: The {} element is not accepted by the {} database'.format(element, self.parameters['database_selection']))
             return elements_lines, predicted_effluent
@@ -404,8 +410,11 @@ class ROSSPkg():
                 elif content == 'Alkalinity':
                     alkalinity = water_characteristics['Alkalinity']['value']
                     alkalinity_reference = ''
+                    alkalinity_form = ''
                     if 'reference' in water_characteristics['Alkalinity']:
                         alkalinity_reference = water_characteristics['Alkalinity']['reference']
+                    if 'form' in water_characteristics['Alkalinity']:
+                        alkalinity_form = 'as {}'.format(water_characteristics['Alkalinity']['form'])    
                 elif content == 'pH':
                     ph = water_characteristics['pH']['value']
                     ph_reference = ''
@@ -423,7 +432,7 @@ class ROSSPkg():
         alkalinity_line = ''
         ph_line = ''
         if alkalinity:
-            alkalinity_line = f'Alkalinity \t {alkalinity} as {alkalinity_form} #{alkalinity_reference}'
+            alkalinity_line = f'Alkalinity \t {alkalinity} {alkalinity_form} #{alkalinity_reference}'
         if ph is not None:
             ph_line = f'pH \t\t {ph} #{ph_reference}'
             if parameterized_ph_charge and not alkalinity:
@@ -1152,7 +1161,7 @@ class ROSSPkg():
         non_zero_minerals = set()
         self.variables['precipitated_minerals'] = {}
         for column in self.results['csv_data'].columns:
-            if re.search('([A-Z][a-z]{2,})', column) and not re.search('[_(]', column):
+            if re.search('([A-Z][a-z]{2,})', column) and not re.search('[_(]|(?:Metal)', column):
                 mineral = re.search('([A-Z][a-z]{2,})', column).group()
                 csv_minerals.append(mineral)
                 for value in self.results['csv_data'][mineral]:
