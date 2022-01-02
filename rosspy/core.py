@@ -6,15 +6,12 @@ from pubchempy import get_compounds
 from math import pi, exp, ceil
 from matplotlib import pyplot 
 from itertools import chain
+from pprint import pprint
 from sigfig import round
 from glob import glob
 import datetime
 import pandas
-import sigfig
-from pprint import pprint
-import json
-import os
-import re
+import json, os, re
 
 def sigfigs_conversion(num, sigfigs_in = 2):
     return round(num, sigfigs=sigfigs_in, notation = 'sci')
@@ -58,7 +55,7 @@ class ROSSPkg():
         self.phreeqc_mod = phreeqc_mod
         self.parameters['os'] =  operating_system
         self.parameters['root_path'] = os.path.join(os.path.dirname(__file__))
-        self.databases = [re.search('(\w+)(?=.json)', database).group() for database in glob('./databases/*.json')]
+        self.databases = [re.search('(?<=databases\\\\)(.+)(?=\.json)', database).group() for database in glob(os.path.join(self.parameters['root_path'], 'databases', '*.json'))]
         
     def define_general(self, database_selection, simulation = 'scaling', domain = 'single', domain_phase = None, quantity_of_modules = 1, simulation_type = 'transport', simulation_title = None):
         '''Establish general conditions'''
@@ -89,7 +86,7 @@ class ROSSPkg():
         self.elements = database['elements']
         self.minerals = database['minerals']
 
-    def transport(self, simulation_time, simulation_perspective = None, module_characteristics = {}, cells_per_module = 12, parameterized_timestep = None, kinematic_flow_velocity = None, exchange_factor = 1e5):
+    def transport(self, simulation_time, simulation_perspective = None, module_characteristics = {}, timestep = None, cells_per_module = 12, kinematic_flow_velocity = None, exchange_factor = 1e5):
         '''Define the TRANSPORT block'''
         self.parameters['simulation_time'] = simulation_time
         self.parameters['exchange_factor'] = exchange_factor
@@ -146,8 +143,8 @@ class ROSSPkg():
 
         # calculate simulation timestep that adheres to the Courant condition   
         self.parameters['timestep'] = self.parameters['module_length_m'] / feed_velocity  # seconds
-        if parameterized_timestep:
-            self.parameters['timestep'] = parameterized_timestep
+        if timestep:
+            self.parameters['timestep'] = timestep
             
         courant_timestep = self.variables['cell_meters'] / feed_velocity
         if self.parameters['timestep'] < courant_timestep:
@@ -209,10 +206,13 @@ class ROSSPkg():
             print('permeate_removal_per_cell', self.parameters['permeate_moles_per_cell'])
             print('active_cm_squared_cell', (self.parameters['active_m2_cell'] / centi**2))
 
-    def reaction(self, permeate_approach = 'linear_permeate', permeate_efficiency = 1, head_loss = 0.89, final_cf = 2, evaporation_steps = 15):     
+    def reaction(self, final_cf = None, permeate_efficiency = 1, head_loss = 0.89, evaporation_steps = 15):     
         '''Define the REACTION blocks'''
         # establish parameters
-        self.parameters['permeate_approach'] = permeate_approach
+        self.parameters['permeate_approach'] = 'linear_permeate'
+        if final_cf is not None:
+            self.parameters['permeate_approach'] = 'linear_cf'
+#             module_cf = final_cf**(1/self.parameters['quantity_of_modules'])
         
         cfs = []
         cell_moles = []
@@ -220,7 +220,7 @@ class ROSSPkg():
         self.results['reaction_block'] = []
         self.cumulative_cf = 1 
         for module in range(self.parameters['quantity_of_modules']): 
-            if permeate_approach == 'linear_permeate':
+            if self.parameters['permeate_approach'] == 'linear_permeate':
                 initial_moles_removed = self.parameters['permeate_moles_per_cell'] * 2 / (1 + head_loss)
                 final_moles_removed = initial_moles_removed * head_loss
                 removed_moles_slope = ((final_moles_removed - initial_moles_removed) / (self.parameters['cells_per_module'])) / permeate_efficiency
@@ -251,32 +251,40 @@ class ROSSPkg():
                     print('moles_remaining', moles_remaining)
                     print('moles_removed', moles_removed)
 
-            elif permeate_approach == 'linear_cf':
-                module_iteration = module_previous_moles_removed = moles_removed = 0
+            elif self.parameters['permeate_approach'] == 'linear_cf':
+                module_iteration = moles_removed = module_previous_moles_removed = 0
                 initial_cf = 1
-
-                cf_slope = (final_cf - initial_cf) / self.parameters['cells_per_module']
-                for cell in range(self.parameters['cells_per_module']):
+                cfs = []
+                effective_cells = self.parameters['cells_per_module']*self.parameters['quantity_of_modules']
+                cf_slope = (final_cf - initial_cf) / effective_cells
+                for cell in range(self.parameters['cells_per_module']*(module), self.parameters['cells_per_module']*(module+1)):
                     cell_cf = (cell+1) * cf_slope + initial_cf
-                    cfs.append(cell_cf)    
-
+                    cfs.append(cell_cf)  
                 for cf in cfs:
                     moles_to_be_removed = self.variables['feed_moles'] - (self.variables['feed_moles'] / cf)
                     if module_iteration == 0:
-                        moles = self.variables['feed_moles']
-                        reaction_parameters.append(moles_to_be_removed)
-                    if module_iteration > 0:
+                        if module == 0:
+                            reaction_parameters.append(moles_to_be_removed)
+                        else:
+                            reaction_parameters.append(moles_to_be_removed - sum(reaction_parameters))
+                    else:
                         module_previous_moles_removed += reaction_parameters[-1] 
+                        if moles_to_be_removed < module_previous_moles_removed:
+                            print(f'--> ERROR: The reaction parameter is negative: {moles_to_be_removed - module_previous_moles_removed}.')
                         reaction_parameter = moles_to_be_removed - module_previous_moles_removed
+                        print('to be', moles_to_be_removed, '\tlast parameter', reaction_parameters[-1], '\tprevious removal', module_previous_moles_removed)
                         reaction_parameters.append(reaction_parameter)
-                        moles_removed -= moles_to_be_removed
 
+                    moles_removed = sum(reaction_parameters)
                     module_iteration += 1
 
-                cf = cfs[-1]
-                self.cumulative_cf *= cf
-                moles_remaining = self.variables['feed_moles'] - moles_removed  
-                self.variables[f'module {module}'] = {'cf': cf}
+                    print(cf)
+                    print('cf per cell: ', self.variables['feed_moles'] / (self.variables['feed_moles']-moles_removed))
+
+            cf = cfs[-1]
+            self.cumulative_cf *= cf
+            moles_remaining = self.variables['feed_moles'] - moles_removed  
+            self.variables[f'module {module}'] = {'cf': cf}
 
             if self.parameters['simulation_type'] == 'transport':
                 for cell in range(1, self.parameters['cells_per_module']+1):
@@ -298,16 +306,16 @@ class ROSSPkg():
                 # the calculated reaction parameters will be added and printed to a generated PHREEQC input file
                 final_solution_mass = moles_remaining * self.parameters['water_mw'] * milli  #kg water mass
                 if self.parameters['os'] == 'windows':
-                    self.results['reaction_block'].append('#%s' %(permeate_approach))
-                    if permeate_approach == 'linear_permeate':
+                    self.results['reaction_block'].append('# {}'.format(self.parameters['permeate_approach']))
+                    if self.parameters['permeate_approach'] == 'linear_permeate':
                         self.results['reaction_block'].append(f'''
     #Permeate efficiency parameter: {permeate_efficiency}
     #Effluent relative pressure: {head_loss}''')
 
-                        self.results['reaction_block'].append(f'''    
-        #Effluent module {module + 1}:
-    #Estimated CF: {sigfigs_conversion(cf, 4)}
-    #Estimated final water mass: {final_solution_mass}\n\n''')
+                    self.results['reaction_block'].append(f'''    
+    #Effluent module {module + 1}:
+#Estimated CF: {sigfigs_conversion(cf, 4)}
+#Estimated final water mass: {final_solution_mass}\n\n''')
 
             elif self.parameters['simulation_type'] == 'evaporation':
                 # define the reaction block
@@ -378,7 +386,6 @@ class ROSSPkg():
             for content, information in water_body.items():
                 if content == 'element':
                     elements_lines, self.predicted_effluent = define_elements()       
-                    print('yes')
                 elif content == 'temperature':
                     temperature = information['celcius']
                     temperature_reference = information['reference']
@@ -388,6 +395,7 @@ class ROSSPkg():
                 elif content == 'Alkalinity':
                     alkalinity = information['value']
                     alkalinity_reference = information['reference'] 
+                    alkalinity_form = 'as {}'.format(information['form'])    
                 elif content == 'pH':
                     ph = information['value']
                     ph_reference = information['reference']
@@ -831,7 +839,7 @@ class ROSSPkg():
             
         return self.results['csv_data']
 
-    def process_selected_output(self, selected_output_path = None, plot_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', individual_plots = None):
+    def process_selected_output(self, selected_output_path = None, scale_ions = True, plot_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', individual_plots = None):
         """Interpreting the PHREEQC SELECTED_OUTPUT file and conducting the plotting functions"""
         if plot_title is not None:
             self.plot_title = plot_title
@@ -893,9 +901,94 @@ class ROSSPkg():
             data = self.brine_plot(pyplot, title_font, label_font, export_format, x_label_number, export_name)
         elif self.parameters['simulation'] == 'scaling':
             data = self.scaling_plot(title_font, label_font, individual_plots, x_label_number, export_name, export_format)
+            if scale_ions:
+                self.ion_proportions(data)
         else:
             print('--> ERROR: The < simulation_perspective > parameter is unpredicted.')
+            
         return data
+    
+    def ion_proportions(self, data):
+        # calculate the masses of each element in each scalant
+        mineral_elements = {}
+        stoich = None
+        total = 0
+        for column in data:
+            mineral = re.search('([A-Za-z]+)', column).group()
+            formula = self.minerals[mineral]['formula']
+            formula = re.sub(':[0-9+]H2O|\(OH\)[0-9]+', '', formula)
+            mineral_elements[mineral] = {}
+
+            index = 0
+            for ch in formula:
+                if re.search('[A-Z]', ch):
+                    element = ch
+                    if re.search('[a-z]', formula[index+1]):
+                        element += formula[index+1]
+                        if re.search('[0-9]', formula[index+2]):
+                            stoich = float(formula[index+2])
+                        else:
+                            stoich = 1
+                    elif re.search('[0-9]', formula[index+1]):
+                        stoich = float(formula[index+1])
+                    else:
+                        stoich = 1
+                elif re.search('[0-9]', ch):
+                    continue
+
+                if element in elemental_masses:
+                    if stoich:
+                        mass = elemental_masses[element] * stoich
+                        total += mass
+                        mineral_elements[mineral][element] = mass
+                        stoich = None
+                        element = None
+
+                index += 1
+
+            mineral_elements[mineral]['total_moles'] = total
+
+        # determine the ionic proportions of the respective mineral, without solvated water or hydroxide
+        elemental_ratio = {}
+        for mineral in mineral_elements:
+            elemental_ratio[mineral] = {}
+            for element in mineral_elements[mineral]:
+                elemental_ratio[mineral][element] = mineral_elements[mineral][element] / mineral_elements[mineral]['total_moles']
+
+        # calculate the precipitated mass of each element
+        scale_ratio = {}
+        elements = {}
+        for mineral in elemental_ratio:
+            index = 0
+            scale_ratio[mineral] = {}
+            for scale in data[f'{mineral} (g/m^2)']:  
+                df_index = f'{data.index[index]} (m)'
+                scale_ratio[mineral][df_index] = {}
+                if df_index not in elements:
+                    elements[df_index] = {}
+                    elements[df_index]['ion (g/m^2)'] = {}
+                for element in elemental_ratio[mineral]:
+                    scale_ratio[mineral][df_index][element] = elemental_ratio[mineral][element] * float(scale)
+
+                    if element in elements[df_index]['ion (g/m^2)']:
+                        elements[df_index]['ion (g/m^2)'][element] += scale_ratio[mineral][df_index][element]
+                    elif element in elements[df_index]:
+                        elements[df_index][element] += scale_ratio[mineral][df_index][element]
+                    else:
+                        if element == 'total_moles':
+                            elements[df_index][element] = scale_ratio[mineral][df_index][element]
+                        else:
+                            elements[df_index]['ion (g/m^2)'][element] = scale_ratio[mineral][df_index][element]
+
+                index += 1
+
+        if self.verbose:
+            pprint(elements)
+
+        # export the parsed scale ions
+        ionic_path = os.path.join(self.simulation_path, 'scale_ions.json')
+        with open(ionic_path, 'w') as output:
+            json.dump(elements, output, indent = 4)
                                  
     def brine_plot(self, pyplot, title_font, label_font, export_format, x_label_number, export_name):
         """Generate plots of the elemental concentrations from effluent brine in the PHREEQC SELECTED_OUTPUT file"""
@@ -948,6 +1041,9 @@ class ROSSPkg():
                     else:
                         initial_solution_time += 1
                 pyplot.plot(time_serie,concentration_serie)
+                
+                if len(time_serie) == 0:
+                    print('-> ERROR: The elemental concentrations never fully concentrated.')
                                     
             elif self.parameters['simulation_perspective'] == 'all_distance':
                 distance_serie = []
@@ -972,9 +1068,10 @@ class ROSSPkg():
                         concentration_serie.append(row[element])
                         distance_serie.append(row['dist_x'])                       
                 
+                if len(distance_serie) == 0:
+                    print('-> ERROR: The elemental concentrations never fully concentrated.')
+        
         # define the brine plot
-        if len(time_serie) == 0:
-            print('-> ERROR: The elemental concentrations never fully concentrated.')
         if self.parameters['simulation_perspective'] == 'all_time':
             x_location = []
             index_space = len(time_serie)/x_label_number

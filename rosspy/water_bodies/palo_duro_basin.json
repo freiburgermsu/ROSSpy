@@ -59,7 +59,8 @@
     },
     "Alkalinity": {
         "value": 131,
-        "reference": "Fisher and Kreitler, 1987"
+        "reference": "Fisher and Kreitler, 1987",
+	"form": "CaCO3"
     },
     "pH": {
 

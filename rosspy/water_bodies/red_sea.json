@@ -83,7 +83,8 @@
   },
   "Alkalinity": {
     "value": 2,
-    "reference": "Sabine et al., 2002 as reported for the Indian Ocean"
+    "reference": "Sabine et al., 2002 as reported for the Indian Ocean",
+	"form": "CaCO3"
   },
   "pH": {
     "value": 8.22,

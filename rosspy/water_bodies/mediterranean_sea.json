@@ -75,7 +75,8 @@
     },
     "Alkalinity": {
         "value": 560,
-        "reference": "Schneider, Wallace, and Kortzinger, 2007"
+        "reference": "Schneider, Wallace, and Kortzinger, 2007",
+	"form": "CaCO3"
     },
    "pH": {
 

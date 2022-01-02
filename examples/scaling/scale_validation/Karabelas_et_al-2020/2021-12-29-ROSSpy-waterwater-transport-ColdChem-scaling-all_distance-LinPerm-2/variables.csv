@@ -1,0 +1,17 @@
+,variable,value
+0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\2021-12-29-ROSSpy-waterwater-transport-ColdChem-scaling-all_distance-LinPerm-2
+1,cell_meters,0.08466666666666667
+2,feed_cubic_meters,0.017429622854940183
+3,feed_kg,17.378153556381264
+4,feed_moles,964.6491011035951
+5,Reynold's number,31.342910282189163
+6,feed_kg_cell,1.448179463031772
+7,feed_moles_cell,80.38742509196625
+8,module 0,"{'cf': 3.2103155443333042, 'permeate (moles/cell)': -0.5342850593682756}"
+9,described_minerals,"{'Halite': {'formula': 'NaCl', 'mass': 58.44277}, 'Hydrohalite': {'formula': 'NaCl:2H2O', 'mass': 94.47333}, 'Sylvite': {'formula': 'KCl', 'mass': 74.5513}, 'Bischofite': {'formula': 'MgCl2:6H2O', 'mass': 203.30268}, 'Antarcticite': {'formula': 'CaCl2:6H2O', 'mass': 219.07568}, 'Tachyhydrite': {'formula': 'CaCl2:(MgCl2)2:12H2O', 'mass': 517.58936}, 'Carnallite': {'formula': 'KCl:MgCl2:6H2O', 'mass': 74.5513}, 'Thenardite': {'formula': 'Na2SO4', 'mass': 146.04214}, 'Mirabilite': {'formula': 'Na2SO4:10H2O', 'mass': 322.19494}, 'Arcanite': {'formula': 'K2SO4', 'mass': 178.2592}, 'Kieserite': {'formula': 'MgSO4:H2O', 'mass': 120.3676}, 'Starkeyite': {'formula': 'MgSO4:4H2O', 'mass': 192.42872}, 'Pentahydrite': {'formula': 'MgSO4:5H2O', 'mass': 210.44400000000002}, 'Hexahydrite': {'formula': 'MgSO4:6H2O', 'mass': 228.45927999999998}, 'Epsomite': {'formula': 'MgSO4:7H2O', 'mass': 246.47456}, 'Meridianiite': {'formula': 'MgSO4:11H2O', 'mass': 318.53568}, 'Anhydrite': {'formula': 'CaSO4', 'mass': 140.1406}, 'Bassanite': {'formula': 'CaSO4:0.5H2O', 'mass': 145.14824000000002}, 'Gypsum': {'formula': 'CaSO4:2H2O', 'mass': 172.17116000000001}, 'Glaserite': {'formula': 'Na2SO4:3K2SO4', 'mass': 668.81974}, 'Bloedite': {'formula': 'Na2SO4:MgSO4:4H2O', 'mass': 142.04214}, 'Glauberite': {'formula': 'Na2SO4:CaSO4', 'mass': 142.04214}, 'Labile_Salt': {'formula': 'Na4(SO4)2:CaSO4:2H2O', 'mass': 284.08428000000004}, 'Leonite': {'formula': 'K2SO4:MgSO4:4H2O', 'mass': 174.2592}, 'Picromerite': {'formula': 'K2SO4:MgSO4:6H2O', 'mass': 174.2592}, 'Langbeinite': {'formula': 'K2SO4:2MgSO4', 'mass': 418.9944}, 'Syngenite': {'formula': 'K2SO4:CaSO4:H2O', 'mass': 174.2592}, 'Kainite': {'formula': 'KCl:MgSO4:2.75H2O', 'mass': 74.5513}, 'Polyhalite': {'formula': 'K2SO4:MgSO4:Ca2(SO4)2:2H2O', 'mass': 210.28976}}"
+10,run_time (s),2.502677300013602
+11,initial_solution_mass,17.378153556381264
+12,final_solution_mass,5.727426862722032
+13,simulation_cf,3.034199121684127
+14,final_time,203.17960356615978
+15,precipitated_minerals,"{'Calcite': {'formula': 'CaCO3', 'mass': 103.0869}, 'Siderite': {'formula': 'FeCO3', 'mass': 118.8539}, 'Barite': {'formula': 'BaSO4', 'mass': 237.3896}}"

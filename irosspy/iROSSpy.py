@@ -24,8 +24,7 @@ from scipy.constants import nano, milli, minute
 import subprocess
 import rosspy
 import pandas
-import os
-import re
+import time, os, re
 
 # create the input file
 class iROSSpy():
@@ -54,6 +53,9 @@ class iROSSpy():
             < True > or < False > ; Default = < False >  __ ''') or False
         verbose = bool(verbose)
                              
+        # define the maximal argument path length 
+        self.max_argument_length = len(r"C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\2021-12-18-ROSSpy-red_sea-transport-pitzer-scaling-all_distance-LinPerm\2021-12-28-ROSSpy--transport-pitzer-scaling-all_")
+            
         # initiate the ROSSpy object
         self.ross = rosspy.ROSSPkg(operating_system, verbose, jupyter = False)
 
@@ -470,6 +472,10 @@ class iROSSpy():
         
         # load the input file
         input_file_path = input('What is the input file path?')
+        while len(input_file_path) > self.max_argument_length:
+            excessive_characters = self.ross.parameters['input_path'][self.max_argument_length:]
+            print(f'''--> ERROR: The {excessive_characters} characters of the input file path {input_file_path} are beyond the limit of characters. Provide a valid input file path.''')
+            input_file_path = input('What is the input file path?')
         while not os.path.exists(input_file_path):
             print(f'''--> ERROR: The input file path {input_file_path} does not exist. Provide a valid input file path.''')
             input_file_path = input('What is the input file path?')
@@ -511,20 +517,25 @@ class iROSSpy():
 
         # execute the PHREEQC batch software
 #         bat_path = os.path.join(os.getcwd(), 'phreeqc.bat')
-        bat_path = 'phreeqc.bat'
-        input_path = self.ross.parameters['input_path']
-        output_path = self.ross.parameters['output_path']
-        database_path = self.ross.parameters['database_path']
+        bat_path = r'phreeqc.bat'
+        database_path = r'{}'.format(self.ross.parameters['database_path'])
+        input_path = r'{}'.format(self.ross.parameters['input_path'])        
+        
+        output_path = r'{}'.format(self.ross.parameters['output_path'])
+        if len(output_path) > self.max_argument_length:
+            output_path = re.sub('(input.pqi)', 'output.pqo', input_path)
+            print(f'''\n\n--> ERROR: The output file path was abridged to {output_path} to maintain validity as an argument for the batch PHREEQC software.\n\n''')            
         
         for path in [bat_path, input_path, os.path.dirname(output_path), database_path]:
             if not os.path.exists(path):
                 print(f'-> ERROR: The < {path} > path does not exist\n')
         
         proc = subprocess.Popen('cmd.exe', stdin=subprocess.PIPE)
-        command = str.encode("\"" + bat_path + "\" \"" + input_path + "\" \"" + output_path + "\" \"" + database_path + "\"\n") 
+        command = str.encode(bat_path + " \"" + input_path + "\" \"" + output_path + "\" \"" + database_path + "\"\n") 
         proc.stdin.write(command)
         proc.stdin.close()  
         proc.wait()
+        
 
 #         self.raw_data = self.ross.execute(simulated_to_real_time = 9.29)
         selected_output_path = os.path.join(os.path.dirname(__file__), self.ross.selected_output_file_name)

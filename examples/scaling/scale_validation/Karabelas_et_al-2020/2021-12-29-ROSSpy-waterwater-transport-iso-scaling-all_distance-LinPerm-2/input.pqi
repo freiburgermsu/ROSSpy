@@ -1,0 +1,112 @@
+DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\iso.dat
+TITLE	 None
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\2021-12-29-ROSSpy-waterwater-transport-iso-scaling-all_distance-LinPerm-2
+
+SOLUTION 0	waterwater
+temp 	 31 	 #.
+pH 		 6.8 #
+
+Alkalinity 	 192.7 as HCO3 #
+units 	 ppm
+Na		701		#
+Mg		96		#
+Ca		250		#
+K		34		#
+Fe		9.8		#
+S(6)	433.8	as SO4	#
+Cl	1400		#
+F		0.7		#
+Si		26	as SiO2	#
+C(4)		0.2	as CO3	#
+-water 	17.378153556381264
+
+SOLUTION 1-12	Initial solution in the RO module
+temp 	 25
+units 	 ppm
+-water 	17.378153556381264
+
+EQUILIBRIUM_PHASES 1-12	
+Calcite		0	0
+Dolomite		0	0
+Siderite		0	0
+Gypsum			0	0
+Anhydrite		0	0
+Fluorite		0	0
+Halite			0	0
+Melanterite		0	0
+
+REACTION 1
+	H2O -1; 58.28564284017554
+
+REACTION 2
+	H2O -1; 57.75135778080727
+
+REACTION 3
+	H2O -1; 57.21707272143899
+
+REACTION 4
+	H2O -1; 56.682787662070716
+
+REACTION 5
+	H2O -1; 56.148502602702436
+
+REACTION 6
+	H2O -1; 55.61421754333416
+
+REACTION 7
+	H2O -1; 55.07993248396589
+
+REACTION 8
+	H2O -1; 54.54564742459761
+
+REACTION 9
+	H2O -1; 54.01136236522934
+
+REACTION 10
+	H2O -1; 53.47707730586106
+
+REACTION 11
+	H2O -1; 52.942792246492786
+
+REACTION 12
+	H2O -1; 52.408507187124506
+#linear_permeate
+
+    #Permeate efficiency parameter: 1
+    #Effluent relative pressure: 0.89
+    
+        #Effluent module 1:
+    #Estimated CF: 3.210E0
+    #Estimated final water mass: 5.4132228799304025
+
+
+
+SELECTED_OUTPUT
+-file			2021-12-29-waterwater-transport-iso-scaling-0.txt
+-reaction		true
+-temperature		true
+-totals			Li Na Mg Ca K Mn Fe Co Cu S(6) Cl F N(5) Ba B Sr Si C(4)
+-saturation_indices	Calcite Dolomite Siderite Gypsum Anhydrite Fluorite Halite Melanterite
+-equilibrium_phases	Calcite Dolomite Siderite Gypsum Anhydrite Fluorite Halite Melanterite
+-pH			true
+-time			true
+-distance		true
+-simulation		true
+-high_precision	true
+-alkalinity	true
+-solution
+-charge_balance	true
+-ionic_strength	true
+-step
+-water
+
+TRANSPORT
+-cells			12
+-shifts			34
+-lengths		0.08466666666666667
+-time_step		5.9758706931223475	# this satisfies the Courant condition with a feed velocity of 1.700E-1 m/s
+-initial_time		0
+-boundary_conditions	constant	flux 	 # Dirichlet and Cachy boundary conditions
+
+-punch_cells		1-12
+-punch_frequency	34

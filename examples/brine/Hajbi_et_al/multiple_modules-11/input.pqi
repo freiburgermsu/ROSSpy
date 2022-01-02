@@ -1,0 +1,300 @@
+DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+TITLE	 None
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Hajbi_et_al\multiple_modules-11
+
+SOLUTION 0	Hajbi
+
+
+
+
+units 	 ppm
+Ca		720		#
+Mg		335		#
+Na	1950		#
+Sr		13		#
+Cl	3550		#
+S(6)	2250		#
+Fe		0.2		#
+-water 	17.378153556381264
+
+SOLUTION 1-60	Initial solution in the RO module
+temp 	 25
+units 	 ppm
+-water 	17.378153556381264
+
+EQUILIBRIUM_PHASES 1-60	
+Anhydrite		0	0
+Aragonite		0	0
+Artinite		0	0
+Bischofite		0	0
+Bloedite		0	0
+Brucite		0	0
+Burkeite		0	0
+Calcite		0	0
+Celestite		0	0
+Dolomite		0	0
+Epsomite		0	0
+Gaylussite		0	0
+Glauberite		0	0
+Gypsum			0	0
+Halite			0	0
+Hexahydrite		0	0
+Huntite		0	0
+Kieserite		0	0
+Labile_S		0	0
+Leonhardite		0	0
+Magnesite		0	0
+MgCl2_2H2O		0	0
+MgCl2_4H2O		0	0
+Mirabilite		0	0
+Natron			0	0
+Nesquehonite		0	0
+Pentahydrite		0	0
+Pirssonite		0	0
+Portlandite		0	0
+Thenardite		0	0
+
+REACTION 1
+	H2O -1; 29.41527900917913
+
+REACTION 2
+	H2O -1; 27.674428705117975
+
+REACTION 3
+	H2O -1; 26.083676930961587
+
+REACTION 4
+	H2O -1; 24.626250160781638
+
+REACTION 5
+	H2O -1; 23.287654242610984
+
+REACTION 6
+	H2O -1; 22.05531253705817
+
+REACTION 7
+	H2O -1; 20.918269350038713
+
+REACTION 8
+	H2O -1; 19.86694553324287
+
+REACTION 9
+	H2O -1; 18.892936021910145
+
+REACTION 10
+	H2O -1; 17.988841282503927
+
+REACTION 11
+	H2O -1; 17.148126331123763
+
+REACTION 12
+	H2O -1; 16.36500228623231
+# linear_cf
+    
+    #Effluent module 1:
+#Estimated CF: 1.377E0
+#Estimated final water mass: 12.616379712511701
+
+
+
+REACTION 13
+	H2O -1; 279.9570488219438
+
+REACTION 14
+	H2O -1; 14.951517552983887
+
+REACTION 15
+	H2O -1; 14.312483945657277
+
+REACTION 16
+	H2O -1; 13.713561958318792
+
+REACTION 17
+	H2O -1; 13.151463359146987
+
+REACTION 18
+	H2O -1; 12.623230098858699
+
+REACTION 19
+	H2O -1; 12.126195308278284
+
+REACTION 20
+	H2O -1; 11.657949567105447
+
+REACTION 21
+	H2O -1; 11.216311645119163
+
+REACTION 22
+	H2O -1; 10.79930305070252
+
+REACTION 23
+	H2O -1; 10.405125830816928
+
+REACTION 24
+	H2O -1; 10.032143156215511
+# linear_cf
+    
+    #Effluent module 2:
+#Estimated CF: 1.755E0
+#Estimated final water mass: 5.141121500184624
+
+
+
+REACTION 25
+	H2O -1; 424.6251965947197
+
+REACTION 26
+	H2O -1; 9.34391967529109
+
+REACTION 27
+	H2O -1; 9.026067660466765
+
+REACTION 28
+	H2O -1; 8.724162958694933
+
+REACTION 29
+	H2O -1; 8.437156303702977
+
+REACTION 30
+	H2O -1; 8.164083329346454
+
+REACTION 31
+	H2O -1; 7.90405645737718
+
+REACTION 32
+	H2O -1; 7.656257675348115
+
+REACTION 33
+	H2O -1; 7.419932094754131
+
+REACTION 34
+	H2O -1; 7.194382194538946
+
+REACTION 35
+	H2O -1; 6.978962667876488
+
+REACTION 36
+	H2O -1; 6.7730758010469
+# linear_cf
+    
+    #Effluent module 3:
+#Estimated CF: 2.132E0
+#Estimated final water mass: -4.08701277005352
+
+
+
+REACTION 37
+	H2O -1; 518.8234207356834
+
+REACTION 38
+	H2O -1; 6.387722668356673
+
+REACTION 39
+	H2O -1; 6.207263616882983
+
+REACTION 40
+	H2O -1; 6.034345251481341
+
+REACTION 41
+	H2O -1; 5.868553215451243
+
+REACTION 42
+	H2O -1; 5.709501227262649
+
+REACTION 43
+	H2O -1; 5.556828828364132
+
+REACTION 44
+	H2O -1; 5.410199338987354
+
+REACTION 45
+	H2O -1; 5.269298000289723
+
+REACTION 46
+	H2O -1; 5.13383028366718
+
+REACTION 47
+	H2O -1; 5.003520350265717
+
+REACTION 48
+	H2O -1; 4.8781096456343676
+# linear_cf
+    
+    #Effluent module 4:
+#Estimated CF: 2.510E0
+#Estimated final water mass: -14.540803685872838
+
+
+
+REACTION 49
+	H2O -1; 585.0399487784641
+
+REACTION 50
+	H2O -1; 4.641030535216032
+
+REACTION 51
+	H2O -1; 4.528920428886295
+
+REACTION 52
+	H2O -1; 4.420824091000554
+
+REACTION 53
+	H2O -1; 4.316552179798464
+
+REACTION 54
+	H2O -1; 4.21592638817458
+
+REACTION 55
+	H2O -1; 4.118778680862306
+
+REACTION 56
+	H2O -1; 4.0249505924386995
+
+REACTION 57
+	H2O -1; 3.9342925806718085
+
+REACTION 58
+	H2O -1; 3.846663430275953
+
+REACTION 59
+	H2O -1; 3.761929702640032
+
+REACTION 60
+	H2O -1; 3.6799652275124117
+# linear_cf
+    
+    #Effluent module 5:
+#Estimated CF: 2.887E0
+#Estimated final water mass: -25.899797719699016
+
+
+
+SELECTED_OUTPUT
+-file			2022-01-02-Hajbi-transport-pitzer-brine-0.txt
+-reaction		true
+-temperature		true
+-totals			Ca Mg Na Sr Cl S(6) Fe
+-saturation_indices	Anhydrite Aragonite Artinite Bischofite Bloedite Brucite Burkeite Calcite Celestite Dolomite Epsomite Gaylussite Glauberite Gypsum Halite Hexahydrite Huntite Kieserite Labile_S Leonhardite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Portlandite Thenardite
+-equilibrium_phases	Anhydrite Aragonite Artinite Bischofite Bloedite Brucite Burkeite Calcite Celestite Dolomite Epsomite Gaylussite Glauberite Gypsum Halite Hexahydrite Huntite Kieserite Labile_S Leonhardite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Portlandite Thenardite
+-pH			true
+-time			true
+-distance		true
+-simulation		true
+-high_precision	true
+-alkalinity	true
+-solution
+-charge_balance	true
+-ionic_strength	true
+-step
+-water
+
+TRANSPORT
+-cells			60
+-shifts			93
+-lengths		0.08466666666666667
+-time_step		0.8148914581530474	# this satisfies the Courant condition with a feed velocity of 1.247E0 m/s
+-initial_time		0
+-boundary_conditions	constant	flux 	 # Dirichlet and Cachy boundary conditions
+
+-punch_cells		60
+-punch_frequency	1

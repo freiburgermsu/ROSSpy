@@ -1,21 +1,21 @@
 DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
 TITLE	 None
-# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Ahmed_et_al\PHREEQ_ionic_concentrations
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Ahmed_et_al\PHREEQ_ionic_concentrations-3
 
 SOLUTION 0	Ahmed
 
 
 
-
+Alkalinity 	 111  #
 units 	 ppm
-Ca		464	#
-Mg	1640	#
-Na	11900	#
-Sr	4.56	#
-Cl	23149	#
-S(6)	2787	#
-Fe	0.22	#
-K		574	#
+Ca		464		#
+Mg	1640		#
+Na	11900		#
+Sr	4.56		#
+Cl	23149		#
+S(6)	2787		#
+Fe	0.22		#
+K		574		#
 -water 	17.378153556381264
 
 SOLUTION 1-12	Initial solution in the RO module
@@ -65,40 +65,45 @@ Sylvite		0	0
 Syngenite		0	0
 Thenardite		0	0
 
-
 REACTION 1
 	H2O -1; 29.72637958670998
+
 REACTION 2
 	H2O -1; 27.949067775441677
+
 REACTION 3
 	H2O -1; 26.3265248819788
+
 REACTION 4
 	H2O -1; 24.841288024135565
+
 REACTION 5
 	H2O -1; 23.47828971473291
+
 REACTION 6
 	H2O -1; 22.22447409637516
+
 REACTION 7
 	H2O -1; 21.068483040745605
+
 REACTION 8
 	H2O -1; 20.00039794504403
+
 REACTION 9
 	H2O -1; 19.011526210320653
+
 REACTION 10
 	H2O -1; 18.094223778136097
+
 REACTION 11
 	H2O -1; 17.241746930254067
+
 REACTION 12
 	H2O -1; 16.448127963582692
-#linear_cf
-    #Effluent module 1:
-        #Estimated CF: 1.382E0
-        #Estimated final water mass: 51.10831694053455
-
-
+# linear_cf
 
 SELECTED_OUTPUT
--file			2021-11-05_Ahmed_transport_pitzer_brine_0.txt
+-file			2022-01-02-Ahmed-transport-pitzer-brine-0.txt
 -reaction		true
 -temperature		true
 -totals			Ca Mg Na Sr Cl S(6) Fe K

@@ -1,0 +1,128 @@
+DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+TITLE	 None
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Hajbi_et_al\multiple_modules-5
+
+SOLUTION 0	Hajbi
+
+
+
+
+units 	 ppm
+Ca		720		#
+Mg		335		#
+Na	1950		#
+Sr		13		#
+Cl	3550		#
+S(6)	2250		#
+Fe		0.2		#
+-water 	17.378153556381264
+
+SOLUTION 1-60	Initial solution in the RO module
+temp 	 25
+units 	 ppm
+-water 	17.378153556381264
+
+EQUILIBRIUM_PHASES 1-60	
+Anhydrite		0	0
+Aragonite		0	0
+Artinite		0	0
+Bischofite		0	0
+Bloedite		0	0
+Brucite		0	0
+Burkeite		0	0
+Calcite		0	0
+Celestite		0	0
+Dolomite		0	0
+Epsomite		0	0
+Gaylussite		0	0
+Glauberite		0	0
+Gypsum			0	0
+Halite			0	0
+Hexahydrite		0	0
+Huntite		0	0
+Kieserite		0	0
+Labile_S		0	0
+Leonhardite		0	0
+Magnesite		0	0
+MgCl2_2H2O		0	0
+MgCl2_4H2O		0	0
+Mirabilite		0	0
+Natron			0	0
+Nesquehonite		0	0
+Pentahydrite		0	0
+Pirssonite		0	0
+Portlandite		0	0
+Thenardite		0	0
+
+REACTION 49
+	H2O -1; 2.0384008202969426
+
+REACTION 50
+	H2O -1; 1.9660643004234544
+
+REACTION 51
+	H2O -1; 1.8975111484966192
+
+REACTION 52
+	H2O -1; 1.8324820469163114
+
+REACTION 53
+	H2O -1; 1.770739521302744
+
+REACTION 54
+	H2O -1; 1.7120657691600627
+
+REACTION 55
+	H2O -1; 1.6562607362524204
+
+REACTION 56
+	H2O -1; 1.6031404089141006
+
+REACTION 57
+	H2O -1; 1.5525352950278375
+
+REACTION 58
+	H2O -1; 1.5042890702198974
+
+REACTION 59
+	H2O -1; 1.4582573690502159
+
+REACTION 60
+	H2O -1; 1.4143067037138053
+# linear_cf
+    
+    #Effluent module 5:
+#Estimated CF: 1.044E1
+#Estimated final water mass: 1.665260331978488
+
+
+
+SELECTED_OUTPUT
+-file			2022-01-02-Hajbi-transport-pitzer-brine-0.txt
+-reaction		true
+-temperature		true
+-totals			Ca Mg Na Sr Cl S(6) Fe
+-saturation_indices	Anhydrite Aragonite Artinite Bischofite Bloedite Brucite Burkeite Calcite Celestite Dolomite Epsomite Gaylussite Glauberite Gypsum Halite Hexahydrite Huntite Kieserite Labile_S Leonhardite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Portlandite Thenardite
+-equilibrium_phases	Anhydrite Aragonite Artinite Bischofite Bloedite Brucite Burkeite Calcite Celestite Dolomite Epsomite Gaylussite Glauberite Gypsum Halite Hexahydrite Huntite Kieserite Labile_S Leonhardite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Portlandite Thenardite
+-pH			true
+-time			true
+-distance		true
+-simulation		true
+-high_precision	true
+-alkalinity	true
+-solution
+-charge_balance	true
+-ionic_strength	true
+-step
+-water
+
+TRANSPORT
+-cells			60
+-shifts			93
+-lengths		0.08466666666666667
+-time_step		0.8148914581530474	# this satisfies the Courant condition with a feed velocity of 1.247E0 m/s
+-initial_time		0
+-boundary_conditions	constant	flux 	 # Dirichlet and Cachy boundary conditions
+
+-punch_cells		60
+-punch_frequency	1

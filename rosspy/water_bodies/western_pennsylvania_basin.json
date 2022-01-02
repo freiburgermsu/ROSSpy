@@ -59,7 +59,8 @@
     },
     "Alkalinity": {
         "value": 90,
-        "reference": null
+        "reference": null,
+	"form": "CaCO3"
     },
     "pH": {
 

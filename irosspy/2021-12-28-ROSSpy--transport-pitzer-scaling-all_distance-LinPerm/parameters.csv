@@ -1,0 +1,20 @@
+,parameter,value
+0,simulation_path,2021-12-28-ROSSpy--transport-pitzer-scaling-all_distance-LinPerm
+1,os,windows
+2,root_path,C:\Users\Andrew Freiburger\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\rosspy
+3,database_selection,pitzer
+4,simulation_type,transport
+5,permeate_approach,linear_permeate
+6,water_selection,
+7,simulation,scaling
+8,domain_phase,False
+9,cells_per_module,12.0
+10,timestep,3.946329703005324
+11,simulation_time,201.26281485327152
+12,simulation_perspective,all_distance
+13,database_path,C:\Users\Andrew Freiburger\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\rosspy\databases\pitzer.dat
+14,active_m2,37.0
+15,active_m2_cell,3.0833333333333335
+16,input_path,input.pqi
+17,output_file_name,output.pqo
+18,output_path,2021-12-28-ROSSpy--transport-pitzer-scaling-all_distance-LinPerm\output.pqo

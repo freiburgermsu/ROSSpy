@@ -1,6 +1,6 @@
 DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
 TITLE	 None
-# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Hajbi_et_al\improved_single_module_over_distance
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Hajbi_et_al\improved_single_module_over_distance-2
 
 SOLUTION 0	Hajbi
 
@@ -8,13 +8,13 @@ SOLUTION 0	Hajbi
 
 
 units 	 ppm
-Ca		720	#
-Mg		335	#
-Na	1950	#
-Sr		13	#
-Cl	3550	#
-S(6)	2250	#
-Fe		0.2	#
+Ca		720		#
+Mg		335		#
+Na	1950		#
+Sr		13		#
+Cl	3550		#
+S(6)	2250		#
+Fe		0.2		#
 -water 	17.378153556381264
 
 SOLUTION 1-12	Initial solution in the RO module
@@ -54,40 +54,54 @@ Pirssonite		0	0
 Portlandite		0	0
 Thenardite		0	0
 
-
 REACTION 1
-	H2O -1; 55.23770019375127
+	H2O -1; 1.8412566731250424
+
 REACTION 2
-	H2O -1; 54.73135460864189
+	H2O -1; 1.8243784869547295
+
 REACTION 3
-	H2O -1; 54.2250090235325
+	H2O -1; 1.8075003007844166
+
 REACTION 4
-	H2O -1; 53.718663438423114
+	H2O -1; 1.7906221146141037
+
 REACTION 5
-	H2O -1; 53.21231785331373
+	H2O -1; 1.7737439284437908
+
 REACTION 6
-	H2O -1; 52.70597226820434
+	H2O -1; 1.756865742273478
+
 REACTION 7
-	H2O -1; 52.199626683094955
+	H2O -1; 1.739987556103165
+
 REACTION 8
-	H2O -1; 51.69328109798557
+	H2O -1; 1.7231093699328521
+
 REACTION 9
-	H2O -1; 51.18693551287618
+	H2O -1; 1.7062311837625392
+
 REACTION 10
-	H2O -1; 50.680589927766796
+	H2O -1; 1.6893529975922263
+
 REACTION 11
-	H2O -1; 50.17424434265741
+	H2O -1; 1.6724748114219135
+
 REACTION 12
-	H2O -1; 49.66789875754802
-#linear_permeate
-    #Effluent module 1:
-        #Estimated CF: 2.878E0
-        #Estimated final water mass: 6.038907365735324
+	H2O -1; 1.6555966252516006
+# linear_permeate
+
+    #Permeate efficiency parameter: 1
+    #Effluent relative pressure: 0.89
+    
+        #Effluent module 1:
+    #Estimated CF: 1.022E0
+    #Estimated final water mass: 17.00017868335973
 
 
 
 SELECTED_OUTPUT
--file			2021-11-05_Hajbi_transport_pitzer_brine_0.txt
+-file			2022-01-02-Hajbi-transport-pitzer-brine-0.txt
 -reaction		true
 -temperature		true
 -totals			Ca Mg Na Sr Cl S(6) Fe
