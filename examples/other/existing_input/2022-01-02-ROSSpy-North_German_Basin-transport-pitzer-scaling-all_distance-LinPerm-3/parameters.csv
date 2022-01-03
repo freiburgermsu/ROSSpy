@@ -1,0 +1,20 @@
+,parameter,value
+0,simulation_path,2022-01-02-ROSSpy-North_German_Basin-transport-pitzer-scaling-all_distance-LinPerm-3
+1,os,windows
+2,root_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
+3,database_selection,pitzer
+4,simulation_type,transport
+5,permeate_approach,linear_permeate
+6,water_selection,North German Basin
+7,simulation,scaling
+8,domain_phase,Immobile
+9,cells_per_module,12.0
+10,timestep,0.3000636
+11,simulation_time,7.2015264
+12,simulation_perspective,all_distance
+13,database_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+14,active_m2,37
+15,active_m2_cell,3.0833333333333335
+16,input_path,2020-09-03_APF_German North Basin_BW30-400_PE=100%_1.1
+17,output_file_name,output.pqo
+18,output_path,2022-01-02-ROSSpy-North_German_Basin-transport-pitzer-scaling-all_distance-LinPerm-3\output.pqo

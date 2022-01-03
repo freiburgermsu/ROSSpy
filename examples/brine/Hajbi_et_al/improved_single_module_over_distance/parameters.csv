@@ -1,5 +1,5 @@
 ,parameter,value
-0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Hajbi_et_al\improved_single_module_over_distance-2
+0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Hajbi_et_al\improved_single_module_over_distance
 1,os,windows
 2,root_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
 3,water_mw,18.015
@@ -31,11 +31,11 @@
 29,active_m2_cell,3.0833333333333335
 30,timestep,0.8148914581530474
 31,permeate_moles_per_cell,1.7399875561031652
-32,permeate_approach,linear_permeate
+32,permeate_approach,linear_cf
 33,water_selection,Hajbi
 34,solution_elements,"['Ca', 'Mg', 'Na', 'Sr', 'Cl', 'S(6)', 'Fe']"
 35,selected_output_file_name,2022-01-02-Hajbi-transport-pitzer-brine-0.txt
 36,input_file_name,input.pqi
-37,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Hajbi_et_al\improved_single_module_over_distance-2\input.pqi
+37,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Hajbi_et_al\improved_single_module_over_distance\input.pqi
 38,output_file_name,selected_output.csv
-39,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Hajbi_et_al\improved_single_module_over_distance-2\selected_output.csv
+39,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Hajbi_et_al\improved_single_module_over_distance\selected_output.csv

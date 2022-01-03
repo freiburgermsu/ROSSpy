@@ -1,0 +1,17 @@
+,variable,value
+0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\database_selection\2022-01-02-ROSSpy-red_sea-transport-iso-scaling-all_distance-LinPerm
+1,cell_meters,0.08466666666666667
+2,feed_cubic_meters,0.017429622854940183
+3,feed_kg,17.378153556381264
+4,feed_moles,964.6491011035951
+5,Reynold's number,47.46212128445787
+6,feed_kg_cell,1.448179463031772
+7,feed_moles_cell,80.38742509196625
+8,module 0,{'cf': 1.1177308071405103}
+9,described_minerals,"{'Calcite': {'formula': 'CaCO3', 'mass': 103.0869}, 'Dolomite': {'formula': 'CaMg(CO3)2', 'mass': 186.4008}, 'Siderite': {'formula': 'FeCO3', 'mass': 118.8539}, 'Gypsum': {'formula': 'CaSO4:2H2O', 'mass': 172.17116000000001}, 'Anhydrite': {'formula': 'CaSO4', 'mass': 140.1406}, 'Halite': {'formula': 'NaCl', 'mass': 58.44277}, 'Melanterite': {'formula': 'FeSO4:7H2O', 'mass': 278.01456}}"
+10,run_time (s),2.783858000067994
+11,initial_solution_mass,17.378153556381264
+12,final_solution_mass,15.594305658106638
+13,simulation_cf,1.1143909794628977
+14,final_time,201.26281485327152
+15,precipitated_minerals,"{'Gypsum': {'formula': 'CaSO4:2H2O', 'mass': 172.17116000000001}}"

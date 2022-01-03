@@ -1,5 +1,5 @@
 ,parameter,value
-0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\concentrations_over_module
+0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\concentrations_over_module-2
 1,os,windows
 2,root_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
 3,water_mw,18.015
@@ -12,12 +12,12 @@
 10,database_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
 11,database_selection,pitzer
 12,simulation_time,275
-13,exchange_factor,10000000000.0
+13,exchange_factor,100000.0
 14,simulation_perspective,all_distance
 15,module_diameter_mm,201
 16,permeate_tube_diameter_mm,29
 17,module_length_m,1.016
-18,permeate_flow_m3_per_day,40
+18,permeate_flow_m3_per_hour,1.6666666666666667
 19,max_feed_flow_m3_per_hour,15.9
 20,membrane_thickness_mm,0.00025
 21,feed_thickness_mm,0.8636
@@ -33,8 +33,8 @@
 31,permeate_approach,linear_cf
 32,water_selection,Zaman
 33,solution_elements,"['Ca', 'Mg', 'Na', 'Sr', 'Cl', 'S(6)', 'Ba', 'B', 'K']"
-34,selected_output_file_name,2021-11-04_Zaman_transport_pitzer_brine_0.txt
+34,selected_output_file_name,2022-01-02-Zaman-transport-pitzer-brine-0.txt
 35,input_file_name,input.pqi
-36,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\concentrations_over_module\input.pqi
-37,output_file_name,selected_output.pqo
-38,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\concentrations_over_module\selected_output.pqo
+36,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\concentrations_over_module-2\input.pqi
+37,output_file_name,selected_output.csv
+38,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\concentrations_over_module-2\selected_output.csv

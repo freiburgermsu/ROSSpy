@@ -1,0 +1,17 @@
+,variable,value
+0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\database_selection\2022-01-02-ROSSpy-red_sea-transport-frezchem-scaling-all_distance-LinPerm
+1,cell_meters,0.08466666666666667
+2,feed_cubic_meters,0.017429622854940183
+3,feed_kg,17.378153556381264
+4,feed_moles,964.6491011035951
+5,Reynold's number,47.46212128445787
+6,feed_kg_cell,1.448179463031772
+7,feed_moles_cell,80.38742509196625
+8,module 0,{'cf': 1.1177308071405103}
+9,described_minerals,"{'Anhydrite': {'formula': 'CaSO4', 'mass': 140.1406}, 'Antarcticite': {'formula': 'CaCl2:6H2O', 'mass': 219.07568}, 'Aphthitalite': {'formula': 'Na2SO4:3K2SO4', 'mass': 668.81974}, 'Aragonite': {'formula': 'CaCO3', 'mass': 103.0869}, 'Arcanite': {'formula': 'K2SO4', 'mass': 178.2592}, 'Bischofite': {'formula': 'MgCl2:6H2O', 'mass': 203.30268}, 'Bloedite': {'formula': 'Na2Mg(SO4)2:4H2O', 'mass': 334.47086}, 'Calcite': {'formula': 'CaCO3', 'mass': 103.0869}, 'Carnallite': {'formula': 'KMgCl3:6H2O', 'mass': 277.85398}, 'Dolomite': {'formula': 'CaMg(CO3)2', 'mass': 186.4008}, 'Epsomite': {'formula': 'MgSO4:7H2O', 'mass': 246.47456}, 'Gypsum': {'formula': 'CaSO4:2H2O', 'mass': 172.17116000000001}, 'Halite': {'formula': 'NaCl', 'mass': 58.44277}, 'Hexahydrite': {'formula': 'MgSO4:6H2O', 'mass': 228.45927999999998}, 'Hydrohalite': {'formula': 'NaCl:2H2O', 'mass': 94.47333}, 'Hydromagnesite': {'formula': '(MgCO3)3:Mg(OH)2:3H2O', 'mass': 252.94169999999997}, 'Ikaite': {'formula': 'CaCO3:6H2O', 'mass': 208.17858}, 'Kieserite': {'formula': 'MgSO4:H2O', 'mass': 120.3676}, 'Landsfordite': {'formula': 'MgCO3:5H2O', 'mass': 174.3903}, 'Magnesite': {'formula': 'MgCO3', 'mass': 87.31389999999999}, 'Meridianite': {'formula': 'MgSO4:11H2O', 'mass': 318.53568}, 'Mirabilite': {'formula': 'Na2SO4:10H2O', 'mass': 322.19494}, 'Natron': {'formula': 'Na2CO3:10H2O', 'mass': 286.14124000000004}, 'Nesquehonite': {'formula': 'MgCO3:3H2O', 'mass': 138.35974}, 'Picromerite': {'formula': 'MgSO4:K2SO4:6H2O', 'mass': 120.3676}, 'Sylvite': {'formula': 'KCl', 'mass': 74.5513}, 'Tachyhydrite': {'formula': 'CaCl2:(MgCl2)2:12H2O', 'mass': 517.58936}, 'Thenardite': {'formula': 'Na2SO4', 'mass': 146.04214}, 'Vaterite': {'formula': 'CaCO3', 'mass': 103.0869}}"
+10,run_time (s),6.587609899928793
+11,initial_solution_mass,17.378153556381264
+12,final_solution_mass,15.596369888179378
+13,simulation_cf,1.1142434862071535
+14,final_time,201.26281485327152
+15,precipitated_minerals,{}

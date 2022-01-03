@@ -35,6 +35,16 @@ def time_determination(time):
             unit = 'minutes'
     return sigfigs_conversion(time, 3), unit
 
+def isnumber(num):
+    try:
+        float(num)
+        return True
+    except:
+        try:
+            int(num)
+            return True
+        except:
+            return False
 
 class ROSSPkg():
     def __init__(self, operating_system = 'windows', verbose = False, jupyter = False):      
@@ -57,7 +67,7 @@ class ROSSPkg():
         self.parameters['root_path'] = os.path.join(os.path.dirname(__file__))
         self.databases = [re.search('(?<=databases\\\\)(.+)(?=\.json)', database).group() for database in glob(os.path.join(self.parameters['root_path'], 'databases', '*.json'))]
         
-    def define_general(self, database_selection, simulation = 'scaling', domain = 'single', domain_phase = None, quantity_of_modules = 1, simulation_type = 'transport', simulation_title = None):
+    def define_general(self, database_selection, simulation = 'scaling', domain_phase = None, quantity_of_modules = 1, simulation_type = 'transport', simulation_title = None):
         '''Establish general conditions'''
         self.parameters['water_mw'] = float(get_compounds('water', 'name')[0].molecular_weight)
         self.parameters['water_grams_per_liter'] = water_density()
@@ -66,9 +76,15 @@ class ROSSPkg():
         self.parameters['simulation_type'] = simulation_type
         self.parameters['simulation'] = simulation
         self.parameters['quantity_of_modules'] = quantity_of_modules
-        self.parameters['domain'] = domain
-        self.parameters['domain_phase'] = domain_phase
         self.parameters['database_path'] = os.path.join(self.parameters['root_path'], 'databases',f'{database_selection}.dat')
+        
+        self.parameters['domain'] = 'single'
+        accepted_domains = ['mobile', 'immobile']
+        if domain_phase in accepted_domains:
+            self.parameters['domain_phase'] = domain_phase
+            self.parameters['domain'] = 'dual'
+        elif domain_phase is not None:
+            print(f'--> ERROR: The {domain_phase} domain phase is not one of the accepted terms {accepted_domains}.')
 
         title_line = f'TITLE\t {simulation_title}'
         database_line = 'DATABASE {}'.format(self.parameters['database_path'])
@@ -210,15 +226,18 @@ class ROSSPkg():
         '''Define the REACTION blocks'''
         # establish parameters
         self.parameters['permeate_approach'] = 'linear_permeate'
-        if final_cf is not None:
+        if isnumber(final_cf):
             self.parameters['permeate_approach'] = 'linear_cf'
 #             module_cf = final_cf**(1/self.parameters['quantity_of_modules'])
-        
+        elif final_cf is not None:
+            print(f'--> ERROR: The final_cf parameter value < {final_cf} > is not a number.')
+    
         cfs = []
         cell_moles = []
         reaction_parameters = []
         self.results['reaction_block'] = []
         self.cumulative_cf = 1 
+        module_previous_moles_removed = 0 
         for module in range(self.parameters['quantity_of_modules']): 
             if self.parameters['permeate_approach'] == 'linear_permeate':
                 initial_moles_removed = self.parameters['permeate_moles_per_cell'] * 2 / (1 + head_loss)
@@ -252,7 +271,7 @@ class ROSSPkg():
                     print('moles_removed', moles_removed)
 
             elif self.parameters['permeate_approach'] == 'linear_cf':
-                module_iteration = moles_removed = module_previous_moles_removed = 0
+                module_iteration = moles_removed = 0
                 initial_cf = 1
                 cfs = []
                 effective_cells = self.parameters['cells_per_module']*self.parameters['quantity_of_modules']
@@ -261,27 +280,44 @@ class ROSSPkg():
                     cell_cf = (cell+1) * cf_slope + initial_cf
                     cfs.append(cell_cf)  
                 for cf in cfs:
+                    if self.verbose:
+                        print('\n',)
                     moles_to_be_removed = self.variables['feed_moles'] - (self.variables['feed_moles'] / cf)
                     if module_iteration == 0:
+                        if len(reaction_parameters) > 0:
+                            if self.verbose:
+                                print('to be', moles_to_be_removed, '\tlast parameter', reaction_parameters[-1], '\tprevious removal', sum(reaction_parameters))
+                            module_previous_moles_removed += reaction_parameters[-1]
+                        else:
+                            if self.verbose:
+                                print('to be', moles_to_be_removed, )
                         if module == 0:
                             reaction_parameters.append(moles_to_be_removed)
                         else:
-                            reaction_parameters.append(moles_to_be_removed - sum(reaction_parameters))
+                            reaction_parameters.append(moles_to_be_removed - module_previous_moles_removed)
                     else:
                         module_previous_moles_removed += reaction_parameters[-1] 
                         if moles_to_be_removed < module_previous_moles_removed:
                             print(f'--> ERROR: The reaction parameter is negative: {moles_to_be_removed - module_previous_moles_removed}.')
                         reaction_parameter = moles_to_be_removed - module_previous_moles_removed
-                        print('to be', moles_to_be_removed, '\tlast parameter', reaction_parameters[-1], '\tprevious removal', module_previous_moles_removed)
+                        if self.verbose:
+                            print('to be', moles_to_be_removed, '\tlast parameter', reaction_parameters[-1], '\tthis parameter', reaction_parameter, '\tprevious removal', module_previous_moles_removed)
                         reaction_parameters.append(reaction_parameter)
 
                     moles_removed = sum(reaction_parameters)
                     module_iteration += 1
 
-                    print(cf)
-                    print('cf per cell: ', self.variables['feed_moles'] / (self.variables['feed_moles']-moles_removed))
+                    # verify the CF calculations and efffects in the system
+                    measured_cf = self.variables['feed_moles'] / (self.variables['feed_moles']-moles_removed)
+                    consistency = round(measured_cf, 5) == round(cf, 5)
+                    if not consistency:
+                        print(f'--> ERROR: The measured cf {measured_cf} is dissimilar from the target cf {cf}.') 
+                    else:
+                        if self.verbose:
+                            print('cf consistency between the measured and predicted: ', consistency)
 
-            cf = cfs[-1]
+                cf = cfs[-1]
+                
             self.cumulative_cf *= cf
             moles_remaining = self.variables['feed_moles'] - moles_removed  
             self.variables[f'module {module}'] = {'cf': cf}
@@ -734,7 +770,8 @@ class ROSSPkg():
                 if row != 1:
                     self.parameters['domain_phase'] = 'Mobile'
             elif re.search('H2O -1; ', row):
-                permeate_moles += float(re.sub('(H2O -1; )', '', row))
+                moles = re.search('([0-9]+\.[0-9]+)', row).group()
+                permeate_moles += float(moles)
             elif re.search('TRANSPORT', row):
                 self.parameters['simulation_type'] = 'transport'
             elif re.search('-cells', row):
@@ -925,10 +962,11 @@ class ROSSPkg():
                     element = ch
                     if re.search('[a-z]', formula[index+1]):
                         element += formula[index+1]
-                        if re.search('[0-9]', formula[index+2]):
-                            stoich = float(formula[index+2])
-                        else:
-                            stoich = 1
+                        if len(formula) >= index+2+1:
+                            if re.search('[0-9]', formula[index+2]):
+                                stoich = float(formula[index+2])
+                            else:
+                                stoich = 1
                     elif re.search('[0-9]', formula[index+1]):
                         stoich = float(formula[index+1])
                     else:
@@ -946,14 +984,14 @@ class ROSSPkg():
 
                 index += 1
 
-            mineral_elements[mineral]['total_moles'] = total
+            mineral_elements[mineral]['total_grams'] = total
 
         # determine the ionic proportions of the respective mineral, without solvated water or hydroxide
         elemental_ratio = {}
         for mineral in mineral_elements:
             elemental_ratio[mineral] = {}
             for element in mineral_elements[mineral]:
-                elemental_ratio[mineral][element] = mineral_elements[mineral][element] / mineral_elements[mineral]['total_moles']
+                elemental_ratio[mineral][element] = mineral_elements[mineral][element] / mineral_elements[mineral]['total_grams']
 
         # calculate the precipitated mass of each element
         scale_ratio = {}
@@ -961,7 +999,10 @@ class ROSSPkg():
         for mineral in elemental_ratio:
             index = 0
             scale_ratio[mineral] = {}
-            for scale in data[f'{mineral} (g/m^2)']:  
+            unit = '(g/m^2)'
+            if self.parameters['simulation_type'] == 'evaporation':
+                unit = '(g)'
+            for scale in data[f'{mineral} {unit}']:  
                 df_index = f'{data.index[index]} (m)'
                 scale_ratio[mineral][df_index] = {}
                 if df_index not in elements:
@@ -975,7 +1016,7 @@ class ROSSPkg():
                     elif element in elements[df_index]:
                         elements[df_index][element] += scale_ratio[mineral][df_index][element]
                     else:
-                        if element == 'total_moles':
+                        if element == 'total_grams':
                             elements[df_index][element] = scale_ratio[mineral][df_index][element]
                         else:
                             elements[df_index]['ion (g/m^2)'][element] = scale_ratio[mineral][df_index][element]
@@ -1032,6 +1073,7 @@ class ROSSPkg():
             if self.parameters['simulation_perspective'] == 'all_time':
                 time_serie = []
                 data[element] = {}
+                insufficient_elements = set()
                 for index, row in self.results['csv_data'].iterrows():
                     if all(row[element] > 1e-16 for element in non_zero_columns):
                         concentration_serie.append(row[element])
@@ -1040,10 +1082,10 @@ class ROSSPkg():
                         data[element][time] = sigfigs_conversion(row[element], 4)
                     else:
                         initial_solution_time += 1
+                        for element in non_zero_columns:
+                            if row[element] < 1e-16:
+                                insufficient_elements.add(element)
                 pyplot.plot(time_serie,concentration_serie)
-                
-                if len(time_serie) == 0:
-                    print('-> ERROR: The elemental concentrations never fully concentrated.')
                                     
             elif self.parameters['simulation_perspective'] == 'all_distance':
                 distance_serie = []
@@ -1066,11 +1108,12 @@ class ROSSPkg():
                             data[f'{element} (mol)'][sigfig_x] = sigfigs_conversion(concentration_serie[index], 4)
                     else:
                         concentration_serie.append(row[element])
-                        distance_serie.append(row['dist_x'])                       
-                
-                if len(distance_serie) == 0:
-                    print('-> ERROR: The elemental concentrations never fully concentrated.')
-        
+                        distance_serie.append(row['dist_x'])       
+                        
+        if self.parameters['simulation_perspective'] == 'all_time':
+            if len(time_serie) == 0:
+                    print(f'\n\n--> ERROR: The {insufficient_elements} elements remain below the 1E-16 Molal threshold.')
+                        
         # define the brine plot
         if self.parameters['simulation_perspective'] == 'all_time':
             x_location = []

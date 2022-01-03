@@ -1,0 +1,225 @@
+DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\llnl.dat
+TITLE	 None
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\database_selection\2022-01-02-ROSSpy-red_sea-transport-llnl-scaling-all_distance-LinPerm
+
+SOLUTION 0	red_sea
+temp 	 24.5 	 #average of Al-Taani et al., 2014 and Longinelli and Craig, 1967..
+pH 		 8.22 #None
+pe 		 0.2679 	   #Al-Taani et al., 2014 // 4.00 is the default (?) // 4.00 is the default (?)
+Alkalinity 	 2 as CaCO3 #Sabine et al., 2002 as reported for the Indian Ocean
+units 	 ppm
+Mn	0.000306		#Al-Taani et al., 2014 for the Northern Gulf of Aqaba
+Fe	0.006281		#Al-Taani et al., 2014 for the Northern Gulf of Aqaba
+B	1.344		#Al-Taani et al., 2014
+Cl	24756		#https://www.lenntech.com/composition-seawater.htm in the Red Sea, and Longinelli and Craig, 1967
+Na	16417.2		#https://www.lenntech.com/composition-seawater.htm in the Red Sea, and Longinelli and Craig, 1967 describes [Na]=15834
+Ca		774		#Abdel-Aal et al., 2015
+K		301		#Abdel-Aal et al., 2015
+Mg	1646		#Abdel-Aal et al., 2015
+Sr		8.3		#Bernat, Church, and Allegre, 1972 from the Mediterranean
+Ba	0.011		#Bernat, Church, and Allegre, 1972 from the Mediterranean
+Li	0.228		#Stoffyn-Egli and Mackenzie, 1984 for the Mediterranean Sea
+Zn	0.00021		#Shriadah, Okbah, and El-Deek, 2004 for the Red Sea @ 1-100m deep
+Ni	0.00012		#Shriadah, Okbah, and El-Deek, 2004 for the Red Sea @ 1-100m deep
+Cu	0.00011		#Shriadah, Okbah, and El-Deek, 2004 for the Red Sea @ 1-100m deep
+Cd	0.00037		#Shriadah, Okbah, and El-Deek, 2004 for the Red Sea @ 1-100m deep
+Co	0.00013		#Shriadah, Okbah, and El-Deek, 2004 for the Red Sea @ 1-100m deep
+Pb	0.00036		#Shriadah, Okbah, and El-Deek, 2004 for the Red Sea @ 1-100m deep
+-water 	17.378153556381264
+
+SOLUTION 1-12	Initial solution in the RO module
+temp 	 25
+units 	 ppm
+-water 	17.378153556381264
+
+EQUILIBRIUM_PHASES 1-12	
+Alstonite		0	0
+Anglesite		0	0
+Anhydrite		0	0
+Antarcticite		0	0
+Antlerite		0	0
+Aphthitalite		0	0
+Aragonite		0	0
+Arcanite		0	0
+Artinite		0	0
+Atacamite		0	0
+Azurite		0	0
+B		0	0
+Ba		0	0
+BaCl2		0	0
+Barite			0	0
+Barytocalcite		0	0
+Bassanite		0	0
+Bieberite		0	0
+Bischofite		0	0
+Bloedite		0	0
+Boric_acid		0	0
+Brochantite		0	0
+Brucite		0	0
+Burkeite		0	0
+Ca		0	0
+Calcite		0	0
+Carnallite		0	0
+Cd		0	0
+CdCl2		0	0
+CdSO4		0	0
+Celestite		0	0
+Cerussite		0	0
+Chalcanthite		0	0
+Chalcocyanite		0	0
+Chloromagnesite		0	0
+Co		0	0
+CoCl2		0	0
+CoSO4		0	0
+Cotunnite		0	0
+Cu		0	0
+CuCl2		0	0
+Dolomite		0	0
+Epsomite		0	0
+Fe		0	0
+FeSO4		0	0
+Gaylussite		0	0
+Glauberite		0	0
+Gypsum			0	0
+Halite			0	0
+Hexahydrite		0	0
+Huntite		0	0
+Hydrocerussite		0	0
+Hydromagnesite		0	0
+Hydrophilite		0	0
+Hydrozincite		0	0
+Jarosite		0	0
+K		0	0
+KMgCl3		0	0
+Kainite		0	0
+Kieserite		0	0
+Lansfordite		0	0
+Lawrencite		0	0
+Leonite		0	0
+Li		0	0
+Magnesite		0	0
+Malachite		0	0
+Melanterite		0	0
+Mg		0	0
+MgOHCl		0	0
+MgSO4		0	0
+Mirabilite		0	0
+Mn		0	0
+MnSO4		0	0
+Molysite		0	0
+Monohydrocalcite		0	0
+Morenosite		0	0
+Na		0	0
+Na2CO3		0	0
+Nantokite		0	0
+Natron			0	0
+Nesquehonite		0	0
+Ni		0	0
+NiCO3		0	0
+NiCl2		0	0
+NiSO4		0	0
+Nickelbischofite		0	0
+Otavite		0	0
+Paralaurionite		0	0
+Pb		0	0
+Pb2Cl2CO3		0	0
+Pentahydrite		0	0
+Phosgenite		0	0
+Picromerite		0	0
+Pirssonite		0	0
+Polyhalite		0	0
+Portlandite		0	0
+Rhodochrosite		0	0
+Scacchite		0	0
+Siderite		0	0
+Smithsonite		0	0
+Sphaerocobaltite		0	0
+Sr		0	0
+SrCl2		0	0
+Starkeyite		0	0
+Strontianite		0	0
+Sylvite		0	0
+Syngenite		0	0
+Tachyhydrite		0	0
+Thenardite		0	0
+Thermonatrite		0	0
+Witherite		0	0
+Zn		0	0
+ZnCl2		0	0
+ZnSO4		0	0
+
+REACTION 1
+	H2O -1; 8.916777599410583
+
+REACTION 2
+	H2O -1; 8.835040471415986
+
+REACTION 3
+	H2O -1; 8.75330334342139
+
+REACTION 4
+	H2O -1; 8.671566215426791
+
+REACTION 5
+	H2O -1; 8.589829087432195
+
+REACTION 6
+	H2O -1; 8.508091959437598
+
+REACTION 7
+	H2O -1; 8.426354831443001
+
+REACTION 8
+	H2O -1; 8.344617703448403
+
+REACTION 9
+	H2O -1; 8.262880575453806
+
+REACTION 10
+	H2O -1; 8.18114344745921
+
+REACTION 11
+	H2O -1; 8.099406319464613
+
+REACTION 12
+	H2O -1; 8.017669191470016
+# linear_permeate
+
+    #Permeate efficiency parameter: 1
+    #Effluent relative pressure: 0.89
+    
+    #Effluent module 1:
+#Estimated CF: 1.118E0
+#Estimated final water mass: 15.54770920275498
+
+
+
+SELECTED_OUTPUT
+-file			2022-01-02-red_sea-transport-llnl-scaling-0.txt
+-reaction		true
+-temperature		true
+-totals			Mn Fe B Cl Na S(6) Ca K Mg Sr Ba Li Zn Ni Cu Cd Co Pb
+-saturation_indices	Alstonite Anglesite Anhydrite Antarcticite Antlerite Aphthitalite Aragonite Arcanite Artinite Atacamite Azurite B Ba BaCl2 Barite Barytocalcite Bassanite Bieberite Bischofite Bloedite Boric_acid Brochantite Brucite Burkeite Ca Calcite Carnallite Cd CdCl2 CdSO4 Celestite Cerussite Chalcanthite Chalcocyanite Chloromagnesite Co CoCl2 CoSO4 Cotunnite Cu CuCl2 Dolomite Epsomite Fe FeSO4 Gaylussite Glauberite Gypsum Halite Hexahydrite Huntite Hydrocerussite Hydromagnesite Hydrophilite Hydrozincite Jarosite K KMgCl3 Kainite Kieserite Lansfordite Lawrencite Leonite Li Magnesite Malachite Melanterite Mg MgOHCl MgSO4 Mirabilite Mn MnSO4 Molysite Monohydrocalcite Morenosite Na Na2CO3 Nantokite Natron Nesquehonite Ni NiCO3 NiCl2 NiSO4 Nickelbischofite Otavite Paralaurionite Pb Pb2Cl2CO3 Pentahydrite Phosgenite Picromerite Pirssonite Polyhalite Portlandite Rhodochrosite Scacchite Siderite Smithsonite Sphaerocobaltite Sr SrCl2 Starkeyite Strontianite Sylvite Syngenite Tachyhydrite Thenardite Thermonatrite Witherite Zn ZnCl2 ZnSO4
+-equilibrium_phases	Alstonite Anglesite Anhydrite Antarcticite Antlerite Aphthitalite Aragonite Arcanite Artinite Atacamite Azurite B Ba BaCl2 Barite Barytocalcite Bassanite Bieberite Bischofite Bloedite Boric_acid Brochantite Brucite Burkeite Ca Calcite Carnallite Cd CdCl2 CdSO4 Celestite Cerussite Chalcanthite Chalcocyanite Chloromagnesite Co CoCl2 CoSO4 Cotunnite Cu CuCl2 Dolomite Epsomite Fe FeSO4 Gaylussite Glauberite Gypsum Halite Hexahydrite Huntite Hydrocerussite Hydromagnesite Hydrophilite Hydrozincite Jarosite K KMgCl3 Kainite Kieserite Lansfordite Lawrencite Leonite Li Magnesite Malachite Melanterite Mg MgOHCl MgSO4 Mirabilite Mn MnSO4 Molysite Monohydrocalcite Morenosite Na Na2CO3 Nantokite Natron Nesquehonite Ni NiCO3 NiCl2 NiSO4 Nickelbischofite Otavite Paralaurionite Pb Pb2Cl2CO3 Pentahydrite Phosgenite Picromerite Pirssonite Polyhalite Portlandite Rhodochrosite Scacchite Siderite Smithsonite Sphaerocobaltite Sr SrCl2 Starkeyite Strontianite Sylvite Syngenite Tachyhydrite Thenardite Thermonatrite Witherite Zn ZnCl2 ZnSO4
+-pH			true
+-time			true
+-distance		true
+-simulation		true
+-high_precision	true
+-alkalinity	true
+-solution
+-charge_balance	true
+-ionic_strength	true
+-step
+-water
+
+TRANSPORT
+-cells			12
+-shifts			51
+-lengths		0.08466666666666667
+-time_step		3.946329703005324	# this satisfies the Courant condition with a feed velocity of 2.575E-1 m/s
+-initial_time		0
+-boundary_conditions	constant	flux 	 # Dirichlet and Cachy boundary conditions
+
+-punch_cells		1-12
+-punch_frequency	51

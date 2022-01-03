@@ -1,6 +1,6 @@
 DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
 TITLE	 None
-# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\concentrations_over_module
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\concentrations_over_module-2
 
 SOLUTION 0	Zaman
 
@@ -8,15 +8,15 @@ pH 		 9.125 charge #
 
 
 units 	 ppm
-Ca	8.41638	#
-Mg	2.4305000000000003	#
-Na	2506.8045208000003	#
-Sr	3.85528	#
-Cl	2578.4966900000004	#
-S(6)	12.024375	#
-Ba	2.609213	#
-B	2.9189700000000003	#
-K	14.466371	#
+Ca	8.41638		#
+Mg	2.4305000000000003		#
+Na	2506.8045208000003		#
+Sr	3.85528		#
+Cl	2578.4966900000004		#
+S(6)	12.024375		#
+Ba	2.609213		#
+B	2.9189700000000003		#
+K	14.466371		#
 -water 	17.378153556381264
 
 SOLUTION 1-12	Initial solution in the RO module
@@ -68,40 +68,51 @@ Syngenite		0	0
 Thenardite		0	0
 Teepleite		0	0
 
-
 REACTION 1
 	H2O -1; 239.901266690816
+
 REACTION 2
 	H2O -1; 144.34259301702082
+
 REACTION 3
 	H2O -1; 96.39641043049073
+
 REACTION 4
 	H2O -1; 68.9370568109781
+
 REACTION 5
 	H2O -1; 51.74796866757163
+
 REACTION 6
 	H2O -1; 40.275222270717336
+
 REACTION 7
 	H2O -1; 32.237078383360995
+
 REACTION 8
 	H2O -1; 26.386973326958014
+
 REACTION 9
 	H2O -1; 21.996836492775174
+
 REACTION 10
 	H2O -1; 18.618172260625443
+
 REACTION 11
 	H2O -1; 15.962421821465341
+
 REACTION 12
 	H2O -1; 13.837078000616089
-#linear_cf
+# linear_cf
+    
     #Effluent module 1:
-        #Estimated CF: 4.972E0
-        #Estimated final water mass: 143.8786098100914
+#Estimated CF: 4.972E0
+#Estimated final water mass: 3.495090563087542
 
 
 
 SELECTED_OUTPUT
--file			2021-11-04_Zaman_transport_pitzer_brine_0.txt
+-file			2022-01-02-Zaman-transport-pitzer-brine-0.txt
 -reaction		true
 -temperature		true
 -totals			Ca Mg Na Sr Cl S(6) Ba B K
