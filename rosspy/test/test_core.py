@@ -3,8 +3,7 @@ from to_precision import auto_notation
 from glob import glob
 import rosspy
 import pandas
-import os
-import re
+import os, re
 
 def isnumber(obj):
     if type(obj) is float or type(obj) is int:
