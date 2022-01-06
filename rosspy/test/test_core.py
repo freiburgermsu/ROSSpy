@@ -6,7 +6,6 @@ import pandas
 import os, re
 
 def isnumber(obj):
-    
     if type(obj) is float or type(obj) is int:
         return True
     
