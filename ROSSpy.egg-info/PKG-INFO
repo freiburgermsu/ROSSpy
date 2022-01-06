@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: ROSSpy
-Version: 0.0.14
+Version: 0.0.15
 Summary: Software for predicting the brine and scaling consequences of RO desalination.
 Home-page: https://github.com/freiburgermsu/ROSS
 Author: Andrew Freiburger

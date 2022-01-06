@@ -9,6 +9,7 @@ ROSSpy.egg-info/dependency_links.txt
 ROSSpy.egg-info/requires.txt
 ROSSpy.egg-info/top_level.txt
 __pycache__/setup.cpython-38.pyc
+dist/ROSSpy-0.0.14.tar.gz
 examples/.DS_Store
 examples/.ipynb_checkpoints/brine_concentrations-checkpoint.ipynb
 examples/brine/.ipynb_checkpoints/brine_comparison-checkpoint.ipynb
@@ -674,6 +675,14 @@ rosspy/test/2022-01-06-ROSSpy-michigan_basin-transport-pitzer-scaling-all_time-L
 rosspy/test/2022-01-06-ROSSpy-michigan_basin-transport-pitzer-scaling-all_time-LinPerm/scaling_data.csv
 rosspy/test/2022-01-06-ROSSpy-michigan_basin-transport-pitzer-scaling-all_time-LinPerm/selected_output.csv
 rosspy/test/2022-01-06-ROSSpy-michigan_basin-transport-pitzer-scaling-all_time-LinPerm/variables.csv
+rosspy/test/2022-01-06-ROSSpy-palo_duro_basin-transport-pitzer-scaling-all_distance-LinPerm/all_minerals.svg
+rosspy/test/2022-01-06-ROSSpy-palo_duro_basin-transport-pitzer-scaling-all_distance-LinPerm/effluent_predictions.csv
+rosspy/test/2022-01-06-ROSSpy-palo_duro_basin-transport-pitzer-scaling-all_distance-LinPerm/input.pqi
+rosspy/test/2022-01-06-ROSSpy-palo_duro_basin-transport-pitzer-scaling-all_distance-LinPerm/parameters.csv
+rosspy/test/2022-01-06-ROSSpy-palo_duro_basin-transport-pitzer-scaling-all_distance-LinPerm/scale_ions.json
+rosspy/test/2022-01-06-ROSSpy-palo_duro_basin-transport-pitzer-scaling-all_distance-LinPerm/scaling_data.csv
+rosspy/test/2022-01-06-ROSSpy-palo_duro_basin-transport-pitzer-scaling-all_distance-LinPerm/selected_output.csv
+rosspy/test/2022-01-06-ROSSpy-palo_duro_basin-transport-pitzer-scaling-all_distance-LinPerm/variables.csv
 rosspy/test/__pycache__/test_core.cpython-38-pytest-6.0.1.pyc
 rosspy/test/__pycache__/test_core.cpython-38-pytest-6.2.5.pyc
 rosspy/test/rosspy_test/all_minerals.svg
