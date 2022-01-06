@@ -17,8 +17,8 @@
             "reference": "Fisher and Kreitler, 1987, Cl + Br + I"
         },
         "Na": {
-            "concentration (ppm)": 80130,
-            "reference": "Fisher and Kreitler, 1987; increased from 78400"
+            "concentration (ppm)": 78400,
+            "reference": "Fisher and Kreitler, 1987"
         },
         "S(6)": {
             "concentration (ppm)": 1220,

@@ -13,12 +13,12 @@
                 "reference": "Lee et al., 2009 for the Atlantic Ocean"
         },
         "Cl": {
-            "concentration (ppm)": 22590,
-                "reference": "https://www.lenntech.com/composition-seawater.htm; Sherrell and Boyle, 1988; El Sayed, Aminot, and Kerouel, 1994 ; reduced from 24090 ppm"
+            "concentration (ppm)": 24090,
+                "reference": "https://www.lenntech.com/composition-seawater.htm; Sherrell and Boyle, 1988; El Sayed, Aminot, and Kerouel, 1994"
         },
         "Na": {
-            "concentration (ppm)": 15120,
-                "reference": "https://www.lenntech.com/composition-seawater.htm; Sherrell and Boyle, 1988; El Sayed, Aminot, and Kerouel, 1994 ; increased from 13410 ppm"
+            "concentration (ppm)": 13410,
+                "reference": "https://www.lenntech.com/composition-seawater.htm; Sherrell and Boyle, 1988; El Sayed, Aminot, and Kerouel, 1994"
         },
         "S(6)": {
             "concentration (ppm)": 9500,

@@ -1,0 +1,39 @@
+,parameter,value
+0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\other\feed_comparison\2022-01-04-ROSSpy-bakken_formation-transport-pitzer-scaling-all_distance-LinPerm-3
+1,os,windows
+2,root_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
+3,water_mw,18.015
+4,water_grams_per_liter,997.047021671824
+5,simulation_type,transport
+6,simulation,scaling
+7,quantity_of_modules,1
+8,database_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+9,domain,single
+10,database_selection,pitzer
+11,simulation_time,200
+12,exchange_factor,100000.0
+13,simulation_perspective,all_distance
+14,module_diameter_mm,201
+15,permeate_tube_diameter_mm,29
+16,module_length_m,1.016
+17,permeate_flow_m3_per_hour,1.6666666666666667
+18,max_feed_flow_m3_per_hour,15.9
+19,membrane_thickness_mm,0.00025
+20,feed_thickness_mm,0.8636
+21,active_m2,37
+22,permeate_thickness_mm,0.3
+23,polysulfonic_layer_thickness_mm,0.05
+24,support_layer_thickness_mm,0.15
+25,repeated_membrane_winding_mm,1.5641
+26,cells_per_module,12
+27,active_m2_cell,3.0833333333333335
+28,timestep,3.946329703005324
+29,permeate_moles_per_cell,8.426354831443001
+30,permeate_approach,linear_permeate
+31,water_selection,bakken_formation
+32,solution_elements,"['Mn', 'B', 'Cl', 'Na', 'S(6)', 'Ca', 'K', 'Mg', 'Sr', 'Ba', 'Li']"
+33,selected_output_file_name,2022-01-04-bakken_formation-transport-pitzer-scaling-0.txt
+34,input_file_name,input.pqi
+35,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\other\feed_comparison\2022-01-04-ROSSpy-bakken_formation-transport-pitzer-scaling-all_distance-LinPerm-3\input.pqi
+36,output_file_name,selected_output.csv
+37,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\other\feed_comparison\2022-01-04-ROSSpy-bakken_formation-transport-pitzer-scaling-all_distance-LinPerm-3\selected_output.csv

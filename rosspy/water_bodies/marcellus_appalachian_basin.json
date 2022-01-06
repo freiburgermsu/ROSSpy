@@ -17,8 +17,8 @@
             "reference": "Chapman et al., 2012"
         },
         "Na": {
-            "concentration (ppm)": 39630,
-            "reference": "Chapman et al., 2012; increased from 32800"
+            "concentration (ppm)": 32800,
+            "reference": "Chapman et al., 2012"
         },
         "S(6)": {
             "concentration (ppm)": 45,

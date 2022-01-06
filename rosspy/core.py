@@ -33,7 +33,7 @@ def time_determination(time):
         else:
             time /= minute
             unit = 'minutes'
-    return sigfigs_conversion(time, 3), unit
+    return float(sigfigs_conversion(time, 3)), unit
 
 def isnumber(num):
     try:
@@ -66,6 +66,7 @@ class ROSSPkg():
         self.parameters['os'] =  operating_system
         self.parameters['root_path'] = os.path.join(os.path.dirname(__file__))
         self.databases = [re.search('(?<=databases\\\\)(.+)(?=\.json)', database).group() for database in glob(os.path.join(self.parameters['root_path'], 'databases', '*.json'))]
+        self.feed_sources = [os.path.basename(feed).split('.')[0] for feed in glob(os.path.join(self.parameters['root_path'], 'water_bodies', '*.json'))]
         
     def define_general(self, database_selection, simulation = 'scaling', domain_phase = None, quantity_of_modules = 1, simulation_type = 'transport', simulation_title = None):
         '''Establish general conditions'''
@@ -1182,7 +1183,7 @@ class ROSSPkg():
                             scale_mass = row[mineral] * self.minerals[mineral]['mass']
                             scaling_series.append(scale_mass) 
                             cf_series.append(cf)   
-                            data[f'{mineral} (g)'][sigfigs_conversion(cf, 6)] = scale_mass            
+                            data[f'{mineral} (g)'][float(sigfigs_conversion(cf, 6))] = scale_mass            
 
                 pyplot.plot(cf_series,scaling_series)
                 data_df = pandas.DataFrame(data)
@@ -1200,13 +1201,14 @@ class ROSSPkg():
                 legend_entries = []
                 scaling_serie = []
                 data = {}
-                data[f'{mineral} (mol)'] = {}
+                data[f'{mineral} (g/m^2)'] = {}
                 time_serie = []
                 for index, row in self.results['csv_data'].iterrows():
                     if row[mineral] > 1e-12:
                         scaling_serie.append(row[mineral])
                         time_serie.append(row['time']) # - initial_solution_time * self.parameters['timestep'])
-                        data[f'{mineral} (mol)'][sigfigs_conversion(row['time'], 4)] = sigfigs_conversion(row[mineral], 4)
+                        grams_area = (float(row[mineral]) * self.minerals[mineral]['mass']) / (self.parameters['active_m2_cell'])
+                        data[f'{mineral} (g/m^2)'][sigfigs_conversion(row['time'], 4)] = sigfigs_conversion(grams_area, 4)
                         legend_entries.append(legend_determination(row['time'], mineral, mineral_formula))
                         
                 # defining the plot
@@ -1234,8 +1236,8 @@ class ROSSPkg():
                 legend_entry, scaling_data = time_serie(mineral, scaling_data)                
 
                 # export the scaling figure
-                if self.plot_title is None:
-                    self.plot_title = f'Module end scaling of {mineral} [{mineral_formula}]'
+                
+                self.plot_title = f'Module end scaling of {mineral} [{mineral_formula}]'
                 legend_title = legend = None
                 self.illustrate(pyplot, legend, legend_title, mineral, export_name, label_font, title_font, export_format)
             return scaling_data
@@ -1377,7 +1379,7 @@ class ROSSPkg():
         if legend is not None:
             pyplot.legend(legend, title = legend_title, loc='best', title_fontsize = 'x-large', fontsize = 'large')  
         if self.parameters['simulation_type'] == 'transport':
-            pyplot.figtext(0.2, 0.07, 'Final CF: {}'.format(sigfigs_conversion(self.variables['simulation_cf'], 4)), wrap=True, horizontalalignment='left', fontsize=12)
+            pyplot.figtext(0.2, 0.07, 'Final CF: {}'.format(float(sigfigs_conversion(self.variables['simulation_cf'], 4))), wrap=True, horizontalalignment='left', fontsize=12)
         
         figure = pyplot.gcf()
         pyplot.show()

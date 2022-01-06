@@ -9,8 +9,8 @@
             "reference": "Wilson and Long, 1993, esimated from adjacent samples"
         },
         "Cl": {
-            "concentration (ppm)": 206062,
-            "reference": "Cl + Br + I, Wilson and Long, 1993; increased from 183062"
+            "concentration (ppm)": 183062,
+            "reference": "Cl + Br + I, Wilson and Long, 1993"
         },
         "Na": {
             "concentration (ppm)": 73500,
