@@ -652,16 +652,12 @@ class ROSSPkg():
             self.simulation_path = os.path.join(directory, simulation_name)
             os.mkdir(self.simulation_path)
             
-        # define the simulation output path             
-        if external_file:
-            self.parameters['output_file_name'] = 'output.pqo'
+        # define the simulation output path
+        if output_path is None:
+            self.parameters['output_file_name'] = 'selected_output.csv'
             self.parameters['output_path'] = os.path.join(self.simulation_path, self.parameters['output_file_name'])
-        else:            
-            if output_path is None:
-                self.parameters['output_file_name'] = 'selected_output.csv'
-                self.parameters['output_path'] = os.path.join(self.simulation_path, self.parameters['output_file_name'])
-            else:
-                self.parameters['output_path'] = output_path 
+        else:
+            self.parameters['output_path'] = output_path 
             
         return simulation_name, self.parameters['input_path'], self.parameters['output_path']
 
@@ -701,7 +697,6 @@ class ROSSPkg():
                 display(parameters_table)
             else:
                 print(parameters_table)
-        
         parameters_path = os.path.join(self.simulation_path, 'parameters.csv')
         parameters_table.to_csv(parameters_path)
         
@@ -718,7 +713,6 @@ class ROSSPkg():
                 display(variables_table)
             else:
                 print(variables_table)
-        
         variables_path = os.path.join(self.simulation_path, 'variables.csv')
         variables_table.to_csv(variables_path)
         
@@ -749,7 +743,7 @@ class ROSSPkg():
         self.parameters['permeate_approach'] = 'linear_permeate'
         self.parameters['water_selection'] = water_selection
         self.parameters['simulation'] = simulation
-        self.parameters['domain_phase'] = False
+        self.parameters['domain'] = 'single'
         self.predicted_effluent = {}
         permeate_moles = 0
         for index, row in input_df.iteritems():
@@ -769,6 +763,7 @@ class ROSSPkg():
                 row = re.sub('EQUILIBRIUM_PHASES ','',row)
                 row = float(re.sub('(\-\d+)', '', row))
                 if row != 1:
+                    self.parameters['domain'] = 'dual'
                     self.parameters['domain_phase'] = 'Mobile'
             elif re.search('H2O -1; ', row):
                 moles = re.search('([0-9]+\.[0-9]+)', row).group()
@@ -788,6 +783,7 @@ class ROSSPkg():
                 row = re.sub('-punch_cells\s+','',row)
                 row = float(re.sub('(\-\d+)', '', row))
                 if row != 1:
+                    self.parameters['domain'] = 'dual'
                     self.parameters['domain_phase'] = 'Immobile'
             elif re.search('-punch_frequency', row):
                 row = float(re.sub('-punch_frequency\s+','',row))
@@ -808,7 +804,7 @@ class ROSSPkg():
             self.predicted_effluent[element] = self.predicted_effluent[element]*self.cumulative_cf
                 
         # define the simulation folder and parameters
-        if self.parameters['domain_phase'] is not None:
+        if self.parameters['domain'] == 'dual':
             self.plot_title = '{} phase {} from the {} after {}'.format(self.parameters['domain_phase'], self.parameters['simulation'], self.parameters['water_selection'], sigfigs_conversion(self.parameters['simulation_time']))
         self.parameters['active_m2'] = active_m2
         if self.parameters['active_m2'] is None:
@@ -1049,12 +1045,13 @@ class ROSSPkg():
         concentration_serie = []
         
         # plot parameters
-        if self.parameters['domain_phase'] is not None:
+        if self.parameters['domain'] == 'dual':
             if self.parameters['simulation_perspective'] == 'all_distance':
                 title_end = 'after {}'.format(sigfigs_conversion(self.parameters['simulation_time']))
             elif self.parameters['simulation_perspective'] == 'all_time':
                 title_end = 'over time'     
             self.plot_title = '{} phase {} from the {} {}'.format(self.parameters['domain_phase'].capitalize(), self.parameters['simulation'], self.parameters['water_selection'], title_end)
+            
         if self.parameters['simulation_perspective'] == 'all_distance':
             x_label = 'Distance (m)'
             if self.plot_title is None:

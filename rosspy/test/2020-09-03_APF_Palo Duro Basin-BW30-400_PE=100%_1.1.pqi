@@ -1,0 +1,110 @@
+DATABASE C:\Program Files (x86)\USGS\Phreeqc Interactive 3.4.0-12927\database\pitzer.dat
+TITLE Example 11.--Transport and ion exchange.
+
+SOLUTION 0  NaCl #0.2% salinity water as a dummy initial solution
+	pH 5.6 #Fisher and Kreitler, 1987
+	units ppm
+	temperature 41  #Fisher and Kreitler, 1987
+	Alkalinity  131  #Fisher and Kreitler, 1987
+	Fe 3.7      #Fisher and Kreitler, 1987	 
+	Mn 11.12    #Dresel and Rose, 2010, decreased proportionally to match the TDS values 
+	B  2.77     #Kloppman et al., 2001, decreased proportionally to match the TDS values 
+	Cl 138109.3 #Fisher and Kreitler, 1987, Cl + Br + I
+	Na 80130    #Fisher and Kreitler, 1987; increased from 78400
+	S(6) 1220   #Fisher and Kreitler, 1987
+	Ca 5960     #Fisher and Kreitler, 1987
+	K 369       #Fisher and Kreitler, 1987 
+	Mg 1320     #Fisher and Kreitler, 1987
+	Sr 99.5     #Fisher and Kreitler, 1987
+	Ba 962      #Chapman et al., 2012
+	Li 30.33    #Dresel and Rose, 2010, decreased proportionally to match the TDS values 
+	-water 1.321397889 	
+	
+SOLUTION 1-25 #3.7% salinity water, including the adjustments of [Na] and [Cl] to balance the %-error of the values
+        units            ppm
+        temp             25.0
+        pH               7.0     charge
+        pe               12.5   
+	Mn 0.001   
+	Fe 0.001
+	B 0.001     
+	Cl 1000.00   
+	Na 999.00   
+	S(6) 0.001  
+	Ca 0.001	   
+	K 0.001 	   
+	Mg 0.001    
+	Sr 0.001    
+	Ba 0.001    
+	Li 0.001   
+	-water 1.321397889 	
+
+EQUILIBRIUM_PHASES 14-25
+	  CO2(g) -3.5 100
+	  Anhydrite 0 0; Aragonite 0 0; Artinite 0 0; Bischofite 0 0; Bloedite 0 0; Boric_acid,s 0 0; Calcite 0 0; Carnallite 0 0; Dolomite 0 0; Huntite 0 0; Magnesite 0 0; MgCl2_2H2O 0 0; NaB5O8:5H2O 0 0; Pirssonite 0 0; Barite 0 0; Brucite 0 0; Celestite 0 0; Glauberite 0 0; Goergeyite 0 0; Mirabilite 0 0; Gypsum 0 0; Halite 0 0; Sylvite 0 0; Teepleite 0 0; Thenardite 0 0; 
+	
+SOLUTION_SPECIES  #Maintain stability of the code during the REACTION block 
+H2O + 0.01e- = H2O-0.01
+log_k -9.0
+ 
+REACTION 14
+	 H2O -1;  0.708831358   #Determined with reference to the "2020-07-15_APF_Calculations for a physically accurate simulation" excel file.
+REACTION 15
+	 H2O -1;  0.695262611 	#Determined with reference to the "2020-07-15_APF_Calculations for a physically accurate simulation" excel file.
+REACTION 16
+	 H2O -1;  0.682079778   #Determined with reference to the "2020-07-15_APF_Calculations for a physically accurate simulation" excel file.
+REACTION 17
+	 H2O -1;  0.669268362    #Determined with reference to the "2020-07-15_APF_Calculations for a physically accurate simulation" excel file.
+REACTION 18
+	 H2O -1;  0.656814541   #Determined with reference to the "2020-07-15_APF_Calculations for a physically accurate simulation" excel file.
+REACTION 19
+	 H2O -1;  0.644705128   #Determined with reference to the "2020-07-15_APF_Calculations for a physically accurate simulation" excel file.
+REACTION 20
+	 H2O -1;  0.632927541   #Determined with reference to the "2020-07-15_APF_Calculations for a physically accurate simulation" excel file.
+REACTION 21
+	 H2O -1;  0.621469765   #Determined with reference to the "2020-07-15_APF_Calculations for a physically accurate simulation" excel file.
+REACTION 22
+	 H2O -1;  0.610320325   #Determined with reference to the "2020-07-15_APF_Calculations for a physically accurate simulation" excel file.
+REACTION 23
+	 H2O -1;  0.599468257   #Determined with reference to the "2020-07-15_APF_Calculations for a physically accurate simulation" excel file.
+REACTION 24
+	 H2O -1;  0.588903078   #Determined with reference to the "2020-07-15_APF_Calculations for a physically accurate simulation" excel file.
+REACTION 25
+	 H2O -1;  0.578614764   #Determined with reference to the "2020-07-15_APF_Calculations for a physically accurate simulation" excel file.
+
+SELECTED_OUTPUT
+        -file   Palo Duro Basin_BW30-400_PE=100%_1.1
+        -reaction true 
+	-temperature   true
+	-ionic_strength true
+	-saturation_indices Anhydrite Aragonite Artinite Barite Bischofite Bloedite Boric_acid,s Brucite Calcite Carnallite Celestite Dolomite Glauberite Goergeyite Gypsum Huntite Halite Magnesite MgCl2_2H2O Mirabilite NaB5O8:5H2O Pirssonite Sylvite Teepleite Thenardite
+	-totals B Mn Fe Na S(6) Ca K Mg Sr Ba Li Na Cl 
+	-pH true
+	-alkalinity true
+	-charge_balance true
+	-equilibrium_phases Anhydrite Aragonite Artinite Barite Bischofite Bloedite Boric_acid,s Brucite Calcite Carnallite Celestite Dolomite Glauberite Goergeyite Gypsum Huntite Halite Magnesite MgCl2_2H2O Mirabilite NaB5O8:5H2O Pirssonite Sylvite Teepleite Thenardite
+	-solution
+	-time               true
+	-distance           true
+	-simulation         true
+	-step
+	-high_precision true
+	-water
+
+
+ TRANSPORT 
+        -cells           12		
+	-shifts          24		
+        -lengths      0.084667   	
+        -time_step    0.3000636	   	#Satisfy the Courant condition for lengths and the implied feed velocity = 0.28216239 m/s
+	-initial_time 	  0	
+        -flow_direction  forward
+        -boundary_conditions   flux  flux
+        -diffusion_coefficient 0.0e-9  
+        -dispersivities  0 
+        -stagnant      1      6.8e2            0.9               0.1
+	#stagnant layer^  ^exchange factor  ^fraction mobile   ^fraction immobile
+	-punch_cells     14-25
+        -punch_frequency 24
+
+END
