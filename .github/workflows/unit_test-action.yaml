@@ -16,10 +16,10 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.9
-      - name: Install dependencies
+      - name: Install Python, pytest, rosspy
         run: |
           python -m pip install --upgrade pip
           pip install pytest
           pip install rosspy
       - name: Run tests
-        run: pytest ../../rosspy/test/test_core.py
+        run: pytest /home/runner/work/ROSSpy/ROSSpy/rosspy/test/test_core.py
