@@ -187,7 +187,7 @@ def test_export():
 def test_parse_input():
     simulation = 'scaling'
     water_selection = 'palo_duro_basin'
-    input_file_path = '2020-09-03_APF_Palo Duro Basin-BW30-400_PE=100%_1.1.pqi'
+    input_file_path = os.path.join(os.path.dirname(__file__), '2020-09-03_APF_Palo Duro Basin-BW30-400_PE=100%_1.1.pqi')
     
     ross = rosspy.ROSSPkg(verbose = False)
     ross.parse_input(input_file_path, simulation, water_selection)
