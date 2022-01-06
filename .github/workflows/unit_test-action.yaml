@@ -22,4 +22,4 @@ jobs:
           pip install pytest
           pip install rosspy
       - name: Run tests
-        run: pytest /home/runner/work/ROSSpy/ROSSpy/rosspy/test/test_core.py
+        run: python -m pytest /home/runner/work/ROSSpy/ROSSpy/rosspy/test/test_core.py
