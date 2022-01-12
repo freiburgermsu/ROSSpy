@@ -35,23 +35,35 @@ class iROSSpy():
         announcement = 'Parameterize initial details:'
         print(announcement, '\n', '='*len(announcement))
         
-        # define operating system
-        operating_systems = ['windows', 'unix']
-        operating_system =  input('''- Is your computer operating system windows or unix?
-        < {} > or < {} > ; Default = < windows >  __ '''.format(operating_systems[0], operating_systems[1])) or 'windows'
-        while operating_system not in operating_systems:
-            print('''--> ERROR: The operating system is not one of the accepted options.''')
+        # execute either a predefined input file or define an input file
+        self.create_input = input('''- You will create an input file?
+        Default = < True >''') or True
+        while self.create_input not in ['True', 'False', True]:
+            print(f'''--> ERROR: Only < True > or < False > are supported.''')    
+            self.create_input = input('''- You will create an input file?
+            < True > or < False > ; Default = < True >''') or True
+        if self.create_input == 'False':
+            self.create_input = False
+            
+            # define operating system
+            operating_systems = ['windows', 'unix']
             operating_system =  input('''- Is your computer operating system windows or unix?
-            < {} > or < {} >  __ '''.format(operating_systems[0], operating_systems[1])) 
-    
-        # define verbosity
-        verbose =  input('''- Your simulation be verbose?
-        < True > or < False > ; Default = < False >  __ ''') or False
-        while verbose not in ['True', 'False', False]:
-            print('''--> ERROR: The verbosity must be an True or False.''')    
+            < {} > or < {} > ; Default = < windows >  __ '''.format(operating_systems[0], operating_systems[1])) or 'windows'
+            while operating_system not in operating_systems:
+                print('''--> ERROR: The operating system is not one of the accepted options.''')
+                operating_system =  input('''- Is your computer operating system windows or unix?
+                < {} > or < {} >  __ '''.format(operating_systems[0], operating_systems[1])) 
+
+            # define verbosity
             verbose =  input('''- Your simulation be verbose?
             < True > or < False > ; Default = < False >  __ ''') or False
-        verbose = bool(verbose)
+            while verbose not in ['True', 'False', False]:
+                print('''--> ERROR: The verbosity must be an True or False.''')    
+                verbose =  input('''- Your simulation be verbose?
+                < True > or < False > ; Default = < False >  __ ''') or False
+            verbose = bool(verbose)
+        else:
+            self.create_input = True
                              
         # define the maximal argument path length 
         self.max_argument_length = len(r"C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\2021-12-18-ROSSpy-red_sea-transport-pitzer-scaling-all_distance-LinPerm\2021-12-28-ROSSpy--transport-pitzer-scaling-all_")
@@ -516,8 +528,8 @@ class iROSSpy():
         print(announcement, '\n', '='*len(announcement))
 
         # execute the PHREEQC batch software
-#         bat_path = os.path.join(os.getcwd(), 'phreeqc.bat')
-        bat_path = r'phreeqc.bat'
+        bat_path = os.path.join(os.path.dirname(__file__), 'phreeqc.bat')
+        #bat_path = r'./phreeqc.bat'
         database_path = r'{}'.format(self.ross.parameters['database_path'])
         input_path = r'{}'.format(self.ross.parameters['input_path'])        
         
@@ -527,6 +539,9 @@ class iROSSpy():
             print(f'''\n\n--> ERROR: The output file path was abridged to {output_path} to maintain validity as an argument for the batch PHREEQC software.\n\n''')            
         
         for path in [bat_path, input_path, os.path.dirname(output_path), database_path]:
+            unicode = ''.join([ch if ord(ch) < 128 else '\t\t' for ch in path])
+            if len(path) != len(unicode):
+                print(f'-> ERROR:', unicode)
             if not os.path.exists(path):
                 print(f'-> ERROR: The < {path} > path does not exist\n')
         
@@ -534,8 +549,7 @@ class iROSSpy():
         command = str.encode(bat_path + " \"" + input_path + "\" \"" + output_path + "\" \"" + database_path + "\"\n") 
         proc.stdin.write(command)
         proc.stdin.close()  
-        proc.wait()
-        
+        proc.wait()        
 
 #         self.raw_data = self.ross.execute(simulated_to_real_time = 9.29)
         selected_output_path = os.path.join(os.path.dirname(__file__), self.ross.selected_output_file_name)
@@ -631,20 +645,8 @@ class iROSSpy():
 def conduct_iROSSpy():
     iross = iROSSpy()
     
-    # execute iROSSpy
-    create_input = input('''- You will create an input file?
-    Default = < True >''') or True
-    while create_input not in ['True', 'False', True]:
-        print(f'''--> ERROR: Only < True > or < False > are supported.''')    
-        create_input = input('''- You will create an input file?
-        < True > or < False > ; Default = < True >''') or True
-    if create_input == 'False':
-        create_input = False
-    else:
-        create_input = True
-    
     # create or import the simulation input file
-    if create_input:
+    if iross.create_input:
         iross.define_general()
         iross.transport()
         iross.reaction()
