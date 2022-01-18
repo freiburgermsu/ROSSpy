@@ -21,24 +21,17 @@ ____________
 ROSSpy API
 ____________
 
---------------
+----------------------
 Installation
---------------
+----------------------
 
 ROSSpy is installed in a command prompt, Powershell, Terminal, or Anaconda Command Prompt via ``pip``::
 
  pip install rosspy
 
-----------------------
-Functions
-----------------------
-
-ROSSpy is organized into Python functions, within the ``ROSSPkg`` class object, which are detailed in the following sections.
-
-
-+++++++++++
+-----------
 __init__
-+++++++++++
+-----------
 
 The simulation environment is defined::
 
@@ -55,9 +48,9 @@ The simulation environment is defined::
 - *verbose* ``bool``: specifies whether simulation details and calculated values will be printed. This is valuable for trobuleshooting.
 - *jupyter* ``bool``: specifies whether the simulation is being conducted in a Jupyter Notebook, which allows ``display()`` to illustrate data tables and figures.
 
-++++++++++++++++++++++++
+----------------------
 reactive_transport()
-++++++++++++++++++++++++
+----------------------
 
 The spatiotemporal conditions and the permeate flux, or evaporation rate, are defined for reactive transport:
 
@@ -74,9 +67,9 @@ The spatiotemporal conditions and the permeate flux, or evaporation rate, are de
 - *cells_per_module* ``int``: specifies the quantity of cells into which the RO module is discretized. This controls the resolution of data over the distance of the module, and thus is only consequential for ``simulation_perspective = "all_distance"`` simulations.
 - *kinematic_flow_velocity* ``float``: specifies the kinetic flow velocity of the feed solution. The ``None`` parameter defaults to 9.33E-7 (m^2/sec).
 
-+++++++++++++++++++++++++
+----------------------
 feed_geochemistry()
-+++++++++++++++++++++++++
+----------------------
 
 The feed geochemistry is defined from either a parameter file in the ``rosspy/water_bodies`` directory or in a dictionary argument, from which the potential scalants are determined:
 
@@ -114,9 +107,9 @@ The feed geochemistry is defined from either a parameter file in the ``rosspy/wa
 
 
 
-++++++++++++++++
+----------------------
 parse_input()
-++++++++++++++++
+----------------------
 
 This function is used to parse and execute pre-existing input file:
 
@@ -131,9 +124,9 @@ This function is used to parse and execute pre-existing input file:
 - *active_m2* ``float``: defines the area of active filtration in the simulated RO module, where ``None`` defaults to 37 from the standard FILMTEC BW30-400 module. 
 
 
-+++++++++++
+-----------
 execute()
-+++++++++++
+-----------
 
 The input file is executed through PHREEQ:
 
@@ -151,9 +144,9 @@ The input file is executed through PHREEQ:
 - *individual_plots* ``bool``: specifies whether each mineral of ``scaling`` simulations are plotted individually, or whether each scalant is plotted in a combined single figure. The ``None`` parameter defaults to ``True`` for the "all_time" *simulation_perspective* and ``False`` otherwise.
 - *scale_ions* ``bool``: specifies whether the scale from ``scaling`` simulations will be refined into quantities of individual ions that constitute the mineral scale. This information of ionic quantities is exported as a JSON file to the simulation folder. The default value is ``True``.
 
-+++++++++++
+-----------
 export()
-+++++++++++
+-----------
 
 The simulation parameters, raw and processed data, figures, and the input file are exported into a designated labeled folder for the simulation:
 
@@ -164,9 +157,9 @@ The simulation parameters, raw and processed data, figures, and the input file a
 - *simulation_name* ``str``: specifies the name of the simulation folder to which simulation content will be exported. The ``None`` parameter assigns a default name for the simulation folder, which follows the format of **today's_date-ROSSpy-water_selection-simulation_type-database_selection-simulation-simulation_perspective-#**. 
 - *input_path* & *output_path* ``str``: specifies the directory path to where the input file will be exported, where ``None`` defaults to "input.pqi" and "selected_output.csv", respectively, in the current working directory. 
 
-+++++++++++
+-----------
 test()
-+++++++++++
+-----------
 
 ROSSpy can be tested with a simple built-in ``test()`` function, which can be executed through these three lines:
 
@@ -181,9 +174,9 @@ The ``Test()`` function executes a predefined sample simulation to exemplify ROS
 
 ____________
 
-----------------------
+
 Accessible content
-----------------------
+______
 
 A multitude of values are stored within the ``ROSSpy`` object, and can be subsequently used in a workflow. The complete list of content within the ``ROSSpy`` object can be identified and printed through the built-in ``dir()`` function in the following example sequence:
 
