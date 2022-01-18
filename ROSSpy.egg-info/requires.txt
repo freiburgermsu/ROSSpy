@@ -1,8 +1,0 @@
-matplotlib
-chemicals
-chempy
-scipy
-pubchempy
-pandas
-phreeqpy
-sigfig

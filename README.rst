@@ -185,7 +185,7 @@ ____________
 Accessible content
 ----------------------
 
-A multitude of values are stored within the ``ROSSpy`` object, and can be subsequently used in a workflow. The complete list of content within the ``ROSSpy`` object can be identified and printed through the ``dir()`` function in the following example sequence:
+A multitude of values are stored within the ``ROSSpy`` object, and can be subsequently used in a workflow. The complete list of content within the ``ROSSpy`` object can be identified and printed through the built-in ``dir()`` function in the following example sequence:
 
 .. code-block:: python
 
