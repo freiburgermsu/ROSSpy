@@ -61,7 +61,17 @@ The spatiotemporal conditions and the permeate flux, or evaporation rate, are de
 - *simulation_time* ``float``: specifies the total simulated time in seconds.
 - *simulation_perspective* ``str``: specifies whether the simulation data is parsed to view the end of the module over the entire simulated time "all_time" or to view the entire module distance at the final timestep ``all_distance``. The ``None`` parameter defaults to ``all_time`` for brine simulations and ``all_distance`` for scaling simulations.
 - *final_cf* ``float``: specifies the effluent CF in the simulated RO system. The ``None`` parameter indicates that the ``linear_permeate`` permeate flux method will be simulated, while any numerical value indicates that a ``linear_cf`` permeate flux method will be simulated. 
-- *module_characteristics* ``dict``: specifies custom RO specifications that diverge from those of the default DOW FILMTEC BW30-400 RO module. The expected dictionary keys are: ``module_diameter_mm``, ``permeate_tube_diameter_mm``, ``module_length_m``, ``permeate_flow_m3_per_day``, ``max_feed_flow_m3_per_hour``, ``membrane_thickness_mm``, ``feed_thickness_mm``, ``active_m2``, ``permeate_thickness_mm``, ``polysulfonic_layer_thickness_mm``, ``support_layer_thickness_mm``. The dictionary values are all floats in the units from the end of the corresponding key.
+- *module_characteristics* ``dict``: specifies custom RO specifications that diverge from those of the default DOW FILMTEC BW30-400 RO module. The expected dictionary keys are: ``module_diameter_mm``, ``permeate_tube_diameter_mm``, ``module_length_m``, ``permeate_flow_m3_per_day``, ``max_feed_flow_m3_per_hour``, ``membrane_thickness_mm``, ``feed_thickness_mm``, ``active_m2``, ``permeate_thickness_mm``, ``polysulfonic_layer_thickness_mm``, ``support_layer_thickness_mm``. Any specifications that are not defined in the parameterized dictionary defaults to that specification of the FILMTEC BW30-400 module. The dictionary values are all floats in the units from the end of the corresponding key:
+
+.. code-block:: json
+
+ {
+ "active_m2": 37,
+ "permeate_thickness_mm": 0.3,
+ "polysulfonic_layer_thickness_mm": 0.05
+ }
+
+
 - *permeate_efficiency* ``float``: specifies the 0<=PE<=1 proportion of calculated permeate flux that is simulated: e.g. ``PE=1`` denotes a perfectly operational module and ``PE=0.5`` denotes a 50% operational module, etc. 
 - *head_loss* ``float``: specifies the 0<=HL<=1 proportion of effluent pressure relative to the influent. The `default value of 0.89 <https://doi.org/10.1063/1.3109795>`_ corresponds to an 11% pressure drop.
 - *cells_per_module* ``int``: specifies the quantity of cells into which the RO module is discretized. This controls the resolution of data over the distance of the module, and thus is only consequential for ``simulation_perspective = "all_distance"`` simulations.
@@ -191,9 +201,20 @@ A multitude of values are stored within the ``ROSSpy`` object, and can be subseq
  ross.export()
  
  # evaluate the ROSSpy simulation contents
- dir(ross)
+ print(dir(ross))
 
 The following list highlights stored content in the ``ROSSpy`` object after a simulation:
 
-- as
-- as
+- *raw_data* & *processed_data* ``DataFrame``: `Pandas DataFrames <https://pandas.pydata.org/pandas-docs/stable/reference/frame.html>`_ that possesses the raw and processed simulation data, respectively, from the PHREEQ simulation.
+- *ionic_proportions* ``dict``: A dictionary of the inoic proportions in the scale of ``scaling`` simulations.
+- *parameters* & *variables* ``dict``: Dictionaries with the simulation parameters stored as key-value pairs.
+- *results* ``dict``: A dictionary with the simulation results and each block of the simulation.
+- *databases* ``list``: The available databases in the ``rosspy/databases/`` directory.
+- *feed_sources* ``list``: The available feed waters in the ``rosspy/water_bodies/`` directory.
+- *elements* & *minerals* ``dict``: Dictionaries of the elements and minerals, respectively, that are defined by the selected database.
+- *cumulative_cf* ``float``: The final effluent CF after the entire simulation
+- *input_file* ``str``: The complete PHREEQ input file of the simulation.
+- *predicted_effluent* ``dict`: The predicted effluent concentrations of each ion that is defined in the feed.
+- *water_mw* & *water_gL* ``float``: The molecular weight and density of water.
+- *simulation_shifts* ``float``: The number of simulation shifts 
+- *selected_output_file_name* ``str``: The name of the selected output file from the PHREEQ simulation 
