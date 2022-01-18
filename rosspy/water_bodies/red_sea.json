@@ -73,8 +73,8 @@
       "reference": "Shriadah, Okbah, and El-Deek, 2004 for the Red Sea @ 1-100m deep"
     }
   },
-  "temperature": {
-    "celcius": 24.5,
+  "temperature (C)": {
+    "value": 24.5,
     "reference": "average of Al-Taani et al., 2014 and Longinelli and Craig, 1967."
   },
   "pe": {

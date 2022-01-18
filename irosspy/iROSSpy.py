@@ -1,8 +1,8 @@
 # print the welcome message
 from itertools import chain
 print('\n\n')
-message = ('''* iROSSpy: Interactive Reverse Osmosis Scaling Simulation in Python *
-Andrew Philip Freiburger, Green Safe Water Lab, University of Victoria''')
+message = ('''* iROSSpy v1: Interactive Reverse Osmosis Scaling Simulation in Python * 
+Andrew Philip Freiburger, Ethan Sean Chan; University of Victoria; 2022''')
 
 indent = 1
 lines = message.split('\n')
@@ -661,5 +661,18 @@ def conduct_iROSSpy():
     iross.execute()
     iross.process_selected_output()
     
+    # closing input
+    options = ['another', 'close']
+    continue_simulation = input('''Will you perform another simulation, or will you close iROSSpy?
+    < another > or < close > ''')
+    if continue_simulation == 'close':
+        pass
+    elif continue_simulation == 'another':
+        conduct_iROSSpy()
+    while continue_simulation not in options:
+        print(f'--> ERROR: The input is not one of the accepted {options} options. Provide an accepted option.')
+        continue_simulation = input('''Will you perform another simulation, or will you close iROSSpy?
+    < another > or < close > ''')
+            
 
-conduct_iROSSpy()
+conduct_iROSSpy()              

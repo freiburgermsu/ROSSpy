@@ -49,8 +49,8 @@
             "reference": "Haluszczak, Rose, and Kump, 2013 [reported average from another Marcellus publication]"
         }
     },
-    "temperature": {
-        "celcius": 24,
+    "temperature (C)": {
+        "value": 24,
         "reference": "Dresel and Rose, 2010"
     },
     "pe": {

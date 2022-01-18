@@ -65,8 +65,8 @@
                 "reference": "Morley et al., 1997 @ WMDWs"
         }
     },
-    "temperature": {
-        "celcius": 18.5,
+    "temperature (C)": {
+        "value": 18.5,
         "reference": "Sherrell and Boyle, 1988; El Sayed, Aminot, and Kerouel, 1994"
     },
     "pe": {

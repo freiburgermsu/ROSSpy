@@ -49,8 +49,8 @@
             "reference": "Dresel and Rose, 2010, decreased proportionally to match the TDS values"
         }
     },
-    "temperature": {
-        "celcius": 41,
+    "temperature (C)": {
+        "value": 41,
         "reference": "Fisher and Kreitler, 1987"
     },
     "pe": {

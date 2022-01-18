@@ -49,8 +49,8 @@
             "reference": "Dresel and Rose, 2010"
         }
     },
-    "temperature": {
-        "celcius": 24,
+    "temperature (C)": {
+        "value": 24,
         "reference": "Dresel and Rose, 2010"
     },
     "pe": {

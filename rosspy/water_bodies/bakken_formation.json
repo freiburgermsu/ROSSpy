@@ -45,8 +45,8 @@
             "reference": "Peterman et al., 2017"
         }
     },
-    "temperature": {
-        "celcius": 27,
+    "temperature (C)": {
+        "value": 27,
         "reference": "Wilson and Long, 1993"
     },
     "pe": {

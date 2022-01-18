@@ -45,8 +45,8 @@
             "reference": "Wilson and Long, 1993"
         }
     },
-    "temperature": {
-        "celcius": 33.8,
+    "temperature (C)": {
+        "value": 33.8,
         "reference": "Wilson and Long, 1993"
     },
     "pe": {
