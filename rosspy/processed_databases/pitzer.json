@@ -1,0 +1,358 @@
+{
+    "elements": {
+        "Alkalinity": {
+            "charge_specie": "1",
+            "gfw_formula": "Ca0.5(CO3)0.5",
+            "element_gfw": "50.05"
+        },
+        "B": {
+            "charge_specie": "0",
+            "gfw_formula": "B",
+            "element_gfw": "10.81"
+        },
+        "Ba": {
+            "charge_specie": "0",
+            "gfw_formula": "Ba",
+            "element_gfw": "137.33"
+        },
+        "Br": {
+            "charge_specie": "0",
+            "gfw_formula": "Br",
+            "element_gfw": "79.904"
+        },
+        "C": {
+            "charge_specie": "2",
+            "gfw_formula": "HCO3",
+            "element_gfw": "12.0111"
+        },
+        "C(4)": {
+            "charge_specie": "2",
+            "gfw_formula": "HCO3",
+            "element_gfw": "12.0111"
+        },
+        "Ca": {
+            "charge_specie": "0",
+            "gfw_formula": "Ca",
+            "element_gfw": "40.08"
+        },
+        "Cl": {
+            "charge_specie": "0",
+            "gfw_formula": "Cl",
+            "element_gfw": "35.453"
+        },
+        "E": {
+            "charge_specie": "0",
+            "gfw_formula": "0.0",
+            "element_gfw": "0.0"
+        },
+        "Fe": {
+            "charge_specie": "0",
+            "gfw_formula": "Fe",
+            "element_gfw": "55.847"
+        },
+        "H": {
+            "charge_specie": "-1",
+            "gfw_formula": "H",
+            "element_gfw": "1.008"
+        },
+        "H(1)": {
+            "charge_specie": "-1",
+            "gfw_formula": "0.0",
+            "element_gfw": null
+        },
+        "K": {
+            "charge_specie": "0",
+            "gfw_formula": "K",
+            "element_gfw": "39.0983"
+        },
+        "Li": {
+            "charge_specie": "0",
+            "gfw_formula": "Li",
+            "element_gfw": "6.941"
+        },
+        "Mg": {
+            "charge_specie": "0",
+            "gfw_formula": "Mg",
+            "element_gfw": "24.305"
+        },
+        "Mn": {
+            "charge_specie": "0",
+            "gfw_formula": "Mn",
+            "element_gfw": "54.938"
+        },
+        "Na": {
+            "charge_specie": "0",
+            "gfw_formula": "Na",
+            "element_gfw": "22.9898"
+        },
+        "O": {
+            "charge_specie": "0",
+            "gfw_formula": "O",
+            "element_gfw": "16.00"
+        },
+        "O(-2)": {
+            "charge_specie": "0",
+            "gfw_formula": "0.0",
+            "element_gfw": null
+        },
+        "S": {
+            "charge_specie": "0",
+            "gfw_formula": "SO4",
+            "element_gfw": "32.064"
+        },
+        "S(6)": {
+            "charge_specie": "0",
+            "gfw_formula": "SO4",
+            "element_gfw": null
+        },
+        "Si": {
+            "charge_specie": "0",
+            "gfw_formula": "SiO2",
+            "element_gfw": "28.0843"
+        },
+        "Sr": {
+            "charge_specie": "0",
+            "gfw_formula": "Sr",
+            "element_gfw": "87.62"
+        },
+        "Sg": {
+            "charge_specie": "1.0",
+            "gfw_formula": "H2Sg",
+            "element_gfw": "34.08"
+        }
+    },
+    "minerals": {
+        "Akermanite": {
+            "formula": "Ca2MgSi2O7",
+            "mass": 272.6278
+        },
+        "Anhydrite": {
+            "formula": "CaSO4",
+            "mass": 136.1406
+        },
+        "Anthophyllite": {
+            "formula": "Mg7Si8O22(OH)2",
+            "mass": 763.81314
+        },
+        "Antigorite": {
+            "formula": "Mg48Si34O85(OH)62",
+            "mass": 3498.50334
+        },
+        "Aragonite": {
+            "formula": "CaCO3",
+            "mass": 100.0869
+        },
+        "Arcanite": {
+            "formula": "K2SO4",
+            "mass": 174.2592
+        },
+        "Artinite": {
+            "formula": "Mg2CO3(OH)2:3H2O",
+            "mass": 196.67942
+        },
+        "Barite": {
+            "formula": "BaSO4",
+            "mass": 233.3896
+        },
+        "Bischofite": {
+            "formula": "MgCl2:6H2O",
+            "mass": 203.30268
+        },
+        "Bloedite": {
+            "formula": "Na2Mg(SO4)2:4H2O",
+            "mass": 334.47086
+        },
+        "Brucite": {
+            "formula": "Mg(OH)2",
+            "mass": 41.31234
+        },
+        "Burkeite": {
+            "formula": "Na6CO3(SO4)2",
+            "mass": 294.01012000000003
+        },
+        "Calcite": {
+            "formula": "CaCO3",
+            "mass": 100.0869
+        },
+        "Carnallite": {
+            "formula": "KMgCl3:6H2O",
+            "mass": 277.85398
+        },
+        "Celestite": {
+            "formula": "SrSO4",
+            "mass": 183.6826
+        },
+        "Chalcedony": {
+            "formula": "SiO2",
+            "mass": 60.0843
+        },
+        "Chrysotile": {
+            "formula": "Mg3Si2O5(OH)4",
+            "mass": 226.09033999999997
+        },
+        "Diopside": {
+            "formula": "CaMgSi2O6",
+            "mass": 216.5504
+        },
+        "Dolomite": {
+            "formula": "CaMg(CO3)2",
+            "mass": 124.3919
+        },
+        "Enstatite": {
+            "formula": "MgSiO3",
+            "mass": 100.3887
+        },
+        "Epsomite": {
+            "formula": "MgSO4:7H2O",
+            "mass": 246.47456
+        },
+        "Forsterite": {
+            "formula": "Mg2SiO4",
+            "mass": 140.6931
+        },
+        "Gaylussite": {
+            "formula": "CaNa2(CO3)2:5H2O",
+            "mass": 296.15174
+        },
+        "Glaserite": {
+            "formula": "NaK3(SO4)2",
+            "mass": 236.34727
+        },
+        "Glauberite": {
+            "formula": "Na2Ca(SO4)2",
+            "mass": 182.12014
+        },
+        "Goergeyite": {
+            "formula": "K2Ca5(SO4)6H2O",
+            "mass": 872.9774800000002
+        },
+        "Gypsum": {
+            "formula": "CaSO4:2H2O",
+            "mass": 172.17116000000001
+        },
+        "Halite": {
+            "formula": "NaCl",
+            "mass": 58.44277
+        },
+        "Hexahydrite": {
+            "formula": "MgSO4:6H2O",
+            "mass": 228.45927999999998
+        },
+        "Huntite": {
+            "formula": "CaMg3(CO3)4",
+            "mass": 173.00189999999998
+        },
+        "Kainite": {
+            "formula": "KMgClSO4:3H2O",
+            "mass": 248.96474
+        },
+        "Kalicinite": {
+            "formula": "KHCO3",
+            "mass": 100.11514
+        },
+        "Kieserite": {
+            "formula": "MgSO4:H2O",
+            "mass": 138.38288
+        },
+        "Labile_S": {
+            "formula": "Na4Ca(SO4)3:2H2O",
+            "mass": 456.25544
+        },
+        "Leonhardite": {
+            "formula": "MgSO4:4H2O",
+            "mass": 192.42872
+        },
+        "Leonite": {
+            "formula": "K2Mg(SO4)2:4H2O",
+            "mass": 366.68792
+        },
+        "Magnesite": {
+            "formula": "MgCO3",
+            "mass": 84.31389999999999
+        },
+        "MgCl2_2H2O": {
+            "formula": "MgCl2:2H2O",
+            "mass": 131.24156000000002
+        },
+        "MgCl2_4H2O": {
+            "formula": "MgCl2:4H2O",
+            "mass": 167.27212000000003
+        },
+        "Mirabilite": {
+            "formula": "Na2SO4:10H2O",
+            "mass": 322.19494
+        },
+        "Misenite": {
+            "formula": "K8H6(SO4)7",
+            "mass": 414.89664000000005
+        },
+        "Nahcolite": {
+            "formula": "NaHCO3",
+            "mass": 84.00661
+        },
+        "Natron": {
+            "formula": "Na2CO3:10H2O",
+            "mass": 286.14124000000004
+        },
+        "Nesquehonite": {
+            "formula": "MgCO3:3H2O",
+            "mass": 138.35974
+        },
+        "Pentahydrite": {
+            "formula": "MgSO4:5H2O",
+            "mass": 210.44400000000002
+        },
+        "Pirssonite": {
+            "formula": "Na2Ca(CO3)2:2H2O",
+            "mass": 242.1059
+        },
+        "Polyhalite": {
+            "formula": "K2MgCa2(SO4)4:2H2O",
+            "mass": 602.93856
+        },
+        "Portlandite": {
+            "formula": "Ca(OH)2",
+            "mass": 57.08534
+        },
+        "Quartz": {
+            "formula": "SiO2",
+            "mass": 60.0843
+        },
+        "Schoenite": {
+            "formula": "K2Mg(SO4)2:6H2O",
+            "mass": 402.71848
+        },
+        "Sepiolite": {
+            "formula": "Mg2Si3O7.5OH:3H2O",
+            "mass": 323.91518
+        },
+        "Sylvite": {
+            "formula": "KCl",
+            "mass": 74.5513
+        },
+        "Syngenite": {
+            "formula": "K2Ca(SO4)2:H2O",
+            "mass": 328.41508
+        },
+        "Talc": {
+            "formula": "Mg3Si4O10(OH)2",
+            "mass": 362.25834
+        },
+        "Thenardite": {
+            "formula": "Na2SO4",
+            "mass": 142.04214
+        },
+        "Trona": {
+            "formula": "Na3H(CO3)2:2H2O",
+            "mass": 226.02561
+        },
+        "Borax": {
+            "formula": "Na2(B4O5(OH)4):8H2O",
+            "mass": 381.37213999999994
+        },
+        "Teepleite": {
+            "formula": "Na2B(OH)4Cl",
+            "mass": 160.2729
+        }
+    }
+}

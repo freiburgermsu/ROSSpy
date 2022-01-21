@@ -9,7 +9,7 @@ setup(
   package_dir = {'core':'rosspy'},
   packages = find_packages(),
   package_data = {
-	'rosspy':['water_bodies/*','databases/*', 'test/*', 'test/*/*'],
+	'rosspy':['water_bodies/*','databases/*','processed_databases/*', 'test/*', 'test/*/*'],
   },
   version = '0.0.15',
   license = 'GNU',

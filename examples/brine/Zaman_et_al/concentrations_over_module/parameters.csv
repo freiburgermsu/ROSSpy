@@ -1,40 +1,37 @@
 ,parameter,value
-0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\concentrations_over_module-2
+0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\concentrations_over_module
 1,os,windows
 2,root_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
-3,water_mw,18.015
-4,water_grams_per_liter,997.047021671824
-5,simulation_type,transport
-6,simulation,brine
-7,quantity_of_modules,1
+3,database_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+4,database_selection,pitzer
+5,quantity_of_modules,1
+6,simulation_type,transport
+7,simulation,brine
 8,domain,single
-9,domain_phase,
-10,database_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
-11,database_selection,pitzer
-12,simulation_time,275
-13,exchange_factor,100000.0
-14,simulation_perspective,all_distance
-15,module_diameter_mm,201
-16,permeate_tube_diameter_mm,29
-17,module_length_m,1.016
-18,permeate_flow_m3_per_hour,1.6666666666666667
-19,max_feed_flow_m3_per_hour,15.9
-20,membrane_thickness_mm,0.00025
-21,feed_thickness_mm,0.8636
-22,active_m2,37
-23,permeate_thickness_mm,0.3
-24,polysulfonic_layer_thickness_mm,0.05
-25,support_layer_thickness_mm,0.15
-26,repeated_membrane_winding_mm,1.5641
-27,cells_per_module,12
-28,active_m2_cell,3.0833333333333335
-29,timestep,3.946329703005324
-30,permeate_moles_per_cell,8.426354831443001
-31,permeate_approach,linear_cf
-32,water_selection,Zaman
-33,solution_elements,"['Ca', 'Mg', 'Na', 'Sr', 'Cl', 'S(6)', 'Ba', 'B', 'K']"
-34,selected_output_file_name,2022-01-02-Zaman-transport-pitzer-brine-0.txt
-35,input_file_name,input.pqi
-36,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\concentrations_over_module-2\input.pqi
-37,output_file_name,selected_output.csv
-38,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\concentrations_over_module-2\selected_output.csv
+9,simulation_time,275
+10,exchange_factor,100000.0
+11,simulation_perspective,all_distance
+12,module_diameter_mm,201
+13,permeate_tube_diameter_mm,29
+14,module_length_m,1.016
+15,permeate_flow_m3_per_hour,1.6666666666666667
+16,max_feed_flow_m3_per_hour,15.9
+17,membrane_thickness_mm,0.00025
+18,feed_thickness_mm,0.8636
+19,active_m2,37
+20,permeate_thickness_mm,0.3
+21,polysulfonic_layer_thickness_mm,0.05
+22,support_layer_thickness_mm,0.15
+23,repeated_membrane_winding_mm,1.5641
+24,cells_per_module,12
+25,active_m2_cell,3.0833333333333335
+26,timestep,3.946329703005324
+27,permeate_moles_per_cell,8.426354831443001
+28,permeate_approach,linear_cf
+29,water_selection,Zaman
+30,solution_elements,"['Ca', 'Mg', 'Na', 'Sr', 'Cl', 'S(6)', 'Ba', 'B', 'K']"
+31,input_file_name,input.pqi
+32,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\concentrations_over_module\input.pqi
+33,output_file_name,selected_output.csv
+34,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\concentrations_over_module\selected_output.csv
+35,selected_output_file_name,2022-01-20-Zaman-transport-pitzer-brine-0.txt

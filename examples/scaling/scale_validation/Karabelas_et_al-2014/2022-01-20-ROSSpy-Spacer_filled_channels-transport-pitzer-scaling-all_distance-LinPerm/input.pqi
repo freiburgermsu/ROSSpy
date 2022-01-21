@@ -1,0 +1,101 @@
+DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+TITLE	 None
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2014\2022-01-20-ROSSpy-Spacer_filled_channels-transport-pitzer-scaling-all_distance-LinPerm-3
+
+SOLUTION 0	Spacer_filled_channels
+
+pH 		 6.4 charge #
+
+
+units 	 ppm
+Ca		800		#
+S(6)	1975		#
+-water 	17.378153556381264
+
+SOLUTION 1-12	Initial solution in the RO module
+temp 	 25
+units 	 ppm
+-water 	17.378153556381264
+
+EQUILIBRIUM_PHASES 1-12
+Anhydrite		0	0
+Aragonite		0	0
+Calcite		0	0
+Gypsum			0	0
+Portlandite		0	0
+
+REACTION 1
+	H2O -1; 8.916777599410583
+
+REACTION 2
+	H2O -1; 8.835040471415986
+
+REACTION 3
+	H2O -1; 8.75330334342139
+
+REACTION 4
+	H2O -1; 8.671566215426791
+
+REACTION 5
+	H2O -1; 8.589829087432195
+
+REACTION 6
+	H2O -1; 8.508091959437598
+
+REACTION 7
+	H2O -1; 8.426354831443001
+
+REACTION 8
+	H2O -1; 8.344617703448403
+
+REACTION 9
+	H2O -1; 8.262880575453806
+
+REACTION 10
+	H2O -1; 8.18114344745921
+
+REACTION 11
+	H2O -1; 8.099406319464613
+
+REACTION 12
+	H2O -1; 8.017669191470016
+# linear_permeate
+
+    #Permeate efficiency parameter: 1
+    #Effluent relative pressure: 0.89
+    
+    #Effluent module 1:
+#Estimated CF: 1.118E0
+#Estimated final water mass: 15.54770920275498
+
+
+
+SELECTED_OUTPUT
+-file			2022-01-20-Spacer_filled_channels-transport-pitzer-scaling-0.txt
+-reaction		true
+-temperature		true
+-totals			Ca S(6)
+-saturation_indices	Anhydrite Aragonite Calcite Gypsum Portlandite
+-equilibrium_phases	Anhydrite Aragonite Calcite Gypsum Portlandite
+-pH			true
+-time			true
+-distance		true
+-simulation		true
+-high_precision	true
+-alkalinity	true
+-solution
+-charge_balance	true
+-ionic_strength	true
+-step
+-water
+
+TRANSPORT
+-cells			12
+-shifts			51
+-lengths		0.08466666666666667
+-time_step		3.946329703005324	# this satisfies the Courant condition with a feed velocity of 2.575E-1 m/s
+-initial_time		0
+-boundary_conditions	constant	flux 	 # Dirichlet and Cachy boundary conditions
+
+-punch_cells		1-12
+-punch_frequency	51

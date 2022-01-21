@@ -1,6 +1,6 @@
 DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
 TITLE	 None
-# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\CF_ionic_concentrations-2
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\CF_ionic_concentrations
 
 SOLUTION 0	Zaman
 
@@ -24,7 +24,7 @@ temp 	 25
 units 	 ppm
 -water 	17.378153556381264
 
-EQUILIBRIUM_PHASES 1-12	
+EQUILIBRIUM_PHASES 1-12
 Anhydrite		0	0
 Aragonite		0	0
 Arcanite		0	0
@@ -112,7 +112,7 @@ REACTION 12
 
 
 SELECTED_OUTPUT
--file			2022-01-02-Zaman-transport-pitzer-brine-0.txt
+-file			2022-01-20-Zaman-transport-pitzer-brine-0.txt
 -reaction		true
 -temperature		true
 -totals			Ca Mg Na Sr Cl S(6) Ba B K

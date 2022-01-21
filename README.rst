@@ -36,14 +36,14 @@ __init__
 The simulation environment is defined::
 
  import rosspy
- ross = rosspy.ROSSPkg(operating_system = 'windows', database_selection, simulation = 'scaling', domain_phase = None, quantity_of_modules = 1, simulation_type = 'transport', simulation_title = None, verbose = False, jupyter = False)
+ ross = rosspy.ROSSPkg(database_selection, simulation = 'scaling', simulation_type = 'transport', domain_phase = None, quantity_of_modules = 1, simulation_title = None, verbose = False, jupyter = False)
 
-- *operating_system* ``str``: specifies whether the user is using a ``windows`` or ``unix`` system, which directs importing PHREEQpy and commenting in the ``PQI`` PHREEQ input files.
 - *database_selection* ``str``: specifies which PHREEQ database file -- ``Amm``, ``ColdChem``, ``core10``, ``frezchem``, ``iso``, ``llnl``, ``minteq``, ``minteq.v4``, ``phreeqc``, ``pitzer``, ``sit``, ``Tipping_Hurley``, or ``wateq4f`` -- will be imported and used to execute the simulation.
 - *simulation* ``str``: specifies whether the ``scaling`` or ``brine`` of the simulation will be evaluated.
+- *simulation_type* ``str``: specifies whether RO reactive transport ``transport``, or the geochemistry of ``evaporation``, will be simulated with the parameterized feed solution.
+- *operating_system* ``str``: specifies whether the user is using a ``windows`` or ``unix`` system, which directs importing PHREEQpy and commenting in the ``PQI`` PHREEQ input files.
 - *domain_phase* ``str``: specifies whether the ``mobile`` (i.e. bulk solution) or the ``immobile`` (i.e. the CP solution layer) will be evaluated for dual domain simulations. Parameterizing an argument other than ``None`` implicitly signifies that simulation of the dual-domain model, as opposed to the default single-domain model.  
 - *quantity_of_modules* ``int``: specifies the number of in-series RO modules that will be simulated.
-- *simulation_type* ``str``: specifies whether RO reactive transport ``transport``, or the geochemistry of ``evaporation``, will be simulated with the parameterized feed solution.
 - *simulation_title* ``str``: specifies the title of the simulation, which is only observed in the PHREEQC ``PQI`` input file.
 - *verbose* ``bool``: specifies whether simulation details and calculated values will be printed. This is valuable for trobuleshooting.
 - *jupyter* ``bool``: specifies whether the simulation is being conducted in a Jupyter Notebook, which allows ``display()`` to illustrate data tables and figures.
@@ -154,16 +154,6 @@ The input file is executed through PHREEQ:
 - *individual_plots* ``bool``: specifies whether each mineral of ``scaling`` simulations are plotted individually, or whether each scalant is plotted in a combined single figure. The ``None`` parameter defaults to ``True`` for the "all_time" *simulation_perspective* and ``False`` otherwise.
 - *scale_ions* ``bool``: specifies whether the scale from ``scaling`` simulations will be refined into quantities of individual ions that constitute the mineral scale. This information of ionic quantities is exported as a JSON file to the simulation folder. The default value is ``True``.
 
------------
-export()
------------
-
-The simulation parameters, raw and processed data, figures, and the input file are exported into a designated labeled folder for the simulation:
-
-.. code-block:: python
-
- ross.export(simulation_name = None, input_path = None, output_path = None)
-
 - *simulation_name* ``str``: specifies the name of the simulation folder to which simulation content will be exported. The ``None`` parameter assigns a default name for the simulation folder, which follows the format of **today's_date-ROSSpy-water_selection-simulation_type-database_selection-simulation-simulation_perspective-#**. 
 - *input_path* & *output_path* ``str``: specifies the directory path to where the input file will be exported, where ``None`` defaults to "input.pqi" and "selected_output.csv", respectively, in the current working directory. 
 
@@ -198,14 +188,13 @@ A multitude of values are stored within the ``ROSSpy`` object, and can be subseq
  ross.reactive_transport(simulation_time, simulation_perspective, final_cf)
  ross.feed_geochemistry(water_selection, water_characteristics)
  ross.execute()
- ross.export()
  
  # evaluate the ROSSpy simulation contents
  print(dir(ross))
 
 The following list highlights stored content in the ``ROSSpy`` object after a simulation:
 
-- *raw_data* & *processed_data* ``DataFrame``: `Pandas DataFrames <https://pandas.pydata.org/pandas-docs/stable/reference/frame.html>`_ that possesses the raw and processed simulation data, respectively, from the PHREEQ simulation.
+- *selected_output* & *processed_data* ``DataFrame``: `Pandas DataFrames <https://pandas.pydata.org/pandas-docs/stable/reference/frame.html>`_ that possesses the raw and processed simulation data, respectively, from the PHREEQ simulation.
 - *ionic_proportions* ``dict``: A dictionary of the inoic proportions in the scale of ``scaling`` simulations.
 - *parameters* & *variables* ``dict``: Dictionaries with the simulation parameters stored as key-value pairs.
 - *results* ``dict``: A dictionary with the simulation results and each block of the simulation.

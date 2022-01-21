@@ -1,20 +1,20 @@
 DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
 TITLE	 None
-# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Lee_et_al_wastewater
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Lee_et_al\Lee_et_al_wastewater-4
 
 SOLUTION 0	waterwater
-temp 	 20 	 #.
+
 pH 		 7.5 #
 
-Alkalinity 	 500 #
+Alkalinity 	 500  #
 units 	 ppm
-Li	0.04	#
-Na		161	#
-Mg		3.5	#
-Ca	1303	#
-K		37	#
-Mn	0.09	#
-Fe		9.8	#
+Li	0.04		#
+Na		161		#
+Mg		3.5		#
+Ca	1303		#
+K		37		#
+Mn	0.09		#
+Fe		9.8		#
 -water 	17.378153556381264
 
 SOLUTION 1-12	Initial solution in the RO module
@@ -22,7 +22,7 @@ temp 	 25
 units 	 ppm
 -water 	17.378153556381264
 
-EQUILIBRIUM_PHASES 1-12	
+EQUILIBRIUM_PHASES 1-12
 Aragonite		0	0
 Artinite		0	0
 Brucite		0	0
@@ -71,10 +71,19 @@ REACTION 11
 
 REACTION 12
 	H2O -1; 8.017669191470016
-#linear_permeate
+# linear_permeate
+
+    #Permeate efficiency parameter: 1
+    #Effluent relative pressure: 0.89
+    
+    #Effluent module 1:
+#Estimated CF: 1.118E0
+#Estimated final water mass: 15.54770920275498
+
+
 
 SELECTED_OUTPUT
--file			2021-12-22_waterwater_transport_pitzer_scaling_0.txt
+-file			2022-01-20-waterwater-transport-pitzer-scaling-0.txt
 -reaction		true
 -temperature		true
 -totals			Li Na Mg Ca K Mn Fe Co Cu

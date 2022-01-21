@@ -3,7 +3,7 @@ from sigfig import round
 from glob import glob
 import rosspy
 import pandas
-import os, re
+import shutil, os, re
 
 def isnumber(obj):
     if type(obj) is float or type(obj) is int:
@@ -183,6 +183,7 @@ def test_export():
         
     for file in ['parameters.csv', 'variables.csv', 'effluent_predictions.csv']:
         assert os.path.exists(os.path.join(ross.simulation_path, file))
+    shutil.rmtree(ross.simulation_path)   
     
 def test_parse_input():
     simulation = 'scaling'
@@ -197,6 +198,8 @@ def test_parse_input():
     # affirm the execution of the simulation
     for file in ['all_minerals.svg', 'parameters.csv', 'scaling_data.csv', 'selected_output.csv', 'variables.csv']:
         assert os.path.exists(os.path.join(ross.simulation_path, file))
+    shutil.rmtree(ross.simulation_path)   
+    
 
 def test_execute():
     database_selection = 'pitzer'
@@ -218,6 +221,8 @@ def test_execute():
         assert os.path.exists(path)
     assert type(ross.results['csv_data']) is pandas.core.frame.DataFrame
     assert type(ross.variables['run_time (s)']) is float
+    shutil.rmtree(ross.simulation_path)   
+    
 
 def test_process_selected_output_all_distance_brine():
     ross = rosspy.ROSSPkg(verbose = False)
@@ -243,7 +248,8 @@ def test_process_selected_output_all_distance_brine():
 
     for file in ['brine.svg', 'input.pqi', 'parameters.csv', 'brine_concentrations.csv', 'selected_output.csv', 'variables.csv', 'effluent_predictions.csv']:
         assert os.path.exists(os.path.join(ross.simulation_path, file))
-
+    shutil.rmtree(ross.simulation_path)   
+    
 def test_process_selected_output_all_time_brine():
     ross = rosspy.ROSSPkg(verbose = False)
     database_selection = 'pitzer'
@@ -291,6 +297,7 @@ def test_process_selected_output_all_distance_scaling():
 
     for file in ['all_minerals.svg', 'input.pqi', 'parameters.csv', 'scaling_data.csv', 'selected_output.csv', 'variables.csv', 'effluent_predictions.csv', 'scale_ions.json']:
         assert os.path.exists(os.path.join(ross.simulation_path, file))
+    shutil.rmtree(ross.simulation_path) 
 
 def test_process_selected_output_all_time_scaling():
     ross = rosspy.ROSSPkg(verbose = False)
@@ -315,6 +322,7 @@ def test_process_selected_output_all_time_scaling():
 
     for file in ['Barite.svg', 'Halite.svg', 'input.pqi', 'parameters.csv', 'scaling_data.csv', 'selected_output.csv', 'variables.csv', 'effluent_predictions.csv', 'scale_ions.json']:
         assert os.path.exists(os.path.join(ross.simulation_path, file))
+    shutil.rmtree(ross.simulation_path) 
     
 def test_test():    
     ross = rosspy.ROSSPkg(verbose = False)
@@ -323,3 +331,4 @@ def test_test():
     # affirm the execution of the simulation
     for file in ['all_minerals.svg', 'input.pqi', 'parameters.csv', 'scaling_data.csv', 'selected_output.csv', 'variables.csv', 'effluent_predictions.csv', 'scale_ions.json']:
         assert os.path.exists(os.path.join(ross.simulation_path, file))
+    shutil.rmtree(ross.simulation_path)   

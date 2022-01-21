@@ -1,0 +1,38 @@
+,parameter,value
+0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\2022-01-20-ROSSpy-waterwater-transport-Amm-scaling-all_distance-LinPerm-2
+1,os,windows
+2,root_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
+3,database_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\Amm.dat
+4,database_selection,Amm
+5,quantity_of_modules,1
+6,simulation_type,transport
+7,simulation,scaling
+8,domain,single
+9,simulation_time,200
+10,exchange_factor,100000.0
+11,simulation_perspective,all_distance
+12,module_diameter_mm,201
+13,permeate_tube_diameter_mm,29
+14,module_length_m,1.016
+15,permeate_flow_m3_per_hour,7.194400000000001
+16,max_feed_flow_m3_per_hour,10.5
+17,membrane_thickness_mm,0.00025
+18,feed_thickness_mm,0.8636
+19,active_m2,37
+20,permeate_thickness_mm,0.3
+21,polysulfonic_layer_thickness_mm,0.05
+22,support_layer_thickness_mm,0.15
+23,repeated_membrane_winding_mm,1.5641
+24,cells_per_module,12
+25,active_m2_cell,3.0833333333333335
+26,timestep,5.9758706931223475
+27,permeate_moles_per_cell,55.07993248396589
+28,permeate_approach,linear_permeate
+29,water_selection,waterwater
+30,solution_elements,"['Li', 'Na', 'Mg', 'Ca', 'K', 'Mn', 'Fe', 'Co', 'Cu', 'S(6)', 'Cl', 'F', 'N(5)', 'Ba', 'B', 'Sr', 'Si', 'C(4)']"
+31,input_file_name,input.pqi
+32,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\2022-01-20-ROSSpy-waterwater-transport-Amm-scaling-all_distance-LinPerm-2\input.pqi
+33,output_file_name,selected_output.csv
+34,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\2022-01-20-ROSSpy-waterwater-transport-Amm-scaling-all_distance-LinPerm-2\selected_output.csv
+35,selected_output_file_name,2022-01-20-waterwater-transport-Amm-scaling-0.txt
+36,individual_plots,False

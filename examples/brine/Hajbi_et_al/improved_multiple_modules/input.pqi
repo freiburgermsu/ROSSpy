@@ -1,6 +1,6 @@
 DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
 TITLE	 None
-# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Hajbi_et_al\improved_multiple_modules-3
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Hajbi_et_al\improved_multiple_modules
 
 SOLUTION 0	Hajbi
 
@@ -22,7 +22,7 @@ temp 	 25
 units 	 ppm
 -water 	17.378153556381264
 
-EQUILIBRIUM_PHASES 1-60	
+EQUILIBRIUM_PHASES 1-60
 Anhydrite		0	0
 Aragonite		0	0
 Artinite		0	0
@@ -270,7 +270,7 @@ REACTION 60
 
 
 SELECTED_OUTPUT
--file			2022-01-02-Hajbi-transport-pitzer-brine-0.txt
+-file			2022-01-21-Hajbi-transport-pitzer-brine-0.txt
 -reaction		true
 -temperature		true
 -totals			Ca Mg Na Sr Cl S(6) Fe

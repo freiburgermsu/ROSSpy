@@ -1,6 +1,6 @@
 DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
 TITLE	 None
-# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Ahmed_et_al\improved_ionic_concentrations_over_distance-3
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Ahmed_et_al\improved_ionic_concentrations_over_distance
 
 SOLUTION 0	Ahmed
 
@@ -23,7 +23,7 @@ temp 	 25
 units 	 ppm
 -water 	17.378153556381264
 
-EQUILIBRIUM_PHASES 1-12	
+EQUILIBRIUM_PHASES 1-12
 Anhydrite		0	0
 Aragonite		0	0
 Arcanite		0	0
@@ -101,9 +101,15 @@ REACTION 11
 REACTION 12
 	H2O -1; 16.448127963582692
 # linear_cf
+    
+    #Effluent module 1:
+#Estimated CF: 1.382E0
+#Estimated final water mass: 12.578767859377823
+
+
 
 SELECTED_OUTPUT
--file			2022-01-02-Ahmed-transport-pitzer-brine-0.txt
+-file			2022-01-21-Ahmed-transport-pitzer-brine-0.txt
 -reaction		true
 -temperature		true
 -totals			Ca Mg Na Sr Cl S(6) Fe K
