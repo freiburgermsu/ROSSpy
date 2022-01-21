@@ -21,7 +21,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest
           pip install rosspy
-		  pip install phreeqpy
+          pip install phreeqpy
           pip show rosspy
       - name: Run tests
         run: python -m pytest c:\hostedtoolcache\windows\python\3.9.9\x64\lib\site-packages\rosspy\test\test_core.py

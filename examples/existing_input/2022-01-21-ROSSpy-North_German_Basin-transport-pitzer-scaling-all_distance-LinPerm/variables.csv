@@ -1,0 +1,9 @@
+,variable,value
+0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\other\existing_input\2022-01-21-ROSSpy-North_German_Basin-transport-pitzer-scaling-all_distance-LinPerm-2
+1,described_minerals,{}
+2,run_time (s),4.7945569999999975
+3,initial_solution_mass,1.3214510668596002
+4,final_solution_mass,1.295635407866986
+5,simulation_cf,1.0199250953129744
+6,final_time,7.2015264
+7,precipitated_minerals,"{'Barite': {'formula': 'BaSO4', 'mass': 233.3896}, 'Dolomite': {'formula': 'CaMg(CO3)2', 'mass': 124.3919}, 'Halite': {'formula': 'NaCl', 'mass': 58.44277}}"

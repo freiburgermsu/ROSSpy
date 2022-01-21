@@ -1,7 +1,6 @@
 from scipy.constants import nano, kilo, milli, centi, liter, minute, day, hour
 from chempy.properties.water_density_tanaka_2001 import water_density
 from chemicals import periodic_table
-from pubchempy import get_compounds 
 from math import pi, exp, ceil
 from matplotlib import pyplot 
 from itertools import chain
@@ -58,7 +57,9 @@ class ROSSPkg():
         self.jupyter = jupyter
         self.export_content = export_content
         self.plot_title = None
-        self.water_mw = float(get_compounds('water', 'name')[0].molecular_weight)
+        self.chem_mw = chemw.ChemMW(printing = False,)
+        
+        self.water_mw = self.chem_mw.mass('H2O')
         self.water_gL = water_density()
         
         # import PHREEQpy
@@ -397,6 +398,33 @@ class ROSSPkg():
                         print('--> The {} element is absent in the solution to describe the mineral < {} / {} >.'.format(element, original_formula, mineral))
                         
 
+    def _define_elements(self,element_dict):
+        elements_lines = []
+        self.predicted_effluent = {}
+        undefined_elements = []
+        for element, information2 in element_dict.items():
+            self.parameters['solution_elements'].append(element)
+
+            conc = information2['concentration (ppm)']
+            self.predicted_effluent[element] = conc*self.cumulative_cf
+            ref = ''
+            if 'reference' in information2:
+                ref = information2['reference']
+
+            form = ''
+            if 'form' in information2:
+                form = 'as {}'.format(information2['form'])
+
+            if element in self.elements:                          
+                if len(str(conc)) <= 3:
+                    elements_lines.append(f'{element}\t\t{conc}\t{form}\t#{ref}')
+                else:
+                    elements_lines.append(f'{element}\t{conc}\t{form}\t#{ref}')
+            else:
+                undefined_elements.append(element)
+        print('\n--> The {} elements are not accepted by the {} database'.format(undefined_elements, self.parameters['database_selection']))
+        return elements_lines
+
     def feed_geochemistry(self, water_selection = '', water_characteristics = {}, solution_description = '', ignored_minerals = [], existing_parameters = {}, parameterized_ph_charge = True):
         # create the solution line of the input file
         water_files = glob(os.path.join(self.parameters['root_path'], 'water_bodies','*.json'))
@@ -417,32 +445,7 @@ class ROSSPkg():
         initial_solution_line = '\nSOLUTION {}\t{}'.format(initial_number, self.parameters['water_selection'])
         self.results['solution_block'].append(initial_solution_line)
 
-        #========================= FEED IONS =================================
-        def define_elements():
-            elements_lines = []
-            self.predicted_effluent = {}
-            for element, information2 in information.items():
-                self.parameters['solution_elements'].append(element)
-                
-                conc = information2['concentration (ppm)']
-                self.predicted_effluent[element] = conc*self.cumulative_cf
-                ref = ''
-                if 'reference' in information2:
-                    ref = information2['reference']
-                
-                form = ''
-                if 'form' in information2:
-                    form = 'as {}'.format(information2['form'])
-                    
-                if element in self.elements:                          
-                    if len(str(conc)) <= 3:
-                        elements_lines.append(f'{element}\t\t{conc}\t{form}\t#{ref}')
-                    else:
-                        elements_lines.append(f'{element}\t{conc}\t{form}\t#{ref}')
-                else:
-                    print('\n--> The {} element is not accepted by the {} database'.format(element, self.parameters['database_selection']))
-            return elements_lines
-            
+        #========================= FEED IONS =================================           
         self.parameters['solution_elements'] = []
         temperature = ph = alkalinity = pe = None
         if water_selection in water_bodies:       
@@ -452,7 +455,7 @@ class ROSSPkg():
             
             for content, information in water_body.items():
                 if content == 'element':
-                    elements_lines  = define_elements()       
+                    elements_lines  = self._define_elements(information)       
                 elif content == 'temperature (C)':
                     temperature = information['value']
                     temperature_reference = information['reference']
@@ -470,7 +473,7 @@ class ROSSPkg():
         elif water_characteristics != {}:
             for content, information in water_characteristics.items():
                 if content == 'element':
-                    elements_lines = define_elements()
+                    elements_lines = self._define_elements(information)
                 # create the temperature line of the input file
                 elif content == 'temperature (C)':                    
                     temperature = water_characteristics['temperature']['value']
@@ -617,7 +620,7 @@ class ROSSPkg():
         self.results['selected_output_block'] = []
         self.results['selected_output_block'].extend((first_line, file_name_line, reaction_line, temperature_line, total_elements_line, saturation_indices_line, equilibrium_phases_line, ph_line, time_line, distance_line, simulation_line, high_precision_line, alkalinity_line, solution_line, charge_balance_line, ionic_strength_line, step_line, water_line))
         
-    def _define_paths(self, simulation_name = None, input_path = None, output_path = None):
+    def _define_paths(self, simulation_name = None, simulation_path = None):
         # define the simulation name 
         simulation_number = 1
         if simulation_name is None:
@@ -633,7 +636,7 @@ class ROSSPkg():
         if input_path is None:
             directory = os.getcwd()
         else:
-            directory = os.path.dirname(input_path)
+            directory = os.path.dirname(simulation_path)
             
         while os.path.exists(os.path.join(directory, simulation_name)):
             simulation_number += 1
@@ -641,24 +644,20 @@ class ROSSPkg():
             simulation_name = '-'.join([simulation_name, str(simulation_number)])
             
         # define the simulation input path 
-        if input_path is None:
+        if simulation_path is None:
             self.parameters['input_file_name'] = 'input.pqi'
             self.simulation_path = os.path.join(directory, simulation_name)
             os.mkdir(self.simulation_path)
-            self.parameters['input_path'] = os.path.join(self.simulation_path, self.parameters['input_file_name'])
         else:
-            self.parameters['input_path'] = input_path
             self.simulation_path = os.path.join(directory, simulation_name)
             os.mkdir(self.simulation_path)
             
         # define the simulation output path
-        if output_path is None:
-            self.parameters['output_file_name'] = 'selected_output.csv'
-            self.parameters['output_path'] = os.path.join(self.simulation_path, self.parameters['output_file_name'])
-        else:
-            self.parameters['output_path'] = output_path 
+        self.parameters['output_file_name'] = 'selected_output.csv'
+        self.parameters['output_path'] = os.path.join(self.simulation_path, self.parameters['output_file_name'])
+        self.parameters['simulation_path'] = self.variables['simulation_path'] = self.simulation_path
         
-    def parse_input(self, input_file_path, simulation, water_selection = None, active_m2 = None):        
+    def parse_input(self, input_file_path, water_selection = None, active_m2 = None):        
         # open the input file
         with open(input_file_path, 'r') as file:
             self.input_file = file.read()
@@ -675,7 +674,6 @@ class ROSSPkg():
         self.parameters['simulation_type'] = 'evaporation'
         self.parameters['permeate_approach'] = 'linear_permeate'
         self.parameters['water_selection'] = water_selection
-        self.parameters['simulation'] = simulation
         self.parameters['domain'] = 'single'
         self.predicted_effluent = {}
         permeate_moles = 0
@@ -727,7 +725,9 @@ class ROSSPkg():
                     
         # open the respective database
         self.parameters['database_path'] = os.path.join(self.parameters['root_path'], 'databases','{}.dat'.format(self.parameters['database_selection']))
-        self.define_database()
+        self.parameters['solution_elements'] = []
+        self._define_database()
+        self._described_minerals()
                     
         # predict the effluent concentrations
         water_molar_mass = 2*elemental_masses['H']+elemental_masses['O']
@@ -745,7 +745,7 @@ class ROSSPkg():
         self.parameters['active_m2_cell'] = self.parameters['active_m2']/self.parameters['cells_per_module']
         
         
-    def execute(self, simulation_name = None, selected_output_path = None, input_path = None, output_path = None, plot_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', individual_plots = None, scale_ions = True, selected_output_filename = None,):
+    def execute(self, simulation_name = None, selected_output_path = None, simulation_path = None, plot_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', individual_plots = None, scale_ions = True, selected_output_filename = None,):
         '''Execute a PHREEQC input file '''
         def run(input_file, first=False):
             phreeqc = self.phreeqc_mod.IPhreeqc()  
@@ -785,7 +785,7 @@ class ROSSPkg():
             self.variables['run_time (s)'] = float(run_time)
 
         # construct the SELECTED_OUTPUT file
-        self._define_paths(simulation_name)
+        self._define_paths(simulation_name, simulation_path)
         self._selected_output(selected_output_filename)
         
         # complete the input file
@@ -797,6 +797,8 @@ class ROSSPkg():
             
         # communicate progress to the user
         estimated_time = (self.parameters['simulation_time']/30)**(self.parameters['quantity_of_modules']/2)*1.0004936**self.parameters['simulation_time'] + 5*self.parameters['quantity_of_modules']
+        if self.parameters['database_selection'] == 'sit':
+            estimated_time *= 7
         estimated_completion = datetime.datetime.now() + datetime.timedelta(seconds = estimated_time)
         estimated_time, unit = time_determination(estimated_time)
         print(f'\nEstimated completion in {estimated_time} {unit}: {estimated_completion} local time.')
@@ -882,8 +884,6 @@ class ROSSPkg():
             
             # export the parameters
             parameters = {'parameter':[], 'value':[]}
-            parameters['parameter'].append('simulation_path')
-            parameters['value'].append(self.simulation_path)
             for parameter in self.parameters:
                 parameters['parameter'].append(parameter)
                 parameters['value'].append(self.parameters[parameter])
@@ -893,8 +893,6 @@ class ROSSPkg():
 
             # export the variables
             variables = {'variable':[], 'value':[]}
-            variables['variable'].append('simulation_path')
-            variables['value'].append(self.simulation_path)
             for variable in self.variables:
                 variables['variable'].append(variable)
                 variables['value'].append(self.variables[variable])
@@ -915,6 +913,8 @@ class ROSSPkg():
             else:
                 print(variables_table)
                 print(parameters_table)
+                
+        return self.processed_data
     
     def _ion_proportions(self):
         # calculate the mass of each scalant
@@ -928,7 +928,7 @@ class ROSSPkg():
             mineral_elements[mineral]['proportions'] = chem_mw.proportions
 
         # calculate the precipitated mass of each element
-        self.ionic_proportions = {}
+        self.elemental_masses = {}
         for mineral in mineral_elements:
             index = 0
             unit = '(g/m^2)'
@@ -936,28 +936,36 @@ class ROSSPkg():
                 unit = '(g)'
             for scale in self.processed_data[f'{mineral} {unit}']:  
                 df_index = f'{self.processed_data.index[index]} (m)'
-                if df_index not in self.ionic_proportions:
-                    self.ionic_proportions[df_index] = {}
-                    self.ionic_proportions[df_index]['ion (g/m^2)'] = {}
+                if df_index not in self.elemental_masses:
+                    self.elemental_masses[df_index] = {}
+                    self.elemental_masses[df_index]['ion (g/m^2)'] = {}
                     
                 for element in mineral_elements[mineral]['proportions']:
                     precipitated_mass = mineral_elements[mineral]['proportions'][element] * float(scale)
-                    if element in self.ionic_proportions[df_index]['ion (g/m^2)']:
-                        self.ionic_proportions[df_index]['ion (g/m^2)'][element] += precipitated_mass
-                    elif element in self.ionic_proportions[df_index]:
-                        self.ionic_proportions[df_index][element] += precipitated_mass
+                    if element in self.elemental_masses[df_index]['ion (g/m^2)']:
+                        self.elemental_masses[df_index]['ion (g/m^2)'][element] += precipitated_mass
+                    elif element in self.elemental_masses[df_index]:
+                        self.elemental_masses[df_index][element] += precipitated_mass
                     else:
-                        self.ionic_proportions[df_index]['ion (g/m^2)'][element] = precipitated_mass
+                        self.elemental_masses[df_index]['ion (g/m^2)'][element] = precipitated_mass
 
                 index += 1
 
         # print and export the results
         if self.printing:
-            pprint(self.ionic_proportions)
+            print('ionic masses\n', '='*len('ionic masses  '))
+            pprint(self.elemental_masses)
             
         if self.export_content:
             with open(os.path.join(self.simulation_path, 'scale_ions.json'), 'w') as output:
-                json.dump(self.ionic_proportions, output, indent = 4)
+                json.dump(self.elemental_masses, output, indent = 4)
+                
+    def _error(self,error):
+        error_path = os.path.join(self.simulation_path, 'error.txt')
+        with open(error_path, 'w') as output:
+            output.write(error)
+            output.close()
+        raise IndexError(error)
             
                                  
     def _brine_plot(self, pyplot, title_font, label_font, export_format, x_label_number, export_name, log_scale = True):
@@ -1043,7 +1051,8 @@ class ROSSPkg():
                         
         if self.parameters['simulation_perspective'] == 'all_time':
             if len(time_serie) == 0:
-                    print(f'\n\n--> ERROR: The {insufficient_elements} elements remain below the 1E-16 Molal threshold.')
+                error = f'\n\nThe {insufficient_elements} elements remain below the 1E-16 Molal threshold, and thus the figure could not be constructed.'
+                self._error(error)
                         
         # define the brine plot
         if self.parameters['simulation_perspective'] == 'all_time':
@@ -1344,4 +1353,4 @@ class ROSSPkg():
     def test(self):
         self.reactive_transport(simulation_time = 200)
         self.feed_geochemistry(water_selection = 'red_sea')
-        self.execute(simulation_name = 'rosspy_test')
+        self.execute(simulation_name = 'rosspy_test_{}'.format(self.parameters['os']))

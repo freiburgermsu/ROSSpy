@@ -36,7 +36,7 @@ __init__
 The simulation environment is defined::
 
  import rosspy
- ross = rosspy.ROSSPkg(database_selection, simulation = 'scaling', simulation_type = 'transport', domain_phase = None, quantity_of_modules = 1, simulation_title = None, verbose = False, jupyter = False)
+ ross = rosspy.ROSSPkg(database_selection, simulation = 'scaling', simulation_type = 'transport', domain_phase = None, quantity_of_modules = 1, simulation_title = None, verbose = False, printing = True, jupyter = False)
 
 - *database_selection* ``str``: specifies which PHREEQ database file -- ``Amm``, ``ColdChem``, ``core10``, ``frezchem``, ``iso``, ``llnl``, ``minteq``, ``minteq.v4``, ``phreeqc``, ``pitzer``, ``sit``, ``Tipping_Hurley``, or ``wateq4f`` -- will be imported and used to execute the simulation.
 - *simulation* ``str``: specifies whether the ``scaling`` or ``brine`` of the simulation will be evaluated.
@@ -46,6 +46,7 @@ The simulation environment is defined::
 - *quantity_of_modules* ``int``: specifies the number of in-series RO modules that will be simulated.
 - *simulation_title* ``str``: specifies the title of the simulation, which is only observed in the PHREEQC ``PQI`` input file.
 - *verbose* ``bool``: specifies whether simulation details and calculated values will be printed. This is valuable for trobuleshooting.
+- *printing* ``bool``: specifies whether simulation results will be printed. 
 - *jupyter* ``bool``: specifies whether the simulation is being conducted in a Jupyter Notebook, which allows ``display()`` to illustrate data tables and figures.
 
 ----------------------
@@ -142,10 +143,11 @@ The input file is executed through PHREEQ:
 
 .. code-block:: python
 
- ross.execute(output_filename = None, selected_output_path = None, scale_ions = True, plot_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', individual_plots = None)
+ ross.execute(simulation_name = None, selected_output_path = None, simulation_path = None, plot_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', individual_plots = None, scale_ions = True, selected_output_filename = None,)
 
-- *output_filename* ``str``: specifies the name of a PHREEQ output file.
+- *simulation_name* ``str``: specifies the name of a PHREEQ output file.
 - *selected_output_path* ``str``: specifies the path of a simulation output file that will be processed into data tables and figures. This imported file can be independent of executing ROSSpy, and thus can be used to process old data. This parameter must be ``None`` to execute PHREEQ input files.
+- *simulation_path* ``str``: The path to where the simulation content will be saved, where ``None`` signifies the current working directory.
 - *plot_title* ``str``: specifies the title of the simulation figure, where ``None`` defaults to customized titles that incorporate unique simulation details: e.g. ``scaling`` or ``brine``, the water body, and the total simulation time.
 - *title_font* & *label_font* ``str``: these specify the fonts of the figure title and axis labels, respectively, in terms of MatPlotLib font specifications: ``xx-small``, ``x-small``, ``small``, ``medium``, ``large``, ``x-large``, or ``xx-large``. 
 - *x_label_number* ``int``: quantifies the ticks along the x-axis of the simulation figure.
@@ -195,15 +197,14 @@ A multitude of values are stored within the ``ROSSpy`` object, and can be subseq
 The following list highlights stored content in the ``ROSSpy`` object after a simulation:
 
 - *selected_output* & *processed_data* ``DataFrame``: `Pandas DataFrames <https://pandas.pydata.org/pandas-docs/stable/reference/frame.html>`_ that possesses the raw and processed simulation data, respectively, from the PHREEQ simulation.
-- *ionic_proportions* ``dict``: A dictionary of the inoic proportions in the scale of ``scaling`` simulations.
-- *parameters* & *variables* ``dict``: Dictionaries with the simulation parameters stored as key-value pairs.
-- *results* ``dict``: A dictionary with the simulation results and each block of the simulation.
+- *elemental_masses* ``dict``: A dictionary of the mass for each ion that constitutes precipitated scale. This is only determined for ``scaling`` simulations.
 - *databases* ``list``: The available databases in the ``rosspy/databases/`` directory.
 - *feed_sources* ``list``: The available feed waters in the ``rosspy/water_bodies/`` directory.
 - *elements* & *minerals* ``dict``: Dictionaries of the elements and minerals, respectively, that are defined by the selected database.
 - *cumulative_cf* ``float``: The final effluent CF after the entire simulation
 - *input_file* ``str``: The complete PHREEQ input file of the simulation.
 - *predicted_effluent* ``dict`: The predicted effluent concentrations of each ion that is defined in the feed.
-- *water_mw* & *water_gL* ``float``: The molecular weight and density of water.
-- *simulation_shifts* ``float``: The number of simulation shifts 
-- *selected_output_file_name* ``str``: The name of the selected output file from the PHREEQ simulation 
+- *parameters* & *variables* ``dict``: Dictionaries with the simulation parameters stored as key-value pairs.
+- *results* ``dict``: A dictionary with the simulation results and each block of the simulation.
+- *water_mw* & *water_gL* ``float``: The molecular weight, calculated from the  `ChemW module <https://pypi.org/project/ChemW/>`_, and density of water from the ``chempy`` module.
+- *simulation_shifts* ``float``: The number of simulation shifts.

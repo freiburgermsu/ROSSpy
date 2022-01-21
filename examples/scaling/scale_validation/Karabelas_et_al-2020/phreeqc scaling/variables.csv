@@ -1,0 +1,17 @@
+,variable,value
+0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\phreeqc scaling
+1,cell_meters,0.08466666666666667
+2,feed_cubic_meters,0.017429622854940183
+3,feed_kg,17.378153556381264
+4,feed_moles,964.6491011035951
+5,Reynold's number,31.342910282189163
+6,feed_kg_cell,1.448179463031772
+7,feed_moles_cell,80.38742509196625
+8,module 0,{'cf': 3.2103155443333042}
+9,described_minerals,"{'Calcite': {'formula': 'CaCO3', 'mass': 100.0869}, 'Aragonite': {'formula': 'CaCO3', 'mass': 100.0869}, 'Dolomite': {'formula': 'CaMg(CO3)2', 'mass': 124.3919}, 'Siderite': {'formula': 'FeCO3', 'mass': 115.8539}, 'Rhodochrosite': {'formula': 'MnCO3', 'mass': 114.94694899999999}, 'Strontianite': {'formula': 'SrCO3', 'mass': 147.6289}, 'Witherite': {'formula': 'BaCO3', 'mass': 197.33589999999998}, 'Gypsum': {'formula': 'CaSO4:2H2O', 'mass': 172.17116000000001}, 'Anhydrite': {'formula': 'CaSO4', 'mass': 136.1406}, 'Celestite': {'formula': 'SrSO4', 'mass': 183.6826}, 'Barite': {'formula': 'BaSO4', 'mass': 233.3896}, 'Fluorite': {'formula': 'CaF2', 'mass': 78.0748064}, 'Pyrochroite': {'formula': 'Mn(OH)2', 'mass': 71.945389}, 'Halite': {'formula': 'NaCl', 'mass': 58.44277}, 'Sylvite': {'formula': 'KCl', 'mass': 74.5513}, 'Melanterite': {'formula': 'FeSO4:7H2O', 'mass': 278.01456}}"
+10,run_time (s),2.528409099992132
+11,initial_solution_mass,17.378153556381264
+12,final_solution_mass,5.727406342705274
+13,simulation_cf,3.0342099925413875
+14,final_time,203.17960356615978
+15,precipitated_minerals,"{'Calcite': {'formula': 'CaCO3', 'mass': 100.0869}, 'Siderite': {'formula': 'FeCO3', 'mass': 115.8539}, 'Barite': {'formula': 'BaSO4', 'mass': 233.3896}}"

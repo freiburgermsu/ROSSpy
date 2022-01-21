@@ -1,0 +1,3 @@
+
+
+The {'Na(mol/kgw)', 'Cl(mol/kgw)', 'K(mol/kgw)', 'B(mol/kgw)', 'Ca(mol/kgw)', 'Mg(mol/kgw)', 'Sr(mol/kgw)', 'Fe(mol/kgw)', 'Mn(mol/kgw)', 'Ba(mol/kgw)', 'Li(mol/kgw)', 'S(6)(mol/kgw)'} elements remain below the 1E-16 Molal threshold, and thus the figure could not be constructed.

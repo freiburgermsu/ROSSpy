@@ -27,7 +27,7 @@ temp 	 25
 units 	 ppm
 -water 	17.378153556381264
 
-EQUILIBRIUM_PHASES 1-12	
+EQUILIBRIUM_PHASES 1-12
 Anhydrite		0	0
 Aragonite		0	0
 Arcanite		0	0
@@ -118,7 +118,7 @@ REACTION 12
 
 
 SELECTED_OUTPUT
--file			2022-01-02-red_sea-transport-pitzer-brine-0.txt
+-file			2022-01-21-red_sea-transport-pitzer-brine-0.txt
 -reaction		true
 -temperature		true
 -totals			Mn Fe B Cl Na S(6) Ca K Mg Sr Ba Li Zn Ni Cu Cd Co Pb
