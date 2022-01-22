@@ -40,7 +40,7 @@ The simulation environment is defined:
  import rosspy
  ross = rosspy.ROSSPkg(database_selection, simulation = 'scaling', simulation_type = 'transport', domain_phase = None, quantity_of_modules = 1, simulation_title = None, verbose = False, printing = True, jupyter = False)
 
-- *database_selection* ``str``: specifies which PHREEQ database file -- ``Amm``, ``ColdChem``, ``core10``, ``frezchem``, ``iso``, ``llnl``, ``minteq``, ``minteq.v4``, ``phreeqc``, ``pitzer``, ``sit``, ``Tipping_Hurley``, or ``wateq4f`` -- will be imported and used to execute the simulation.
+- *database_selection* ``str``: specifies which PHREEQ database file -- ``Amm``, ``ColdChem``, ``core10``, ``frezchem``, ``iso``, ``llnl``, ``minteq``, ``minteq.v4``, ``phreeqc``, ``pitzer``, ``sit``, ``Tipping_Hurley``, or ``wateq4f`` -- will be imported and used to execute the simulation. These databases were all processed via the ``PHREEQdb`` object of the `ChemW module <https://pypi.org/project/ChemW/>`_, in this specific Notebook: `here <https://github.com/freiburgermsu/ChemW/blob/main/examples/PHREEQ/PHREEQ%20databases.ipynb>`_.
 - *simulation* ``str``: specifies whether the ``scaling`` or ``brine`` of the simulation will be evaluated.
 - *simulation_type* ``str``: specifies whether RO reactive transport ``transport``, or the geochemistry of ``evaporation``, will be simulated with the parameterized feed solution.
 - *operating_system* ``str``: specifies whether the user is using a ``windows`` or ``unix`` system, which directs importing PHREEQpy and commenting in the ``PQI`` PHREEQ input files.
