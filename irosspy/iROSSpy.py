@@ -24,7 +24,7 @@ from scipy.constants import nano, milli, minute
 import subprocess
 import rosspy
 import pandas
-import time, os, re
+import time, json, os, re
 
 class iROSSpy():
     def __init__(self):
@@ -44,45 +44,44 @@ class iROSSpy():
 
         if self.create_input == 'False':
             self.create_input = False
-            
-            # define operating system
-            operating_systems = ['windows', 'unix']
-            self.operating_system =  input('''- Is your computer operating system windows or unix?
-            < {} > or < {} > ; Default = < windows >  __ '''.format(operating_systems[0], operating_systems[1])) or 'windows'
-            while self.operating_system not in operating_systems:
-                print('''--> ERROR: The operating system is not one of the accepted options.''')
-                self.operating_system =  input('''- Is your computer operating system windows or unix?
-                < {} > or < {} >  __ '''.format(operating_systems[0], operating_systems[1])) 
-
-            # define verbosity
-            self.verbose =  input('''- Your simulation be verbose?
-            < True > or < False > ; Default = < False >  __ ''') or False
-            while self.verbose not in ['True', 'False', False]:
-                print('''--> ERROR: The verbosity must be an True or False.''')    
-                self.verbose =  input('''- Your simulation be verbose?
-                < True > or < False > ; Default = < False >  __ ''') or False
-            if self.verbose == 'True':
-                self.verbose = True
         else:
             self.create_input = True
+            
+        # define operating system
+        operating_systems = ['windows', 'unix']
+        self.operating_system =  input('''- Is your computer operating system windows or unix?
+        < {} > or < {} > ; Default = < windows >  __ '''.format(operating_systems[0], operating_systems[1])) or 'windows'
+        while self.operating_system not in operating_systems:
+            print('''--> ERROR: The operating system is not one of the accepted options.''')
+            self.operating_system =  input('''- Is your computer operating system windows or unix?
+            < {} > or < {} >  __ '''.format(operating_systems[0], operating_systems[1]))  or 'windows'
+
+        # define verbosity
+        self.verbose =  input('''- Will your simulation be verbose?
+        < True > or < False > ; Default = < False >  __ ''') or False
+        while self.verbose not in ['True', 'False', False]:
+            print('''--> ERROR: The verbosity must be an True or False.''')    
+            self.verbose =  input('''- Your simulation be verbose?
+            < True > or < False > ; Default = < False >  __ ''') or False
+        if self.verbose == 'True':
+            self.verbose = True
                              
         # define the maximal argument path length 
         self.max_argument_length = len(r"C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\2021-12-18-ROSSpy-red_sea-transport-pitzer-scaling-all_distance-LinPerm\2021-12-28-ROSSpy--transport-pitzer-scaling-all_")
-            
+                
+        self.ross = rosspy.ROSSPkg('pitzer', operating_system = self.operating_system)
 
     def define_general(self,):
         # announcement
         announcement = '\nParameterize general simulation conditions:'
         print(announcement, '\n', '='*len(announcement))   
-        
-        self.ross = rosspy.ROSSPkg('pitzer', operating_system = operating_system, verbose)
                              
         # define database
         for database in self.ross.databases:
             print(f'< {database} >') 
         database_selection = input('''- What database do you select?
         Default = < pitzer >  __ ''') or 'pitzer'
-        while database_selection not in ross.databases:
+        while database_selection not in self.ross.databases:
             print('''The database is not current defined in this interface.
             Only < pitzer > and < phreeqc > are defined for Windows and < pitzer > is defined for Macintosh. __ ''')    
             database_selection = input('- What database do you select?')
@@ -177,11 +176,11 @@ class iROSSpy():
             Default = < {default} >  __ ''') or default
             
         # define module_characteristics
-        custom_module = input('''- You will simulate a custom module?
+        custom_module = input('''- You will customize the module characteristics?
         < True > or < False > ; Default = < False >  __ ''') or False
         while custom_module not in ['True', 'False', False]:
             print('''--> ERROR: Only True or False are accepted responses.''')    
-            custom_module = input('''- You will simulate a custom module?
+            custom_module = input('''- You will customize the module characteristics?
             < True > or < False > ; Default = < False >  __ ''') or False
         if custom_module== 'True':
             custom_module = True
@@ -241,6 +240,7 @@ class iROSSpy():
                                     
         # define permeate_approach
         permeate_approaches = ['linear_permeate', 'linear_cf']
+        print('\n')
         for approach in permeate_approaches:
             print(f'< {approach} >')
         permeate_approach = input('''- Which permeate_approach will be simulated?
@@ -265,7 +265,7 @@ class iROSSpy():
                     Default = < 2 >  __ ''') or 2
                                                   
         # define permeate_efficiency
-        permeate_efficiency = input('''- What is the efficiency of the simulated module?
+        permeate_efficiency = input('''- What is the 0 < x < 1 efficiency of the simulated module?
         Default = < 1 >  __ ''') or 1 
         while True:
             try:
@@ -273,11 +273,11 @@ class iROSSpy():
                 break
             except:            
                 print('''--> ERROR: The cells_per_module must be an integer.''')    
-                permeate_efficiency = input('''- What is the efficiency of the simulated module?
+                permeate_efficiency = input('''- What is the 0 < x < 1 efficiency of the simulated module?
                 Default = < 1 >  __ ''') or 1 
                          
         # define head_loss
-        head_loss = input('''- What is the relative pressure of the effluent to the feed?
+        head_loss = input('''- What is the  0 < x < 1 relative pressure of the effluent to the feed?
         Default = < 0.89 >  __ ''') or 0.89
         while True:
             try:
@@ -285,11 +285,11 @@ class iROSSpy():
                 break
             except:            
                 print('''--> ERROR: The head_loss must be a number.''')    
-                head_loss = input('''- What is the relative pressure of the effluent to the feed?
+                head_loss = input('''- What is the  0 < x < 1 relative pressure of the effluent to the feed?
                 Default = < 0.89 >  __ ''') or 0.89
                          
         # apply the parameters to the ROSSpy instance                 
-        self.ross.reactive_transport(simulation_time, simulation_perspective, final_cf, module_characteristic, permeate_efficiency, head_loss, cells_per_module = cells_per_module, parameterized_timestep = None)
+        self.ross.reactive_transport(simulation_time, simulation_perspective, final_cf, module_characteristics, permeate_efficiency, head_loss, cells_per_module = cells_per_module)
 
 
     def feed_geochemistry(self,):
@@ -298,17 +298,20 @@ class iROSSpy():
         print(announcement, '\n', '='*len(announcement))      
         
         # define water_selection
-        options = self.ross.feed_sources.append('custom')
+        options = self.ross.feed_sources
+        options.append('custom')
         for water in options:
             print(f'< {water} >')   
         water_selection = input('''- Which water body will you simulate?
                                 Type < custom > to define a feed water. __ ''')
-        while water_selection not in ['custom'].extend(self.ross.feed_sources):
+        while water_selection not in options:
             print('''--> ERROR: One of the printed water_bodies may be parameterized.''')    
-            water_selection = input('''- Which water body will you simulate?  __ ''')
+            water_selection = input('''- Which water body will you simulate?
+                                    Type < custom > to define a feed water. __ ''')
         
         solution_description = None
         water_characteristics = {}
+        self.ross.parameters['solution_elements'] = []
         if water_selection == 'custom':
             solution_description = input('- What is the description of the custom water source?')
             for element in self.ross.elements:
@@ -323,8 +326,11 @@ class iROSSpy():
                     except:            
                         print('''--> ERROR: Only numbers are accepted for elemental concentrations.''')    
                         water_characteristics[element]['concentration (ppm)'] = input(f'''- What is ppm concentration of {element} in the feed?''') 
+                
                 water_characteristics[element]['reference'] = input(f'- What is the reference for the {element} concentration?')
-                         
+                if water_characteristics[element]['concentration (ppm)'] != 0:
+                    self.ross.parameters['solution_elements'].append(element)
+                                         
             # define pH
             water_characteristics['pH'] = {}
             water_characteristics['pH']['value'] = input('''- What is the pH of the customized solution? ___ ''')
@@ -363,7 +369,9 @@ class iROSSpy():
                          
         # define pH charge balance
         ph_charge_balance = input('''- You will charge balance the pH?
-        < True > or < False > ; Default = True ___ ''') or True
+        < True > or < False > ; Default = False ___ ''') or False
+        if ph_charge_balance == 'True':
+            ph_charge_balance = True
         water_characteristics['Alkalinity'] = {}
         if ph_charge_balance is True:
             water_characteristics['Alkalinity']['value'] = water_characteristics['Alkalinity']['reference'] = None
@@ -378,11 +386,16 @@ class iROSSpy():
                     break
                 except:            
                     print('''--> ERROR: The Alkalinity must be a number.''')
-                    water_characteristics['Alkalinity']['value'] = input('''- What is the Alkalinity of the customized solution? ___ ''')
-                         
+                    water_characteristics['Alkalinity']['value'] = input('''- What is the alkalinity in ((eq of CaCO3)/(Kg of water))?  ___''')
+
+        # define the solution elements and possible minerals
+        if water_selection != 'custom':
+            path = os.path.join(self.ross.parameters['root_path'], 'water_bodies', f'{water_selection}.json')
+            feed_dict= json.load(open(path))
+            self.ross._define_elements(feed_dict['element'])
+        self.ross._described_minerals()                         
         
         # define ignored minerals
-        self.ross._described_minerals()
         ignored_minerals = []
         ignore_minerals = input('''- Will you ignore any minerals?
         < y/n > ; Default = n  ___ ''') or 'n'
@@ -483,26 +496,19 @@ class iROSSpy():
 #        output_filename = input(f'''- What is the selected_output_file_name?
 #        Default = {selected_output_file_name}''') or selected_output_file_name  
         
-        default_simulation_name, default_output_path = self.ross._define_paths()
+        default_simulation_path, default_simulation_name = self.ross._define_paths()
                          
         # define simulation_name
         simulation_name = input(f'''- What is the simulation_name?
-        Default = {default_simulation_name}''') or default_simulation_name          
+        Default = {default_simulation_name}''') or default_simulation_name
                          
         # define output_path
-        output_path = input(f'''- What is the output_path?
-        Default = {default_output_path}''') or default_output_path       
-
-        # define the export        
-        selected_output_path = input(f'''- What is the selected_output_path?
-        Default = {self.selected_output_new_path} ____ ''') or self.selected_output_new_path
-        while not os.path.exists(selected_output_path):
-            selected_output_path = input(f'''- What is the selected_output_path?
-            Default = {self.selected_output_new_path} ____ ''') or self.selected_output_new_path
+        output_path = input(f'''- What is the simulation directory?
+        Default = {default_simulation_path}''') or default_simulation_path       
         
         # define plot_title
         plot_title = input('''- What is the title of the plot?
-        Default = None ____ ''')
+        The default is a description of the simulation parameters ____ ''')
                   
         # define the fonts
         possible_fonts = ['xx-small','x-small','small', 'medium', 'large', 'x-large', 'xx-large']
@@ -515,11 +521,11 @@ class iROSSpy():
             title_font = input('''- What is the title font?
             Default = xx-large''') or 'xx-large'
                   
-        label_font = input('''- What is the title font?
+        label_font = input('''- What is the label font?
         Default = x-large''') or 'x-large'
         while label_font not in possible_fonts:
             print(f'''--> ERROR: Only one of the {possible_fonts} fonts can be parameterized.''')    
-            label_font = input('''- What is the title font?
+            label_font = input('''- What is the label font?
             Default = x-large''') or 'x-large'
                   
         # define x_label_number
@@ -544,7 +550,10 @@ class iROSSpy():
             print(f'''--> ERROR: Only < True > or < False > are supported.''')    
             individual_plots = input(f'''- Will each mineral be individually plotted?
             < True > or < False > ; Default = {default_individual_plots} ____ ''') or default_individual_plots
-        individual_plots = bool(individual_plots)   
+        if individual_plots == 'False':
+            individual_plots = False
+        elif individual_plots == 'True':
+            individual_plots = True 
         
         # define export_name
         if individual_plots:
@@ -565,18 +574,18 @@ class iROSSpy():
             export_format = input('''- What is the title font?
             Default = svg ___ ''') or 'svg'
             
-        # execute the simulation
+        # define the selected_output section
+        self.ross._selected_output(simulation_name)
         
         # execute the PHREEQC batch software
         bat_path = os.path.join(os.path.dirname(__file__), 'phreeqc.bat')
         #bat_path = r'./phreeqc.bat'
         database_path = r'{}'.format(self.ross.parameters['database_path'])
         input_path = r'{}'.format(self.ross.parameters['input_path'])        
-        
-        output_path = r'{}'.format(self.ross.parameters['output_path'])
-        if len(output_path) > self.max_argument_length:
-            output_path = re.sub('(input.pqi)', 'output.pqo', input_path)
-            print(f'''\n\n--> ERROR: The output file path was abridged to {output_path} to maintain validity as an argument for the batch PHREEQC software.\n\n''')            
+        output_path = re.sub('(input.pqi)', 'output.pqo', input_path)
+#        if len(output_path) > self.max_argument_length:
+#            output_path = re.sub('(input.pqi)', 'output.pqo', input_path)
+#            print(f'''\n\n--> ERROR: The output file path was abridged to {output_path} to maintain validity as an argument for the batch PHREEQC software.\n\n''')            
         
         for path in [bat_path, input_path, os.path.dirname(output_path), database_path]:
             unicode = ''.join([ch if ord(ch) < 128 else '\t\t' for ch in path])
@@ -592,19 +601,19 @@ class iROSSpy():
         proc.wait()   
 
         # process the simulation results
-        selected_output_path = os.path.join(os.path.dirname(__file__), self.ross.parameters['selected_output_file_name'])
+        directory = os.path.dirname(__file__)
+        so_filename = os.path.basename(self.ross.parameters['selected_output_file_name'])
+        selected_output_path = os.path.join(directory, so_filename)
         self.ross.selected_output = pandas.read_table(open(selected_output_path), sep='\t')
-        for column in self.ross.results['csv_data'].columns:
+        for column in self.selected_output.columns:
             new_column = column.strip()
             self.ross.selected_output.rename(columns={column:new_column}, inplace = True)
             if re.search('Unnamed', column):
                 del self.ross.selected_output[column]
-        self.selected_output_new_path = os.path.join(self.ross.simulation_path, 'selected_output.csv')
-        self.ross.selected_output.to_csv(self.selected_output_new_path)
+        self.ross.selected_output.to_csv(os.path.join(self.ross.simulation_path, 'selected_output.csv'))
         
         # visualize the simulation results, while bypassing the API execution operations
-        self.ross.execute(simulation_name = simulation_name, input_path = input_path, output_path = output_path, external_file = external_file)
-        self.processed_data = self.ross.process_selected_output(selected_output_path = selected_output_path, plot_title = plot_title, title_font = title_font, label_font = label_font, x_label_number = x_label_number, export_name = export_name, export_format = export_format, individual_plots = individual_plots)
+        self.ross.execute(simulation_name, selected_output_path, output_path, plot_title, title_font, label_font, x_label_number, export_name, export_format, individual_plots)
         
 
 def conduct_iROSSpy():

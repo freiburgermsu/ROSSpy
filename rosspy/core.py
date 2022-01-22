@@ -619,7 +619,7 @@ class ROSSPkg():
         self.results['selected_output_block'] = []
         self.results['selected_output_block'].extend((first_line, file_name_line, reaction_line, temperature_line, total_elements_line, saturation_indices_line, equilibrium_phases_line, ph_line, time_line, distance_line, simulation_line, high_precision_line, alkalinity_line, solution_line, charge_balance_line, ionic_strength_line, step_line, water_line))
         
-    def _define_paths(self, simulation_name = None, simulation_path = None):
+    def _define_paths(self, simulation_name = None, simulation_directory = None):
         # define the simulation name 
         simulation_number = 1
         if simulation_name is None:
@@ -632,10 +632,10 @@ class ROSSPkg():
                     permeate_approach_name = 'LinCF'
                 simulation_name = '-'.join([re.sub(' ', '_', str(x)) for x in [datetime.date.today(), 'ROSSpy', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], permeate_approach_name]])
             
-        if simulation_path is None:
+        if simulation_directory is None:
             directory = os.getcwd()
         else:
-            directory = os.path.dirname(simulation_path)
+            directory = os.path.dirname(simulation_directory)
             
         while os.path.exists(os.path.join(directory, simulation_name)):
             simulation_number += 1
@@ -645,11 +645,12 @@ class ROSSPkg():
         # define the simulation path 
         self.simulation_path = os.path.join(directory, simulation_name)
         os.mkdir(self.simulation_path)
-            
+        
+        self.parameters['input_path'] = os.path.join(self.simulation_path, 'input.pqi')    
         self.parameters['output_path'] = os.path.join(self.simulation_path, 'selected_output.csv')
         self.parameters['simulation_path'] = self.variables['simulation_path'] = self.simulation_path
         
-        return self.parameters['simulation_path'], self.parameters['output_path']
+        return directory, simulation_name
         
     def parse_input(self, input_file_path, water_selection = None, active_m2 = None):        
         # open the input file
@@ -738,7 +739,7 @@ class ROSSPkg():
         self.parameters['active_m2_cell'] = self.parameters['active_m2']/self.parameters['cells_per_module']
         
         
-    def execute(self, simulation_name = None, selected_output_path = None, simulation_path = None, plot_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', individual_plots = None, scale_ions = True, selected_output_filename = None,):
+    def execute(self, simulation_name = None, selected_output_path = None, simulation_directory = None, plot_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', individual_plots = None, scale_ions = True, selected_output_filename = None,):
         '''Execute a PHREEQC input file '''
         def run(input_file, first=False):
             phreeqc = self.phreeqc_mod.IPhreeqc()  
@@ -778,7 +779,7 @@ class ROSSPkg():
             self.variables['run_time (s)'] = float(run_time)
 
         # construct the SELECTED_OUTPUT file
-        self._define_paths(simulation_name, simulation_path)
+        self._define_paths(simulation_name, simulation_directory)
         self._selected_output(selected_output_filename)
         
         # complete the input file
@@ -895,7 +896,7 @@ class ROSSPkg():
             
             # export the input file
             if self.input_file:
-                with open(os.path.join(self.simulation_path, 'input.pqi'), 'w') as input:
+                with open(self.parameters['input_path'], 'w') as input:
                     input.write(self.input_file)
                     
         if self.verbose:
