@@ -649,13 +649,14 @@ class ROSSPkg():
         self.parameters['output_path'] = os.path.join(self.simulation_path, 'selected_output.csv')
         self.parameters['simulation_path'] = self.variables['simulation_path'] = self.simulation_path
         
+        return self.parameters['simulation_path'], self.parameters['output_path']
+        
     def parse_input(self, input_file_path, water_selection = None, active_m2 = None):        
         # open the input file
         with open(input_file_path, 'r') as file:
             self.input_file = file.read()
            
         # identify the database in the name
-        self.parameters['database_selection'] = 'pitzer'
         for db in self.databases:
             if re.search(db, input_file_path):
                 self.parameters['database_selection'] = db
@@ -698,7 +699,7 @@ class ROSSPkg():
             elif re.search('-shifts', row):
                 self.simulation_shifts = float(re.sub('-shifts\s+', '', row))
             elif re.search('-file', row):
-                self.selected_output_file_name = re.sub('-file\s+', '', row)
+                self.parameters['selected_output_file_name'] = re.sub('-file\s+', '', row)
             elif re.search('-time_step', row):
                 self.parameters['timestep'] = float(re.sub('-time_step\s+', '', row).split('\t')[0])
                 self.parameters['simulation_time'] = self.parameters['timestep'] * self.simulation_shifts
