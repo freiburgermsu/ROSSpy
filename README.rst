@@ -206,5 +206,6 @@ The following list highlights stored content in the ``ROSSpy`` object after a si
 - *predicted_effluent* ``dict`: The predicted effluent concentrations of each ion that is defined in the feed.
 - *parameters* & *variables* ``dict``: Dictionaries with the simulation parameters stored as key-value pairs.
 - *results* ``dict``: A dictionary with the simulation results and each block of the simulation.
-- *water_mw* & *water_gL* ``float``: The molecular weight, calculated from the  `ChemW module <https://pypi.org/project/ChemW/>`_, and density of water from the ``chempy`` module.
 - *simulation_shifts* ``float``: The number of simulation shifts.
+- *water_mw* & *water_gL* ``float``: The molecular weight and density of water, respectively.
+- *chem_mw* ``ChemMW``: The ``ChemMW`` object from the `ChemW module <https://pypi.org/project/ChemW/>`_, which allows users to calculate the molecular weight from a string of any chemical formula. The formatting specifications are detailed in the README of the ChemW module. 
