@@ -346,7 +346,7 @@ class ROSSPkg():
                     self.results['reaction_block'].append(reaction_line)
                     
                 # the calculated reaction parameters will be added and printed to a generated PHREEQC input file
-                final_solution_mass = moles_remaining * self.water_mw * milli  #kg water mass
+                final_solution_mass = float(moles_remaining * self.water_mw * milli)  #kg water mass
                 if self.parameters['os'] == 'windows':
                     self.results['reaction_block'].append('# {}'.format(self.parameters['permeate_approach']))
                     if self.parameters['permeate_approach'] == 'linear_permeate':
@@ -427,12 +427,11 @@ class ROSSPkg():
 
     def feed_geochemistry(self, water_selection = '', water_characteristics = {}, solution_description = '', ignored_minerals = [], existing_parameters = {}, parameterized_ph_charge = True):
         # create the solution line of the input file
-        water_files = glob(os.path.join(self.parameters['root_path'], 'water_bodies','*.json'))
-        water_bodies = [re.search('([a-z\_]+)(?=\.)', file).group() for file in water_files]
         self.results['solution_block'] = []
         
-        if water_selection not in water_bodies and water_characteristics == {}:
-            print('--> ERROR: Feed geochemistry is not provided.')
+        if water_selection not in self.feed_sources and water_characteristics == {}:
+            error = f'The {water_selection} does not have a corresponding parameter file. Either select an existing feed water {self.feed_sources}, or define a custom feed water with the water_characteristics dictionary.'
+            self._error(error, 'value')
         
         self.parameters['water_selection'] = water_selection
         if water_selection == '':
@@ -448,14 +447,14 @@ class ROSSPkg():
         #========================= FEED IONS =================================           
         self.parameters['solution_elements'] = []
         temperature = ph = alkalinity = pe = None
-        if water_selection in water_bodies:       
+        if water_selection in self.feed_sources:       
             # import the predefined water body
             water_file_path = os.path.join(self.parameters['root_path'], 'water_bodies', f'{water_selection}.json')
             water_body = json.load(open(water_file_path))
             
             for content, information in water_body.items():
                 if content == 'element':
-                    elements_lines  = self._define_elements(information)       
+                    elements_lines = self._define_elements(information)       
                 elif content == 'temperature (C)':
                     temperature = information['value']
                     temperature_reference = information['reference']
@@ -633,7 +632,7 @@ class ROSSPkg():
                     permeate_approach_name = 'LinCF'
                 simulation_name = '-'.join([re.sub(' ', '_', str(x)) for x in [datetime.date.today(), 'ROSSpy', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], permeate_approach_name]])
             
-        if input_path is None:
+        if simulation_path is None:
             directory = os.getcwd()
         else:
             directory = os.path.dirname(simulation_path)
@@ -643,18 +642,11 @@ class ROSSPkg():
             simulation_name = re.sub('(\-\d+$)', '', simulation_name)
             simulation_name = '-'.join([simulation_name, str(simulation_number)])
             
-        # define the simulation input path 
-        if simulation_path is None:
-            self.parameters['input_file_name'] = 'input.pqi'
-            self.simulation_path = os.path.join(directory, simulation_name)
-            os.mkdir(self.simulation_path)
-        else:
-            self.simulation_path = os.path.join(directory, simulation_name)
-            os.mkdir(self.simulation_path)
+        # define the simulation path 
+        self.simulation_path = os.path.join(directory, simulation_name)
+        os.mkdir(self.simulation_path)
             
-        # define the simulation output path
-        self.parameters['output_file_name'] = 'selected_output.csv'
-        self.parameters['output_path'] = os.path.join(self.simulation_path, self.parameters['output_file_name'])
+        self.parameters['output_path'] = os.path.join(self.simulation_path, 'selected_output.csv')
         self.parameters['simulation_path'] = self.variables['simulation_path'] = self.simulation_path
         
     def parse_input(self, input_file_path, water_selection = None, active_m2 = None):        
@@ -857,13 +849,13 @@ class ROSSPkg():
         if plot_title is not None:
             self.plot_title = plot_title
 
-        self.variables['initial_solution_mass'] = self.selected_output['mass_H2O'][0]
+        self.variables['initial_solution_mass'] = float(self.selected_output['mass_H2O'][0])
         if self.parameters['simulation_type'] == 'transport':
             self.selected_output.drop(self.selected_output.index[:3], inplace=True)
-            self.variables['initial_solution_mass'] = self.selected_output['mass_H2O'][3]
-        self.variables['final_solution_mass'] = self.selected_output['mass_H2O'].iloc[-1]
+            self.variables['initial_solution_mass'] = float(self.selected_output['mass_H2O'][3])
+        self.variables['final_solution_mass'] = float(self.selected_output['mass_H2O'].iloc[-1])
         self.variables['simulation_cf'] = self.variables['initial_solution_mass'] / self.variables['final_solution_mass']
-        self.variables['final_time'] = self.selected_output['time'].iloc[-1]
+        self.variables['final_time'] = float(self.selected_output['time'].iloc[-1])
                                  
         # conducting the appropriate visualization function
         if self.parameters['simulation'] == 'brine':
@@ -960,12 +952,21 @@ class ROSSPkg():
             with open(os.path.join(self.simulation_path, 'scale_ions.json'), 'w') as output:
                 json.dump(self.elemental_masses, output, indent = 4)
                 
-    def _error(self,error):
-        error_path = os.path.join(self.simulation_path, 'error.txt')
+    def _error(self,error, error_type):
+        try:
+            export_path = self.simulation_path 
+        except:
+            export_path = os.getcwd()
+            
+        error_path = os.path.join(export_path, 'error.txt')
         with open(error_path, 'w') as output:
             output.write(error)
             output.close()
-        raise IndexError(error)
+            
+        if error_type == 'index':
+            raise IndexError(error)
+        elif error_type == 'value':
+            raise ValueError(error)
             
                                  
     def _brine_plot(self, pyplot, title_font, label_font, export_format, x_label_number, export_name, log_scale = True):
@@ -1052,7 +1053,7 @@ class ROSSPkg():
         if self.parameters['simulation_perspective'] == 'all_time':
             if len(time_serie) == 0:
                 error = f'\n\nThe {insufficient_elements} elements remain below the 1E-16 Molal threshold, and thus the figure could not be constructed.'
-                self._error(error)
+                self._error(error, 'index')
                         
         # define the brine plot
         if self.parameters['simulation_perspective'] == 'all_time':
