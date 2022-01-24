@@ -467,7 +467,7 @@ class iROSSpy():
             Default = < scaling >  __ ''') or 'scaling'
                   
         # define water_selection
-        solution_description = input('- What is a 1-2 word description of the simulated water source?')
+        water_selection = input('- What is a 1-2 word description of the simulated water source?')
                                    
         # define active_feed_area
         active_m2 = input(f'''- What is the active_m2?

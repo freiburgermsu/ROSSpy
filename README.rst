@@ -1,5 +1,25 @@
-Background
-____________
+Simulating scale formation during Reverse Osmosis desalination
+________________________________________________________________________
+
+|PyPI version| |Downloads| |License|
+
+.. |PyPI version| image:: https://img.shields.io/pypi/v/rosspy.svg?logo=PyPI&logoColor=brightgreen
+   :target: https://pypi.org/project/ROSSpy/
+   :alt: PyPI version
+
+.. |Actions Status| image:: https://github.com/freiburgermsu/rosspy/workflows/Test%20ROSSpy/badge.svg
+   :target: https://github.com/freiburgermsu/rosspy/actions
+   :alt: Actions Status
+
+.. |License| image:: https://img.shields.io/badge/License-MIT-blue.svg
+   :target: https://opensource.org/licenses/MIT
+   :alt: License
+
+.. |Downloads| image:: https://pepy.tech/badge/rosspy
+   :target: https://pepy.tech/project/rosspy
+   :alt: Downloads
+
+
 
 -----------
 Motivation
