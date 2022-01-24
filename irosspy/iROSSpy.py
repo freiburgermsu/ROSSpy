@@ -579,7 +579,7 @@ class iROSSpy():
         
         # execute the PHREEQC batch software
         bat_path = os.path.join(os.path.dirname(__file__), 'phreeqc.bat')
-        #bat_path = r'./phreeqc.bat'
+#        bat_path = 'phreeqc.bat'
         database_path = r'{}'.format(self.ross.parameters['database_path'])
         input_path = r'{}'.format(self.ross.parameters['input_path'])        
         output_path = re.sub('(input.pqi)', 'output.pqo', input_path)
@@ -592,7 +592,7 @@ class iROSSpy():
             if len(path) != len(unicode):
                 print(f'-> ERROR:', unicode)
             if not os.path.exists(path):
-                print(f'-> ERROR: The < {path} > path does not exist\n')
+                raise FileNotFoundError(f'The < {path} > path does not exist\n')
         
         proc = subprocess.Popen('cmd.exe', stdin=subprocess.PIPE)
         command = str.encode(bat_path + " \"" + input_path + "\" \"" + output_path + "\" \"" + database_path + "\"\n") 

@@ -646,7 +646,12 @@ class ROSSPkg():
         self.simulation_path = os.path.join(directory, simulation_name)
         os.mkdir(self.simulation_path)
         
+        # define the input file export path
         self.parameters['input_path'] = os.path.join(self.simulation_path, 'input.pqi')    
+        if self.input_file:
+            with open(self.parameters['input_path'], 'w') as input:
+                input.write(self.input_file)
+                    
         self.parameters['output_path'] = os.path.join(self.simulation_path, 'selected_output.csv')
         self.parameters['simulation_path'] = self.variables['simulation_path'] = self.simulation_path
         
@@ -654,6 +659,7 @@ class ROSSPkg():
         
     def parse_input(self, input_file_path, water_selection = None, active_m2 = None):        
         # open the input file
+        
         with open(input_file_path, 'r') as file:
             self.input_file = file.read()
            
@@ -893,11 +899,6 @@ class ROSSPkg():
                 
             variables_table = pandas.DataFrame(variables)
             variables_table.to_csv(os.path.join(self.simulation_path, 'variables.csv'))
-            
-            # export the input file
-            if self.input_file:
-                with open(self.parameters['input_path'], 'w') as input:
-                    input.write(self.input_file)
                     
         if self.verbose:
             print(self.input_file)

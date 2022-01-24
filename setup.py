@@ -3,6 +3,9 @@ from setuptools import setup, find_packages
 
 with open('README.rst', encoding='utf-8') as file:
     readme = file.read()
+
+with open('LICENSE') as file:
+    license = file.read()
     
 setup(
   name = 'ROSSpy',      
@@ -11,8 +14,8 @@ setup(
   package_data = {
 	'rosspy':['water_bodies/*','databases/*','processed_databases/*', 'test/*', 'test/*/*'],
   },
-  version = '0.0.18',
-  license = 'MIT',
+  version = '0.0.19',
+  license = license,
   description = "Software for predicting the brine and scaling consequences of RO desalination.", 
   long_description = readme,
   author = 'Andrew Freiburger',               
