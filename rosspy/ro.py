@@ -69,7 +69,7 @@ class ROSSPkg():
         elif operating_system == 'unix':
             import phreeqpy.iphreeqc.phreeqc_dll as phreeqc_mod
         else:
-            print(f'--> ERROR: The operating system {operating_system} is not supported.')
+            raise TypeError(f'--> ERROR: The operating system {operating_system} is not supported.')
         self.phreeqc_mod = phreeqc_mod
         
         # define paths
@@ -431,7 +431,7 @@ class ROSSPkg():
         
         if water_selection not in self.feed_sources and water_characteristics == {}:
             error = f'The {water_selection} does not have a corresponding parameter file. Either select an existing feed water {self.feed_sources}, or define a custom feed water with the water_characteristics dictionary.'
-            self._error(error, 'value')
+            raise ValueError(error)
         
         self.parameters['water_selection'] = water_selection
         if water_selection == '':
@@ -873,7 +873,7 @@ class ROSSPkg():
             if scale_ions and self.processed_data is not None:
                 self._ion_proportions()
         else:
-            print('--> ERROR: The < simulation_perspective > parameter is unpredicted.')
+            raise TypeError('--> ERROR: The < simulation_perspective > parameter is unpredicted.')
             
         if self.export_content:            
             # export the predicted effluent concentrations
@@ -915,7 +915,6 @@ class ROSSPkg():
         # calculate the mass of each scalant
         chem_mw = chemw.ChemMW(printing = False)
         mineral_elements = {}
-        stoich = None
         for column in self.processed_data:                   
             mineral = re.search('([A-Za-z]+)', column).group()
             mineral_elements[mineral] = {}

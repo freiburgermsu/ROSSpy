@@ -161,7 +161,7 @@ The input file is executed through PHREEQ:
 
 .. code-block:: python
 
- ross.execute(simulation_name = None, selected_output_path = None, simulation_path = None, plot_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', individual_plots = None, scale_ions = True, selected_output_filename = None,)
+ processed_data = ross.execute(simulation_name = None, selected_output_path = None, simulation_path = None, plot_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', individual_plots = None, scale_ions = True, selected_output_filename = None,)
 
 - *simulation_name* ``str``: specifies the name of a PHREEQ output file.
 - *selected_output_path* ``str``: specifies the path of a simulation output file that will be processed into data tables and figures. This imported file can be independent of executing ROSSpy, and thus can be used to process old data. This parameter must be ``None`` to execute PHREEQ input files.
@@ -176,6 +176,8 @@ The input file is executed through PHREEQ:
 
 - *simulation_name* ``str``: specifies the name of the simulation folder to which simulation content will be exported. The ``None`` parameter assigns a default name for the simulation folder, which follows the format of **today's_date-ROSSpy-water_selection-simulation_type-database_selection-simulation-simulation_perspective-#**. 
 - *input_path* & *output_path* ``str``: specifies the directory path to where the input file will be exported, where ``None`` defaults to "input.pqi" and "selected_output.csv", respectively, in the current working directory. 
+
+**Returned** *processed_data* ``DataFrame``: `Pandas DataFrames <https://pandas.pydata.org/pandas-docs/stable/reference/frame.html>`_ that possesses the processed simulation data.
 
 ++++++++++++++++++++++
 test()
