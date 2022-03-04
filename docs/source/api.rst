@@ -1,10 +1,6 @@
 ROSSpy API
 --------------
 
-.. autosummary::
-   :toctree: generated
-
-
 ++++++++++++++++++++++
 Installation
 ++++++++++++++++++++++
