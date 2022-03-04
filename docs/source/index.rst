@@ -34,3 +34,12 @@ The ROSSpy framework represents RO desalination as a 1D reactive transport model
 
    This project is under active development.
    
+   
+
+Contents
+--------
+
+.. toctree::
+
+   usage
+   api
