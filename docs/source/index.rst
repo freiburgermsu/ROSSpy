@@ -41,5 +41,5 @@ Contents
 
 .. toctree::
 
-   usage
-   api
+   rosspy_usage
+   rosspy_api
