@@ -54,7 +54,8 @@ The simulation environment is defined:
 .. code-block:: python
 
  import rosspy
- ross = rosspy.ROSSPkg(database_selection, simulation = 'scaling', simulation_type = 'transport', domain_phase = None, quantity_of_modules = 1, simulation_title = None, verbose = False, printing = True, jupyter = False)
+ ross = rosspy.ROSSPkg(database_selection, simulation = 'scaling', simulation_type = 'transport', 
+ domain_phase = None, quantity_of_modules = 1, simulation_title = None, verbose = False, printing = True, jupyter = False)
 
 - *database_selection* ``str``: specifies which PHREEQ database file -- ``Amm``, ``ColdChem``, ``core10``, ``frezchem``, ``iso``, ``llnl``, ``minteq``, ``minteq.v4``, ``phreeqc``, ``pitzer``, ``sit``, ``Tipping_Hurley``, or ``wateq4f`` -- will be imported and used to execute the simulation. These databases were all processed via the ``PHREEQdb`` object of the `ChemW module <https://pypi.org/project/ChemW/>`_, in this specific Notebook: `here <https://github.com/freiburgermsu/ChemW/blob/main/examples/PHREEQ/PHREEQ%20databases.ipynb>`_.
 - *simulation* ``str``: specifies whether the ``scaling`` or ``brine`` of the simulation will be evaluated.
@@ -75,7 +76,9 @@ The spatiotemporal conditions and the permeate flux, or evaporation rate, are de
 
 .. code-block:: python
 
- ross.reactive_transport(simulation_time, simulation_perspective = None, final_cf = None, module_characteristics = {}, permeate_efficiency = 1, head_loss = 0.89, evaporation_steps = 15, timestep = None, cells_per_module = 12, kinematic_flow_velocity = None, exchange_factor = 1e5)
+ ross.reactive_transport(simulation_time, simulation_perspective = None, final_cf = None, 
+ module_characteristics = {}, permeate_efficiency = 1, head_loss = 0.89, evaporation_steps = 15, 
+ timestep = None, cells_per_module = 12, kinematic_flow_velocity = None, exchange_factor = 1e5)
 
 - *simulation_time* ``float``: specifies the total simulated time in seconds.
 - *simulation_perspective* ``str``: specifies whether the simulation data is parsed to view the end of the module over the entire simulated time "all_time" or to view the entire module distance at the final timestep ``all_distance``. The ``None`` parameter defaults to ``all_time`` for brine simulations and ``all_distance`` for scaling simulations.
@@ -161,7 +164,9 @@ The input file is executed through PHREEQ:
 
 .. code-block:: python
 
- processed_data = ross.execute(simulation_name = None, selected_output_path = None, simulation_path = None, plot_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', individual_plots = None, scale_ions = True, selected_output_filename = None,)
+ processed_data = ross.execute(simulation_name = None, selected_output_path = None, simulation_path = None, 
+ plot_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, 
+ export_format = 'svg', individual_plots = None, scale_ions = True, selected_output_filename = None,)
 
 - *simulation_name* ``str``: specifies the name of a PHREEQ output file.
 - *selected_output_path* ``str``: specifies the path of a simulation output file that will be processed into data tables and figures. This imported file can be independent of executing ROSSpy, and thus can be used to process old data. This parameter must be ``None`` to execute PHREEQ input files.

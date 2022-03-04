@@ -1,38 +1,36 @@
 ,parameter,value
-0,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\minteq.v4 scaling
-1,os,windows
-2,root_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
-3,database_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\minteq.v4.dat
-4,database_selection,minteq.v4
-5,quantity_of_modules,1
-6,simulation_type,transport
-7,simulation,scaling
-8,domain,single
-9,simulation_time,200
-10,exchange_factor,100000.0
-11,simulation_perspective,all_distance
-12,module_diameter_mm,201
-13,permeate_tube_diameter_mm,29
-14,module_length_m,1.016
-15,permeate_flow_m3_per_hour,7.194400000000001
-16,max_feed_flow_m3_per_hour,10.5
-17,membrane_thickness_mm,0.00025
-18,feed_thickness_mm,0.8636
-19,active_m2,37
-20,permeate_thickness_mm,0.3
-21,polysulfonic_layer_thickness_mm,0.05
-22,support_layer_thickness_mm,0.15
-23,repeated_membrane_winding_mm,1.5641
-24,cells_per_module,12
-25,active_m2_cell,3.0833333333333335
-26,timestep,5.9758706931223475
-27,permeate_moles_per_cell,55.07993248396589
-28,permeate_approach,linear_permeate
-29,water_selection,waterwater
-30,solution_elements,"['Li', 'Na', 'Mg', 'Ca', 'K', 'Mn', 'Fe', 'Co', 'Cu', 'S(6)', 'Cl', 'F', 'N(5)', 'Ba', 'B', 'Sr', 'Si', 'C(4)']"
-31,input_file_name,input.pqi
-32,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\minteq.v4 scaling\input.pqi
-33,output_file_name,selected_output.csv
-34,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\minteq.v4 scaling\selected_output.csv
-35,selected_output_file_name,2022-01-21-waterwater-transport-minteq.v4-scaling-0.txt
-36,individual_plots,False
+0,os,windows
+1,root_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
+2,database_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\minteq.v4.dat
+3,database_selection,minteq.v4
+4,quantity_of_modules,1
+5,simulation_type,transport
+6,simulation,scaling
+7,domain,single
+8,simulation_time,200
+9,exchange_factor,100000.0
+10,simulation_perspective,all_distance
+11,module_diameter_mm,201
+12,permeate_tube_diameter_mm,29
+13,module_length_m,1.016
+14,permeate_flow_m3_per_hour,7.194400000000001
+15,max_feed_flow_m3_per_hour,10.5
+16,membrane_thickness_mm,0.00025
+17,feed_thickness_mm,0.8636
+18,active_m2,37
+19,permeate_thickness_mm,0.3
+20,polysulfonic_layer_thickness_mm,0.05
+21,support_layer_thickness_mm,0.15
+22,repeated_membrane_winding_mm,1.5641
+23,cells_per_module,12
+24,active_m2_cell,3.0833333333333335
+25,timestep,5.9758706931223475
+26,permeate_moles_per_cell,55.07907641172635
+27,permeate_approach,linear_permeate
+28,water_selection,waterwater
+29,solution_elements,"['Li', 'Na', 'Mg', 'Ca', 'K', 'Mn', 'Fe', 'Co', 'Cu', 'S(6)', 'Cl', 'F', 'N(5)', 'Ba', 'B', 'Sr', 'Si', 'C(4)']"
+30,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\minteq.v4 scaling\input.pqi
+31,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\minteq.v4 scaling\selected_output.csv
+32,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\minteq.v4 scaling
+33,selected_output_file_name,2022-03-03-waterwater-transport-minteq.v4-scaling-0.txt
+34,individual_plots,False

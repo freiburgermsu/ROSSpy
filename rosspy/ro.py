@@ -647,11 +647,7 @@ class ROSSPkg():
         os.mkdir(self.simulation_path)
         
         # define the input file export path
-        self.parameters['input_path'] = os.path.join(self.simulation_path, 'input.pqi')    
-        if self.input_file:
-            with open(self.parameters['input_path'], 'w') as input:
-                input.write(self.input_file)
-                    
+        self.parameters['input_path'] = os.path.join(self.simulation_path, 'input.pqi')                       
         self.parameters['output_path'] = os.path.join(self.simulation_path, 'selected_output.csv')
         self.parameters['simulation_path'] = self.variables['simulation_path'] = self.simulation_path
         
@@ -783,18 +779,19 @@ class ROSSPkg():
                 else:
                     print(self.selected_output)
             self.variables['run_time (s)'] = float(run_time)
-
+       
         # construct the SELECTED_OUTPUT file
         self._define_paths(simulation_name, simulation_directory)
         self._selected_output(selected_output_filename)
-        
-        # complete the input file
         if 'solution_block' in self.results:
             self.results['solution_block'].insert(0, f'# {self.simulation_path}')
             self.results['complete_lines'] = chain(self.results['general_conditions'], self.results['solution_block'], self.results['equilibrium_phases_block'], self.results['reaction_block'], self.results['selected_output_block'], self.results['transport_block']) 
                         
             self.input_file = '\n'.join([line for line in self.results['complete_lines']])       
-            
+
+        with open(self.parameters['input_path'], 'w') as input:
+            input.write(self.input_file)
+          
         # communicate progress to the user
         estimated_time = (self.parameters['simulation_time']/30)**(self.parameters['quantity_of_modules']/2)*1.0004936**self.parameters['simulation_time'] + 5*self.parameters['quantity_of_modules']
         if self.parameters['database_selection'] == 'sit':
