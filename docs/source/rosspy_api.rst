@@ -11,10 +11,10 @@ ROSSpy is installed in a command prompt, Powershell, Terminal, or Anaconda Comma
  pip install rosspy
 
 ++++++++++++++++++++++
-__init__
+ROSSPkg()
 ++++++++++++++++++++++
 
-The simulation environment is defined:
+The only class in the ROSSpy module is ``ROSSPkg``. The initial parameters for the class package are defined:
 
 .. code-block:: python
 
@@ -33,9 +33,9 @@ The simulation environment is defined:
 - *printing* ``bool``: specifies whether simulation results will be printed. 
 - *jupyter* ``bool``: specifies whether the simulation is being conducted in a Jupyter Notebook, which allows ``display()`` to illustrate data tables and figures.
 
-++++++++++++++++++++++
+----------------------------
 reactive_transport()
-++++++++++++++++++++++
+----------------------------
 
 The spatiotemporal conditions and the permeate flux, or evaporation rate, are defined for reactive transport:
 
@@ -64,9 +64,9 @@ The spatiotemporal conditions and the permeate flux, or evaporation rate, are de
 - *cells_per_module* ``int``: specifies the quantity of cells into which the RO module is discretized. This controls the resolution of data over the distance of the module, and thus is only consequential for ``simulation_perspective = "all_distance"`` simulations.
 - *kinematic_flow_velocity* ``float``: specifies the kinetic flow velocity of the feed solution. The ``None`` parameter defaults to 9.33E-7 (m^2/sec).
 
-++++++++++++++++++++++
+----------------------------
 feed_geochemistry()
-++++++++++++++++++++++
+----------------------------
 
 The feed geochemistry is defined from either a parameter file in the ``rosspy/water_bodies`` directory or in a dictionary argument, from which the potential scalants are determined:
 
@@ -104,9 +104,9 @@ The feed geochemistry is defined from either a parameter file in the ``rosspy/wa
 
 
 
-++++++++++++++++++++++
+----------------------------
 parse_input()
-++++++++++++++++++++++
+----------------------------
 
 This function is used to parse and execute pre-existing input file:
 
@@ -121,9 +121,9 @@ This function is used to parse and execute pre-existing input file:
 - *active_m2* ``float``: defines the area of active filtration in the simulated RO module, where ``None`` defaults to 37 from the standard FILMTEC BW30-400 module. 
 
 
-++++++++++++++++++++++
+----------------------------
 execute()
-++++++++++++++++++++++
+----------------------------
 
 The input file is executed through PHREEQ:
 
@@ -149,9 +149,9 @@ The input file is executed through PHREEQ:
 
 **Returned** *processed_data* ``DataFrame``: `Pandas DataFrames <https://pandas.pydata.org/pandas-docs/stable/reference/frame.html>`_ that possesses the processed simulation data.
 
-++++++++++++++++++++++
+----------------------------
 test()
-++++++++++++++++++++++
+----------------------------
 
 ROSSpy can be tested with a simple built-in ``test()`` function, which can be executed through these three lines:
 
