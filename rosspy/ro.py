@@ -108,7 +108,7 @@ class ROSSPkg():
         self.elements = database['elements']
         self.minerals = database['minerals']
 
-    def _transport(self, simulation_time, simulation_perspective = None, module_characteristics = {}, timestep = None, cells_per_module = 12, kinematic_flow_velocity = None, exchange_factor = 1e5):
+    def _transport(self, simulation_time, simulation_perspective = None, module_characteristics = {}, ro_module = 'BW30-400', timestep = None, cells_per_module = 12, kinematic_flow_velocity = None, exchange_factor = 1e5):
         '''Define the TRANSPORT block'''
         self.parameters['simulation_time'] = simulation_time
         self.parameters['exchange_factor'] = exchange_factor
@@ -120,43 +120,31 @@ class ROSSPkg():
                 self.parameters['simulation_perspective'] = 'all_time'
         
         # assign default RO module dimensions 
-        self.parameters['module_diameter_mm'] =  201                 
-        self.parameters['permeate_tube_diameter_mm'] =  29            
-        self.parameters['module_length_m'] =  1.016                 
-        self.parameters['permeate_flow_m3_per_hour'] = 40/(day/hour)                  
-        self.parameters['max_feed_flow_m3_per_hour'] = 15.9                  
-        self.parameters['membrane_thickness_mm'] = 250 * (nano / milli)   
-        self.parameters['feed_thickness_mm'] = 0.8636
-        self.parameters['active_m2'] = 37
-        self.parameters['permeate_thickness_mm'] = 0.3               
-        self.parameters['polysulfonic_layer_thickness_mm'] = 0.05     
-        self.parameters['support_layer_thickness_mm'] = 0.15           
-
-        # assign parameterized module dimensions
+        self.ro_module = json.load(open(os.path.join(self.parameters['root_path'], f'ro_module.json')))[ro_module]
         for parameter in module_characteristics:
-            self.parameters[parameter] = module_characteristics[parameter]
+            self.ro_module[parameter] = module_characteristics[parameter]
 
         # calculate module properties
-        self.parameters['repeated_membrane_winding_mm'] = 2 * self.parameters['membrane_thickness_mm'] + self.parameters['feed_thickness_mm'] + self.parameters['permeate_thickness_mm'] + 2 * self.parameters['polysulfonic_layer_thickness_mm'] + 2 * self.parameters['support_layer_thickness_mm']     
+        self.parameters['repeated_membrane_winding_mm'] = 2 * self.ro_module['membrane_thickness_mm'] + self.ro_module['feed_thickness_mm'] + self.ro_module['permeate_thickness_mm'] + 2 * self.ro_module['polysulfonic_layer_thickness_mm'] + 2 * self.ro_module['support_layer_thickness_mm']     
         if self.parameters['repeated_membrane_winding_mm'] == 0:
             print('--> ERROR: The module dimensions are not sensible.')
         self.parameters['cells_per_module'] = cells_per_module
         self.variables['cell_meters'] = self.parameters['module_length_m'] / self.parameters['cells_per_module']        
         self.parameters['active_m2_cell'] = self.parameters['active_m2'] / self.parameters['cells_per_module']
         
-        module_cross_sectional_area = self.parameters['module_diameter_mm']**2 * pi / 4        #squared millimeters
-        permeate_tube_cross_sectional_area = self.parameters['permeate_tube_diameter_mm']**2 * pi / 4     #squared millimeters
+        module_cross_sectional_area = self.ro_module['module_diameter_mm']**2 * pi / 4        #squared millimeters
+        permeate_tube_cross_sectional_area = self.ro_module['permeate_tube_diameter_mm']**2 * pi / 4     #squared millimeters
         filtration_cross_sectional_area = (module_cross_sectional_area - permeate_tube_cross_sectional_area) * milli**2         #squared meters
-        feed_cross_sectional_area = (self.parameters['feed_thickness_mm'] / self.parameters['repeated_membrane_winding_mm']) * filtration_cross_sectional_area       #squared meters
-        self.variables['feed_cubic_meters'] = feed_cross_sectional_area * self.parameters['module_length_m'] 
+        feed_cross_sectional_area = (self.ro_module['feed_thickness_mm'] / self.parameters['repeated_membrane_winding_mm']) * filtration_cross_sectional_area       #squared meters
+        self.variables['feed_cubic_meters'] = feed_cross_sectional_area * self.ro_module['module_length_m'] 
         self.variables['feed_kg'] = self.variables['feed_cubic_meters'] / liter * self.water_gL * milli    
         self.variables['feed_moles'] = self.variables['feed_kg'] * kilo / self.water_mw 
 
         # calculate fluid flow characteristics
         if not kinematic_flow_velocity:
             kinematic_flow_velocity = 9.33E-7    #square meters / second
-        feed_velocity = self.parameters['max_feed_flow_m3_per_hour'] / (feed_cross_sectional_area) / hour     #meters / second
-        reynolds_number = feed_velocity * (self.parameters['module_diameter_mm'] - self.parameters['permeate_tube_diameter_mm']) * milli**2 / kinematic_flow_velocity
+        feed_velocity = self.ro_module['max_feed_flow_m3_per_hour'] / (feed_cross_sectional_area) / hour     #meters / second
+        reynolds_number = feed_velocity * (self.ro_module['module_diameter_mm'] - self.ro_module['permeate_tube_diameter_mm']) * milli**2 / kinematic_flow_velocity
         self.variables['Reynold\'s number'] = reynolds_number
 
         # calculate module cell characteristics
@@ -164,7 +152,7 @@ class ROSSPkg():
         self.variables['feed_moles_cell'] = self.variables['feed_moles'] / self.parameters['cells_per_module']   
 
         # calculate simulation timestep that adheres to the Courant condition   
-        self.parameters['timestep'] = self.parameters['module_length_m'] / feed_velocity  # seconds
+        self.parameters['timestep'] = self.ro_module['module_length_m'] / feed_velocity  # seconds
         if timestep:
             self.parameters['timestep'] = timestep
             
@@ -172,7 +160,7 @@ class ROSSPkg():
         if self.parameters['timestep'] < courant_timestep:
             self.parameters['timestep'] = courant_timestep
             
-        self.parameters['permeate_moles_per_cell'] = (self.parameters['permeate_flow_m3_per_hour']/hour/liter * self.water_gL / self.water_mw) * (self.parameters['timestep'] / self.parameters['cells_per_module'])      #moles / (cell * self.parameters['timestep'])
+        self.parameters['permeate_moles_per_cell'] = (self.ro_module['permeate_flow_m3_per_hour']/hour/liter * self.water_gL / self.water_mw) * (self.parameters['timestep'] / self.parameters['cells_per_module'])      #moles / (cell * self.parameters['timestep'])
         
         # exit the function for evaporation simulations
         self.results['transport_block'] = []
@@ -398,15 +386,15 @@ class ROSSPkg():
                         print('--> The {} element is absent in the solution to describe the mineral < {} / {} >.'.format(element, original_formula, mineral))
                         
 
-    def _define_elements(self,element_dict):
+    def _define_elements(self):
         elements_lines = []
         self.predicted_effluent = {}
         undefined_elements = []
-        for element, information2 in element_dict.items():
+        for element, information2 in self.water_body.items():
             self.parameters['solution_elements'].append(element)
-
             conc = information2['concentration (ppm)']
             self.predicted_effluent[element] = conc*self.cumulative_cf
+            
             ref = ''
             if 'reference' in information2:
                 ref = information2['reference']
@@ -424,6 +412,7 @@ class ROSSPkg():
                 undefined_elements.append(element)
         print('\n--> The {} elements are not accepted by the {} database'.format(undefined_elements, self.parameters['database_selection']))
         return elements_lines
+
 
     def feed_geochemistry(self, water_selection = '', water_characteristics = {}, solution_description = '', ignored_minerals = [], existing_parameters = {}, parameterized_ph_charge = True):
         # create the solution line of the input file
@@ -447,61 +436,65 @@ class ROSSPkg():
         #========================= FEED IONS =================================           
         self.parameters['solution_elements'] = []
         temperature = ph = alkalinity = pe = None
+        self.water_body = {}
         if water_selection in self.feed_sources:       
-            # import the predefined water body
-            water_file_path = os.path.join(self.parameters['root_path'], 'water_bodies', f'{water_selection}.json')
-            water_body = json.load(open(water_file_path))
-            
-            for content, information in water_body.items():
-                if content == 'element':
-                    elements_lines = self._define_elements(information)       
-                elif content == 'temperature (C)':
-                    temperature = information['value']
-                    temperature_reference = information['reference']
-                elif content == 'pe':
-                    pe = information['value']
-                    pe_reference = information['reference']
-                elif content == 'Alkalinity':
-                    alkalinity = information['value']
-                    alkalinity_reference = information['reference'] 
-                    alkalinity_form = 'as {}'.format(information['form'])    
-                elif content == 'pH':
-                    ph = information['value']
-                    ph_reference = information['reference']
-
-        elif water_characteristics != {}:
+            self.water_body = json.load(open(os.path.join(self.parameters['root_path'], 'water_bodies', f'{water_selection}.json')))
+        if water_characteristics != {}:
             for content, information in water_characteristics.items():
                 if content == 'element':
-                    elements_lines = self._define_elements(information)
-                # create the temperature line of the input file
-                elif content == 'temperature (C)':                    
-                    temperature = water_characteristics['temperature']['value']
-                    temperature_reference = ''
-                    if 'reference' in water_characteristics['temperature']:
-                        temperature_reference = water_characteristics['temperature']['reference']
-                elif content == 'pe':       
-                    pe = water_characteristics['pe']['value']
-                    pe_reference = ''
-                    if 'reference' in water_characteristics['pe']:
-                        pe_reference = water_characteristics['pe']['reference']
+                    for element, information2 in element_dict.items():
+                        if 'concentration (ppm)' in information2:
+                            self.water_body['element'][element]['concentration (ppm)'] = information2['concentration (ppm)']
+                        if 'reference' in information2:
+                            self.water_body['element'][element]['reference'] = information2['reference']
+                        if 'form' in information2:
+                            self.water_body['element'][element]['form'] = information2['form']
+                elif content == 'temperature (C)':     
+                    if 'value' in information:
+                        self.water_body['element']['temperature (C)']['value'] = information['value']
+                    if 'reference' in information:
+                        self.water_body['element']['temperature (C)']['reference'] = information['reference']
+                elif content == 'pe':
+                    if 'value' in information:
+                        self.water_body['element']['pe']['value'] = information['value']
+                    if 'reference' in information:
+                        self.water_body['element']['pe']['reference'] = information['reference']
                 elif content == 'Alkalinity':
-                    alkalinity = water_characteristics['Alkalinity']['value']
-                    alkalinity_reference = ''
-                    alkalinity_form = ''
-                    if 'reference' in water_characteristics['Alkalinity']:
-                        alkalinity_reference = water_characteristics['Alkalinity']['reference']
-                    if 'form' in water_characteristics['Alkalinity']:
-                        alkalinity_form = 'as {}'.format(water_characteristics['Alkalinity']['form'])    
+                    if 'value' in information:
+                        self.water_body['element']['Alkalinity']['value'] = information['value']
+                    if 'reference' in information:
+                        self.water_body['element']['Alkalinity']['reference'] = information['reference']
+                    if 'form' in information:
+                        self.water_body['element']['Alkalinity']['form'] = information['form'] 
                 elif content == 'pH':
-                    ph = water_characteristics['pH']['value']
-                    ph_reference = ''
-                    if 'reference' in water_characteristics['pH']:
-                        ph_reference = water_characteristics['pH']['reference']
-                    
+                    if 'value' in information:
+                        self.water_body['element']['pH']['value'] = information['value']
+                    if 'reference' in information:
+                        self.water_body['element']['pH']['reference'] = information['reference']
+            
+        for content, information in water_body.items():
+            if content == 'element':
+                elements_lines = self._define_elements()     
+                elements_line = '\n'.join(elements_lines)
+            elif content == 'temperature (C)':
+                temperature = information['value']
+                temperature_reference = information['reference']
+            elif content == 'pe':
+                pe = information['value']
+                pe_reference = information['reference']
+            elif content == 'Alkalinity':
+                alkalinity = information['value']
+                alkalinity_reference = information['reference'] 
+                alkalinity_form = 'as {}'.format(information['form'])    
+            elif content == 'pH':
+                ph = information['value']
+                ph_reference = information['reference']
+            
         # parameterize the lines of the SOLUTIONS block
         temperature_line = ''
         if temperature is not None:
-            temperature_line = f'temp \t {temperature} \t #{temperature_reference}.'
+            temperature_line = 'temp \t {} \t #{}.'.format(self.water_body["temperature (C)"]["value"], self.water_body["temperature (C)"]["reference"])
+        
         pe_line = ''
         if pe is not None:
             pe_line = f'pe \t\t {pe} \t   #{pe_reference} // 4.00 is the default (?)'     
@@ -517,7 +510,6 @@ class ROSSPkg():
                 alkalinity_line = ''
                    
         unit_line = 'units \t ppm' 
-        elements_line = '\n'.join(elements_lines)
         if water_selection == 'Bakken formation':
             water_line = '-water \t{}\t#TDS=300 ppthousand [before fudging]'.format(self.variables['feed_kg'])
         elif water_selection == 'German Basin':

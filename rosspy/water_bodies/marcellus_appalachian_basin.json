@@ -60,10 +60,9 @@
     "Alkalinity": {
         "value": 71,
         "reference": "Haluszczak, Rose, and Kump, 2013 [reported average from another Marcellus publication]",
-	"form": "CaCO3"
+	    "form": "CaCO3"
     },
     "pH": {
-
         "value": 7,
         "reference": "Haluszczak, Rose, and Kump, 2013 [estimated from another Marcellus publication]"
     }

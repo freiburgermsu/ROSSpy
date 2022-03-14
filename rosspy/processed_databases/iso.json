@@ -159,107 +159,107 @@
     "minerals": {
         "Calcite": {
             "formula": "CaCO3",
-            "mass": 100.0869
+            "mass": "100.1"
         },
         "Dolomite": {
             "formula": "CaMg(CO3)2",
-            "mass": 124.3919
+            "mass": "124.4"
         },
         "Siderite": {
             "formula": "FeCO3",
-            "mass": 115.8539
+            "mass": "115.9"
         },
         "Gypsum": {
             "formula": "CaSO4:2H2O",
-            "mass": 172.17116000000001
+            "mass": "172.2"
         },
         "Anhydrite": {
             "formula": "CaSO4",
-            "mass": 136.1406
+            "mass": "136.1"
         },
         "Hydroxyapatite": {
             "formula": "Ca5(PO4)3OH",
-            "mass": 502.311423
+            "mass": "502.3"
         },
         "Fluorite": {
             "formula": "CaF2",
-            "mass": 78.0748064
+            "mass": "78.07"
         },
         "Chalcedony": {
             "formula": "SiO2",
-            "mass": 60.0843
+            "mass": "60.08"
         },
         "Quartz": {
             "formula": "SiO2",
-            "mass": 60.0843
+            "mass": "60.08"
         },
         "Gibbsite": {
             "formula": "Al(OH)3",
-            "mass": 43.988878
+            "mass": "43.99"
         },
         "Kaolinite": {
             "formula": "Al2Si2O5(OH)4",
-            "mass": 207.138416
+            "mass": "207.1"
         },
         "Albite": {
             "formula": "NaAlSi3O8",
-            "mass": 262.223008
+            "mass": "262.2"
         },
         "Anorthite": {
             "formula": "CaAl2Si2O8",
-            "mass": 278.207276
+            "mass": "278.2"
         },
         "Talc": {
             "formula": "Mg3Si4O10(OH)2",
-            "mass": 362.25834
+            "mass": "362.3"
         },
         "Illite": {
             "formula": "K0.6Mg0.25Al2.3Si3.5O10(OH)2",
-            "mass": 366.8933574
+            "mass": "366.9"
         },
         "Chrysotile": {
             "formula": "Mg3Si2O5(OH)4",
-            "mass": 226.09033999999997
+            "mass": "226.1"
         },
         "Sepiolite": {
             "formula": "Mg2Si3O7.5OH:3H2O",
-            "mass": 323.91518
+            "mass": "323.9"
         },
         "Hematite": {
             "formula": "Fe2O3",
-            "mass": 159.6882
+            "mass": "159.7"
         },
         "Goethite": {
             "formula": "FeOOH",
-            "mass": 88.85173999999999
+            "mass": "88.85"
         },
         "Pyrite": {
             "formula": "FeS2",
-            "mass": 119.975
+            "mass": "120.0"
         },
         "Mackinawite": {
             "formula": "FeS",
-            "mass": 87.91
+            "mass": "87.91"
         },
         "Sulfur": {
             "formula": "S",
-            "mass": 32.065
+            "mass": "32.07"
         },
         "Vivianite": {
             "formula": "Fe3(PO4)2:8H2O",
-            "mass": 501.599962
+            "mass": "501.6"
         },
         "Halite": {
             "formula": "NaCl",
-            "mass": 58.44277
+            "mass": "58.44"
         },
         "Melanterite": {
             "formula": "FeSO4:7H2O",
-            "mass": 278.01456
+            "mass": "278.0"
         },
         "Alunite": {
             "formula": "KAl3(SO4)2(OH)6",
-            "mass": 329.175454
+            "mass": "329.2"
         }
     }
 }

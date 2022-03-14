@@ -33,6 +33,15 @@ The ROSSpy framework represents RO desalination as a 1D reactive transport model
 .. note::
 
    This project is under active development.
+
+
+++++++++++++++++++++++
+Installation
+++++++++++++++++++++++
+
+ROSSpy is installed in a command prompt, Powershell, Terminal, or Anaconda Command Prompt via ``pip``::
+
+ pip install rosspy
    
    
 
@@ -43,3 +52,4 @@ Contents
 
    rosspy_usage
    rosspy_api
+   parameter_files

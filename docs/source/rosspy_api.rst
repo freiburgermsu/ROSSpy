@@ -3,14 +3,6 @@ ROSSpy API
 
 
 ++++++++++++++++++++++
-Installation
-++++++++++++++++++++++
-
-ROSSpy is installed in a command prompt, Powershell, Terminal, or Anaconda Command Prompt via ``pip``::
-
- pip install rosspy
-
-++++++++++++++++++++++
 ROSSPkg()
 ++++++++++++++++++++++
 

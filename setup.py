@@ -14,7 +14,7 @@ setup(
   package_data = {
 	'rosspy':['water_bodies/*','databases/*','processed_databases/*', 'test/*', 'test/*/*'],
   },
-  version = '0.0.19',
+  version = '0.0.20',
   license = license,
   description = "Software for predicting the brine and scaling consequences of RO desalination.", 
   long_description = readme,

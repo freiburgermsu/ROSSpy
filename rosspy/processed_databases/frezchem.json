@@ -79,131 +79,131 @@
     "minerals": {
         "Anhydrite": {
             "formula": "CaSO4",
-            "mass": 136.1406
+            "mass": "136.1"
         },
         "Antarcticite": {
             "formula": "CaCl2:6H2O",
-            "mass": 219.07568
+            "mass": "219.1"
         },
         "Aphthitalite": {
             "formula": "Na2SO4:3K2SO4",
-            "mass": 664.81974
+            "mass": "664.8"
         },
         "Aragonite": {
             "formula": "CaCO3",
-            "mass": 100.0869
+            "mass": "100.1"
         },
         "Arcanite": {
             "formula": "K2SO4",
-            "mass": 174.2592
+            "mass": "174.3"
         },
         "Bischofite": {
             "formula": "MgCl2:6H2O",
-            "mass": 203.30268
+            "mass": "203.3"
         },
         "Bloedite": {
             "formula": "Na2Mg(SO4)2:4H2O",
-            "mass": 334.47086
+            "mass": "334.5"
         },
         "Calcite": {
             "formula": "CaCO3",
-            "mass": 100.0869
+            "mass": "100.1"
         },
         "Carnallite": {
             "formula": "KMgCl3:6H2O",
-            "mass": 277.85398
+            "mass": "277.9"
         },
         "Dolomite": {
             "formula": "CaMg(CO3)2",
-            "mass": 124.3919
+            "mass": "124.4"
         },
         "Epsomite": {
             "formula": "MgSO4:7H2O",
-            "mass": 246.47456
+            "mass": "246.5"
         },
         "Gypsum": {
             "formula": "CaSO4:2H2O",
-            "mass": 172.17116000000001
+            "mass": "172.2"
         },
         "Halite": {
             "formula": "NaCl",
-            "mass": 58.44277
+            "mass": "58.44"
         },
         "Hexahydrite": {
             "formula": "MgSO4:6H2O",
-            "mass": 228.45927999999998
+            "mass": "228.5"
         },
         "Hydrohalite": {
             "formula": "NaCl:2H2O",
-            "mass": 94.47333
+            "mass": "94.47"
         },
         "Hydromagnesite": {
             "formula": "(MgCO3)3:Mg(OH)2:3H2O",
-            "mass": 365.30722
+            "mass": "365.3"
         },
         "Ikaite": {
             "formula": "CaCO3:6H2O",
-            "mass": 208.17858
+            "mass": "208.2"
         },
         "Kalicinite": {
             "formula": "KHCO3",
-            "mass": 100.11514
+            "mass": "100.1"
         },
         "Kieserite": {
             "formula": "MgSO4:H2O",
-            "mass": 138.38288
+            "mass": "138.4"
         },
         "Landsfordite": {
             "formula": "MgCO3:5H2O",
-            "mass": 174.3903
+            "mass": "174.4"
         },
         "Magnesite": {
             "formula": "MgCO3",
-            "mass": 84.31389999999999
+            "mass": "84.31"
         },
         "Meridianite": {
             "formula": "MgSO4:11H2O",
-            "mass": 318.53568
+            "mass": "318.5"
         },
         "Mirabilite": {
             "formula": "Na2SO4:10H2O",
-            "mass": 322.19494
+            "mass": "322.2"
         },
         "Nahcolite": {
             "formula": "NaHCO3",
-            "mass": 84.00661
+            "mass": "84.01"
         },
         "Natron": {
             "formula": "Na2CO3:10H2O",
-            "mass": 286.14124000000004
+            "mass": "286.1"
         },
         "Nesquehonite": {
             "formula": "MgCO3:3H2O",
-            "mass": 138.35974
+            "mass": "138.4"
         },
         "Picromerite": {
             "formula": "MgSO4:K2SO4:6H2O",
-            "mass": 402.71848
+            "mass": "402.7"
         },
         "Sylvite": {
             "formula": "KCl",
-            "mass": 74.5513
+            "mass": "74.55"
         },
         "Tachyhydrite": {
             "formula": "CaCl2:(MgCl2)2:12H2O",
-            "mass": 517.58936
+            "mass": "517.6"
         },
         "Thenardite": {
             "formula": "Na2SO4",
-            "mass": 142.04214
+            "mass": "142.0"
         },
         "Trona": {
             "formula": "Na3H(CO3)2:2H2O",
-            "mass": 226.02561
+            "mass": "226.0"
         },
         "Vaterite": {
             "formula": "CaCO3",
-            "mass": 100.0869
+            "mass": "100.1"
         }
     }
 }
