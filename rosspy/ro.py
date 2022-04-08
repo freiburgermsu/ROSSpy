@@ -16,10 +16,6 @@ import json, os, re
 def sigfigs_conversion(num, sigfigs_in = 2):
     return round(num, sigfigs=sigfigs_in, notation = 'sci', warn = False)
 
-elemental_masses = {}
-for element in periodic_table:
-    elemental_masses[element.symbol] = element.MW
-
 def time_determination(time):
     unit = 'seconds'
     if time > 600:
@@ -395,8 +391,7 @@ class ROSSPkg():
         undefined_elements = []
         for element, information2 in self.water_body['element'].items():
             self.parameters['solution_elements'].append(element)
-            conc = information2['concentration (ppm)']
-            self.predicted_effluent[element] = conc*self.cumulative_cf
+            self.predicted_effluent[element] = information2['concentration (ppm)']*self.cumulative_cf
             
             ref = ''
             if 'reference' in information2:
@@ -407,10 +402,10 @@ class ROSSPkg():
                 form = 'as {}'.format(information2['form'])
 
             if element in self.elements:                          
-                if len(str(conc)) <= 3:
-                    elements_lines.append(f'{element}\t\t{conc}\t{form}\t#{ref}')
+                if len(str(information2['concentration (ppm)'])) <= 3:
+                    elements_lines.append(f'{element}\t\t{information2["concentration (ppm)"]}\t{form}\t#{ref}')
                 else:
-                    elements_lines.append(f'{element}\t{conc}\t{form}\t#{ref}')
+                    elements_lines.append(f'{element}\t{information2["concentration (ppm)"]}\t{form}\t#{ref}')
             else:
                 undefined_elements.append(element)
         if undefined_elements != []:
@@ -734,8 +729,7 @@ class ROSSPkg():
         self._described_minerals()
                     
         # predict the effluent concentrations
-        water_molar_mass = 2*elemental_masses['H']+elemental_masses['O']
-        final_water_mass = water_mass - permeate_moles*water_molar_mass*milli
+        final_water_mass = water_mass - permeate_moles*self.water_mw*milli
         self.cumulative_cf = water_mass/final_water_mass
         for element in self.predicted_effluent:
             self.predicted_effluent[element] = self.predicted_effluent[element]*self.cumulative_cf
@@ -874,7 +868,7 @@ class ROSSPkg():
                                  
         # conducting the appropriate visualization function
         if self.parameters['simulation'] == 'brine':
-            self.processed_data = self._brine_plot(pyplot, title_font, label_font, export_format, x_label_number, export_name)
+            self.processed_data = self._brine_plot(title_font, label_font, export_format, x_label_number, export_name)
             csv_export_name = 'brine_concentrations.csv'
         elif self.parameters['simulation'] == 'scaling':
             self.processed_data = self._scaling_plot(title_font, label_font, x_label_number, export_name, export_format)
@@ -926,13 +920,12 @@ class ROSSPkg():
     
     def _ion_proportions(self):
         # calculate the mass of each scalant
-        chem_mw = chemw.ChemMW(printing = False)
         mineral_elements = {}
         for column in self.processed_data:                   
             mineral = re.search('([A-Za-z]+)', column).group()
             mineral_elements[mineral] = {}
-            chem_mw.mass(self.minerals[mineral]['formula'])
-            mineral_elements[mineral]['proportions'] = chem_mw.proportions
+            self.chem_mw.mass(self.minerals[mineral]['formula'])
+            mineral_elements[mineral]['proportions'] = self.chem_mw.proportions
 
         # calculate the precipitated mass of each element
         self.elemental_masses = {}
@@ -982,7 +975,7 @@ class ROSSPkg():
             raise ValueError(error)
             
                                  
-    def _brine_plot(self, pyplot, title_font, label_font, export_format, x_label_number, export_name, log_scale = True):
+    def _brine_plot(self, title_font, label_font, export_format, x_label_number, export_name, log_scale = True):
         """Generate plots of the elemental concentrations from effluent brine in the PHREEQC SELECTED_OUTPUT file"""
         # determine the minerals in the simulation      
         columns = []
@@ -990,14 +983,6 @@ class ROSSPkg():
             if re.search(r'([A-Z][a-z]?(?:\(\d\))?(?=\(mol\/kgw\)))', column) and not re.search('(_|H2O|pH)', column):
                 columns.append(column)
 
-        # parse the brine concentrations from the raw data
-        pyplot.figure(figsize = (17,10))
-        non_zero_elements = []
-        non_zero_columns = []
-        time = initial_solution_time = 0
-        data = {} 
-        concentration_serie = []
-        
         # plot parameters
         if self.parameters['domain'] == 'dual':
             if self.parameters['simulation_perspective'] == 'all_distance':
@@ -1009,79 +994,58 @@ class ROSSPkg():
         if self.parameters['simulation_perspective'] == 'all_distance':
             x_label = 'Distance (m)'
             if self.figure_title is None:
-                plotted_time = sigfigs_conversion(self.variables['final_time'] - initial_solution_time*self.parameters['timestep'])
-                self.figure_title = f'Brine concentrations along the module after {plotted_time} seconds'
+                self.figure_title = f'Brine concentrations along the module after {sigfigs_conversion(self.variables["final_time"])} seconds'
         elif self.parameters['simulation_perspective'] == 'all_time':
             x_label = 'Time (s)'
             if self.figure_title is None:
                 self.figure_title = 'Effluent brine concentration over time' 
         
-        predicted_effluent_concentrations = {}
+        pyplot.figure(figsize = (17,10))
+        non_zero_elements = []
+        non_zero_columns = []
+        data = {} 
+        insufficient_elements = set()
         for element in columns:
             data[element] = {}
             stripped_element = re.search(r'([A-Z][a-z]?(?:\(\d\))?(?=\(mol\/kgw\)))', element).group()
             if self.selected_output[element].iloc[-1] > 0: 
                 non_zero_elements.append(stripped_element)
                 non_zero_columns.append(element)
+                if max(self.selected_output[element]) < 1E-16:
+                    insufficient_elements.add(element)
                 
             concentration_serie = []
-            if self.parameters['simulation_perspective'] == 'all_time':
-                time_serie = []
-                insufficient_elements = set()
-                for index, row in self.selected_output.iterrows():
-                    if all(row[element] > 1e-16 for element in non_zero_columns):
-                        concentration_serie.append(row[element])
-                        time = sigfigs_conversion(row['time'], 3)
-                        time_serie.append(time) # - initial_solution_time * self.parameters['timestep'])
-                        data[element][time] = row[element]
-                    else:
-                        initial_solution_time += 1
-                        for element in non_zero_columns:
-                            if row[element] < 1e-16:
-                                insufficient_elements.add(element)
-                pyplot.plot(time_serie,concentration_serie)
-                                    
-            elif self.parameters['simulation_perspective'] == 'all_distance':
-                distance_serie = []
-                quantity_of_steps_index = 0
-                for index, row in self.selected_output.iterrows():
-                    if row['time'] == 0:            
-                        quantity_of_steps_index += 1                    
-                    elif self.selected_output.at[index-1,'soln'] == quantity_of_steps_index:   
-                        pyplot.plot(distance_serie,concentration_serie)
-                        concentration_serie.append(row[element])
-                        distance_serie.append(row['dist_x'])
-                    elif index == len(self.selected_output[element]) + 2:
-                        pyplot.plot(distance_serie,concentration_serie)
+            x_serie = []
+            for index, row in self.selected_output.iterrows():
+                time = float(sigfigs_conversion(row['time'], 3))
+                if self.parameters['simulation_perspective'] == 'all_time':
+                    if not all(row[element] > 1e-16 for element in non_zero_columns):
+                        continue
+                elif self.parameters['simulation_perspective'] == 'all_distance':
+                    if row['time'] == 0:       
+                        continue
+                concentration_serie.append(row[element])
+                x_serie.append(time)
+                data[element][time] = row[element]
                         
-                        # define the dataframe
-                        for x in distance_serie:
-                            sigfig_x = sigfigs_conversion(x, 3)
-                            index = distance_serie.index(x)
-                            data[element][sigfig_x] = concentration_serie[index]
-                    else:
-                        concentration_serie.append(row[element])
-                        distance_serie.append(row['dist_x'])       
+            pyplot.plot(x_serie,concentration_serie, label = stripped_element)
                         
         if self.parameters['simulation_perspective'] == 'all_time':
-            if len(time_serie) == 0:
+            if len(x_serie) == 0:
                 error = f'\n\nThe {insufficient_elements} elements remain below the 1E-16 Molal threshold, and thus the figure could not be constructed.'
                 self._error(error, 'index')
                         
         # define the brine plot
         if self.parameters['simulation_perspective'] == 'all_time':
             x_location = []
-            index_space = len(time_serie)/x_label_number
+            index_space = len(x_serie)/x_label_number
             for x in range(x_label_number):
                 index = int(index_space * x)
-                time = time_serie[index]
+                time = x_serie[index]
                 x_location.append(time)
-            x_location.append(time_serie[-1])
+            x_location.append(x_serie[-1])
             pyplot.xticks(x_location)
-        legend = non_zero_elements
-        legend_title = 'non-zero elements'
-        mineral = None
-        self._illustrate(pyplot, legend, legend_title, mineral, export_name, label_font, title_font, export_format, log_scale)
+        self._illustrate(pyplot, 'non-zero ions', export_name, label_font, title_font, export_format, log_scale)
 
         # defining the datatable of brine concentrations
         concentrations_table = pandas.DataFrame(data)
@@ -1099,12 +1063,9 @@ class ROSSPkg():
         def evaporation():
             scaling_data = pandas.DataFrame({})
             pyplot.figure(figsize = (17,10))
-            legend = []
-            data_length = len(self.selected_output['mass_H2O'])
             data = {}
             for mineral in self.variables['precipitated_minerals']: 
                 mineral_formula = self.minerals[mineral]['formula']
-                legend.append(legend_determination(0, mineral, mineral_formula))
                 data[f'{mineral} (g)'] = {}
                 cf_series = []        
                 scaling_series = []
@@ -1117,15 +1078,12 @@ class ROSSPkg():
                             cf_series.append(cf)   
                             data[f'{mineral} (g)'][float(sigfigs_conversion(cf, 6))] = scale_mass            
 
-                pyplot.plot(cf_series,scaling_series)
+                pyplot.plot(cf_series,scaling_series, label = f'{mineral} [{mineral_formula}]')
                 data_df = pandas.DataFrame(data)
                 scaling_data = scaling_data.merge(data_df, how = 'outer', left_index = True, right_index = True)
                     
-            legend_title = 'scale'
-            mineral = None
             if self.figure_title is None:
                 self.figure_title = 'Evaporation scaling from the {}'.format(self.parameters['water_selection'])                    
-            self._illustrate(pyplot, legend, legend_title, mineral, export_name, label_font, title_font, export_format, log_scale)
             return scaling_data
         
         def time_serie(mineral, mineral_formula, molar_mass_area):
@@ -1156,15 +1114,9 @@ class ROSSPkg():
             return data_df
             
         def distance_serie(mineral, mineral_formula, molar_mass_area):          
-            quantity_of_steps_index = 0   
             for index, row in self.selected_output.iterrows():
-                if row['time'] == 0:
-                    quantity_of_steps_index += 1
-                elif index == len(self.selected_output[mineral]) + 2:  
-                    scaling_serie.append(float(sigfigs_conversion(grams_area, 3)))
-                    x_serie.append(row['dist_x'])
-                else:
-                    grams_area = float(row[mineral])*molar_mass_area
+                grams_area = float(row[mineral])*molar_mass_area
+                if row['time'] != 0:
                     scaling_serie.append(float(sigfigs_conversion(grams_area, 3)))
                     x_serie.append(row['dist_x'])
                      
@@ -1212,9 +1164,7 @@ class ROSSPkg():
         # finalize the output data
         scaling_data = pandas.DataFrame({})
         pyplot.figure(figsize = (17,10))
-        legend = []
         for mineral in self.variables['precipitated_minerals']: 
-            legend_entries = []
             scaling_serie = []
             x_serie = []
             mineral_formula = self.minerals[mineral]['formula'] 
@@ -1234,7 +1184,7 @@ class ROSSPkg():
             self.figure_title = 'Scaling from the {} after {} {}'.format(self.parameters['water_selection'],sigfigs_conversion(time),units)
             
         mineral = None
-        self._illustrate(pyplot, 'scale', mineral, export_name, label_font, title_font, export_format, log_scale)
+        self._illustrate(pyplot, 'scale', export_name, label_font, title_font, export_format, log_scale)
         x_label, y_label = self._determine_labels()
         scaling_data.index.name = x_label
         return scaling_data
@@ -1259,8 +1209,8 @@ class ROSSPkg():
             x_label = 'Concentration Factor (CF)'
         return x_label, y_label
     
-    def _illustrate(self, pyplot, legend_title, mineral, export_name, label_font, title_font, export_format, log_scale):
-        def export_plot(figure, mineral = None, export_name = None, export_format = 'svg'):
+    def _illustrate(self, pyplot, legend_title, export_name, label_font, title_font, export_format, log_scale):
+        def export_plot(figure, export_name = None, export_format = 'svg'):
             if export_name is None:
                 # define the output name
                 if self.parameters['simulation'] == 'scaling':
@@ -1295,7 +1245,7 @@ class ROSSPkg():
         if self.printing:
             pyplot.show()
         if self.export_content:
-            export_plot(figure, mineral, export_name, export_format)
+            export_plot(figure, export_name, export_format)
 
     def test(self):
         self.reactive_transport(simulation_time = 200)

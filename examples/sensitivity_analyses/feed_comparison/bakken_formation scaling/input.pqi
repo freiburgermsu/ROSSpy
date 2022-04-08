@@ -117,7 +117,7 @@ REACTION 12
 
 
 SELECTED_OUTPUT
--file			2022-04-07-bakken_formation-transport-pitzer-scaling-0.txt
+-file			2022-04-08-bakken_formation-transport-pitzer-scaling-0.txt
 -reaction		true
 -temperature		true
 -totals			Mn B Cl Na S(6) Ca K Mg Sr Ba Li
