@@ -9,7 +9,7 @@ with open('LICENSE') as file:
     
 setup(
   name = 'ROSSpy',      
-  package_dir = {'core':'rosspy'},
+  package_dir = {'ro':'rosspy'},
   packages = find_packages(),
   package_data = {
 	'rosspy':['water_bodies/*','databases/*','processed_databases/*', 'test/*', 'test/*/*'],

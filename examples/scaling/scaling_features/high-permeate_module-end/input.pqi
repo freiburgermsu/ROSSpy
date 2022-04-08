@@ -3,10 +3,10 @@ TITLE	 None
 # C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scaling_features\high-permeate_module-end
 
 SOLUTION 0	red_sea
-temp 	 24.5 	 #average of Al-Taani et al., 2014 and Longinelli and Craig, 1967..
+temp 	 24.5 	 #.
 pH 		 8.22 #None
-pe 		 0.2679 	   #Al-Taani et al., 2014 // 4.00 is the default (?) // 4.00 is the default (?)
-Alkalinity 	 2 as CaCO3 #Sabine et al., 2002 as reported for the Indian Ocean
+pe 		 0.2679 	   # // 4.00 is the default (?)
+Alkalinity 	 2  #
 units 	 ppm
 Mn	0.000306		#Al-Taani et al., 2014 for the Northern Gulf of Aqaba
 Fe	0.006281		#Al-Taani et al., 2014 for the Northern Gulf of Aqaba
@@ -20,12 +20,12 @@ Mg	1646		#Abdel-Aal et al., 2015
 Sr		8.3		#Bernat, Church, and Allegre, 1972 from the Mediterranean
 Ba	0.011		#Bernat, Church, and Allegre, 1972 from the Mediterranean
 Li	0.228		#Stoffyn-Egli and Mackenzie, 1984 for the Mediterranean Sea
--water 	17.378153556381264
+-water 	13.171724160465171
 
 SOLUTION 1-12	Initial solution in the RO module
 temp 	 25
 units 	 ppm
--water 	17.378153556381264
+-water 	13.171724160465171
 
 EQUILIBRIUM_PHASES 1-12
 Anhydrite		0	0
@@ -72,40 +72,40 @@ Thenardite		0	0
 Teepleite		0	0
 
 REACTION 1
-	H2O -1; 66.87583199557938
+	H2O -1; 50.68751064323854
 
 REACTION 2
-	H2O -1; 66.2628035356199
+	H2O -1; 50.222875129008855
 
 REACTION 3
-	H2O -1; 65.64977507566041
+	H2O -1; 49.758239614779164
 
 REACTION 4
-	H2O -1; 65.03674661570093
+	H2O -1; 49.29360410054948
 
 REACTION 5
-	H2O -1; 64.42371815574147
+	H2O -1; 48.828968586319796
 
 REACTION 6
-	H2O -1; 63.81068969578199
+	H2O -1; 48.364333072090105
 
 REACTION 7
-	H2O -1; 63.19766123582251
+	H2O -1; 47.89969755786042
 
 REACTION 8
-	H2O -1; 62.58463277586303
+	H2O -1; 47.43506204363074
 
 REACTION 9
-	H2O -1; 61.971604315903555
+	H2O -1; 46.970426529401045
 
 REACTION 10
-	H2O -1; 61.358575855944075
+	H2O -1; 46.50579101517136
 
 REACTION 11
-	H2O -1; 60.745547395984595
+	H2O -1; 46.04115550094168
 
 REACTION 12
-	H2O -1; 60.13251893602512
+	H2O -1; 45.576519986711986
 # linear_permeate
 
     #Permeate efficiency parameter: 1
@@ -113,12 +113,12 @@ REACTION 12
     
     #Effluent module 1:
 #Estimated CF: 4.761E0
-#Estimated final water mass: 3.649820904184136
+#Estimated final water mass: 2.7663718144186835
 
 
 
 SELECTED_OUTPUT
--file			2022-01-21-red_sea-transport-pitzer-scaling-0.txt
+-file			2022-04-08-red_sea-transport-pitzer-scaling-0.txt
 -reaction		true
 -temperature		true
 -totals			Mn Fe B Cl Na S(6) Ca K Mg Sr Ba Li Zn Ni Cu Cd Co Pb
@@ -138,9 +138,9 @@ SELECTED_OUTPUT
 
 TRANSPORT
 -cells			12
--shifts			51
+-shifts			67
 -lengths		0.08466666666666667
--time_step		3.946329703005324	# this satisfies the Courant condition with a feed velocity of 2.575E-1 m/s
+-time_step		2.9911098509743295	# this satisfies the Courant condition with a feed velocity of 3.397E-1 m/s
 -initial_time		0
 -boundary_conditions	constant	flux 	 # Dirichlet and Cachy boundary conditions
 

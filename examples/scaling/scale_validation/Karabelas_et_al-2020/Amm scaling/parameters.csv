@@ -10,27 +10,16 @@
 8,simulation_time,200
 9,exchange_factor,100000.0
 10,simulation_perspective,all_distance
-11,module_diameter_mm,201
-12,permeate_tube_diameter_mm,29
-13,module_length_m,1.016
-14,permeate_flow_m3_per_hour,7.194400000000001
-15,max_feed_flow_m3_per_hour,10.5
-16,membrane_thickness_mm,0.00025
-17,feed_thickness_mm,0.8636
-18,active_m2,37
-19,permeate_thickness_mm,0.3
-20,polysulfonic_layer_thickness_mm,0.05
-21,support_layer_thickness_mm,0.15
-22,repeated_membrane_winding_mm,1.5641
-23,cells_per_module,12
-24,active_m2_cell,3.0833333333333335
-25,timestep,5.9758706931223475
-26,permeate_moles_per_cell,55.07907641172635
-27,permeate_approach,linear_permeate
-28,water_selection,waterwater
-29,solution_elements,"['Li', 'Na', 'Mg', 'Ca', 'K', 'Mn', 'Fe', 'Co', 'Cu', 'S(6)', 'Cl', 'F', 'N(5)', 'Ba', 'B', 'Sr', 'Si', 'C(4)']"
-30,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\Amm scaling\input.pqi
-31,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\Amm scaling\selected_output.csv
-32,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\Amm scaling
-33,selected_output_file_name,2022-03-03-waterwater-transport-Amm-scaling-0.txt
-34,individual_plots,False
+11,repeated_membrane_winding_mm,2.0636
+12,cells_per_module,12
+13,active_m2_cell,3.0833333333333335
+14,timestep,4.529394917189698
+15,permeate_moles_per_cell,41.74698961792996
+16,permeate_approach,linear_permeate
+17,water_selection,brackish-water
+18,solution_elements,"['Li', 'Na', 'Mg', 'Ca', 'K', 'Mn', 'Fe', 'Co', 'Cu', 'S(6)', 'Cl', 'F', 'N(5)', 'Ba', 'B', 'Sr', 'Si', 'C(4)']"
+19,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\Amm scaling\input.pqi
+20,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\Amm scaling\selected_output.csv
+21,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\Amm scaling
+22,selected_output_file_name,2022-04-07-brackish-water-transport-Amm-scaling-0.txt
+23,individual_plots,False
