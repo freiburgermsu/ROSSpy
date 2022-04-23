@@ -1,7 +1,7 @@
 ,variable,value
 0,described_minerals,{}
-1,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\existing_input\2022-04-08-ROSSpy-North_German_Basin-transport-pitzer-scaling-all_distance-LinPerm
-2,run_time (s),4.695454699999999
+1,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\existing_input\2022-04-22-ROSSpy-North_German_Basin-transport-pitzer-scaling-all_distance-LinPerm
+2,run_time (s),3.495183799881488
 3,initial_solution_mass,1.3214510668596002
 4,final_solution_mass,1.295635407866986
 5,simulation_cf,1.0199250953129744

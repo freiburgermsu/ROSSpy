@@ -1,6 +1,6 @@
+# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\pitzer scaling
 DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
 TITLE	 None
-# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\pitzer scaling
 
 SOLUTION 0	brackish-water
 
@@ -8,17 +8,17 @@ pH 		 6.8 #
 
 Alkalinity 	 192.7  #
 units 	 ppm
-Li	0.04		#
+Li		0.04		#
 Na		701		#
 Mg		96		#
 Ca		250		#
 K		34		#
-Mn	0.09		#
+Mn		0.09		#
 Fe		9.8		#
-S(6)	433.8	as SO4	#
-Cl	1400		#
-Ba	0.05		#
-B	0.55		#
+S(6)		433.8	as SO4	#
+Cl		1400		#
+Ba		0.05		#
+B		0.55		#
 Sr		6.2		#
 Si		26	as SiO2	#
 C(4)		0.2	as CO3	#
@@ -74,77 +74,78 @@ Thenardite		0	0
 Teepleite		0	0
 
 REACTION 1
-	H2O -1; 44.17670859040207
+	H2O -1; 43.944199597821026
 
 REACTION 2
-	H2O -1; 43.77175542832339
+	H2O -1; 43.57799793450585
 
 REACTION 3
-	H2O -1; 43.366802266244704
+	H2O -1; 43.21179627119068
 
 REACTION 4
-	H2O -1; 42.96184910416601
+	H2O -1; 42.8455946078755
 
 REACTION 5
-	H2O -1; 42.55689594208733
+	H2O -1; 42.479392944560324
 
 REACTION 6
-	H2O -1; 42.151942780008646
+	H2O -1; 42.11319128124515
 
 REACTION 7
-	H2O -1; 41.746989617929955
+	H2O -1; 41.74698961792998
 
 REACTION 8
-	H2O -1; 41.34203645585127
+	H2O -1; 41.3807879546148
 
 REACTION 9
-	H2O -1; 40.93708329377259
+	H2O -1; 41.01458629129963
 
 REACTION 10
-	H2O -1; 40.532130131693904
+	H2O -1; 40.648384627984456
 
 REACTION 11
-	H2O -1; 40.12717696961522
+	H2O -1; 40.282182964669275
 
 REACTION 12
-	H2O -1; 39.72222380753653
+	H2O -1; 39.9159813013541
 # linear_permeate
 
-    #Permeate efficiency parameter: 1
-    #Effluent relative pressure: 0.89
+    #Permeate efficiency parameter: 100%
+    #Effluent relative pressure: 90.0%
     
     #Effluent module 1:
-#Estimated CF: 3.210E0
-#Estimated final water mass: 4.102937539493671
+#Estimated CF: 3.207E0
+#Estimated final water mass: 4.107126258747714
 
 
 
 SELECTED_OUTPUT
--file			2022-04-08-brackish-water-transport-pitzer-scaling-0.txt
+-file		2022-04-22-brackish-water-transport-pitzer-scaling-0.txt
 -reaction		true
--temperature		true
--totals			Li Na Mg Ca K Mn Fe Co Cu S(6) Cl F N(5) Ba B Sr Si C(4)
+-temperature	true
+-totals		Li Na Mg Ca K Mn Fe Co Cu S(6) Cl F N(5) Ba B Sr Si C(4)
 -saturation_indices	Anhydrite Aragonite Arcanite Artinite Barite Bischofite Bloedite Brucite Burkeite Calcite Carnallite Celestite Dolomite Epsomite Gaylussite Glaserite Glauberite Goergeyite Gypsum Halite Hexahydrite Huntite Kainite Kieserite Labile_S Leonhardite Leonite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Polyhalite Portlandite Schoenite Sylvite Syngenite Thenardite Teepleite
 -equilibrium_phases	Anhydrite Aragonite Arcanite Artinite Barite Bischofite Bloedite Brucite Burkeite Calcite Carnallite Celestite Dolomite Epsomite Gaylussite Glaserite Glauberite Goergeyite Gypsum Halite Hexahydrite Huntite Kainite Kieserite Labile_S Leonhardite Leonite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Polyhalite Portlandite Schoenite Sylvite Syngenite Thenardite Teepleite
 -pH			true
--time			true
+-alkalinity	true
+-solution
+-time		true
 -distance		true
 -simulation		true
 -high_precision	true
--alkalinity	true
--solution
 -charge_balance	true
 -ionic_strength	true
 -step
 -water
+        
 
 TRANSPORT
 -cells			12
--shifts			45
+-shifts			530
 -lengths		0.08466666666666667
--time_step		4.529394917189698	# this satisfies the Courant condition with a feed velocity of 2.243E-1 m/s
+-time_step		0.3774495764324749	# this satisfies the Courant condition with a feed velocity of 2.243E-1 m/s
 -initial_time		0
--boundary_conditions	constant	flux 	 # Dirichlet and Cachy boundary conditions
+-boundary_conditions	constant	flux 	 # Dirichlet and Cachy boundary conditions, respectively
 
 -punch_cells		1-12
--punch_frequency	45
+-punch_frequency	530

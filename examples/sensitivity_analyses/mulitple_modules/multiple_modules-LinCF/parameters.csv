@@ -1,0 +1,25 @@
+,parameter,value
+0,os,windows
+1,root_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
+2,database_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+3,database_selection,pitzer
+4,quantity_of_modules,5
+5,simulation_type,transport
+6,simulation,brine
+7,domain,single
+8,simulation_time,75
+9,exchange_factor,100000.0
+10,simulation_perspective,all_time
+11,repeated_membrane_winding_mm,2.0636
+12,cells_per_module,12
+13,active_m2_cell,3.0833333333333335
+14,timestep,0.5
+15,permeate_moles_per_cell,1.0678149557488599
+16,simulated_cells,60
+17,permeate_approach,linear_cf
+18,water_selection,Hajbi
+19,solution_elements,"['Ca', 'Mg', 'Na', 'Sr', 'Cl', 'S(6)', 'Fe']"
+20,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\mulitple_modules\multiple_modules-LinCF\input.pqi
+21,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\mulitple_modules\multiple_modules-LinCF\selected_output.csv
+22,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\mulitple_modules\multiple_modules-LinCF
+23,selected_output_file_name,2022-04-22-Hajbi-transport-pitzer-brine-0.txt

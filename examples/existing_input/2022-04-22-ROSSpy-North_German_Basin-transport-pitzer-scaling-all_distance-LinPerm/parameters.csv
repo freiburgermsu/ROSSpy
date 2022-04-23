@@ -1,0 +1,23 @@
+,parameter,value
+0,os,windows
+1,root_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
+2,database_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+3,database_selection,pitzer
+4,quantity_of_modules,1
+5,simulation_type,transport
+6,simulation,scaling
+7,domain,dual
+8,permeate_approach,linear_permeate
+9,water_selection,North German Basin
+10,solution_elements,['H']
+11,domain_phase,Immobile
+12,selected_output_file_name,2022-04-22-North German Basin-transport-pitzer-scaling-0.txt
+13,cells_per_module,12.0
+14,timestep,0.3000636
+15,simulation_time,7.2015264
+16,simulation_perspective,all_distance
+17,active_m2,37
+18,active_m2_cell,3.0833333333333335
+19,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\existing_input\2022-04-22-ROSSpy-North_German_Basin-transport-pitzer-scaling-all_distance-LinPerm\input.pqi
+20,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\existing_input\2022-04-22-ROSSpy-North_German_Basin-transport-pitzer-scaling-all_distance-LinPerm\selected_output.csv
+21,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\existing_input\2022-04-22-ROSSpy-North_German_Basin-transport-pitzer-scaling-all_distance-LinPerm
