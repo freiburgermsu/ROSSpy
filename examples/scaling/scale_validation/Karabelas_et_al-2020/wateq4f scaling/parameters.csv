@@ -9,17 +9,18 @@
 7,domain,single
 8,simulation_time,200
 9,exchange_factor,100000.0
-10,simulation_perspective,all_distance
-11,repeated_membrane_winding_mm,2.0636
-12,cells_per_module,12
-13,active_m2_cell,3.0833333333333335
-14,timestep,0.3774495764324749
-15,permeate_moles_per_cell,41.74698961792997
-16,simulated_cells,12
-17,permeate_approach,linear_permeate
-18,water_selection,brackish-water
-19,solution_elements,"['Li', 'Na', 'Mg', 'Ca', 'K', 'Mn', 'Fe', 'Co', 'Cu', 'S(6)', 'Cl', 'F', 'N(5)', 'Ba', 'B', 'Sr', 'Si', 'C(4)']"
-20,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\wateq4f scaling\input.pqi
-21,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\wateq4f scaling\selected_output.csv
-22,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\wateq4f scaling
-23,selected_output_file_name,2022-04-23-brackish-water-transport-wateq4f-scaling-0.txt
+10,coarse_timestep,False
+11,simulation_perspective,all_distance
+12,repeated_membrane_winding_mm,2.0636
+13,cells_per_module,12
+14,active_m2_cell,3.0833333333333335
+15,timestep,0.3774495764324749
+16,permeate_moles_per_cell,41.74698961792997
+17,simulated_cells,12
+18,permeate_approach,linear_permeate
+19,water_selection,brackish-water
+20,solution_elements,"['Li', 'Na', 'Mg', 'Ca', 'K', 'Mn', 'Fe', 'Co', 'Cu', 'S(6)', 'Cl', 'F', 'N(5)', 'Ba', 'B', 'Sr', 'Si', 'C(4)']"
+21,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\wateq4f scaling\input.pqi
+22,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\wateq4f scaling\selected_output.csv
+23,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\wateq4f scaling
+24,selected_output_file_name,2022-04-23-brackish-water-transport-wateq4f-scaling-0.txt

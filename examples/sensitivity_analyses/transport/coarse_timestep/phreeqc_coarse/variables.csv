@@ -1,0 +1,17 @@
+,variable,value
+0,cell_meters,0.08466666666666667
+1,feed_cubic_meters,0.013210735175136622
+2,feed_kg,13.171724160465171
+3,feed_moles,731.1409835231815
+4,Reynold's number,41.35236216247399
+5,feed_kg_cell,1.0976436800387643
+6,feed_moles_cell,60.928415293598455
+7,module 0,"{'cf': 3.2070414520154795, 'permeate (moles/cell)': -0.36620166331517484}"
+8,described_minerals,"{'Calcite': {'formula': 'CaCO3', 'mass': '100'}, 'Aragonite': {'formula': 'CaCO3', 'mass': '100'}, 'Dolomite': {'formula': 'CaMg(CO3)2', 'mass': '120'}, 'Siderite': {'formula': 'FeCO3', 'mass': '120'}, 'Rhodochrosite': {'formula': 'MnCO3', 'mass': '110'}, 'Strontianite': {'formula': 'SrCO3', 'mass': '150'}, 'Witherite': {'formula': 'BaCO3', 'mass': '200'}, 'Gypsum': {'formula': 'CaSO4:2H2O', 'mass': '170'}, 'Anhydrite': {'formula': 'CaSO4', 'mass': '140'}, 'Celestite': {'formula': 'SrSO4', 'mass': '180'}, 'Barite': {'formula': 'BaSO4', 'mass': '230'}, 'Fluorite': {'formula': 'CaF2', 'mass': '78'}, 'Pyrochroite': {'formula': 'Mn(OH)2', 'mass': '72'}, 'Halite': {'formula': 'NaCl', 'mass': '58'}, 'Sylvite': {'formula': 'KCl', 'mass': '75'}, 'Melanterite': {'formula': 'FeSO4:7H2O', 'mass': '280'}}"
+9,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\coarse_timestep\phreeqc_coarse
+10,run_time (s),2.785580800000389
+11,initial_solution_mass,13.171724160465171
+12,final_solution_mass,4.346610519422439
+13,simulation_cf,3.0303437820362564
+14,final_time,203.82277127353643
+15,precipitated_minerals,"{'Calcite': {'formula': 'CaCO3', 'mass': '100'}, 'Siderite': {'formula': 'FeCO3', 'mass': '120'}, 'Barite': {'formula': 'BaSO4', 'mass': '230'}}"

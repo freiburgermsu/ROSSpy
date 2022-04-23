@@ -1,8 +1,7 @@
-from scipy.constants import nano, kilo, milli, centi, liter, minute, day, hour
+from scipy.constants import kilo, milli, centi, liter, minute, day, hour
 from chempy.properties.water_density_tanaka_2001 import water_density
-from chemicals import periodic_table
 from numpy import array, log10, seterr
-from math import pi, exp, ceil, inf
+from math import pi, ceil, inf
 from collections import OrderedDict
 from matplotlib import pyplot 
 from itertools import chain
@@ -49,12 +48,8 @@ def isnumber(num):
 class ROSSPkg():
     def __init__(self, database_selection, simulation = 'scaling', simulation_type = 'transport', operating_system = 'windows',  export_content = True, domain_phase = None, quantity_of_modules = 1, simulation_title = None, verbose = False, printing = True, jupyter = False):      
         # establish the general organization structures and values
-        self.parameters, self.variables, self.results = {}, {}, {}
-        self.results['figures'] = {}
-        self.printing = printing
-        self.verbose = verbose
-        self.jupyter = jupyter
-        self.export_content = export_content
+        self.parameters, self.variables, self.results, self.results['figures'] = {}, {}, {}, {}
+        self.printing, self.verbose, self.jupyter, self.export_content = printing, verbose, jupyter, export_content
         self.figure_title = None
         
         # define calculation values
@@ -111,11 +106,10 @@ class ROSSPkg():
         self.elements = database['elements']
         self.minerals = database['minerals']
 
-    def _transport(self, simulation_time, simulation_perspective = None, module_characteristics = {}, ro_module = 'BW30-400', cells_per_module = 12, kinematic_flow_velocity = None, exchange_factor = 1e5):
+    def _transport(self, simulation_time, simulation_perspective = None, module_characteristics = {}, ro_module = 'BW30-400', cells_per_module = 12, coarse_timestep = True, kinematic_flow_velocity = None, exchange_factor = 1e5):
         '''Define the TRANSPORT block'''
-        self.parameters['simulation_time'] = simulation_time
-        self.parameters['exchange_factor'] = exchange_factor
-        self.parameters['simulation_perspective'] = simulation_perspective
+        self.parameters['simulation_time'], self.parameters['exchange_factor'] = simulation_time, exchange_factor
+        self.parameters['coarse_timestep'], self.parameters['simulation_perspective'] = coarse_timestep, simulation_perspective
         if self.parameters['simulation_perspective'] is None:
             if self.parameters['simulation'] == 'scaling':
                 self.parameters['simulation_perspective'] = 'all_distance'
@@ -160,9 +154,11 @@ class ROSSPkg():
 
         # calculate module cell characteristics
         self.variables['feed_kg_cell'] = self.variables['feed_kg'] / self.parameters['cells_per_module']   
-        self.variables['feed_moles_cell'] = self.variables['feed_moles'] / self.parameters['cells_per_module']   
-        self.parameters['timestep'] = self.variables['cell_meters']/feed_velocity
-        self.parameters['permeate_moles_per_cell'] = self.ro_module['permeate_flow_m3_per_hour']['value']/hour/liter * self.water_gL/self.water_mw * self.parameters['timestep']     #moles/cell
+        self.variables['feed_moles_cell'] = self.variables['feed_moles'] / self.parameters['cells_per_module']  
+        self.parameters['timestep'] = self.ro_module['module_length_m']['value']/feed_velocity
+        if not self.parameters['coarse_timestep']:
+            self.parameters['timestep'] = self.variables['cell_meters']/feed_velocity
+        self.parameters['permeate_moles_per_cell'] = self.ro_module['permeate_flow_m3_per_hour']['value']/hour/liter * self.water_gL/self.water_mw * self.variables['cell_meters']/feed_velocity     #moles/cell
         
         # exit the function for evaporation simulations
         self.results['transport_block'] = []
@@ -347,8 +343,8 @@ class ROSSPkg():
                 print('moles_removed', moles_removed)
 
                 
-    def reactive_transport(self, simulation_time, simulation_perspective = None, final_cf = None, module_characteristics = {}, ro_module = 'BW30-400', permeate_efficiency = 1, head_loss = 0.1, evaporation_steps = 15, cells_per_module = 12, kinematic_flow_velocity = None, exchange_factor = 1e5):
-        self._transport(simulation_time, simulation_perspective, module_characteristics, ro_module, cells_per_module, kinematic_flow_velocity, exchange_factor)
+    def reactive_transport(self, simulation_time, simulation_perspective = None, final_cf = None, module_characteristics = {}, ro_module = 'BW30-400', permeate_efficiency = 1, head_loss = 0.1, evaporation_steps = 15, cells_per_module = 12, coarse_timestep = True, kinematic_flow_velocity = None, exchange_factor = 1e5):
+        self._transport(simulation_time, simulation_perspective, module_characteristics, ro_module, cells_per_module, coarse_timestep, kinematic_flow_velocity, exchange_factor)
         self._reaction(final_cf, permeate_efficiency, head_loss, evaporation_steps)
 
                        
@@ -761,9 +757,11 @@ SELECTED_OUTPUT
                 input.write(self.input_file)
           
         # communicate estimated completion to the user
-        estimated_time = (self.parameters['simulation_time']/12)**(self.parameters['quantity_of_modules']/2)*1.0004936**self.parameters['simulation_time'] + 5*self.parameters['quantity_of_modules']
+        estimated_time = (self.parameters['simulation_time']/(2*self.parameters['timestep'])) + 10*(self.parameters['quantity_of_modules'])
         if self.parameters['database_selection'] == 'sit':
-            estimated_time *= 7
+            estimated_time *= 14
+        if self.parameters['coarse_timestep']:
+            estimated_time /= 6
         estimated_completion = datetime.datetime.now() + datetime.timedelta(seconds = estimated_time)
         estimated_time, unit = time_determination(estimated_time)
         print(f'\nEstimated completion in {estimated_time} {unit}: {estimated_completion} local time.')

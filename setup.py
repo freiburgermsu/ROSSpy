@@ -14,13 +14,13 @@ setup(
   package_data = {
 	'rosspy':['water_bodies/*','databases/*','processed_databases/*', 'test/*', 'test/*/*'],
   },
-  version = '0.0.20',
+  version = '0.1.0',
   license = license,
-  description = "Software for predicting the brine and scaling consequences of RO desalination.", 
+  description = "Software for predicting the brine concentrations and scaling quantities after RO desalination.", 
   long_description = readme,
   author = 'Andrew Freiburger',               
   author_email = 'andrewfreiburger@gmail.com',
   url = 'https://github.com/freiburgermsu/ROSS',   
   keywords = ['desalination', 'reactive transport', 'geochemistry', 'sustainability', 'civil engineering', 'fluid mechanics'],
-  install_requires = ['matplotlib', 'chemicals', 'chempy', 'scipy', 'chemw', 'pubchempy', 'pandas', 'phreeqpy', 'sigfig']
+  install_requires = ['matplotlib', 'chempy', 'scipy', 'chemw', 'pubchempy', 'pandas', 'phreeqpy', 'sigfig']
 )
