@@ -31,6 +31,7 @@ MANIFEST
 
 # organization content
 images/
+virtual_env/
 
 # Sphinx documentation
 docs/_build/

@@ -1,5 +1,5 @@
 from scipy.constants import nano, milli
-from sigfig import round
+import sigfig 
 import rosspy
 import pandas
 import shutil, os, re
@@ -12,17 +12,39 @@ def isnumber_type(obj):
 # standard test conditions
 simulation_time = 100
 module_characteristics = {
-    'module_diameter_mm':160,
-    'permeate_tube_diameter_mm':9,  
-    'module_length_m':1,  
-    'permeate_flow_m3_per_hour':45,   
-    'max_feed_flow_m3_per_hour':10,
-    'membrane_thickness_mm':300 * (nano / milli),  
-    'feed_thickness_mm':0.98,
-    'active_m2':34,
-    'permeate_thickness_mm':0.31,
-    'polysulfonic_layer_thickness_mm':0.05,     
-    'support_layer_thickness_mm':0.15
+    'module_diameter_mm': {
+        'value':160
+        },
+    'permeate_tube_diameter_mm':{
+            'value':9
+            },  
+    'module_length_m':{
+            'value':1
+            },  
+    'permeate_flow_m3_per_hour':{
+            'value':45
+            },   
+    'max_feed_flow_m3_per_hour':{
+            'value':10
+            },
+    'membrane_thickness_mm':{
+            'value':300 * (nano / milli)
+            },  
+    'feed_thickness_mm':{
+            'value':0.98
+            },
+    'active_m2':{
+            'value':34
+            },
+    'permeate_thickness_mm':{
+            'value':0.31
+            },
+    'polysulfonic_layer_thickness_mm':{
+            'value':0.05
+            },     
+    'support_layer_thickness_mm':{
+            'value':0.15
+            }
 }   
     
 def test_init():
@@ -40,8 +62,8 @@ def test_init():
     for lis in [ross.databases, ross.feed_sources,ross.results['general_conditions']]:
         assert type(lis) is list
         
-    assert int(round(ross.water_gL, 2)) == 1.0e3
-    assert ross.water_mw == 18.01528
+    assert int(sigfig.round(ross.water_gL, 2)) == 1.0e3
+    assert ross.water_mw == 18.0153
     assert isnumber_type(ross.parameters['quantity_of_modules'])
     
     for param in ['os', 'simulation_type', 'simulation', 'simulation_type', 'domain', 'database_selection']:
@@ -59,9 +81,9 @@ def test_reactive_transport():
 
     # affirm qualities of the simulation
     for param in ['module_diameter_mm', 'permeate_tube_diameter_mm', 'module_length_m', 'permeate_flow_m3_per_hour', 'max_feed_flow_m3_per_hour', 'membrane_thickness_mm', 'feed_thickness_mm', 'active_m2', 'permeate_thickness_mm', 'polysulfonic_layer_thickness_mm', 'support_layer_thickness_mm']:
-        assert ross.parameters[param] == module_characteristics[param]   
+        assert ross.ro_module[param] == module_characteristics[param]   
 
-    for param in ['simulation_time', 'exchange_factor', 'module_diameter_mm', 'permeate_tube_diameter_mm', 'module_length_m', 'permeate_flow_m3_per_hour', 'max_feed_flow_m3_per_hour', 'membrane_thickness_mm', 'feed_thickness_mm', 'active_m2', 'permeate_thickness_mm', 'polysulfonic_layer_thickness_mm', 'support_layer_thickness_mm', 'repeated_membrane_winding_mm', 'cells_per_module', 'active_m2_cell', 'timestep', 'permeate_moles_per_cell']:
+    for param in ['repeated_membrane_winding_mm', 'simulation_time', 'exchange_factor', 'cells_per_module', 'active_m2_cell', 'timestep', 'permeate_moles_per_cell']:
         assert isnumber_type(ross.parameters[param])
 
     for var in ['cell_meters', 'feed_cubic_meters', 'feed_kg', 'feed_moles', 'Reynold\'s number', 'feed_kg_cell', 'feed_moles_cell']:
@@ -139,7 +161,7 @@ def test_parse_input():
         
     shutil.rmtree(ross.simulation_path)      
 
-def test_all_distance_brine():
+def test_all_distance_brine(): #!!! This displays an erroneous plot and x-axis domain
     water_selection = 'michigan_basin'
     simulation = 'brine'
     simulation_perspective = 'all_distance'
@@ -178,7 +200,6 @@ def test_all_time_brine():
     shutil.rmtree(ross.simulation_path) 
 
 def test_all_distance_scaling():
-    database_selection = 'pitzer'
     water_selection = 'michigan_basin'
     
     ross = rosspy.ROSSPkg('pitzer', verbose = False)    
@@ -208,7 +229,7 @@ def test_all_time_scaling():
     for var in ['initial_solution_mass', 'final_solution_mass', 'simulation_cf', 'final_time']:
         assert ross.variables[var]
 
-    for file in ['Barite.svg', 'Halite.svg', 'input.pqi', 'parameters.csv', 'scaling_data.csv', 'selected_output.csv', 'variables.csv', 'effluent_predictions.csv', 'scale_ions.json']:
+    for file in ['all_minerals.svg', 'input.pqi', 'parameters.csv', 'scaling_data.csv', 'selected_output.csv', 'variables.csv', 'effluent_predictions.csv', 'scale_ions.json']:
         assert os.path.exists(os.path.join(ross.simulation_path, file))
         
     shutil.rmtree(ross.simulation_path) 

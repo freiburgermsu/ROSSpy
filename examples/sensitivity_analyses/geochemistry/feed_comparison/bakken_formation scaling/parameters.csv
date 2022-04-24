@@ -9,16 +9,18 @@
 7,domain,single
 8,simulation_time,200
 9,exchange_factor,100000.0
-10,simulation_perspective,all_distance
-11,repeated_membrane_winding_mm,2.0636
-12,cells_per_module,12
-13,active_m2_cell,3.0833333333333335
-14,timestep,2.9911098509743295
-15,permeate_moles_per_cell,6.387903666316266
-16,permeate_approach,linear_permeate
-17,water_selection,bakken_formation
-18,solution_elements,"['Mn', 'B', 'Cl', 'Na', 'S(6)', 'Ca', 'K', 'Mg', 'Sr', 'Ba', 'Li']"
-19,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\feed_comparison\bakken_formation scaling\input.pqi
-20,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\feed_comparison\bakken_formation scaling\selected_output.csv
-21,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\feed_comparison\bakken_formation scaling
-22,selected_output_file_name,2022-04-08-bakken_formation-transport-pitzer-scaling-0.txt
+10,coarse_timestep,True
+11,simulation_perspective,all_distance
+12,repeated_membrane_winding_mm,2.0636
+13,cells_per_module,12
+14,active_m2_cell,3.0833333333333335
+15,timestep,2.9911098509743295
+16,permeate_moles_per_cell,6.387903666316266
+17,simulated_cells,12
+18,permeate_approach,linear_permeate
+19,water_selection,bakken_formation
+20,solution_elements,"['Mn', 'B', 'Cl', 'Na', 'S(6)', 'Ca', 'K', 'Mg', 'Sr', 'Ba', 'Li']"
+21,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\feed_comparison\bakken_formation scaling\input.pqi
+22,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\feed_comparison\bakken_formation scaling\selected_output.csv
+23,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\feed_comparison\bakken_formation scaling
+24,selected_output_file_name,2022-04-23-bakken_formation-transport-pitzer-scaling-0.txt

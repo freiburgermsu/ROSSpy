@@ -1,13 +1,12 @@
 ROSSpy parameter files
 -----------------------
 
-Module parameters may be more succinctly provided through JSON files, which are automatically imported by the code, than through function arguments; although, the function arguments can complement parameters from these JSON files. Each JSON file pertains to a distinct category of simulation parameters, which are individually detailed in the following sections.
-
+Simulation parameters may be more succinctly provided through JSON files, which are imported by the code through identified function arguments, than through dictionaries that are passed as function arguments. Argument parameters can be used synergistically by supplanting specific characteristics that are different in the parameter files. 
 
 ro_module
 +++++++++++
 
-The dimensions and specifications of the simulated RO module can be provided through the ``ro_module.json`` file, in addition to module characteristics that are provided through the dictionary argument of the function. The default entries of this file reflect the DOW FILMTEC BW30-400 RO module; however, other modules can be defined in this file by emulating the structure and content of the default entry in the file. Each characteristic of the RO module is expressed with the respective units in its key name of the JSON file.
+The RO module characteristics can be provided through ``ro_module.json``. The default entry embodies the DOW FILMTEC BW30-400 RO module; however, other modules can be defined by emulating the structure of the default entry, where each characteristic possesses the respective units in the key name:
 
 .. code-block:: json
 
@@ -52,19 +51,19 @@ The dimensions and specifications of the simulated RO module can be provided thr
 - *module_diameter_mm* ``dict``: specifies the total diameter of the RO module.
 - *permeate_tube_diameter_mm* ``dict``: specifies the diameter of the permeate tube within the RO module.
 - *module_length_m* ``dict``: specifies the total length of the RO module.
-- *permeate_flow_m3_per_hour* & *max_feed_flow_m3_per_hour* ``dict``: specifies the flow of permeate and the maximum flow of feed through the RO module.
-- *feed_thickness_mm* ``dict``: defines the thickness of the feed spacer through which the feed solution passes in the RO module.
-- *active_m2* ``dict``: defines the total, cumulative, filtration area of the RO module.
+- *permeate_flow_m3_per_hour* & *max_feed_flow_m3_per_hour* ``dict``: specify the permeate and maximum feed flows through the RO module.
+- *feed_thickness_mm* ``dict``: defines the thickness of the feed spacer through which the feed passes.
+- *active_m2* ``dict``: defines the total filtration area of the RO module.
 - *permeate_thickness_mm* ``dict``: defines the thickness of the permeate spacer.
-- *membrane_thickness_mm* & *polysulfonic_layer_thickness_mm* & *support_layer_thickness_mm* ``dict``: define the thickensses of each layer in the composite filtration membrane: the polyamide layer that filters the feed, and the polysulfonic and support layers that provide resiliency to the membrane structure.
+- *membrane_thickness_mm* & *polysulfonic_layer_thickness_mm* & *support_layer_thickness_mm* ``dict``: define the thickensses of each layer in the composite filtration membrane: the polyamide layer that filters the feed, and the polysulfonic and support layers that provide resiliency to the membrane structure, respectively.
 		
-Other key:value pairs may be introduced alongside the ``value`` key to store metadata about the parameterized module:
+Other key:value sub-dictionaries may be introduced as metadata for the parameters.
 
 
 water_bodies
 +++++++++++++
  
-The feed geochemistry of the simulated water source may be defined through a JSON file, in the ``water_bodies`` folder within the ``rosspy`` package directory, in addition to defining module characteristics via the dictionary argument of the ``feed_geochemistry`` function. The default files in this folder embody curated experimental data from both natural and produced water sources; however, other water sources can be defined by emulating the structure and content of the default file options. Each characteristic of the RO module is expressed with the respective units in its key name of the JSON file.
+The feed geochemistry may be defined as a parameter file, in the ``water_bodies`` folder within the ``rosspy`` package directory, that supplements feed characteristics as a dictionary through the ``feed_geochemistry`` function. The default files in this folder embody curated experimental data from both natural and produced water sources, which can be emulated for constructing files for other water sources, which each characteristic is expressed with the respective units in its key name:
       
 .. code-block:: json
 		
@@ -138,5 +137,5 @@ The feed geochemistry of the simulated water source may be defined through a JSO
     }
  } 
 	  
-- *element* ``dict``: specifies all of the elements that are present in the simulated water source, with sub-dictionaries of their concentrations and metadata. Some of these elements will not be amenable with some databases, nevertheless, the elements can be parameterized and the ROSSpy code will not simulate these elements.
-- *temperature (C)*, *pe*, *Alkalinity*, & *pH* ``dict``: specify conditions and characteristics of the feed solution, with sub-directories of their respective value, chemical form where it is applicable, and metadata.
+- *element* ``dict``: specifies all of the elements that are present in the feed, with sub-dictionaries of their concentrations and metadata. Some of these elements will not be amenable with some databases, which ROSSpy will simply ignore when defining the input file for an incompatible database.
+- *temperature (C)*, *pe*, *Alkalinity*, & *pH* ``dict``: specify conditions and characteristics of the feed solution, with sub-directories of their respective value, chemical formula, and optionally metadata.

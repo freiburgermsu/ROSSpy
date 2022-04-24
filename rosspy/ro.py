@@ -634,10 +634,8 @@ SELECTED_OUTPUT
             
         # parse the input_file       
         input_df = pandas.read_table(input_file_path, names = ['content'], sep='\n').squeeze()
-        self.parameters['simulation_type'] = 'evaporation'
-        self.parameters['permeate_approach'] = 'linear_permeate'
-        self.parameters['water_selection'] = water_selection
-        self.parameters['domain'] = 'single'
+        self.parameters['simulation_type'], self.parameters['permeate_approach'] = 'evaporation', 'linear_permeate'
+        self.parameters['domain'], self.parameters['water_selection'] = 'single', water_selection
         
         self.predicted_effluent, self.parameters['solution_elements'] = {}, []
         permeate_moles = 0
@@ -706,7 +704,7 @@ SELECTED_OUTPUT
         self.parameters['active_m2_cell'] = self.parameters['active_m2']/self.parameters['cells_per_module']
         
         
-    def execute(self, simulation_name = None, selected_output_path = None, simulation_directory = None, figure_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', scale_ions = True, selected_output_filename = None,):
+    def execute(self, simulation_name = None, selected_output_path = None, simulation_directory = None, figure_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', scale_ions = True, selected_output_filename = None):
         '''Execute a PHREEQC input file '''
         def run(input_file, first=False):
             phreeqc = self.phreeqc_mod.IPhreeqc()  
@@ -760,8 +758,9 @@ SELECTED_OUTPUT
         estimated_time = (self.parameters['simulation_time']/(2*self.parameters['timestep'])) + 10*(self.parameters['quantity_of_modules'])
         if self.parameters['database_selection'] == 'sit':
             estimated_time *= 14
-        if self.parameters['coarse_timestep']:
-            estimated_time /= 6
+        if 'coarse_timestep' in self.parameters:
+            if self.parameters['coarse_timestep']:
+                estimated_time /= 6
         estimated_completion = datetime.datetime.now() + datetime.timedelta(seconds = estimated_time)
         estimated_time, unit = time_determination(estimated_time)
         print(f'\nEstimated completion in {estimated_time} {unit}: {estimated_completion} local time.')
@@ -965,16 +964,20 @@ SELECTED_OUTPUT
                 
             concentration_serie, x_serie, data[element] = [], [], {}
             for index, row in self.selected_output.iterrows():
-                time = float(sigfigs_conversion(row['time'], 3))
                 if self.parameters['simulation_perspective'] == 'all_time':
                     if not all(row[element] > 1e-16 for element in non_zero_columns):
                         continue
-                elif self.parameters['simulation_perspective'] == 'all_distance' and row['time'] == 0:       
-                    continue
+                    time = float(sigfigs_conversion(row['time'], 3))
+                    x_serie.append(time)                        
+                    data[element][time] = row[element]
+                elif self.parameters['simulation_perspective'] == 'all_distance':       
+                    if row['time'] == 0:
+                        continue
+                    distance = float(sigfigs_conversion(row['dist_x'], 3))
+                    x_serie.append(distance)                        
+                    data[element][distance] = row[element]
                 concentration_serie.append(row[element])
-                x_serie.append(time)
-                data[element][time] = row[element]
-                        
+                
             pyplot.plot(x_serie,concentration_serie, label = stripped_element)
                         
         if self.parameters['simulation_perspective'] == 'all_time' and len(x_serie) == 0:
@@ -1017,9 +1020,7 @@ SELECTED_OUTPUT
             data = {}
             for mineral in self.variables['precipitated_minerals']: 
                 mineral_formula = self.minerals[mineral]['formula']
-                data[f'{mineral} (g)'] = {}
-                cf_series = []        
-                scaling_series = []
+                data[f'{mineral} (g)'], cf_series, scaling_series = {}, [], []
                 for index, row in self.selected_output.iterrows():
                     if index != len(self.selected_output['mass_H2O']):
                         if row['step'] >= 1:

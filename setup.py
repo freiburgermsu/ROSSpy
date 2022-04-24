@@ -12,7 +12,14 @@ setup(
   package_dir = {'ro':'rosspy'},
   packages = find_packages(),
   package_data = {
-	'rosspy':['water_bodies/*','databases/*','processed_databases/*', 'test/*', 'test/*/*'],
+	'rosspy':[
+            'water_bodies/*',
+            'databases/*',
+            'processed_databases/*', 
+            'test/*', 
+            'test/*/*', 
+            'ro_module.json'
+            ],
   },
   version = '0.1.0',
   license = license,
