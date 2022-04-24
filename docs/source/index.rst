@@ -20,7 +20,7 @@ Simulate Scale Formation and Brine Concentration during Reverse Osmosis Desalina
    :alt: License
 
 .. |MyBinder| image:: https://mybinder.org/badge_logo.svg
-   :target: https://mybinder.org/v2/gh/rosspy/master?labpath=irosspy
+   :target: https://mybinder.org/v2/gh/freiburgermsu/rosspy/main?labpath=irosspy%2Firosspy.ipynb
    :alt: MyBinder
    
 

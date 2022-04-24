@@ -43,8 +43,5 @@ docs/_build/
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# iROSSpy attempts
-Command-line_v0.0.1/
-
 # old content
 deprecated/
