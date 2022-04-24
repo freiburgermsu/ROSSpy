@@ -58,3 +58,4 @@ Contents
    rosspy_usage
    rosspy_api
    parameter_files
+   irosspy

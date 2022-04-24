@@ -125,7 +125,7 @@ The input file is executed through PHREEQ:
 .. code-block:: python
 
  processed_data = ross.execute(simulation_name = None, selected_output_path = None, simulation_directory = None, figure_title = None, title_font = 'xx-large', 
- label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', scale_ions = True, selected_output_filename = None)
+ label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', scale_ions = True, define_paths = True, selected_output_filename = None)
 
 - *simulation_name* ``str``: specifies the name of the folder that will be created and populated with simulation contents.
 - *selected_output_path* ``str``: specifies the path of a simulation output file that will be processed into data tables and figures, which does not execute a new file and thus can process old data, where ``None`` executes the parameterized PHREEQ input file.
@@ -136,6 +136,7 @@ The input file is executed through PHREEQ:
 - *export_name* ``str``: specifies the export name of the simulation figure. The default name for ``brine`` simulations is ``brine``, while the default name for ``scaling`` simulations is ``all_minerals``.
 - *export_format* ``str``: specifies the format of the exported simulation figure, from the MatPlotLib options -- ``svg``, ``pdf``, ``png``, ``jpeg``, ``jpg``, or ``eps`` -- where ``svg`` is the default as a lossless and highly editable format: e.g. via `Inkscape <https://inkscape.org/>`_.
 - *scale_ions* ``bool``: specifies whether the scale from ``scaling`` simulations will be reduced into proportions of individual ions, which is exported as a JSON file.
+- *define_paths* ``bool``: specifies, for the iROSSpy Notebook, whether the simulation path will be determined to prevent redundant folder creation.
 - *selected_output_filename* ``str``: specifies the name of the SELECTED_OUTPUT file, where ``None`` constructs a name with important simulation parameters. 
 
 **Returned** *processed_data* ``DataFrame``: A `Pandas DataFrames <https://pandas.pydata.org/pandas-docs/stable/reference/frame.html>`_ that possesses the processed simulation data, as convenient access for post-processing.

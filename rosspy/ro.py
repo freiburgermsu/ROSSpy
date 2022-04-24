@@ -78,6 +78,8 @@ class ROSSPkg():
         self.feed_sources = [os.path.basename(feed).split('.')[0] for feed in glob(
                 os.path.join(self.parameters['root_path'], 'water_bodies', '*.json')
                 )]
+        with open(os.path.join(self.parameters['root_path'], f'ro_module.json')) as module:
+            self.ro_modules = json.load(module)
         
         # define simulation parameters
         self.parameters['database_selection'] = database_selection 
@@ -117,8 +119,9 @@ class ROSSPkg():
                 self.parameters['simulation_perspective'] = 'all_time'
         
         # assign default RO module dimensions 
-        with open(os.path.join(self.parameters['root_path'], f'ro_module.json')) as module:
-            self.ro_module = json.load(module)[ro_module]
+        if ro_module not in self.ro_modules:
+            self._error(f'The parameterized ro_module {ro_module} is not defined in the ro_module.json parameter file ({self.ro_modules.keys()}))', 'value')
+        self.ro_module = self.ro_modules[ro_module]
         for parameter in module_characteristics:
             self.ro_module[parameter] = module_characteristics[parameter]
 
@@ -604,7 +607,7 @@ SELECTED_OUTPUT
             
         directory = os.getcwd()
         if simulation_directory is not None:
-            directory = os.path.dirname(simulation_directory)
+            directory = simulation_directory
             
         while os.path.exists(os.path.join(directory, simulation_name)):
             simulation_number += 1
@@ -614,7 +617,8 @@ SELECTED_OUTPUT
         # define the simulation path 
         self.simulation_path = os.path.join(directory, simulation_name)
         if self.export_content:
-            os.mkdir(self.simulation_path)
+            if not os.path.exists(self.simulation_path):
+                os.mkdir(self.simulation_path)
         
         # define the input file export path
         self.parameters['input_path'] = os.path.join(self.simulation_path, 'input.pqi')                       
@@ -704,7 +708,7 @@ SELECTED_OUTPUT
         self.parameters['active_m2_cell'] = self.parameters['active_m2']/self.parameters['cells_per_module']
         
         
-    def execute(self, simulation_name = None, selected_output_path = None, simulation_directory = None, figure_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', scale_ions = True, selected_output_filename = None):
+    def execute(self, simulation_name = None, selected_output_path = None, simulation_directory = None, figure_title = None, title_font = 'xx-large', label_font = 'x-large', x_label_number = 6, export_name = None, export_format = 'svg', scale_ions = True, define_paths = True, selected_output_filename = None):
         '''Execute a PHREEQC input file '''
         def run(input_file, first=False):
             phreeqc = self.phreeqc_mod.IPhreeqc()  
@@ -742,7 +746,8 @@ SELECTED_OUTPUT
             self.variables['run_time (s)'] = float(run_time)
        
         # construct the SELECTED_OUTPUT file
-        self._define_paths(simulation_name, simulation_directory)
+        if define_paths:
+            self._define_paths(simulation_name, simulation_directory)
         self._selected_output(selected_output_filename)
         if 'solution_block' in self.results:
             self.results['complete_lines'] = chain(
@@ -769,7 +774,7 @@ SELECTED_OUTPUT
         if selected_output_path is None:
             main(self.input_file)
             print('run_time (s):', self.variables['run_time (s)'])
-            selected_output_path = os.path.join(os.getcwd(), self.parameters['selected_output_file_name'])  
+            selected_output_path = os.path.join(self.simulation_path, self.parameters['selected_output_file_name'])  
             
             # verify that the PHREEQC executed and generated the appropriate files
             if self.export_content:
