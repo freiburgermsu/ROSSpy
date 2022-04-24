@@ -1,7 +1,7 @@
 Simulate Scale Formation and Brine Concentration during Reverse Osmosis Desalination
 ---------------------------------------------------------------------------------------------------------------------
 
-|PyPI version| |Downloads| |MyBinder| |License| 
+|PyPI version| |Downloads| |MyBinder| |docs| |License| 
 
 .. |PyPI version| image:: https://img.shields.io/pypi/v/rosspy.svg?logo=PyPI&logoColor=brightgreen
    :target: https://pypi.org/project/ROSSpy/
@@ -22,6 +22,10 @@ Simulate Scale Formation and Brine Concentration during Reverse Osmosis Desalina
 .. |MyBinder| image:: https://mybinder.org/badge_logo.svg
    :target: https://mybinder.org/v2/gh/freiburgermsu/rosspy/main?labpath=irosspy%2Firosspy.ipynb
    :alt: MyBinder
+   
+.. |docs| image:: https://readthedocs.org/projects/rosspy/badge/?version=latest
+   :target: https://rosspy.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
    
 
 Desalinating ocean water is crucial for meeting the 6th UN Sustainable Development Goal of univeralizing potable water. Reverse Osmosis (RO) is the leading desalination technology, although, it remains hindered by membrane scaling, which lessens its energy efficiency and economic practicality. The geochemistry of mineral scaling evades experimental methods, and existing software programs to simulate scaling geochemistry -- e.g. French Creek -- are insufficient to explore all relevant variables and are furthermore inaccessible to many researchers. 
