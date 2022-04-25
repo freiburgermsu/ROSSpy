@@ -72,7 +72,7 @@ class ROSSPkg():
         self.parameters['database_path'] = os.path.join(self.parameters['root_path'], 'databases',f'{database_selection}.dat')
         
         # define options
-        self.databases = [re.search(r'(?<=processed_databases\\)(.+)(?=\.json)', database).group() for database in glob(
+        self.databases = [re.search(r'(?<=processed_databases.)(.+)(?=.json)', database).group() for database in glob(
                 os.path.join(self.parameters['root_path'], 'processed_databases', '*.json')
                 )]
         self.feed_sources = [os.path.basename(feed).split('.')[0] for feed in glob(

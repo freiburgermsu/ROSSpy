@@ -47,12 +47,17 @@ class iROSSpy():
             
         # define operating system
         operating_systems = ['windows', 'unix']
-        operating_system =  input(f'''- Is your computer operating system windows or unix?
-        < {operating_systems[0]} > or < {operating_systems[1]} > ; Default = < windows >  __ ''') or 'windows'
-        while operating_system not in operating_systems:
-            warn('''The operating system is not one of the accepted options.''')
+        my_binder =  input(f'''- You are operating in MyBinder? (boolean)
+        Default = < True >  __ ''') or True
+        if my_binder in [True, 'True']:
+            operating_system = 'unix'
+        else:            
             operating_system =  input(f'''- Is your computer operating system windows or unix?
             < {operating_systems[0]} > or < {operating_systems[1]} > ; Default = < windows >  __ ''') or 'windows'
+            while operating_system not in operating_systems:
+                warn('''The operating system is not one of the accepted options.''')
+                operating_system =  input(f'''- Is your computer operating system windows or unix?
+                < {operating_systems[0]} > or < {operating_systems[1]} > ; Default = < windows >  __ ''') or 'windows'
             
         # define database
         self.ross = rosspy.ROSSPkg('pitzer', operating_system = operating_system)
