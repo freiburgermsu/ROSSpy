@@ -22,7 +22,6 @@ executing==0.8.3
 fastjsonschema==2.15.3
 fluids==1.0.21
 fonttools==4.33.2
-glibc >=2.29
 idna==3.3
 importlib-resources==5.7.1
 ipykernel==6.13.0
