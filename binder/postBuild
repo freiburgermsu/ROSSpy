@@ -1,0 +1,10 @@
+#!/bin/bash
+wget https://water.usgs.gov/water-resources/software/PHREEQC/iphreeqc-3.7.3-15968.tar.gz
+tar -xzvf iphreeqc-3.7.3-15968.tar.gz
+cd iphreeqc-3.7.3-15968
+./configure
+make
+make check
+make install
+phreeqc = phreeqpy.iphreeqc.phreeqc_dll.IPhreeqc('/home/jovyan/iphreeqc-3.7.3-15968/libiphreeqc.so')
+pip install -U phreeqpy

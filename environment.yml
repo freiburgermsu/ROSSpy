@@ -1,0 +1,22 @@
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - pip:
+    - rosspy
+  # first-order deps of rosspy
+  - matplotlib-base
+  - pandas
+  - phreeqpy
+  - scipy
+  # second-order deps of rosspy
+  - mpmath
+  - sortedcontainers
+  - quantities
+  - pulp
+  - pyodesys
+  - sympy
+  # baseline
+  - pip
+  - python >=3.7
+  - wheel
