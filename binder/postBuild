@@ -6,5 +6,5 @@ cd iphreeqc-3.7.3-15968
 make
 make check
 make install
-phreeqc = phreeqpy.iphreeqc.phreeqc_dll.IPhreeqc('/home/jovyan/iphreeqc-3.7.3-15968/libiphreeqc.so')
+phreeqc = phreeqpy.iphreeqc.phreeqc_dll.IPhreeqc('/home/jovyan/iphreeqc/iphreeqc-3.7.3-15968/libiphreeqc.so')
 pip install -U phreeqpy
