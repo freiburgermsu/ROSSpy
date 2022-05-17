@@ -8,7 +8,7 @@ assignees: freiburgermsu
 ---
 
 **Upgrade the package**
-Many bugs many have been resolved in new versions of the software. Please `pip install --upgrade rosspy` before submitting an issue.
+Many bugs may be resolved in new software versions. Please `pip install --upgrade rosspy` before submitting an issue.
 
 **Describe the bug**
 1. Provide a copy of any TraceBack errors 
