@@ -20,9 +20,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pywin32
+          pip install pywinpty
           pip install pytest
           pip install rosspy
-          pip install phreeqpy
           pip show rosspy
       - name: Run tests
         run: python -m pytest D:\a\ROSSpy\ROSSpy\rosspy\test\test_ro.py
