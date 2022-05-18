@@ -78,7 +78,7 @@ class ROSSPkg():
         self.feed_sources = [os.path.basename(feed).split('.')[0] for feed in glob(
                 os.path.join(self.parameters['root_path'], 'water_bodies', '*.json')
                 )]
-        with open(os.path.join(self.parameters['root_path'], f'ro_module.json')) as module:
+        with open(os.path.join(self.parameters['root_path'], 'ro_module.json')) as module:
             self.ro_modules = json.load(module)
         
         # define simulation parameters
@@ -711,7 +711,10 @@ SELECTED_OUTPUT
     def execute(self, simulation_name = None, selected_output_path = None, simulation_directory = None, figure_title = None, title_font = 'xx-large', label_font = 'xx-large', x_label_number = 6, export_name = None, export_format = 'svg', scale_ions = True, define_paths = True, selected_output_filename = None):
         '''Execute a PHREEQC input file '''
         def run(input_file, first=False):
-            phreeqc = self.phreeqc_mod.IPhreeqc()  
+            try:
+                phreeqc = self.phreeqc_mod.IPhreeqc()  
+            except:
+                ModuleNotFoundError('The IPHREEQC module has not yet been installed. The IPHREEQC module (https://water.usgs.gov/water-resources/software/PHREEQC/index.html) must be installed before ROSSpy can be used, which is detailed in the ROSSpy docs: https://rosspy.readthedocs.io/en/latest/?badge=latest .')
             phreeqc.load_database(self.parameters['database_path'])
             phreeqc.run_string(input_file)
             
