@@ -31,3 +31,32 @@ Simulate Scale Formation and Brine Concentration during Reverse Osmosis Desalina
 `Reverse Osmosis Scaling Software in Python (ROSSpy) <https://pypi.org/project/ROSSpy/>`_ offers an open-source API to simulate the reactive transport geochemistry of Reverse Osmosis desalination. ROSSpy essentially translates user specifications of an RO system into `PHREEQpy <https://pypi.org/project/phreeqpy/>`_, which is the Python version of `PHREEQC <https://www.usgs.gov/software/phreeqc-version-3>`_. The ``examples/scaling/scaling_validation`` directory of the `ROSSpy GitHub <https://github.com/freiburgermsu/ROSSpy>`_ details the numerous functions and accuracy of ROSSPy via Notebook examples. We encourage users and developers to critique and improve ROSSpy, as an open-source (`MIT License <https://opensource.org/licenses/MIT>`_) library, through `GitHub issues <https://github.com/freiburgermsu/ROSSpy/issues>`_.
 
 The complete documentation is provided by `ReadTheDocs <https://rosspy.readthedocs.io/en/latest/index.html>`_.
+
+
+++++++++++++++++++++++
+Installation
+++++++++++++++++++++++
+
+The IPHREEQC module must be installed before ROSSpy can be executed, since this is the source of geochemical calculations and data. The appropriate version of IPHREEQC can be installed from the `USGS <https://water.usgs.gov/water-resources/software/PHREEQC/index.html>`_ . Linux installation may require addition steps::
+
+    wget https://water.usgs.gov/water-resources/software/PHREEQC/iphreeqc-3.7.3-15968.tar.gz
+    tar -xzvf iphreeqc-3.7.3-15968.tar.gz
+    cd iphreeqc-3.7.3-15968
+    ./configure
+    make
+    make check
+    sudo make install
+
+Then either use the full path to the shared libray when making an instance of phreeqc_dll.IPhreeqc::
+
+ phreeqc = phreeqpy.iphreeqc.phreeqc_dll.IPhreeqc('/full/path/to/libiphreeqc.so')
+
+
+or copy the shared object into phreeqpy/iphreeqc replacing the existing one, such as::
+
+ sudo cp /usr/local/lib/libiphreeqc.so  /path/to/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
+
+
+ROSSpy per se is then installed in a command prompt, Powershell, Terminal, or Anaconda Command Prompt via ``pip``::
+
+ pip install rosspy

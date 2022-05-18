@@ -21,7 +21,7 @@ setup(
             'ro_module.json'
             ],
   },
-  version = '0.1.1',
+  version = '0.1.2',
   license = license,
   description = "Software for predicting the brine concentrations and scaling quantities after RO desalination.", 
   long_description = readme,
@@ -29,5 +29,14 @@ setup(
   author_email = 'andrewfreiburger@gmail.com',
   url = 'https://github.com/freiburgermsu/ROSS',   
   keywords = ['desalination', 'reactive transport', 'geochemistry', 'sustainability', 'civil engineering', 'fluid mechanics'],
-  install_requires = ['matplotlib', 'chempy', 'scipy', 'chemw', 'pubchempy', 'pandas', 'phreeqpy', 'sigfig']
+  install_requires = [
+      'matplotlib', 
+      'chempy', 
+      'scipy', 
+      'chemw', 
+      'pubchempy', 
+      'pandas', 
+      'phreeqpy', 
+      'sigfig'
+      ]
 )
