@@ -49,7 +49,7 @@ The IPHREEQC module must be installed before ROSSpy can be executed, since this 
 
 Then either use the full path to the shared libray when making an instance of phreeqc_dll.IPhreeqc::
 
- phreeqc = phreeqpy.iphreeqc.phreeqc_dll.IPhreeqc('/full/path/to/libiphreeqc.so')
+ phreeqc = phreeqpy.iphreeqc.phreeqc_dll.IPhreeqc\('/full/path/to/libiphreeqc.so'\)
 
 
 or copy the shared object into phreeqpy/iphreeqc replacing the existing one, such as::
