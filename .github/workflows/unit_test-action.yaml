@@ -28,8 +28,8 @@ jobs:
           wget https://water.usgs.gov/water-resources/software/PHREEQC/iphreeqc-3.7.3-15968.tar.gz
           tar -xzvf iphreeqc-3.7.3-15968.tar.gz
           cd iphreeqc-3.7.3-15968
-          ./configure  --prefix=/home/jovyan/iphreeqc
-          make
+          ./configure 
+          make --prefix=/home/jovyan/iphreeqc
           make check
           make install
           cp /home/jovyan/iphreeqc/iphreeqc-3.7.3-15968/src/.libs/libiphreeqc.so /srv/conda/envs/notebook/lib/python3.10/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
