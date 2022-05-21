@@ -714,7 +714,7 @@ SELECTED_OUTPUT
             try:
                 phreeqc = self.phreeqc_mod.IPhreeqc()  
             except:
-                ModuleNotFoundError('The IPHREEQC module has not yet been installed. The IPHREEQC module (https://water.usgs.gov/water-resources/software/PHREEQC/index.html) must be installed before ROSSpy can be used, which is detailed in the ROSSpy docs: https://rosspy.readthedocs.io/en/latest/?badge=latest .')
+                raise ModuleNotFoundError('The IPHREEQC module has not yet been installed. The IPHREEQC module (https://water.usgs.gov/water-resources/software/PHREEQC/index.html) must be installed before ROSSpy can be used, which is detailed in the ROSSpy docs: https://rosspy.readthedocs.io/en/latest/?badge=latest#installation .')
             phreeqc.load_database(self.parameters['database_path'])
             phreeqc.run_string(input_file)
             
