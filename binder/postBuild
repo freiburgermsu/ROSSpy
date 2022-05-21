@@ -2,10 +2,10 @@
 wget https://water.usgs.gov/water-resources/software/PHREEQC/iphreeqc-3.7.3-15968.tar.gz
 tar -xzvf iphreeqc-3.7.3-15968.tar.gz
 cd iphreeqc-3.7.3-15968
-./configure  --prefix=/home/jovyan/iphreeqc
+./configure  --prefix=/home/runner/iphreeqc
 make
 make check
 make install
 pip install phreeqpy
 pip show phreeqpy
-cp /home/jovyan/iphreeqc/iphreeqc-3.7.3-15968/src/.libs/libiphreeqc.so /srv/conda/envs/notebook/lib/python3.10/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
+cp /home/runner/work/ROSSpy/ROSSpy/iphreeqc-3.7.3-15968/src/.libs/libiphreeqc.so /opt/hostedtoolcache/Python/3.9.12/x64/lib/python3.9/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
