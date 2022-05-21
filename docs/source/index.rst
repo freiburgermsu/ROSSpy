@@ -55,11 +55,7 @@ The IPHREEQC module must be installed before ROSSpy can be executed, since this 
     sudo make install
     pip install phreeqpy
     pip show phreeqpy
-
-Then copy the shared object into phreeqpy/iphreeqc replacing the existing one::
-
- sudo cp /usr/local/lib/libiphreeqc.so  /path/to/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
-
+    sudo cp /usr/local/lib/libiphreeqc.so  /path/to/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
 
 ROSSpy is then finally installed in a command prompt, Powershell, Terminal, or Anaconda Command Prompt via ``pip``::
 

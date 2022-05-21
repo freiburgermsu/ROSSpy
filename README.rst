@@ -46,17 +46,12 @@ The IPHREEQC module must be installed before ROSSpy can be executed, since this 
     make
     make check
     sudo make install
+    pip install phreeqpy
+    pip show phreeqpy
+    sudo cp /usr/local/lib/libiphreeqc.so  /path/to/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
 
-Then either use the full path to the shared libray when making an instance of phreeqc_dll.IPhreeqc::
-
- phreeqc = phreeqpy.iphreeqc.phreeqc_dll.IPhreeqc\('/full/path/to/libiphreeqc.so'\)
-
-
-or copy the shared object into phreeqpy/iphreeqc replacing the existing one, such as::
-
- sudo cp /usr/local/lib/libiphreeqc.so  /path/to/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
-
-
-ROSSpy per se is then installed in a command prompt, Powershell, Terminal, or Anaconda Command Prompt via ``pip``::
+ROSSpy is then finally installed in a command prompt, Powershell, Terminal, or Anaconda Command Prompt via ``pip``::
 
  pip install rosspy
+   
+and can be used without hitch. 
