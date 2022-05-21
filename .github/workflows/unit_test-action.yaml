@@ -18,12 +18,13 @@ jobs:
           python-version: 3.9
       - name: Install IPHREEQC
         run: | 
-            wget https://water.usgs.gov/water-resources/software/PHREEQC/IPhreeqcCOM-3.7.3-15968-x64.msi
-            cd IPhreeqcCOM-3.7.3-15968-x64
-            ./configure
+			wget https://water.usgs.gov/water-resources/software/PHREEQC/iphreeqc-3.7.3-15968.tar.gz
+			tar -xzvf iphreeqc-3.7.3-15968.tar.gz
+			cd iphreeqc-3.7.3-15968
+			./configure  --prefix=/home/jovyan/iphreeqc
             make
             make check
-            make install
+            make install 
       - name: Install packages
         run: |
           python -m pip install --upgrade pip
