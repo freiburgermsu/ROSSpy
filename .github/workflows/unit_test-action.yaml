@@ -16,6 +16,13 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.9
+      - name: Install packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+          pip install rosspy
+          pip show rosspy
+          pip show phreeqpy
       - name: Install IPHREEQC
         run: | 
           wget https://water.usgs.gov/water-resources/software/PHREEQC/iphreeqc-3.7.3-15968.tar.gz
@@ -25,13 +32,6 @@ jobs:
           make
           make check
           make install
-      - name: Install packages
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest
-          pip install rosspy
-          pip show rosspy
-          pip show phreeqpy
           cp /home/jovyan/iphreeqc/iphreeqc-3.7.3-15968/src/.libs/libiphreeqc.so /srv/conda/envs/notebook/lib/python3.10/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
       - name: Run tests
         run: python -m pytest D:\a\ROSSpy\ROSSpy\rosspy\test\test_ro.py
