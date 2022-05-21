@@ -1,7 +1,7 @@
 Simulate Scale Formation and Brine Concentration during Reverse Osmosis Desalination
 ---------------------------------------------------------------------------------------------------------------------
 
-|PyPI version| |docs| |Downloads| |docs| |License| 
+|PyPI version| |Downloads| |License| 
 
 .. |PyPI version| image:: https://img.shields.io/pypi/v/rosspy.svg?logo=PyPI&logoColor=brightgreen
    :target: https://pypi.org/project/ROSSpy/
@@ -22,10 +22,6 @@ Simulate Scale Formation and Brine Concentration during Reverse Osmosis Desalina
 .. |MyBinder| image:: https://mybinder.org/badge_logo.svg
    :target: https://mybinder.org/v2/gh/freiburgermsu/rosspy/main?labpath=irosspy%2Firosspy.ipynb
    :alt: MyBinder
-   
-.. |docs| image:: https://readthedocs.org/projects/rosspy/badge/?version=latest
-   :target: https://rosspy.readthedocs.io/en/latest/?badge=latest
-   :alt: Documentation Status
    
 
 Desalinating ocean water is crucial for meeting the 6th UN Sustainable Development Goal of univeralizing potable water. Reverse Osmosis (RO) is the leading desalination technology, although, it remains hindered by membrane scaling, which lessens its energy efficiency and economic practicality. The geochemistry of mineral scaling evades experimental methods, and existing software programs to simulate scaling geochemistry -- e.g. French Creek -- are insufficient to explore all relevant variables and are furthermore inaccessible to many researchers. 
@@ -57,21 +53,19 @@ The IPHREEQC module must be installed before ROSSpy can be executed, since this 
     make
     make check
     sudo make install
+    pip install phreeqpy
+    pip show phreeqpy
 
-Then either use the full path to the shared libray when making an instance of phreeqc_dll.IPhreeqc::
-
- phreeqc = phreeqpy.iphreeqc.phreeqc_dll.IPhreeqc\('/full/path/to/libiphreeqc.so'\)
-
-
-or copy the shared object into phreeqpy/iphreeqc replacing the existing one, such as::
+Then copy the shared object into phreeqpy/iphreeqc replacing the existing one::
 
  sudo cp /usr/local/lib/libiphreeqc.so  /path/to/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
 
 
-ROSSpy per se is then installed in a command prompt, Powershell, Terminal, or Anaconda Command Prompt via ``pip``::
+ROSSpy is then finally installed in a command prompt, Powershell, Terminal, or Anaconda Command Prompt via ``pip``::
 
  pip install rosspy
    
+and can be used without hitch. 
    
 
 Contents

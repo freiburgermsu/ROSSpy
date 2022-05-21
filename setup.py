@@ -27,7 +27,7 @@ setup(
   long_description = readme,
   author = 'Andrew Freiburger',               
   author_email = 'andrewfreiburger@gmail.com',
-  url = 'https://github.com/freiburgermsu/ROSS',   
+  url = 'https://github.com/freiburgermsu/ROSSpy',   
   keywords = ['desalination', 'reactive transport', 'geochemistry', 'sustainability', 'civil engineering', 'fluid mechanics'],
   install_requires = [
       'matplotlib', 
@@ -38,5 +38,9 @@ setup(
       'pandas', 
       'phreeqpy', 
       'sigfig'
-      ]
+      ],
+  project_urls={
+      'Documentation': 'https://rosspy.readthedocs.io/en/stable/',
+      'Issues': 'https://github.com/freiburgermsu/ROSSpy/issues',
+  }
 )
