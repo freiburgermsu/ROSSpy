@@ -53,5 +53,3 @@ The IPHREEQC module must be installed before ROSSpy can be executed, since this 
 ROSSpy is then finally installed in a command prompt, Powershell, Terminal, or Anaconda Command Prompt via ``pip``::
 
  pip install rosspy
-   
-and can be used without hitch. 

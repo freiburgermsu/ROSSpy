@@ -61,8 +61,6 @@ ROSSpy is then finally installed in a command prompt, Powershell, Terminal, or A
 
  pip install rosspy
    
-and can be used without hitch. 
-   
 
 Contents
 --------
