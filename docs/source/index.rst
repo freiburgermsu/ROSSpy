@@ -44,7 +44,7 @@ The ROSSpy framework represents RO desalination as a 1D reactive transport model
 Installation
 ++++++++++++++++++++++
 
-The IPHREEQC module must be installed before ROSSpy can be executed, since this is the source of geochemical calculations and data. The appropriate version of IPHREEQC can be installed from the `USGS <https://water.usgs.gov/water-resources/software/PHREEQC/index.html>`_ . Linux installation may require addition steps::
+The IPHREEQC module must be installed before ROSSpy can be executed, since this is the source of geochemical calculations and data. The appropriate version of IPHREEQC can be installed from the `USGS <https://water.usgs.gov/water-resources/software/PHREEQC/index.html>`_ . **Linux** installation may require addition steps::
 
     wget https://water.usgs.gov/water-resources/software/PHREEQC/iphreeqc-3.7.3-15968.tar.gz
     tar -xzvf iphreeqc-3.7.3-15968.tar.gz
