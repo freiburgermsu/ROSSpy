@@ -37,7 +37,11 @@ The complete documentation is provided by `ReadTheDocs <https://rosspy.readthedo
 Installation
 ++++++++++++++++++++++
 
-The IPHREEQC module must be installed before ROSSpy can be executed, since this is the source of geochemical calculations and data. The appropriate version of IPHREEQC can be installed from the `USGS <https://water.usgs.gov/water-resources/software/PHREEQC/index.html>`_ . **Linux** installation may require addition steps::
+ROSSpy is installed in a command prompt, Powershell, Terminal, or Anaconda Command Prompt via ``pip``::
+
+ pip install rosspy
+
+The IPHREEQC module must then be installed, since this is the source of geochemical calculations and data for ROSSpy. The appropriate version of IPHREEQC can be installed from the `USGS <https://water.usgs.gov/water-resources/software/PHREEQC/index.html>`_ . **Linux** installation may require addition steps::
 
     wget https://water.usgs.gov/water-resources/software/PHREEQC/iphreeqc-3.7.3-15968.tar.gz
     tar -xzvf iphreeqc-3.7.3-15968.tar.gz
@@ -46,10 +50,5 @@ The IPHREEQC module must be installed before ROSSpy can be executed, since this 
     make
     make check
     sudo make install
-    pip install phreeqpy
     pip show phreeqpy
     sudo cp /usr/local/lib/libiphreeqc.so  /path/to/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
-
-ROSSpy is then finally installed in a command prompt, Powershell, Terminal, or Anaconda Command Prompt via ``pip``::
-
- pip install rosspy

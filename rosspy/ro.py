@@ -637,13 +637,14 @@ SELECTED_OUTPUT
                 self.parameters['database_selection'] = db
             
         # parse the input_file       
-        input_df = pandas.read_table(input_file_path, names = ['content'], sep='\n').squeeze()
+        with open(input_file_path) as input:
+            input_file = input.readlines()
         self.parameters['simulation_type'], self.parameters['permeate_approach'] = 'evaporation', 'linear_permeate'
         self.parameters['domain'], self.parameters['water_selection'] = 'single', water_selection
         
         self.predicted_effluent, self.parameters['solution_elements'] = {}, []
         permeate_moles = 0
-        for index, row in input_df.iteritems():
+        for index, row in enumerate(input_file):
             if 'DATABASE' in row:
                 row = row.replace('DATABASE ','')
                 self.parameters['database_selection'] = os.path.basename(row).replace('.dat', '')

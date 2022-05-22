@@ -1,4 +1,6 @@
 #!/bin/bash
+pip install pytest
+pip install rosspy
 wget https://water.usgs.gov/water-resources/software/PHREEQC/iphreeqc-3.7.3-15968.tar.gz
 tar -xzvf iphreeqc-3.7.3-15968.tar.gz
 pwd
