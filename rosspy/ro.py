@@ -635,7 +635,7 @@ SELECTED_OUTPUT
         for db in self.databases:
             if db in input_file_path:
                 self.parameters['database_selection'] = db
-            
+                
         # parse the input_file       
         with open(input_file_path) as input:
             input_file = input.readlines()
@@ -647,7 +647,7 @@ SELECTED_OUTPUT
         for index, row in enumerate(input_file):
             if 'DATABASE' in row:
                 row = row.replace('DATABASE ','')
-                self.parameters['database_selection'] = os.path.basename(row).replace('.dat', '')
+                self.parameters['database_selection'] = os.path.basename(fr'{row}').replace('.dat', '')
             elif re.search(r'(^[A-Z][a-z \(]?[\s\d])', row):
                 element = re.search(r'(^[A-Z][a-z]?)', row).group()
                 conc = re.search(r'(?<!\()([\d\.]+)', row).group(1)
