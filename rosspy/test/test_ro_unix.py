@@ -151,7 +151,7 @@ def test_parse_input():
     water_selection = 'palo_duro_basin'
     input_file_path = os.path.join(os.path.dirname(__file__), '2020-09-03_APF_Palo Duro Basin-BW30-400_PE=100%_1.1.pqi')
     
-    ross = rosspy.ROSSPkg('pitzer', operating_system = 'unix', simulation, verbose = False)
+    ross = rosspy.ROSSPkg('pitzer', simulation, operating_system = 'unix', verbose = False)
     ross.parse_input(input_file_path, water_selection)
     ross.execute()
     
@@ -166,7 +166,7 @@ def test_all_distance_brine(): #!!! This displays an erroneous plot and x-axis d
     simulation = 'brine'
     simulation_perspective = 'all_distance'
     
-    ross = rosspy.ROSSPkg('pitzer', operating_system = 'unix', simulation, verbose = False)    
+    ross = rosspy.ROSSPkg('pitzer', simulation, operating_system = 'unix', verbose = False)    
     ross.reactive_transport(simulation_time, simulation_perspective)
     ross.feed_geochemistry(water_selection)
     ross.execute()
@@ -185,7 +185,7 @@ def test_all_time_brine():
     water_selection = 'michigan_basin'
     simulation = 'brine'
 
-    ross = rosspy.ROSSPkg('pitzer', operating_system = 'unix', simulation, verbose = False)    
+    ross = rosspy.ROSSPkg('pitzer', simulation, operating_system = 'unix', verbose = False)    
     ross.reactive_transport(simulation_time)
     ross.feed_geochemistry(water_selection)
     ross.execute()
