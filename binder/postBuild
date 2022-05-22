@@ -8,4 +8,4 @@ make check
 make install
 pip install phreeqpy
 pip show phreeqpy
-cp /home/jovyan/iphreeqc/iphreeqc-3.7.3-15968/libiphreeqc.so /home/jovyan/.local/lib/python3.10/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
+cp /home/jovyan/iphreeqc-3.7.3-15968/local/lib/libiphreeqc.so /srv/conda/envs/notebook/lib/python3.10/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
