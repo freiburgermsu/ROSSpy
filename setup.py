@@ -21,7 +21,7 @@ setup(
             'ro_module.json'
             ],
   },
-  version = '0.1.4',
+  version = '0.1.5',
   license = license,
   description = "Software for predicting the brine concentrations and scaling quantities after RO desalination.", 
   long_description = readme,
@@ -40,7 +40,7 @@ setup(
       'sigfig'
       ],
   project_urls={
-      'Documentation': 'https://rosspy.readthedocs.io/en/stable/',
+      'Documentation': 'https://rosspy.readthedocs.io/en/latest/index.html',
       'Issues': 'https://github.com/freiburgermsu/ROSSpy/issues',
   }
 )
