@@ -6,6 +6,6 @@ cd iphreeqc-3.7.3-15968
 make
 make check
 make install
-pip install phreeqpy
 pip show phreeqpy
-cp /usr/local/lib/libiphreeqc.so /srv/conda/envs/notebook/lib/python3.10/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
+pwd
+cp /home/jovyan/iphreeqc-3.7.3-15968/src/.libs/libiphreeqc.so /srv/conda/envs/notebook/lib/python3.10/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
