@@ -647,7 +647,9 @@ SELECTED_OUTPUT
         for index, row in enumerate(input_file):
             if 'DATABASE' in row:
                 row = row.replace('DATABASE ','')
+                print(row)
                 self.parameters['database_selection'] = os.path.basename(fr'{row}').replace('.dat', '')
+                print(self.parameters['database_selection'])
             elif re.search(r'(^[A-Z][a-z \(]?[\s\d])', row):
                 element = re.search(r'(^[A-Z][a-z]?)', row).group()
                 conc = re.search(r'(?<!\()([\d\.]+)', row).group(1)
@@ -691,7 +693,8 @@ SELECTED_OUTPUT
                     self.parameters['simulation_perspective'] = 'all_time'
                     
         # open the respective database
-        self.parameters['database_path'] = os.path.join(self.parameters['root_path'], 'databases', self.parameters['database_selection']+'.dat')
+        self.parameters['database_path'] = os.path.join(
+            self.parameters['root_path'], 'databases', self.parameters['database_selection']+'.dat')
         self._define_database()
         self._described_minerals()
                     
