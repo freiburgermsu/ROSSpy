@@ -646,10 +646,10 @@ SELECTED_OUTPUT
         permeate_moles = 0
         for index, row in enumerate(input_file):
             if 'DATABASE' in row:
-                row = row.replace('DATABASE ','')
-                print(row)
-                self.parameters['database_selection'] = os.path.basename(fr'{row}').replace('.dat', '')
-                print(self.parameters['database_selection'])
+                row = row.replace('DATABASE ','').split('/')
+                if '\\' in row[0]:
+                    row = row[0].split('\\')
+                self.parameters['database_selection'] = row[-1].split('.')[0]
             elif re.search(r'(^[A-Z][a-z \(]?[\s\d])', row):
                 element = re.search(r'(^[A-Z][a-z]?)', row).group()
                 conc = re.search(r'(?<!\()([\d\.]+)', row).group(1)

@@ -21,7 +21,7 @@ setup(
             'ro_module.json'
             ],
   },
-  version = '0.1.5',
+  version = '0.1.6',
   license = license,
   description = "Software for predicting the brine concentrations and scaling quantities after RO desalination.", 
   long_description = readme,
