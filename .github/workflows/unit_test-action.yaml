@@ -23,7 +23,7 @@ jobs:
           pip install rosspy
           pip show rosspy
           pip show phreeqpy
-          which python
+          python -m site
       - name: Install IPHREEQC
         run: | 
           wget https://water.usgs.gov/water-resources/software/PHREEQC/iphreeqc-3.7.3-15968.tar.gz
