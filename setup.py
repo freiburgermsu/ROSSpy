@@ -42,5 +42,17 @@ setup(
   project_urls={
       'Documentation': 'https://rosspy.readthedocs.io/en/latest/index.html',
       'Issues': 'https://github.com/freiburgermsu/ROSSpy/issues',
-  }
+  },
+  classifiers={
+      'Programming Language :: Python :: 3.7',
+      'Programming Language :: Python :: 3.8',
+      'Programming Language :: Python :: 3.9',
+      'Programming Language :: Python :: 3.10',
+      'Operating System :: Ubuntu :: Ubuntu >=20',
+      'Operating System :: POSIX :: Linux',
+      'Operating System :: Microsoft :: Windows :: Windows 10',
+      'Operating System :: MacOS',
+      
+      }
 )
+

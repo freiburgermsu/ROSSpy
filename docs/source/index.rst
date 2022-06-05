@@ -1,7 +1,7 @@
 Simulate Scale Formation and Brine Concentration during Reverse Osmosis Desalination
 ---------------------------------------------------------------------------------------------------------------------
 
-|PyPI version| |Actions Status| |Downloads| |License| 
+|PyPI version| |DOI| |Actions Status| |Downloads| |License|
 
 .. |PyPI version| image:: https://img.shields.io/pypi/v/rosspy.svg?logo=PyPI&logoColor=brightgreen
    :target: https://pypi.org/project/ROSSpy/
@@ -23,6 +23,13 @@ Simulate Scale Formation and Brine Concentration during Reverse Osmosis Desalina
    :target: https://mybinder.org/v2/gh/freiburgermsu/rosspy/main?labpath=irosspy%2Firosspy.ipynb
    :alt: MyBinder
    
+.. |Python versions| image:: https://img.shields.io/pypi/pyversions/rosspy  
+   :target: https://pypi.org/project/ROSSpy/
+   :alt: PyPI - Python Version
+   
+.. |DOI| image:: https://img.shields.io/badge/DOI-https%3A%2F%2Fdx.doi.org%2F10.2139%2Fssrn.4124149-brightgreen
+   :target: https://dx.doi.org/10.2139/ssrn.4124149
+   :alt: DOI link
 
 Desalinating ocean water is crucial for meeting the 6th UN Sustainable Development Goal of univeralizing potable water. Reverse Osmosis (RO) is the leading desalination technology, although, it remains hindered by membrane scaling, which lessens its energy efficiency and economic practicality. The geochemistry of mineral scaling evades experimental methods, and existing software programs to simulate scaling geochemistry -- e.g. French Creek -- are insufficient to explore all relevant variables and are furthermore inaccessible to many researchers. 
 
@@ -48,7 +55,9 @@ ROSSpy is installed in a command prompt, Powershell, Terminal, or Anaconda Comma
 
  pip install rosspy
 
-The IPHREEQC module must then be installed, since this is the source of geochemical calculations and data for ROSSpy. The appropriate version of IPHREEQC can be installed from the `USGS <https://water.usgs.gov/water-resources/software/PHREEQC/index.html>`_ . **Linux** installation may require addition steps::
+The IPHREEQC module must then be installed, since this is the source of geochemical calculations and data for ROSSpy. The appropriate version of IPHREEQC can be installed from the `USGS <https://water.usgs.gov/water-resources/software/PHREEQC/index.html>`_ . 
+
+Installation in **Linux** distributions, Ubuntu >=20 or an equivalent, requires addition steps::
 
     wget https://water.usgs.gov/water-resources/software/PHREEQC/iphreeqc-3.7.3-15968.tar.gz
     tar -xzvf iphreeqc-3.7.3-15968.tar.gz
@@ -60,6 +69,15 @@ The IPHREEQC module must then be installed, since this is the source of geochemi
     pip show phreeqpy
     sudo cp /usr/local/lib/libiphreeqc.so  /path/to/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
    
+    
+++++++++++++++++++++++
+Citation
+++++++++++++++++++++++
+
+Please cite this work::
+
+ Freiburger, Andrew P. and Molins, Sergi and Buckley, Heather L., A One-Dimensional Reactive Transport Model of Geochemical Scaling in Reverse Osmosis Desalination. http://dx.doi.org/10.2139/ssrn.4124149
+ 
 
 Contents
 --------
