@@ -57,7 +57,7 @@ ROSSpy is installed in a command prompt, Powershell, Terminal, or Anaconda Comma
 
 The IPHREEQC module must then be installed, since this is the source of geochemical calculations and data for ROSSpy. The appropriate version of IPHREEQC can be installed from the `USGS <https://water.usgs.gov/water-resources/software/PHREEQC/index.html>`_ . 
 
-Installation in **Linux** distributions, Ubuntu >=20 or an equivalent, requires addition steps::
+Installation in **Linux** distributions, Ubuntu >=20 or an equivalent, requires addition steps (Ubuntu < 20 is currently unsupported)::
 
     wget https://water.usgs.gov/water-resources/software/PHREEQC/iphreeqc-3.7.3-15968.tar.gz
     tar -xzvf iphreeqc-3.7.3-15968.tar.gz
@@ -67,6 +67,7 @@ Installation in **Linux** distributions, Ubuntu >=20 or an equivalent, requires 
     make check
     sudo make install
     pip show phreeqpy
+    mkdir -p /path/to/site-packages/phreeqpy/iphreeqc
     sudo cp /usr/local/lib/libiphreeqc.so  /path/to/site-packages/phreeqpy/iphreeqc/libiphreeqc.so.0.0.0
    
     

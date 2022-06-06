@@ -21,7 +21,7 @@ setup(
             'ro_module.json'
             ],
   },
-  version = '0.1.6',
+  version = '0.1.7',
   license = license,
   description = "Software for predicting the brine concentrations and scaling quantities after RO desalination.", 
   long_description = readme,
@@ -48,7 +48,6 @@ setup(
       'Programming Language :: Python :: 3.8',
       'Programming Language :: Python :: 3.9',
       'Programming Language :: Python :: 3.10',
-      'Operating System :: Ubuntu :: Ubuntu >=20',
       'Operating System :: POSIX :: Linux',
       'Operating System :: Microsoft :: Windows :: Windows 10',
       'Operating System :: MacOS',
