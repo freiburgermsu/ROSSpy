@@ -1,11 +1,15 @@
 Simulate Scale Formation and Brine Concentration during Reverse Osmosis Desalination
 ---------------------------------------------------------------------------------------------------------------------
 
-|PyPI version| |DOI| |Actions Status| |Downloads| |docs| |License| 
+|PyPI version| |pyVersions| |DOI| |Actions Status| |Downloads| |docs| |License| 
 
 .. |PyPI version| image:: https://img.shields.io/pypi/v/rosspy.svg?logo=PyPI&logoColor=brightgreen
    :target: https://pypi.org/project/ROSSpy/
    :alt: PyPI version
+
+.. |pyVersions| image:: https://img.shields.io/pypi/pyversions/rosspy
+   :target: https://rosspy.readthedocs.io/en/latest/?badge=latest
+   :alt: Python versions
 
 .. |Downloads| image:: https://pepy.tech/badge/rosspy
    :target: https://pepy.tech/project/rosspy
