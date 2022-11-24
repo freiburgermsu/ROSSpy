@@ -1,5 +1,5 @@
-# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\database_selection\phreeqc database
-DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\phreeqc.dat
+# C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\database_selection\phreeqc database
+DATABASE C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\phreeqc.dat
 TITLE	 None
 
 SOLUTION 0	red_sea
@@ -94,13 +94,13 @@ REACTION 12
     #Effluent relative pressure: 90.0%
     
     #Effluent module 1:
-#Estimated CF: 1.118E0
+#Estimated CF: 1.118
 #Estimated final water mass: 11.784707307274049
 
 
 
 SELECTED_OUTPUT
--file		2022-04-23-red_sea-transport-phreeqc-scaling-0.txt
+-file		2022-11-24-red_sea-transport-phreeqc-scaling-0.txt
 -reaction		true
 -temperature	true
 -totals		Mn Fe B Cl Na S(6) Ca K Mg Sr Ba Li Zn Ni Cu Cd Co Pb
@@ -123,7 +123,7 @@ TRANSPORT
 -cells			12
 -shifts			67
 -lengths		0.08466666666666667
--time_step		2.9911098509743295	# this satisfies the Courant condition with a feed velocity of 3.397E-1 m/s
+-time_step		2.9911098509743295	# this satisfies the Courant condition with a feed velocity of 0.3397 m/s
 -initial_time		0
 -boundary_conditions	constant	flux 	 # Dirichlet and Cachy boundary conditions, respectively
 

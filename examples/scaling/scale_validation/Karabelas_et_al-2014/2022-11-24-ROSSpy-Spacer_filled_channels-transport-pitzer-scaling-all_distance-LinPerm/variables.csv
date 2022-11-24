@@ -1,0 +1,17 @@
+,variable,value
+0,cell_meters,0.08466666666666667
+1,feed_cubic_meters,0.013210735175136622
+2,feed_kg,13.171724160465171
+3,feed_moles,731.1409835231815
+4,Reynold's number,62.61929127460346
+5,feed_kg_cell,1.0976436800387643
+6,feed_moles_cell,60.928415293598455
+7,module 0,"{'cf': 1.1176963344974205, 'permeate (moles/cell)': -0.05603424268698479}"
+8,described_minerals,"{'Anhydrite': {'formula': 'CaSO4', 'mass': '140'}, 'Aragonite': {'formula': 'CaCO3', 'mass': '100'}, 'Calcite': {'formula': 'CaCO3', 'mass': '100'}, 'Gypsum': {'formula': 'CaSO4:2H2O', 'mass': '170'}, 'Portlandite': {'formula': 'Ca(OH)2', 'mass': '57'}}"
+9,simulation_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2014\2022-11-24-ROSSpy-Spacer_filled_channels-transport-pitzer-scaling-all_distance-LinPerm
+10,run_time (s),0.5330164000000002
+11,initial_solution_mass,13.171724160465171
+12,final_solution_mass,11.818225011645598
+13,simulation_cf,1.114526432479145
+14,final_time,200.40436001528005
+15,precipitated_minerals,"{'Gypsum': {'formula': 'CaSO4:2H2O', 'mass': '170'}}"

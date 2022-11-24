@@ -1,0 +1,92 @@
+# C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2014\2022-11-24-ROSSpy-Spacer_filled_channels-transport-pitzer-scaling-all_distance-LinPerm
+DATABASE C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+TITLE	 None
+
+SOLUTION 0	Spacer_filled_channels
+
+pH 		 6.4 charge #
+
+
+units 	 ppm
+Ca		800		#
+S(6)		1975		#
+-water 	13.171724160465171
+
+SOLUTION 1-12	Initial solution in the RO module
+temp 	 25
+units 	 ppm
+-water 	13.171724160465171
+
+EQUILIBRIUM_PHASES 1-12
+Anhydrite		0	0
+Aragonite		0	0
+Calcite		0	0
+Gypsum			0	0
+Portlandite		0	0
+
+REACTION 1
+	H2O -1; 6.724109122438175
+
+REACTION 2
+	H2O -1; 6.66807487975119
+
+REACTION 3
+	H2O -1; 6.612040637064205
+
+REACTION 4
+	H2O -1; 6.556006394377221
+
+REACTION 5
+	H2O -1; 6.499972151690235
+
+REACTION 6
+	H2O -1; 6.4439379090032505
+
+REACTION 7
+	H2O -1; 6.387903666316266
+
+REACTION 8
+	H2O -1; 6.331869423629281
+
+REACTION 9
+	H2O -1; 6.2758351809422965
+
+REACTION 10
+	H2O -1; 6.219800938255311
+
+REACTION 11
+	H2O -1; 6.163766695568326
+
+REACTION 12
+	H2O -1; 6.107732452881342
+
+SELECTED_OUTPUT
+-file		2022-11-24-Spacer_filled_channels-transport-pitzer-scaling-0.txt
+-reaction		true
+-temperature	true
+-totals		Ca S(6)
+-saturation_indices	Anhydrite Aragonite Calcite Gypsum Portlandite
+-equilibrium_phases	Anhydrite Aragonite Calcite Gypsum Portlandite
+-pH			true
+-alkalinity	true
+-solution
+-time		true
+-distance		true
+-simulation		true
+-high_precision	true
+-charge_balance	true
+-ionic_strength	true
+-step
+-water
+        
+
+TRANSPORT
+-cells			12
+-shifts			67
+-lengths		0.08466666666666667
+-time_step		2.9911098509743295	# this satisfies the Courant condition with a feed velocity of 3.397E-1 m/s
+-initial_time		0
+-boundary_conditions	constant	flux 	 # Dirichlet and Cachy boundary conditions, respectively
+
+-punch_cells		1-12
+-punch_frequency	67

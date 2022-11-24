@@ -1,5 +1,5 @@
-# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\minteq scaling
-DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\minteq.dat
+# C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\minteq scaling
+DATABASE C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\minteq.dat
 TITLE	 None
 
 SOLUTION 0	brackish-water
@@ -125,7 +125,7 @@ REACTION 12
 
 
 SELECTED_OUTPUT
--file		2022-04-23-brackish-water-transport-minteq-scaling-0.txt
+-file		2022-11-24-brackish-water-transport-minteq-scaling-0.txt
 -reaction		true
 -temperature	true
 -totals		Li Na Mg Ca K Mn Fe Co Cu S(6) Cl F N(5) Ba B Sr Si C(4)

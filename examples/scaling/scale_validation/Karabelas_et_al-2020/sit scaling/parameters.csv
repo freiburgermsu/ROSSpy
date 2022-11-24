@@ -1,7 +1,7 @@
 ,parameter,value
 0,os,windows
-1,root_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
-2,database_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\sit.dat
+1,root_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
+2,database_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\sit.dat
 3,database_selection,sit
 4,quantity_of_modules,1
 5,simulation_type,transport
@@ -20,7 +20,7 @@
 18,permeate_approach,linear_permeate
 19,water_selection,brackish-water
 20,solution_elements,"['Li', 'Na', 'Mg', 'Ca', 'K', 'Mn', 'Fe', 'Co', 'Cu', 'S(6)', 'Cl', 'F', 'N(5)', 'Ba', 'B', 'Sr', 'Si', 'C(4)']"
-21,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\sit scaling\input.pqi
-22,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\sit scaling\selected_output.csv
-23,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\sit scaling
-24,selected_output_file_name,2022-04-23-brackish-water-transport-sit-scaling-0.txt
+21,input_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\sit scaling\input.pqi
+22,output_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\sit scaling\selected_output.csv
+23,simulation_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\sit scaling
+24,selected_output_file_name,2022-11-24-brackish-water-transport-sit-scaling-0.txt

@@ -1,6 +1,6 @@
-DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+# C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\PHREEQ_ionic_concentrations
+DATABASE C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
 TITLE	 None
-# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Zaman_et_al\PHREEQ_ionic_concentrations
 
 SOLUTION 0	Zaman
 
@@ -8,21 +8,21 @@ pH 		 9.125 charge #
 
 
 units 	 ppm
-Ca	8.41638		#
-Mg	2.4305000000000003		#
-Na	2506.8045208000003		#
-Sr	3.85528		#
-Cl	2578.4966900000004		#
-S(6)	12.024375		#
-Ba	2.609213		#
-B	2.9189700000000003		#
-K	14.466371		#
--water 	17.378153556381264
+Ca		8.41638		#
+Mg		2.4305000000000003		#
+Na		2506.8045208000003		#
+Sr		3.85528		#
+Cl		2578.4966900000004		#
+S(6)		12.024375		#
+Ba		2.609213		#
+B		2.9189700000000003		#
+K		14.466371		#
+-water 	13.171724160465171
 
 SOLUTION 1-12	Initial solution in the RO module
 temp 	 25
 units 	 ppm
--water 	17.378153556381264
+-water 	13.171724160465171
 
 EQUILIBRIUM_PHASES 1-12
 Anhydrite		0	0
@@ -69,74 +69,75 @@ Thenardite		0	0
 Teepleite		0	0
 
 REACTION 1
-	H2O -1; 239.901266690816
+	H2O -1; 181.82948377406262
 
 REACTION 2
-	H2O -1; 144.34259301702082
+	H2O -1; 109.40225342252961
 
 REACTION 3
-	H2O -1; 96.39641043049073
+	H2O -1; 73.0621800710976
 
 REACTION 4
-	H2O -1; 68.9370568109781
+	H2O -1; 52.24978436232345
 
 REACTION 5
-	H2O -1; 51.74796866757163
+	H2O -1; 39.22157877268569
 
 REACTION 6
-	H2O -1; 40.275222270717336
+	H2O -1; 30.525986691884782
 
 REACTION 7
-	H2O -1; 32.237078383360995
+	H2O -1; 24.433598878763007
 
 REACTION 8
-	H2O -1; 26.386973326958014
+	H2O -1; 19.999601521838883
 
 REACTION 9
-	H2O -1; 21.996836492775174
+	H2O -1; 16.67216467555602
 
 REACTION 10
-	H2O -1; 18.618172260625443
+	H2O -1; 14.111357966813557
 
 REACTION 11
-	H2O -1; 15.962421821465341
+	H2O -1; 12.098472674266986
 
 REACTION 12
-	H2O -1; 13.837078000616089
+	H2O -1; 10.487600938914852
 # linear_cf
     
     #Effluent module 1:
-#Estimated CF: 4.972E0
-#Estimated final water mass: 3.495090563087542
+#Estimated CF: 4.972
+#Estimated final water mass: 2.649094373776518
 
 
 
 SELECTED_OUTPUT
--file			2022-01-20-Zaman-transport-pitzer-brine-0.txt
+-file		2022-11-24-Zaman-transport-pitzer-brine-0.txt
 -reaction		true
--temperature		true
--totals			Ca Mg Na Sr Cl S(6) Ba B K
+-temperature	true
+-totals		Ca Mg Na Sr Cl S(6) Ba B K
 -saturation_indices	Anhydrite Aragonite Arcanite Artinite Barite Bischofite Bloedite Brucite Burkeite Calcite Carnallite Celestite Dolomite Epsomite Gaylussite Glaserite Glauberite Goergeyite Gypsum Halite Hexahydrite Huntite Kainite Kieserite Labile_S Leonhardite Leonite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Polyhalite Portlandite Schoenite Sylvite Syngenite Thenardite Teepleite
 -equilibrium_phases	Anhydrite Aragonite Arcanite Artinite Barite Bischofite Bloedite Brucite Burkeite Calcite Carnallite Celestite Dolomite Epsomite Gaylussite Glaserite Glauberite Goergeyite Gypsum Halite Hexahydrite Huntite Kainite Kieserite Labile_S Leonhardite Leonite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Polyhalite Portlandite Schoenite Sylvite Syngenite Thenardite Teepleite
 -pH			true
--time			true
+-alkalinity	true
+-solution
+-time		true
 -distance		true
 -simulation		true
 -high_precision	true
--alkalinity	true
--solution
 -charge_balance	true
 -ionic_strength	true
 -step
 -water
+        
 
 TRANSPORT
 -cells			12
--shifts			70
+-shifts			92
 -lengths		0.08466666666666667
--time_step		3.946329703005324	# this satisfies the Courant condition with a feed velocity of 2.575E-1 m/s
+-time_step		2.9911098509743295	# this satisfies the Courant condition with a feed velocity of 0.3397 m/s
 -initial_time		0
--boundary_conditions	constant	flux 	 # Dirichlet and Cachy boundary conditions
+-boundary_conditions	constant	flux 	 # Dirichlet and Cachy boundary conditions, respectively
 
 -punch_cells		12
 -punch_frequency	1

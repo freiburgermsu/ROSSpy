@@ -3,9 +3,9 @@ from chempy.properties.water_density_tanaka_2001 import water_density
 from numpy import array, log10, seterr
 from math import pi, ceil, inf
 from collections import OrderedDict
-from matplotlib import pyplot 
+from matplotlib import pyplot
+import matplotlib
 from itertools import chain
-from warnings import warn
 from pprint import pprint
 from glob import glob
 import datetime
@@ -14,10 +14,21 @@ import pandas
 import chemw
 import timeit, json, os, re
 
-seterr(divide = 'ignore') 
+seterr(divide = 'ignore')
+
+matplotlib.rcParams['font.family'] = 'sans-serif'
+
+class NoScalingOccurred(Exception):
+    pass
+
+class ModuleDimensionsError(Exception):
+    pass
+
+class PermeateFluxError(Exception):
+    pass
 
 def sigfigs_conversion(num, sigfigs_in = 2):
-    return sigfig.round(num, sigfigs=sigfigs_in, notation = 'sci', warn = False)
+    return sigfig.round(num, sigfigs=sigfigs_in, warn=False)
 
 def time_determination(time):
     unit = 'seconds'
@@ -39,14 +50,11 @@ def isnumber(num):
         float(num)
         return True
     except:
-        try:
-            int(num)
-            return True
-        except:
             return False
 
 class ROSSPkg():
-    def __init__(self, database_selection, simulation = 'scaling', simulation_type = 'transport', operating_system = 'windows',  export_content = True, domain_phase = None, quantity_of_modules = 1, simulation_title = None, verbose = False, printing = True, jupyter = False):      
+    def __init__(self, database_selection, simulation = 'scaling', simulation_type = 'transport', operating_system = 'windows',  export_content = True,
+                 domain_phase = None, quantity_of_modules = 1, simulation_title = None, verbose = False, printing = True, jupyter = False):
         # establish the general organization structures and values
         self.parameters, self.variables, self.results, self.results['figures'] = {}, {}, {}, {}
         self.printing, self.verbose, self.jupyter, self.export_content = printing, verbose, jupyter, export_content
@@ -132,7 +140,7 @@ class ROSSPkg():
                 2*self.ro_module['support_layer_thickness_mm']['value']   
                 )  
         if self.parameters['repeated_membrane_winding_mm'] == 0:
-            warn('--> ERROR: The module dimensions are not sensible.')
+            raise ModuleDimensionsError('The module dimensions are not sensible.')
         self.parameters['cells_per_module'] = cells_per_module
         self.variables['cell_meters'] = self.ro_module['module_length_m']['value'] / self.parameters['cells_per_module']        
         self.parameters['active_m2_cell'] = self.ro_module['active_m2']['value'] / self.parameters['cells_per_module']
@@ -242,7 +250,10 @@ class ROSSPkg():
                 cf = self.cumulative_cf = self.variables['feed_moles'] / (self.variables['feed_moles'] - moles_removed)
                 
                 if sigfigs_conversion(average_moles_removed,14) != sigfigs_conversion(self.parameters['permeate_moles_per_cell'], 14):
-                    warn(f'--> ERROR: Inconsistent REACTION calculations. The two definitions of the average permeate flux per cell < {average_moles_removed} > & < {self.parameters["permeate_moles_per_cell"]} > do not equate.')
+                    raise PermeateFluxError(f'Inconsistent REACTION calculations. The two definitions of the average permeate flux '
+                                            f'per cell ({average_moles_removed} & {self.parameters["permeate_moles_per_cell"]}) do '
+                                            f'not equate, which is indicative of a computational error. Please report this as '
+                                            f'a GitHub issue: https://github.com/freiburgermsu/ROSSpy/issues.')
 
             elif self.parameters['permeate_approach'] == 'linear_cf':
                 module_iteration = moles_removed = 0
@@ -274,7 +285,8 @@ class ROSSPkg():
                     else:
                         module_previous_moles_removed += reaction_parameters[-1] 
                         if moles_to_be_removed < module_previous_moles_removed:
-                            warn(f'--> ERROR: The reaction parameter is negative: {moles_to_be_removed - module_previous_moles_removed}.')
+                            raise PermeateFluxError(f'The reaction parameter is negative: '
+                                                    f'{moles_to_be_removed - module_previous_moles_removed}.')
                         reaction_parameter = moles_to_be_removed - module_previous_moles_removed
                         if self.verbose:
                             print('to be', moles_to_be_removed, '\tlast parameter', reaction_parameters[-1], '\tthis parameter', reaction_parameter, '\tprevious removal', module_previous_moles_removed)
@@ -287,7 +299,7 @@ class ROSSPkg():
                     measured_cf = self.variables['feed_moles'] / (self.variables['feed_moles']-moles_removed)
                     consistency = sigfig.round(measured_cf, 5) == sigfig.round(cf, 5)
                     if not consistency:
-                        warn(f'--> ERROR: The measured cf {measured_cf} is dissimilar from the target cf {cf}.') 
+                        raise PermeateFluxError(f'The measured cf {measured_cf} is dissimilar from the target cf {cf}.')
                     else:
                         if self.verbose:
                             print('cf consistency between the measured and predicted: ', consistency)
@@ -515,7 +527,9 @@ SOLUTION {initial_number}\t{self.parameters["water_selection"]}'''
 
         #========================= POTENTIAL SCALANTS =================================
         short_mineral_names = ['Barite', 'Gypsum','Halite', 'Natron', 'Quartz', 'Talc','Trona', 'Borax', 'Albite', 'K-mica','Illite', 'Pyrite', 'Sulfur',]
-#        long_mineral_names = ['Anthophyllite', 'Hexahydrite', 'Leonhardite', 'Nesquehonite', 'Pentahydrite', 'Portlandite','Sepiolite(d)', 'Boric_acid,s', 'K2B4O7:4H2O', 'NaB5O8:5H2O', 'Rhodochrosite', 'Strontianite','Hydroxyapatite', 'Chlorite(14A)', 'Mackinawite', 'Hausmannite', 'Pyrochroite']
+        # long_mineral_names = ['Anthophyllite', 'Hexahydrite', 'Leonhardite', 'Nesquehonite', 'Pentahydrite', 'Portlandite',
+        #                       'Sepiolite(d)', 'Boric_acid,s', 'K2B4O7:4H2O', 'NaB5O8:5H2O', 'Rhodochrosite', 'Strontianite',
+        #                       'Hydroxyapatite', 'Chlorite(14A)', 'Mackinawite', 'Hausmannite', 'Pyrochroite']
 
         # define the equilibrium_phases block
         self.results['equilibrium_phases_block'] = []
@@ -705,14 +719,17 @@ SELECTED_OUTPUT
                 
         # define the simulation folder and parameters
         if self.parameters['domain'] == 'dual':
-            self.figure_title = f'{self.parameters["domain_phase"]} phase {self.parameters["simulation"]} from the {self.parameters["water_selection"]} after {sigfigs_conversion(self.parameters["simulation_time"])}'
+            self.figure_title = f'{self.parameters["domain_phase"]} phase {self.parameters["simulation"]} from the ' \
+                                f'{self.parameters["water_selection"]} after {sigfigs_conversion(self.parameters["simulation_time"])}'
         self.parameters['active_m2'] = active_m2
         if self.parameters['active_m2'] is None:
             self.parameters['active_m2'] = 37
         self.parameters['active_m2_cell'] = self.parameters['active_m2']/self.parameters['cells_per_module']
         
         
-    def execute(self, simulation_name = None, selected_output_path = None, simulation_directory = None, figure_title = None, title_font = 'xx-large', label_font = 'xx-large', x_label_number = 6, export_name = None, export_format = 'svg', scale_ions = True, define_paths = True, selected_output_filename = None):
+    def execute(self, simulation_name = None, selected_output_path = None, simulation_directory = None, figure_title = None,
+                x_label_number = 6, export_name = None, export_format = 'svg', scale_ions = True, define_paths = True,
+                selected_output_filename = None, log_scale=None):
         '''Execute a PHREEQC input file '''
         def run(input_file, first=False):
             try:
@@ -758,8 +775,9 @@ SELECTED_OUTPUT
         self._selected_output(selected_output_filename)
         if 'solution_block' in self.results:
             self.results['complete_lines'] = chain(
-                    [f'# {self.simulation_path}'], self.results['general_conditions'], self.results['solution_block'], self.results['equilibrium_phases_block'], self.results['reaction_block'], self.results['selected_output_block'], self.results['transport_block']
-                     ) 
+                [f'# {self.simulation_path}'], self.results['general_conditions'], self.results['solution_block'],
+                self.results['equilibrium_phases_block'], self.results['reaction_block'],
+                self.results['selected_output_block'], self.results['transport_block'])
             self.input_file = '\n'.join([line for line in self.results['complete_lines']])       
             
         if self.export_content:
@@ -836,10 +854,10 @@ SELECTED_OUTPUT
                                  
         # conducting the appropriate visualization function
         if self.parameters['simulation'] == 'brine':
-            self.processed_data = self._brine_plot(title_font, label_font, export_format, x_label_number, export_name)
+            self.processed_data = self._brine_plot(export_format, x_label_number, export_name, log_scale)
             csv_export_name = 'brine_concentrations.csv'
         elif self.parameters['simulation'] == 'scaling':
-            self.processed_data = self._scaling_plot(title_font, label_font, x_label_number, export_name, export_format)
+            self.processed_data = self._scaling_plot(x_label_number, export_name, export_format, log_scale)
             csv_export_name = 'scaling_data.csv'
             if scale_ions and self.processed_data is not None:
                 self._ion_proportions()
@@ -948,7 +966,7 @@ SELECTED_OUTPUT
             raise TypeError(error)
             
                                  
-    def _brine_plot(self, title_font, label_font, export_format, x_label_number, export_name, log_scale = True):
+    def _brine_plot(self, export_format, x_label_number, export_name, log_scale = True):
         """Generate plots of the elemental concentrations from effluent brine in the PHREEQC SELECTED_OUTPUT file"""
         # determine the minerals in the simulation      
         columns = []
@@ -962,8 +980,12 @@ SELECTED_OUTPUT
             if self.parameters['simulation_perspective'] == 'all_time':
                 title_end = 'over time'     
             self.figure_title = f'{self.parameters["domain_phase"].capitalize()} phase {self.parameters["simulation"]} from the {self.parameters["water_selection"]} {title_end}'
-        
-        pyplot.figure(figsize = (17,10))
+
+        pyplot.figure(figsize = (17,10), dpi=400)
+        pyplot.rc('axes', titlesize=20, labelsize=22)
+        pyplot.rc('xtick', labelsize=20)
+        pyplot.rc('ytick', labelsize=20)
+        pyplot.rc('legend', title_fontsize=22, fontsize=22)
         non_zero_elements, non_zero_columns, data = [], [], {} 
         insufficient_elements = set()
         for element in columns:
@@ -1012,7 +1034,8 @@ SELECTED_OUTPUT
                 x_location.append(x_serie[index])
             x_location.append(x_serie[-1])
             pyplot.xticks(x_location)
-        self._illustrate(pyplot, 'non-zero ions', export_name, label_font, title_font, export_format, log_scale)
+        log_scale = log_scale if log_scale is not None else True
+        self._illustrate(pyplot, 'non-zero ions', export_name, export_format, log_scale)
 
         # defining the datatable of brine concentrations
         concentrations_table = pandas.DataFrame(data)
@@ -1024,11 +1047,10 @@ SELECTED_OUTPUT
                 print(concentrations_table)
         return concentrations_table            
 
-    def _scaling_plot(self, title_font, label_font, x_label_number, export_name, export_format = 'svg', log_scale = None):
+    def _scaling_plot(self, x_label_number, export_name, export_format = 'svg', log_scale = None):
         """Generate plots of scaling along the module distance in the PHREEQC SELECTED_OUTPUT file"""
         def evaporation():
             scaling_data = pandas.DataFrame({})
-            pyplot.figure(figsize = (17,10))
             data = {}
             for mineral in self.variables['precipitated_minerals']: 
                 mineral_formula = self.minerals[mineral]['formula']
@@ -1072,7 +1094,7 @@ SELECTED_OUTPUT
             data_df = pandas.DataFrame(
                     columns = [f'{mineral} (g/m^2)'],
                     data = [sigfigs_conversion(y, 4) for y in array(scaling_serie)],
-                    index = [sigfigs_conversion(str(x), 3) for x in array(x_serie)]
+                    index = [sigfigs_conversion(x, 3) for x in array(x_serie)]
                     )
             
             return data_df
@@ -1116,17 +1138,17 @@ SELECTED_OUTPUT
                         self.variables['precipitated_minerals'][mineral] = self.minerals[mineral]
         
         if non_zero_minerals == set():
-            warn('No scaling occurred.')
-            return None          
+            raise NoScalingOccurred('No scaling occurred.')
         else:
-            if log_scale is None:
-                log_scale = False
-                if log10(maximum_scaling)-log10(minimum_scaling) > 1:
-                    log_scale = True
+            log_scale = log_scale or log10(maximum_scaling)-log10(minimum_scaling) > 1
 
         # finalize the output data
         scaling_data = pandas.DataFrame({})
-        pyplot.figure(figsize = (17,10))
+        pyplot.figure(figsize = (17,10), dpi=400)
+        pyplot.rc('axes', titlesize=22, labelsize=22)
+        pyplot.rc('xtick', labelsize=20)
+        pyplot.rc('ytick', labelsize=20)
+        pyplot.rc('legend', title_fontsize=25, fontsize=23)
         for mineral in self.variables['precipitated_minerals']: 
             scaling_serie, x_serie = [], []
             mineral_formula = self.minerals[mineral]['formula'] 
@@ -1145,7 +1167,7 @@ SELECTED_OUTPUT
             time, units = time_determination(self.variables['final_time'])
             self.figure_title = f'Scaling from the {self.parameters["water_selection"]} after {sigfigs_conversion(time)} {units}'
             
-        self._illustrate(pyplot, 'scale', export_name, label_font, title_font, export_format, log_scale)
+        self._illustrate(pyplot, 'scalants', export_name, export_format, log_scale)
         x_label, y_label = self._determine_labels()
         scaling_data.index.name = x_label
         return scaling_data
@@ -1153,22 +1175,22 @@ SELECTED_OUTPUT
     def _determine_labels(self): 
         # determine the y-axis label
         if self.parameters['simulation'] == 'scaling':
-            y_label = 'Mass concentration (g/m^2)'
+            y_label = "Mass concentration " + r"($\frac{g}{m^2}$)"
             if self.parameters['simulation_type'] == 'evaporation':
-                y_label = 'Mass (g)'
+                y_label = 'Mass ' + r"($g$)"
         elif self.parameters['simulation'] == 'brine':
             y_label = 'Concentration (molal)'
         
         # determine the x-axis label
         if self.parameters['simulation_type'] == 'transport':
-            x_label = 'Distance (m)'
+            x_label = 'Distance ' + r"($m$)"
             if self.parameters['simulation_perspective'] == 'all_time':
-                x_label = 'Time (s)'
+                x_label = 'Time ' + r"($s$)"
         elif self.parameters['simulation_type'] == 'evaporation':
             x_label = 'Concentration Factor (CF)'
         return x_label, y_label
     
-    def _illustrate(self, pyplot, legend_title, export_name, label_font, title_font, export_format, log_scale):
+    def _illustrate(self, pyplot, legend_title, export_name, export_format, log_scale):
         def export_plot(figure, export_name = None, export_format = 'svg'):
             if export_name is None:
                 export_name = 'all_minerals'
@@ -1179,25 +1201,26 @@ SELECTED_OUTPUT
             # export the plot
             file_number, figure_path = 0, os.path.join(self.simulation_path, export_name)
             if not os.path.exists(f'{figure_path}.{export_format}'):
-                figure.savefig(f'{figure_path}.{export_format}')
+                figure.savefig(f'{figure_path}.{export_format}', bbox_inches="tight", transparent=True)
             elif os.path.exists(f'{figure_path}.{export_format}'):
                 while os.path.exists(f'{figure_path}_{file_number}.{export_format}'):
                     file_number += 1
-                figure.savefig(f'{figure_path}_{file_number}.{export_format}')
+                figure.savefig(f'{figure_path}_{file_number}.{export_format}', bbox_inches="tight", transparent=True)
                 
         # apply the attributes of the figure
         x_label, y_label = self._determine_labels()
         pyplot.grid(True)
-        pyplot.title(self.figure_title, fontsize = title_font)
-        pyplot.xlabel(x_label, fontsize = label_font)
-        pyplot.ylabel(y_label, fontsize = label_font)  
-        pyplot.legend(title = legend_title, loc='best', title_fontsize = 'x-large', fontsize = 'large')  
         if self.parameters['simulation_type'] == 'transport':
-            pyplot.figtext(0.2, 0.07, f'Final CF: {float(sigfigs_conversion(self.variables["simulation_cf"], 4))}', 
-                                                   wrap=True, horizontalalignment='left', fontsize=12)
+            self.figure_title += f' (final CF: {str(sigfigs_conversion(self.variables["simulation_cf"], 4))})'
+        pyplot.title(self.figure_title)
+        pyplot.xlabel(x_label)
+        pyplot.ylabel(y_label)
+        pyplot.legend(title = legend_title, loc='best')
+        # pyplot.ticklabel_format(axis="y", useOffset=False)
         if log_scale:
             pyplot.yscale('log')
-        
+            # pyplot.ticklabel_format(axis="y", useOffset=True)
+
         figure = pyplot.gcf()
         if self.printing:
             pyplot.show()

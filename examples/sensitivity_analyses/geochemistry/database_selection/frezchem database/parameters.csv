@@ -1,7 +1,7 @@
 ,parameter,value
 0,os,windows
-1,root_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
-2,database_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\frezchem.dat
+1,root_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
+2,database_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\frezchem.dat
 3,database_selection,frezchem
 4,quantity_of_modules,1
 5,simulation_type,transport
@@ -20,7 +20,7 @@
 18,permeate_approach,linear_permeate
 19,water_selection,red_sea
 20,solution_elements,"['Mn', 'Fe', 'B', 'Cl', 'Na', 'S(6)', 'Ca', 'K', 'Mg', 'Sr', 'Ba', 'Li', 'Zn', 'Ni', 'Cu', 'Cd', 'Co', 'Pb']"
-21,input_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\database_selection\frezchem database\input.pqi
-22,output_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\database_selection\frezchem database\selected_output.csv
-23,simulation_path,C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\database_selection\frezchem database
-24,selected_output_file_name,2022-04-23-red_sea-transport-frezchem-scaling-0.txt
+21,input_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\database_selection\frezchem database\input.pqi
+22,output_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\database_selection\frezchem database\selected_output.csv
+23,simulation_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\database_selection\frezchem database
+24,selected_output_file_name,2022-11-24-red_sea-transport-frezchem-scaling-0.txt
