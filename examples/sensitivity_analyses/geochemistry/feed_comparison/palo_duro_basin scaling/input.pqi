@@ -1,5 +1,5 @@
-# C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\feed_comparison\palo_duro_basin scaling
-DATABASE C:\Users\Andrew Freiburger\Dropbox\My PC (DESKTOP-M302P50)\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+# C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\feed_comparison\palo_duro_basin scaling
+DATABASE C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
 TITLE	 None
 
 SOLUTION 0	palo_duro_basin
@@ -112,13 +112,13 @@ REACTION 12
     #Effluent relative pressure: 90.0%
     
     #Effluent module 1:
-#Estimated CF: 1.118E0
+#Estimated CF: 1.118
 #Estimated final water mass: 11.784707307274049
 
 
 
 SELECTED_OUTPUT
--file		2022-04-23-palo_duro_basin-transport-pitzer-scaling-0.txt
+-file		2022-11-27-palo_duro_basin-transport-pitzer-scaling-0.txt
 -reaction		true
 -temperature	true
 -totals		Mn Fe B Cl Na S(6) Ca K Mg Sr Ba Li
@@ -141,7 +141,7 @@ TRANSPORT
 -cells			12
 -shifts			67
 -lengths		0.08466666666666667
--time_step		2.9911098509743295	# this satisfies the Courant condition with a feed velocity of 3.397E-1 m/s
+-time_step		2.9911098509743295	# this satisfies the Courant condition with a feed velocity of 0.3397 m/s
 -initial_time		0
 -boundary_conditions	constant	flux 	 # Dirichlet and Cachy boundary conditions, respectively
 

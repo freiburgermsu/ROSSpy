@@ -1,4 +1,4 @@
-# C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\transport\evaporation_vs_desalination\evaporation
+# C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\transport\evaporation_vs_desalination\evaporation-2
 DATABASE C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
 TITLE	 None
 
@@ -72,7 +72,7 @@ Teepleite		0	0
                 
 
 SELECTED_OUTPUT
--file		2022-11-24-red_sea-evaporation-pitzer-scaling-0.txt
+-file		2022-11-27-red_sea-evaporation-pitzer-scaling-0.txt
 -reaction		true
 -temperature	true
 -totals		Mn Fe B Cl Na S(6) Ca K Mg Sr Ba Li Zn Ni Cu Cd Co Pb

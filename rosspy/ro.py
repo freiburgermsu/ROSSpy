@@ -8,6 +8,7 @@ import matplotlib
 from itertools import chain
 from pprint import pprint
 from glob import glob
+# from icecream import ic
 import datetime
 import sigfig 
 import pandas
@@ -982,10 +983,11 @@ SELECTED_OUTPUT
             self.figure_title = f'{self.parameters["domain_phase"].capitalize()} phase {self.parameters["simulation"]} from the {self.parameters["water_selection"]} {title_end}'
 
         pyplot.figure(figsize = (17,10), dpi=400)
-        pyplot.rc('axes', titlesize=20, labelsize=22)
-        pyplot.rc('xtick', labelsize=20)
-        pyplot.rc('ytick', labelsize=20)
-        pyplot.rc('legend', title_fontsize=22, fontsize=22)
+        pyplot.rc('axes', titlesize=22, labelsize=28)
+        pyplot.rc('figure', titlesize=22)
+        pyplot.rc('xtick', labelsize=24)
+        pyplot.rc('ytick', labelsize=24)
+        pyplot.rc('legend', title_fontsize=25, fontsize=23)
         non_zero_elements, non_zero_columns, data = [], [], {} 
         insufficient_elements = set()
         for element in columns:
@@ -1075,7 +1077,7 @@ SELECTED_OUTPUT
         def time_serie(mineral, mineral_formula, molar_mass_area):
             for index, row in self.selected_output.iterrows():
                 if row[mineral] > 1e-12:
-                    x_serie.append(float(row['time'])) # - initial_solution_time * self.parameters['timestep'])
+                    x_serie.append(float(row['time']))  # - initial_solution_time * self.parameters['timestep'])
                     grams_area = float(row[mineral])*molar_mass_area
                     scaling_serie.append(float(sigfigs_conversion(grams_area, 3)))
                     
@@ -1123,7 +1125,7 @@ SELECTED_OUTPUT
         
         # all of the non-zero minerals are identified and the chemical formulas are sorted into a list
         csv_minerals, non_zero_minerals, self.variables['precipitated_minerals'] = [], set(), {}
-        maximum_scaling, minimum_scaling = -inf, 0
+        maximum_scaling, minimum_scaling = -inf, inf
         for column in self.selected_output.columns:
             if re.search('([A-Z][a-z]{2,})', column) and not re.search('[_(]|(?:Metal)', column):
                 mineral = re.search('([A-Z][a-z]{2,})', column).group()
@@ -1133,7 +1135,7 @@ SELECTED_OUTPUT
                 if max(self.selected_output[column]) != 0:
                     maximum_scaling = max(max([y for y in self.selected_output[column] if y>0]), maximum_scaling)
                     minimum_scaling = min(min([y for y in self.selected_output[column] if y>0]), minimum_scaling)
-                    non_zero_minerals.add(mineral)   
+                    non_zero_minerals.add(mineral)
                     if column in self.minerals:
                         self.variables['precipitated_minerals'][mineral] = self.minerals[mineral]
         
@@ -1145,9 +1147,10 @@ SELECTED_OUTPUT
         # finalize the output data
         scaling_data = pandas.DataFrame({})
         pyplot.figure(figsize = (17,10), dpi=400)
-        pyplot.rc('axes', titlesize=22, labelsize=22)
-        pyplot.rc('xtick', labelsize=20)
-        pyplot.rc('ytick', labelsize=20)
+        pyplot.rc('axes', titlesize=22, labelsize=28)
+        pyplot.rc('figure', titlesize=22)
+        pyplot.rc('xtick', labelsize=24)
+        pyplot.rc('ytick', labelsize=24)
         pyplot.rc('legend', title_fontsize=25, fontsize=23)
         for mineral in self.variables['precipitated_minerals']: 
             scaling_serie, x_serie = [], []
@@ -1166,7 +1169,8 @@ SELECTED_OUTPUT
         if self.figure_title is None:
             time, units = time_determination(self.variables['final_time'])
             self.figure_title = f'Scaling from the {self.parameters["water_selection"]} after {sigfigs_conversion(time)} {units}'
-            
+
+        display(data_df)
         self._illustrate(pyplot, 'scalants', export_name, export_format, log_scale)
         x_label, y_label = self._determine_labels()
         scaling_data.index.name = x_label
@@ -1179,7 +1183,7 @@ SELECTED_OUTPUT
             if self.parameters['simulation_type'] == 'evaporation':
                 y_label = 'Mass ' + r"($g$)"
         elif self.parameters['simulation'] == 'brine':
-            y_label = 'Concentration (molal)'
+            y_label = r'Concentration ($molal$)'
         
         # determine the x-axis label
         if self.parameters['simulation_type'] == 'transport':
@@ -1187,7 +1191,7 @@ SELECTED_OUTPUT
             if self.parameters['simulation_perspective'] == 'all_time':
                 x_label = 'Time ' + r"($s$)"
         elif self.parameters['simulation_type'] == 'evaporation':
-            x_label = 'Concentration Factor (CF)'
+            x_label = r'Concentration Factor ($CF$)'
         return x_label, y_label
     
     def _illustrate(self, pyplot, legend_title, export_name, export_format, log_scale):

@@ -9,7 +9,7 @@
 7,module 0,"{'cf': 1.1176963344974205, 'permeate (moles/cell)': -0.05603424268698479}"
 8,described_minerals,"{'Calcite': {'formula': 'CaCO3', 'mass': '100.09'}, 'Aragonite': {'formula': 'CaCO3', 'mass': '100.09'}, 'Dolomite': {'formula': 'CaMg(CO3)2', 'mass': '124.39'}, 'Siderite': {'formula': 'FeCO3', 'mass': '115.85'}, 'Rhodochrosite': {'formula': 'MnCO3', 'mass': '114.95'}, 'Strontianite': {'formula': 'SrCO3', 'mass': '147.6'}, 'Witherite': {'formula': 'BaCO3', 'mass': '197.3'}, 'Gypsum': {'formula': 'CaSO4:2H2O', 'mass': '172.2'}, 'Anhydrite': {'formula': 'CaSO4', 'mass': '136.1'}, 'Celestite': {'formula': 'SrSO4', 'mass': '183.7'}, 'Barite': {'formula': 'BaSO4', 'mass': '233.4'}, 'Pyrochroite': {'formula': 'Mn(OH)2', 'mass': '71.95'}, 'Halite': {'formula': 'NaCl', 'mass': '58.44'}, 'Sylvite': {'formula': 'KCl', 'mass': '74.55'}, 'Melanterite': {'formula': 'FeSO4:7H2O', 'mass': '278.0'}, 'Smithsonite': {'formula': 'ZnCO3', 'mass': '125.4'}, 'Otavite': {'formula': 'CdCO3', 'mass': '172.4'}, 'CdSO4': {'formula': 'CdSO4', 'mass': '208.5'}, 'Cerussite': {'formula': 'PbCO3', 'mass': '267.2'}, 'Anglesite': {'formula': 'PbSO4', 'mass': '303.3'}}"
 9,simulation_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\database_selection\Amm database
-10,run_time (s),4.962966399999999
+10,run_time (s),3.6882292000000234
 11,initial_solution_mass,13.171724160465171
 12,final_solution_mass,11.819615023129916
 13,simulation_cf,1.1143953618361766

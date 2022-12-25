@@ -128,13 +128,13 @@ REACTION 12
     #Effluent relative pressure: 90.0%
     
     #Effluent module 1:
-#Estimated CF: 3.207E0
+#Estimated CF: 3.207
 #Estimated final water mass: 4.107126258747714
 
 
 
 SELECTED_OUTPUT
--file		2022-11-24-brackish-water-transport-sit-scaling-0.txt
+-file		2022-11-27-brackish-water-transport-sit-scaling-0.txt
 -reaction		true
 -temperature	true
 -totals		Li Na Mg Ca K Mn Fe Co Cu S(6) Cl F N(5) Ba B Sr Si C(4)
@@ -157,7 +157,7 @@ TRANSPORT
 -cells			12
 -shifts			530
 -lengths		0.08466666666666667
--time_step		0.3774495764324749	# this satisfies the Courant condition with a feed velocity of 2.243E-1 m/s
+-time_step		0.3774495764324749	# this satisfies the Courant condition with a feed velocity of 0.2243 m/s
 -initial_time		0
 -boundary_conditions	constant	flux 	 # Dirichlet and Cachy boundary conditions, respectively
 

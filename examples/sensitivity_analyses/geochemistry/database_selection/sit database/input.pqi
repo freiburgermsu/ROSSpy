@@ -142,7 +142,7 @@ REACTION 12
 
 
 SELECTED_OUTPUT
--file		2022-11-24-red_sea-transport-sit-scaling-0.txt
+-file		2022-11-27-red_sea-transport-sit-scaling-0.txt
 -reaction		true
 -temperature	true
 -totals		Mn Fe B Cl Na S(6) Ca K Mg Sr Ba Li Zn Ni Cu Cd Co Pb

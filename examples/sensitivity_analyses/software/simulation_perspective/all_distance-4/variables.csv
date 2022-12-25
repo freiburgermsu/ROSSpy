@@ -1,0 +1,17 @@
+,variable,value
+0,cell_meters,0.08466666666666667
+1,feed_cubic_meters,0.013210735175136622
+2,feed_kg,13.171724160465171
+3,feed_moles,731.1409835231815
+4,Reynold's number,62.61929127460346
+5,feed_kg_cell,1.0976436800387643
+6,feed_moles_cell,60.928415293598455
+7,module 0,"{'cf': 1.1176963344974205, 'permeate (moles/cell)': -0.05603424268698479}"
+8,described_minerals,"{'Anhydrite': {'formula': 'CaSO4', 'mass': '140'}, 'Aragonite': {'formula': 'CaCO3', 'mass': '100'}, 'Arcanite': {'formula': 'K2SO4', 'mass': '170'}, 'Artinite': {'formula': 'Mg2CO3(OH)2:3H2O', 'mass': '200'}, 'Barite': {'formula': 'BaSO4', 'mass': '230'}, 'Bischofite': {'formula': 'MgCl2:6H2O', 'mass': '200'}, 'Bloedite': {'formula': 'Na2Mg(SO4)2:4H2O', 'mass': '330'}, 'Brucite': {'formula': 'Mg(OH)2', 'mass': '41'}, 'Burkeite': {'formula': 'Na6CO3(SO4)2', 'mass': '290'}, 'Calcite': {'formula': 'CaCO3', 'mass': '100'}, 'Carnallite': {'formula': 'KMgCl3:6H2O', 'mass': '280'}, 'Celestite': {'formula': 'SrSO4', 'mass': '180'}, 'Dolomite': {'formula': 'CaMg(CO3)2', 'mass': '120'}, 'Epsomite': {'formula': 'MgSO4:7H2O', 'mass': '250'}, 'Gaylussite': {'formula': 'CaNa2(CO3)2:5H2O', 'mass': '300'}, 'Glaserite': {'formula': 'NaK3(SO4)2', 'mass': '240'}, 'Glauberite': {'formula': 'Na2Ca(SO4)2', 'mass': '180'}, 'Goergeyite': {'formula': 'K2Ca5(SO4)6H2O', 'mass': '870'}, 'Gypsum': {'formula': 'CaSO4:2H2O', 'mass': '170'}, 'Halite': {'formula': 'NaCl', 'mass': '58'}, 'Hexahydrite': {'formula': 'MgSO4:6H2O', 'mass': '230'}, 'Huntite': {'formula': 'CaMg3(CO3)4', 'mass': '170'}, 'Kainite': {'formula': 'KMgClSO4:3H2O', 'mass': '250'}, 'Kieserite': {'formula': 'MgSO4:H2O', 'mass': '140'}, 'Labile_S': {'formula': 'Na4Ca(SO4)3:2H2O', 'mass': '460'}, 'Leonhardite': {'formula': 'MgSO4:4H2O', 'mass': '190'}, 'Leonite': {'formula': 'K2Mg(SO4)2:4H2O', 'mass': '370'}, 'Magnesite': {'formula': 'MgCO3', 'mass': '84'}, 'MgCl2_2H2O': {'formula': 'MgCl2:2H2O', 'mass': '130'}, 'MgCl2_4H2O': {'formula': 'MgCl2:4H2O', 'mass': '170'}, 'Mirabilite': {'formula': 'Na2SO4:10H2O', 'mass': '320'}, 'Natron': {'formula': 'Na2CO3:10H2O', 'mass': '290'}, 'Nesquehonite': {'formula': 'MgCO3:3H2O', 'mass': '140'}, 'Pentahydrite': {'formula': 'MgSO4:5H2O', 'mass': '210'}, 'Pirssonite': {'formula': 'Na2Ca(CO3)2:2H2O', 'mass': '240'}, 'Polyhalite': {'formula': 'K2MgCa2(SO4)4:2H2O', 'mass': '600'}, 'Portlandite': {'formula': 'Ca(OH)2', 'mass': '57'}, 'Schoenite': {'formula': 'K2Mg(SO4)2:6H2O', 'mass': '400'}, 'Sylvite': {'formula': 'KCl', 'mass': '75'}, 'Syngenite': {'formula': 'K2Ca(SO4)2:H2O', 'mass': '330'}, 'Thenardite': {'formula': 'Na2SO4', 'mass': '140'}, 'Teepleite': {'formula': 'Na2B(OH)4Cl', 'mass': '160'}}"
+9,simulation_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\software\simulation_perspective\all_distance-4
+10,run_time (s),8.051441899999986
+11,initial_solution_mass,13.171724160465171
+12,final_solution_mass,11.820827805150024
+13,simulation_cf,1.1142810281634081
+14,final_time,200.40436001528005
+15,precipitated_minerals,"{'Gypsum': {'formula': 'CaSO4:2H2O', 'mass': '170'}}"
