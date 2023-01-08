@@ -1,7 +1,7 @@
 ,parameter,value
 0,os,windows
-1,root_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
-2,database_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+1,root_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\rosspy
+2,database_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\rosspy\databases\pitzer.dat
 3,database_selection,pitzer
 4,quantity_of_modules,1
 5,simulation_type,transport
@@ -20,7 +20,7 @@
 18,permeate_approach,linear_cf
 19,water_selection,Ahmed
 20,solution_elements,"['Ca', 'Mg', 'Na', 'Sr', 'Cl', 'S(6)', 'Fe', 'K']"
-21,input_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Ahmed_et_al\improved_ionic_concentrations\input.pqi
-22,output_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Ahmed_et_al\improved_ionic_concentrations\selected_output.csv
-23,simulation_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Ahmed_et_al\improved_ionic_concentrations
-24,selected_output_file_name,2022-11-27-Ahmed-transport-pitzer-brine-0.txt
+21,input_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\examples\brine\Ahmed_et_al\improved_ionic_concentrations\input.pqi
+22,output_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\examples\brine\Ahmed_et_al\improved_ionic_concentrations\selected_output.csv
+23,simulation_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\examples\brine\Ahmed_et_al\improved_ionic_concentrations
+24,selected_output_file_name,2023-01-07-Ahmed-transport-pitzer-brine-0.txt

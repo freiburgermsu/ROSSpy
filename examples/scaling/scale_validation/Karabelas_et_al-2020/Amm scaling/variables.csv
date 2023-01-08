@@ -8,10 +8,10 @@
 6,feed_moles_cell,60.928415293598455
 7,module 0,"{'cf': 3.2070414520154795, 'permeate (moles/cell)': -0.36620166331517484}"
 8,described_minerals,"{'Calcite': {'formula': 'CaCO3', 'mass': '100.09'}, 'Aragonite': {'formula': 'CaCO3', 'mass': '100.09'}, 'Dolomite': {'formula': 'CaMg(CO3)2', 'mass': '124.39'}, 'Siderite': {'formula': 'FeCO3', 'mass': '115.85'}, 'Rhodochrosite': {'formula': 'MnCO3', 'mass': '114.95'}, 'Strontianite': {'formula': 'SrCO3', 'mass': '147.6'}, 'Witherite': {'formula': 'BaCO3', 'mass': '197.3'}, 'Gypsum': {'formula': 'CaSO4:2H2O', 'mass': '172.2'}, 'Anhydrite': {'formula': 'CaSO4', 'mass': '136.1'}, 'Celestite': {'formula': 'SrSO4', 'mass': '183.7'}, 'Barite': {'formula': 'BaSO4', 'mass': '233.4'}, 'Fluorite': {'formula': 'CaF2', 'mass': '78.07'}, 'Pyrochroite': {'formula': 'Mn(OH)2', 'mass': '71.95'}, 'Halite': {'formula': 'NaCl', 'mass': '58.44'}, 'Sylvite': {'formula': 'KCl', 'mass': '74.55'}, 'Melanterite': {'formula': 'FeSO4:7H2O', 'mass': '278.0'}}"
-9,simulation_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\Amm scaling
-10,run_time (s),17.830676
+9,simulation_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\examples\scaling\scale_validation\Karabelas_et_al-2020\Amm scaling
+10,run_time (s),23.5288885
 11,initial_solution_mass,13.171724160465171
-12,final_solution_mass,4.346610444528403
-13,simulation_cf,3.030343834250431
+12,final_solution_mass,4.346610444528685
+13,simulation_cf,3.0303438342502345
 14,final_time,200.0482755092117
 15,precipitated_minerals,"{'Calcite': {'formula': 'CaCO3', 'mass': '100.09'}, 'Siderite': {'formula': 'FeCO3', 'mass': '115.85'}, 'Barite': {'formula': 'BaSO4', 'mass': '233.4'}}"

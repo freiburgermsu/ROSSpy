@@ -15,7 +15,7 @@ import pandas
 import chemw
 import timeit, json, os, re
 
-seterr(divide = 'ignore')
+seterr(divide='ignore')
 
 matplotlib.rcParams['font.family'] = 'sans-serif'
 
@@ -33,17 +33,15 @@ def sigfigs_conversion(num, sigfigs_in = 2):
 
 def time_determination(time):
     unit = 'seconds'
-    if time > 600:
-        if time > 7200:
-            if time > 2e5:
-                time /= day
-                unit = 'days'
-            else:
-                time /= hour
-                unit = 'hours'
-        else:
-            time /= minute
-            unit = 'minutes'
+    if time > 2e5:
+        time /= day
+        unit = 'days'
+    elif time > 7200:
+        time /= hour
+        unit = 'hours'
+    elif time > 600:
+        time /= minute
+        unit = 'minutes'
     return int(float(sigfigs_conversion(time, 3))), unit
 
 def isnumber(num):
@@ -51,23 +49,24 @@ def isnumber(num):
         float(num)
         return True
     except:
-            return False
+        return False
 
 class ROSSPkg():
-    def __init__(self, database_selection, simulation = 'scaling', simulation_type = 'transport', operating_system = 'windows',  export_content = True,
-                 domain_phase = None, quantity_of_modules = 1, simulation_title = None, verbose = False, printing = True, jupyter = False):
+    def __init__(self, database_selection, simulation = 'scaling', simulation_type = 'transport',
+                 operating_system = 'windows',  export_content = True, domain_phase = None,
+                 quantity_of_modules = 1, simulation_title = None, verbose = False, printing = True, jupyter = False):
         # establish the general organization structures and values
         self.parameters, self.variables, self.results, self.results['figures'] = {}, {}, {}, {}
         self.printing, self.verbose, self.jupyter, self.export_content = printing, verbose, jupyter, export_content
         self.figure_title = None
         
         # define calculation values
-        self.chem_mw = chemw.ChemMW(printing = False,)
+        self.chem_mw = chemw.ChemMW(printing=False)
         self.water_mw = float(self.chem_mw.mass('H2O'))
         self.water_gL = water_density()
         
         # import PHREEQpy
-        self.parameters['os'] =  operating_system
+        self.parameters['os'] = operating_system
         if operating_system == 'windows':
             import phreeqpy.iphreeqc.phreeqc_com as phreeqc_mod
         elif operating_system == 'unix':
@@ -91,13 +90,9 @@ class ROSSPkg():
             self.ro_modules = json.load(module)
         
         # define simulation parameters
-        self.parameters['database_selection'] = database_selection 
-        self.parameters['quantity_of_modules'] = quantity_of_modules
-        self.parameters['simulation_type'] = simulation_type
-        self.parameters['simulation'] = simulation
+        self.parameters.update({'database_selection': database_selection, "quantity_of_modules": quantity_of_modules,
+                                "simulation_type": simulation_type, "simulation": simulation, "domain": "single"})
         self._define_database()
-        
-        self.parameters['domain'] = 'single'
         if domain_phase in ['mobile', 'immobile']:
             self.parameters['domain_phase'] = domain_phase
             self.parameters['domain'] = 'dual'
@@ -108,38 +103,39 @@ class ROSSPkg():
         title_line = f'TITLE\t {simulation_title}'
         database_line = 'DATABASE {}'.format(self.parameters['database_path'])
         self.results['general_conditions'] = [database_line, title_line]
-            
-        
+
     def _define_database(self,):
-        database_json = os.path.join(self.parameters['root_path'], 'processed_databases', self.parameters['database_selection']+'.json') 
+        database_json = os.path.join(self.parameters['root_path'], 'processed_databases',
+                                     self.parameters['database_selection']+'.json')
         with open(database_json, 'r') as db:
             database = json.load(db)
-        self.elements = database['elements']
-        self.minerals = database['minerals']
+        self.elements = database['elements'] ; self.minerals = database['minerals']
 
-    def _transport(self, simulation_time, simulation_perspective = None, module_characteristics = {}, ro_module = 'BW30-400', cells_per_module = 12, coarse_timestep = True, kinematic_flow_velocity = None, exchange_factor = 1e5):
+    def _transport(self, simulation_time, simulation_perspective = None, module_characteristics:dict = None,
+                   ro_module = 'BW30-400', cells_per_module = 12, coarse_timestep = True,
+                   kinematic_flow_velocity = None, exchange_factor = 1e5):
         '''Define the TRANSPORT block'''
-        self.parameters['simulation_time'], self.parameters['exchange_factor'] = simulation_time, exchange_factor
-        self.parameters['coarse_timestep'], self.parameters['simulation_perspective'] = coarse_timestep, simulation_perspective
+        module_characteristics = module_characteristics or {}
+        self.parameters.update({"simulation_time": simulation_time, "exchange_factor": exchange_factor,
+                                "coarse_timestep": coarse_timestep, "simulation_perspective": simulation_perspective})
         if self.parameters['simulation_perspective'] is None:
-            if self.parameters['simulation'] == 'scaling':
-                self.parameters['simulation_perspective'] = 'all_distance'
-            elif self.parameters['simulation'] == 'brine':
-                self.parameters['simulation_perspective'] = 'all_time'
-        
+            self.parameters['simulation_perspective'] = 'all_distance' if (
+                    self.parameters['simulation'] == 'scaling') else 'all_time'
+
         # assign default RO module dimensions 
         if ro_module not in self.ro_modules:
-            self._error(f'The parameterized ro_module {ro_module} is not defined in the ro_module.json parameter file ({self.ro_modules.keys()}))', 'value')
+            self._error(f'The parameterized ro_module {ro_module} is not defined in the '
+                        f'ro_module.json parameter file ({self.ro_modules.keys()}))', 'value')
         self.ro_module = self.ro_modules[ro_module]
         for parameter in module_characteristics:
             self.ro_module[parameter] = module_characteristics[parameter]
 
         # calculate module properties
         self.parameters['repeated_membrane_winding_mm'] = float(
-                2*self.ro_module['membrane_thickness_mm']['value'] + self.ro_module['feed_thickness_mm']['value'] + 
-                self.ro_module['permeate_thickness_mm']['value'] + 2*self.ro_module['polysulfonic_layer_thickness_mm']['value'] +
-                2*self.ro_module['support_layer_thickness_mm']['value']   
-                )  
+                2*self.ro_module['membrane_thickness_mm']['value']
+                + self.ro_module['feed_thickness_mm']['value'] + self.ro_module['permeate_thickness_mm']['value']
+                + 2*self.ro_module['polysulfonic_layer_thickness_mm']['value']
+                + 2*self.ro_module['support_layer_thickness_mm']['value'])
         if self.parameters['repeated_membrane_winding_mm'] == 0:
             raise ModuleDimensionsError('The module dimensions are not sensible.')
         self.parameters['cells_per_module'] = cells_per_module
@@ -170,7 +166,9 @@ class ROSSPkg():
         self.parameters['timestep'] = self.ro_module['module_length_m']['value']/feed_velocity
         if not self.parameters['coarse_timestep']:
             self.parameters['timestep'] = self.variables['cell_meters']/feed_velocity
-        self.parameters['permeate_moles_per_cell'] = self.ro_module['permeate_flow_m3_per_hour']['value']/hour/liter * self.water_gL/self.water_mw * self.variables['cell_meters']/feed_velocity     #moles/cell
+        self.parameters['permeate_moles_per_cell'] = (self.ro_module['permeate_flow_m3_per_hour']['value']/hour/liter
+                                                      * self.water_gL/self.water_mw
+                                                      * self.variables['cell_meters']/feed_velocity)     #moles/cell
         
         # exit the function for evaporation simulations
         self.results['transport_block'] = []
@@ -214,7 +212,9 @@ class ROSSPkg():
                 punch_frequency_line = '-punch_frequency\t1'
         
         # create the transport block
-        self.results['transport_block'].extend([transport_line, cells_line, shifts_line, lengths_line, timestep_line, initial_time_line, boundary_conditions_line, domain_line, punch_cells_line, punch_frequency_line])
+        self.results['transport_block'].extend([
+            transport_line, cells_line, shifts_line, lengths_line, timestep_line,
+            initial_time_line, boundary_conditions_line, domain_line, punch_cells_line, punch_frequency_line])
 
         # print simulation parameters
         if self.verbose:
@@ -353,17 +353,19 @@ class ROSSPkg():
             if self.printing:
                 print(f'Effluent module {module + 1} CF: {cf}')
             if self.verbose:
-                print('\n')
-                print('permeate (moles/cell) ', removed_moles_slope)
+                print('\npermeate (moles/cell) ', removed_moles_slope)
                 print('moles_remaining', moles_remaining)
                 print('moles_removed', moles_removed)
 
                 
-    def reactive_transport(self, simulation_time, simulation_perspective = None, final_cf = None, module_characteristics = {}, ro_module = 'BW30-400', permeate_efficiency = 1, head_loss = 0.1, evaporation_steps = 15, cells_per_module = 12, coarse_timestep = True, kinematic_flow_velocity = None, exchange_factor = 1e5):
-        self._transport(simulation_time, simulation_perspective, module_characteristics, ro_module, cells_per_module, coarse_timestep, kinematic_flow_velocity, exchange_factor)
+    def reactive_transport(self, simulation_time, simulation_perspective = None, final_cf = None,
+                           module_characteristics:dict = None, ro_module = 'BW30-400', permeate_efficiency = 1,
+                           head_loss = 0.1, evaporation_steps = 15, cells_per_module = 12, coarse_timestep = True,
+                           kinematic_flow_velocity = None, exchange_factor = 1e5):
+        self._transport(simulation_time, simulation_perspective, module_characteristics or {}, ro_module,
+                        cells_per_module, coarse_timestep, kinematic_flow_velocity, exchange_factor)
         self._reaction(final_cf, permeate_efficiency, head_loss, evaporation_steps)
 
-                       
     def _described_minerals(self,):
         # determine the set of possible minerals 
         self.variables['described_minerals'] = {}
@@ -383,8 +385,8 @@ class ROSSPkg():
                     self.variables['described_minerals'][mineral] = self.minerals[mineral]
                 elif element not in self.parameters['solution_elements']:
                     if self.verbose:
-                        print(f'--> The {element} element of < {mineral} | {original_formula} > is undefined in the feed.')
-                        
+                        print(f'--> The {element} element of < {mineral} | '
+                              f'{original_formula} > is undefined in the feed.')
 
     def _define_elements(self):
         elements_lines, undefined_elements = [], []
@@ -407,24 +409,21 @@ class ROSSPkg():
             print('\n--> The {} elements are not accepted by the {} database'.format(undefined_elements, self.parameters['database_selection']))
         return elements_lines
 
-
-    def feed_geochemistry(self, water_selection = '', water_characteristics = {}, solution_description = '', ignored_minerals = [], existing_scale = {}, parameterized_ph_charge = True):
+    def feed_geochemistry(self, water_selection = '', water_characteristics = None, solution_description = '',
+                          ignored_minerals = None, existing_scale = None, parameterized_ph_charge = True):
         # create the solution line of the input file
+        water_characteristics, existing_scale = water_characteristics or {}, existing_scale or {}
+        ignored_minerals = ignored_minerals or []
         if water_selection not in self.feed_sources and water_characteristics == {}:
-            self._error(f'The {water_selection} does not have a corresponding parameter file. Either select an existing feed water {self.feed_sources}, or define a custom feed water with the water_characteristics dictionary.', 'value')
+            self._error(f'The {water_selection} does not have a corresponding parameter file. '
+                        f'Either select an existing feed water {self.feed_sources}, or define '
+                        f'a custom feed water with the water_characteristics dictionary.', 'value')
         
-        self.parameters['water_selection'] = water_selection
-        if water_selection == '':
-            self.parameters['water_selection'] = solution_description
-            
-        initial_number = 0
-        if self.parameters['simulation_type'] == 'evaporation':
-            initial_number = 1
-        
+        self.parameters['water_selection'] = water_selection if water_selection != '' else solution_description
+        initial_number = 0 if self.parameters['simulation_type'] != 'evaporation' else 1
         self.results['solution_block'] = []
         self.results['solution_block'].append(f'''
-SOLUTION {initial_number}\t{self.parameters["water_selection"]}'''
-                    )
+SOLUTION {initial_number}\t{self.parameters["water_selection"]}''')
 
         #========================= FEED IONS =================================           
         self.parameters['solution_elements'] = []
@@ -610,26 +609,21 @@ SELECTED_OUTPUT
         if simulation_name is None:
             if self.parameters['simulation_type'] == 'evaporation':
                 simulation_name = '-'.join([str(x).replace(' ', '_') for x in [
-                        datetime.date.today(), 'ROSSpy', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective']
-                        ]])
+                    datetime.date.today(), 'ROSSpy', self.parameters['water_selection'],
+                    self.parameters['simulation_type'], self.parameters['database_selection'],
+                    self.parameters['simulation'], self.parameters['simulation_perspective']]])
             elif self.parameters['simulation_type'] == 'transport':
-                permeate_approach_name = 'LinPerm'
-                if self.parameters['permeate_approach'] == 'linear_cf':
-                    permeate_approach_name = 'LinCF'
+                permeate_approach_name = 'LinPerm' if self.parameters['permeate_approach'] == 'linear_cf' else 'LinCF'
                 simulation_name = '-'.join([str(x).replace(' ', '_') for x in [
-                        datetime.date.today(), 'ROSSpy', self.parameters['water_selection'], self.parameters['simulation_type'], self.parameters['database_selection'], self.parameters['simulation'], self.parameters['simulation_perspective'], permeate_approach_name
-                        ]])
-            
-        directory = os.getcwd()
-        if simulation_directory is not None:
-            directory = simulation_directory
-            
+                    datetime.date.today(), 'ROSSpy', self.parameters['water_selection'],
+                    self.parameters['simulation_type'], self.parameters['database_selection'],
+                    self.parameters['simulation'], self.parameters['simulation_perspective'], permeate_approach_name]])
+
+        # define the simulation path
+        directory = os.getcwd() if simulation_directory is None else simulation_directory
         while os.path.exists(os.path.join(directory, simulation_name)):
             simulation_number += 1
-            simulation_name = re.sub(r'(-\d+$)', '', simulation_name)
-            simulation_name = '-'.join([simulation_name, str(simulation_number)])
-            
-        # define the simulation path 
+            simulation_name = '-'.join([re.sub(r'(-\d+$)', '', simulation_name), str(simulation_number)])
         self.simulation_path = os.path.join(directory, simulation_name)
         if self.export_content:
             if not os.path.exists(self.simulation_path):
@@ -639,7 +633,6 @@ SELECTED_OUTPUT
         self.parameters['input_path'] = os.path.join(self.simulation_path, 'input.pqi')                       
         self.parameters['output_path'] = os.path.join(self.simulation_path, 'selected_output.csv')
         self.parameters['simulation_path'] = self.variables['simulation_path'] = self.simulation_path
-        
         return directory, simulation_name
         
     def parse_input(self, input_file_path, water_selection = None, active_m2 = None):        
@@ -649,15 +642,14 @@ SELECTED_OUTPUT
             
         for db in self.databases:
             if db in input_file_path:
-                self.parameters['database_selection'] = db
+                self.parameters['database_selection'] = db ; break
                 
         # parse the input_file       
         with open(input_file_path) as input:
             input_file = input.readlines()
-        self.parameters['simulation_type'], self.parameters['permeate_approach'] = 'evaporation', 'linear_permeate'
-        self.parameters['domain'], self.parameters['water_selection'] = 'single', water_selection
-        
-        self.predicted_effluent, self.parameters['solution_elements'] = {}, []
+        self.parameters.update({'simulation_type': 'evaporation', 'permeate_approach': 'linear_permeate',
+                                'domain': 'single', 'water_selection': water_selection, "solution_elements": []})
+        self.predicted_effluent = {}
         permeate_moles = 0
         for index, row in enumerate(input_file):
             if 'DATABASE' in row:
@@ -721,25 +713,24 @@ SELECTED_OUTPUT
         # define the simulation folder and parameters
         if self.parameters['domain'] == 'dual':
             self.figure_title = f'{self.parameters["domain_phase"]} phase {self.parameters["simulation"]} from the ' \
-                                f'{self.parameters["water_selection"]} after {sigfigs_conversion(self.parameters["simulation_time"])}'
-        self.parameters['active_m2'] = active_m2
-        if self.parameters['active_m2'] is None:
-            self.parameters['active_m2'] = 37
+                                f'{self.parameters["water_selection"]} after ' \
+                                f'{sigfigs_conversion(self.parameters["simulation_time"])}'
+        self.parameters['active_m2'] = active_m2 or 37
         self.parameters['active_m2_cell'] = self.parameters['active_m2']/self.parameters['cells_per_module']
-        
-        
-    def execute(self, simulation_name = None, selected_output_path = None, simulation_directory = None, figure_title = None,
-                x_label_number = 6, export_name = None, export_format = 'svg', scale_ions = True, define_paths = True,
-                selected_output_filename = None, log_scale=None):
-        '''Execute a PHREEQC input file '''
+
+    def _main(self, input_file):
+        def measure_time(func, *args, **kwargs):
+            start = timeit.default_timer()
+            phreeqc, conc = func(*args, **kwargs)
+            return phreeqc, conc, timeit.default_timer() - start
         def run(input_file, first=False):
             try:
-                phreeqc = self.phreeqc_mod.IPhreeqc()  
+                phreeqc = self.phreeqc_mod.IPhreeqc()
             except:
                 raise ModuleNotFoundError('The IPHREEQC module has not yet been installed. The IPHREEQC module (https://water.usgs.gov/water-resources/software/PHREEQC/index.html) must be installed before ROSSpy can be used, which is detailed in the ROSSpy docs: https://rosspy.readthedocs.io/en/latest/?badge=latest#installation .')
             phreeqc.load_database(self.parameters['database_path'])
             phreeqc.run_string(input_file)
-            
+
             # define the conc dictionary
             output = phreeqc.get_selected_output_array()
             header = output[0]
@@ -751,26 +742,25 @@ SELECTED_OUTPUT
                     conc[head].append(row[col])
             return phreeqc, conc
 
-        def main(input_file):
-            def measure_time(func, *args, **kwargs):
-                start = timeit.default_timer()
-                phreeqc, conc = func(*args, **kwargs)
-                return phreeqc, conc, timeit.default_timer() - start
+        phreeqc, conc, run_time = measure_time(run, input_file)
 
-            phreeqc, conc, run_time = measure_time(run, input_file)            
-            
-            # export the simulation results
-            headers = conc.keys()
-            self.selected_output = pandas.DataFrame(conc, columns = headers)
-            if self.verbose:
-                if self.jupyter:
-                    pandas.set_option('display.max_columns', None)
-                    display(self.selected_output)
-                else:
-                    print(self.selected_output)
-            self.variables['run_time (s)'] = float(run_time)
-       
+        # export the simulation results
+        headers = conc.keys()
+        self.selected_output = pandas.DataFrame(conc, columns=headers)
+        if self.verbose:
+            if self.jupyter:
+                pandas.set_option('display.max_columns', None)
+                display(self.selected_output)
+            else:
+                print(self.selected_output)
+        self.variables['run_time (s)'] = float(run_time)
+        
+    def execute(self, simulation_name = None, selected_output_path = None, simulation_directory = None, figure_title = None,
+                x_label_number = 6, export_name = None, export_format = 'svg', scale_ions = True, define_paths = True,
+                selected_output_filename = None, log_scale=None, render_figure=False):
+        '''Execute a PHREEQC input file '''
         # construct the SELECTED_OUTPUT file
+        self.render_figure = render_figure
         if define_paths:
             self._define_paths(simulation_name, simulation_directory)
         self._selected_output(selected_output_filename)
@@ -786,54 +776,41 @@ SELECTED_OUTPUT
                 input.write(self.input_file)
           
         # communicate estimated completion to the user
-        estimated_time = (self.parameters['simulation_time']/(2*self.parameters['timestep'])) + 10*(self.parameters['quantity_of_modules'])
+        estimated_time = (self.parameters['simulation_time']/(2*self.parameters['timestep'])
+                          + 10*(self.parameters['quantity_of_modules']))
         if self.parameters['database_selection'] == 'sit':
             estimated_time *= 14
-        if 'coarse_timestep' in self.parameters:
-            if self.parameters['coarse_timestep']:
-                estimated_time /= 6
+        estimated_time *= self.parameters["cells_per_module"] / 10
+        if 'coarse_timestep' in self.parameters and self.parameters['coarse_timestep']:
+            estimated_time /= 6
         estimated_completion = datetime.datetime.now() + datetime.timedelta(seconds = estimated_time)
         estimated_time, unit = time_determination(estimated_time)
         print(f'\nEstimated completion in {estimated_time} {unit}: {estimated_completion} local time.')
         
         # execute the simulation or parse the selected_output file
         if selected_output_path is None:
-            main(self.input_file)
+            self._main(self.input_file)
             print('run_time (s):', self.variables['run_time (s)'])
-            selected_output_path = os.path.join(self.simulation_path, self.parameters['selected_output_file_name'])  
-            
-            # verify that the PHREEQC executed and generated the appropriate files
+            # selected_output_path = os.path.join(self.simulation_path, self.parameters['selected_output_file_name'])
             if self.export_content:
                 self.selected_output.to_csv(self.parameters['output_path'])
                 if not os.path.exists(self.parameters['output_path']):
                     self._error(f'The {self.parameters["output_path"]} output file does not exist. The simulation likely failed to execute.', 'index')
         else:
-            # define the simulation perspective
-            self.parameters['simulation'] = 'scaling'
-            if re.search('brine', selected_output_path, flags=re.IGNORECASE):
-                self.parameters['simulation'] = 'brine'
-
-            # define the simulation type
-            self.parameters['simulation_type'] = 'transport'
-            for line in selected_output_path:
-                if re.search('evaporation', line, re.IGNORECASE):
-                    self.parameters['simulation_type'] = 'evaporation'
-
-            # define the database contents
+            # define simulation parameters
+            self.parameters['simulation'] = 'brine' if re.search('brine', selected_output_path, flags=re.IGNORECASE
+                                                                 ) else "scaling"
+            self.parameters['simulation_type'] = 'transport' if not any(
+                [re.search('evaporation', line, re.IGNORECASE)] for line in selected_output_path) else 'evaporation'
             self.parameters['database_selection'] = 'pitzer'
             for database in self.databases:
                 names = database.split('_')
                 if all(re.search(name, selected_output_path, re.IGNORECASE) for name in names):
-                    self.parameters['database_selection'] = database                   
-                    break                    
-
-            # define the simulation
+                    self.parameters['database_selection'] = database ; break
             self.parameters['selected_output_file_name'] = re.search(r'(\w+)(?=\.)', selected_output_path).group()
                                   
             # preparing the SELECTED_OUTPUT file into a dataframe
-            sep = '\t'
-            if not 'pqo' in selected_output_path:
-                sep = ','
+            sep = '\t' if 'pqo' in selected_output_path else ','
             with open(selected_output_path, 'r') as selected_output:              
                 self.selected_output = pandas.read_table(selected_output, sep = sep)
                 
@@ -845,13 +822,13 @@ SELECTED_OUTPUT
         if figure_title is not None:
             self.figure_title = figure_title
 
-        self.variables['initial_solution_mass'] = float(self.selected_output['mass_H2O'][0])
+        self.variables.update({"initial_solution_mass": float(self.selected_output['mass_H2O'][0]),
+                               "final_solution_mass": float(self.selected_output['mass_H2O'].iloc[-1]),
+                               "final_time": float(self.selected_output['time'].iloc[-1])})
+        self.variables["simulation_cf"] = self.variables['initial_solution_mass']/ self.variables['final_solution_mass']
         if self.parameters['simulation_type'] == 'transport':
             self.selected_output.drop(self.selected_output.index[:3], inplace=True)
             self.variables['initial_solution_mass'] = float(self.selected_output['mass_H2O'][3])
-        self.variables['final_solution_mass'] = float(self.selected_output['mass_H2O'].iloc[-1])
-        self.variables['simulation_cf'] = self.variables['initial_solution_mass'] / self.variables['final_solution_mass']
-        self.variables['final_time'] = float(self.selected_output['time'].iloc[-1])
                                  
         # conducting the appropriate visualization function
         if self.parameters['simulation'] == 'brine':
@@ -881,7 +858,6 @@ SELECTED_OUTPUT
             for parameter in self.parameters:
                 parameters['parameter'].append(parameter)
                 parameters['value'].append(self.parameters[parameter])
-                
             parameters_table = pandas.DataFrame(parameters)
             parameters_table.to_csv(os.path.join(self.simulation_path, 'parameters.csv'))
 
@@ -890,7 +866,6 @@ SELECTED_OUTPUT
             for variable in self.variables:
                 variables['variable'].append(variable)
                 variables['value'].append(self.variables[variable])
-                
             variables_table = pandas.DataFrame(variables)
             variables_table.to_csv(os.path.join(self.simulation_path, 'variables.csv'))
                     
@@ -904,7 +879,7 @@ SELECTED_OUTPUT
                 print(parameters_table)
                 
         return self.processed_data
-    
+
     def _ion_proportions(self):
         # calculate the mass of each scalant
         mineral_elements = {}
@@ -928,8 +903,7 @@ SELECTED_OUTPUT
                     index_value = int(index_value)
                 df_index = f'{index_value} {x_axis}'
                 if df_index not in self.elemental_masses:
-                    self.elemental_masses[df_index] = {}
-                    self.elemental_masses[df_index]['ion (g/m^2)'] = {}
+                    self.elemental_masses[df_index] = {'ion (g/m^2)': {}}
                 for element in mineral_elements[mineral]['proportions']:
                     precipitated_mass = mineral_elements[mineral]['proportions'][element] * float(scale)
                     if element in self.elemental_masses[df_index]['ion (g/m^2)']:
@@ -950,37 +924,30 @@ SELECTED_OUTPUT
                 json.dump(self.elemental_masses, output, indent = 4)
                 
     def _error(self, error, error_type):
-        try:
-            export_path = self.simulation_path 
-        except:
-            export_path = os.getcwd()
-            
+        export_path = os.getcwd() if not hasattr(self, "simulation_path") else self.simulation_path
         with open(os.path.join(export_path, 'error.txt'), 'w') as output:
-            output.write(error)
-            output.close()
-            
+            output.write(error) ; output.close()
         if error_type == 'index':
             raise IndexError(error)
         elif error_type == 'value':
             raise ValueError(error)
         elif error_type == 'type':
             raise TypeError(error)
-            
-                                 
+
     def _brine_plot(self, export_format, x_label_number, export_name, log_scale = True):
         """Generate plots of the elemental concentrations from effluent brine in the PHREEQC SELECTED_OUTPUT file"""
         # determine the minerals in the simulation      
-        columns = []
-        for column in self.selected_output.columns:
-            if re.search(r'([A-Z][a-z]?(?:\(\d\))?(?=\(mol\/kgw\)))', column) and not re.search('(_|H2O|pH)', column):
-                columns.append(column)
+        columns = [column for column in self.selected_output.columns if (re.search(
+            r'([A-Z][a-z]?(?:\(\d\))?(?=\(mol\/kgw\)))', column) and not re.search('(_|H2O|pH)', column))]
 
         # plot parameters
         if self.parameters['domain'] == 'dual':
             title_end = 'after '+sigfigs_conversion(self.parameters['simulation_time'])
             if self.parameters['simulation_perspective'] == 'all_time':
                 title_end = 'over time'     
-            self.figure_title = f'{self.parameters["domain_phase"].capitalize()} phase {self.parameters["simulation"]} from the {self.parameters["water_selection"]} {title_end}'
+            self.figure_title = f"{self.parameters['domain_phase'].capitalize()} phase " \
+                                f"{self.parameters['simulation']} from the " \
+                                f"{self.parameters['water_selection']} {title_end}"
 
         pyplot.figure(figsize = (17,10), dpi=400)
         pyplot.rc('axes', titlesize=22, labelsize=28)
@@ -1013,16 +980,16 @@ SELECTED_OUTPUT
                     x_serie.append(distance)                        
                     data[element][distance] = row[element]
                 concentration_serie.append(row[element])
-                
-            pyplot.plot(x_serie,concentration_serie, label = stripped_element)
+            pyplot.plot(x_serie, concentration_serie, label=stripped_element)
                         
         if self.parameters['simulation_perspective'] == 'all_time' and len(x_serie) == 0:
-            self._error(f'The {insufficient_elements} elements remain below the 1E-16 molal threshold, and thus the figure could not be constructed.', 'index')
+            self._error(f'The {insufficient_elements} elements remain below the 1E-16 molal '
+                        f'threshold, and thus the figure could not be constructed.', 'index')
                         
         # define the brine plot
-        x_label = 'Distance (m)'
         if self.figure_title is None:
             self.figure_title = f'Brine concentrations along the module after {sigfigs_conversion(self.variables["final_time"])} seconds'
+        x_label = 'Distance (m)'
         if self.parameters['simulation_perspective'] == 'all_time':
             x_label = 'Time (s)'
             if self.figure_title is None:
@@ -1049,7 +1016,7 @@ SELECTED_OUTPUT
                 print(concentrations_table)
         return concentrations_table            
 
-    def _scaling_plot(self, x_label_number, export_name, export_format = 'svg', log_scale = None):
+    def _scaling_plot(self, x_label_number, export_name, export_format='svg', log_scale=None):
         """Generate plots of scaling along the module distance in the PHREEQC SELECTED_OUTPUT file"""
         def evaporation():
             scaling_data = pandas.DataFrame({})
@@ -1082,24 +1049,14 @@ SELECTED_OUTPUT
                     scaling_serie.append(float(sigfigs_conversion(grams_area, 3)))
                     
             # defining the plot
-            x_location = []
             index_space = len(x_serie)/x_label_number
-            for x in range(x_label_number):
-                index = int(index_space * x)
-                time = x_serie[index]
-                x_location.append(time)
-            x_location.extend([x_serie[0], x_serie[-1]])
-            x_location = [int(x) for x in x_location] 
-            pyplot.xticks(x_location, x_location)        
+            x_location = [int(x_serie[int(index_space * x)]) for x in range(x_label_number)]
+            x_location.extend([int(x_serie[0]), int(x_serie[-1])])
+            pyplot.xticks(x_location, x_location)
             pyplot.plot(x_serie,scaling_serie, label = f'{mineral} [{mineral_formula}]')
-            
-            data_df = pandas.DataFrame(
-                    columns = [f'{mineral} (g/m^2)'],
-                    data = [sigfigs_conversion(y, 4) for y in array(scaling_serie)],
-                    index = [sigfigs_conversion(x, 3) for x in array(x_serie)]
-                    )
-            
-            return data_df
+            return pandas.DataFrame(columns=[f'{mineral} (g/m^2)'],
+                                    data=[sigfigs_conversion(y, 4) for y in array(scaling_serie)],
+                                    index=[sigfigs_conversion(x, 3) for x in array(x_serie)])
             
         def distance_serie(mineral, mineral_formula, molar_mass_area):          
             for index, row in self.selected_output.iterrows():
@@ -1109,19 +1066,15 @@ SELECTED_OUTPUT
                     x_serie.append(row['dist_x'])
                      
             # define the figure and dataframe
-            pyplot.plot(x_serie,scaling_serie, label = f'{mineral} [{mineral_formula}]')
-            data_df = pandas.DataFrame(
-                    columns = [f'{mineral} (g/m^2)'],
-                    data = [sigfigs_conversion(y, 4) for y in array(scaling_serie)],
-                    index = [sigfigs_conversion(x, 3) for x in array(x_serie)]
-                    )
-                    
+            pyplot.plot(x_serie, scaling_serie, label=f'{mineral} [{mineral_formula}]')
             if self.printing:
                 if len(mineral) < 7:
                     print(f'{mineral}\t\t{self.minerals[mineral]}') 
                 elif len(mineral) >= 7:
                     print(f'{mineral}\t{self.minerals[mineral]}') 
-            return data_df
+            return pandas.DataFrame(columns = [f'{mineral} (g/m^2)'],
+                                    data = [sigfigs_conversion(y, 4) for y in array(scaling_serie)],
+                                    index = [sigfigs_conversion(x, 3) for x in array(x_serie)])
         
         # all of the non-zero minerals are identified and the chemical formulas are sorted into a list
         csv_minerals, non_zero_minerals, self.variables['precipitated_minerals'] = [], set(), {}
@@ -1130,8 +1083,7 @@ SELECTED_OUTPUT
             if re.search('([A-Z][a-z]{2,})', column) and not re.search('[_(]|(?:Metal)', column):
                 mineral = re.search('([A-Z][a-z]{2,})', column).group()
                 csv_minerals.append(mineral)
-                
-                # the spread of scaling is determined to select either a linear or logarithmic y-axis
+                # the range of scalant concentrations determines the axis scale as either linear or logarithmic
                 if max(self.selected_output[column]) != 0:
                     maximum_scaling = max(max([y for y in self.selected_output[column] if y>0]), maximum_scaling)
                     minimum_scaling = min(min([y for y in self.selected_output[column] if y>0]), minimum_scaling)
@@ -1141,17 +1093,16 @@ SELECTED_OUTPUT
         
         if non_zero_minerals == set():
             raise NoScalingOccurred('No scaling occurred.')
-        else:
-            log_scale = log_scale or log10(maximum_scaling)-log10(minimum_scaling) > 1
+        log_scale = log_scale or log10(maximum_scaling)-log10(minimum_scaling) > 1
 
         # finalize the output data
-        scaling_data = pandas.DataFrame({})
         pyplot.figure(figsize = (17,10), dpi=400)
         pyplot.rc('axes', titlesize=22, labelsize=28)
         pyplot.rc('figure', titlesize=22)
         pyplot.rc('xtick', labelsize=24)
         pyplot.rc('ytick', labelsize=24)
         pyplot.rc('legend', title_fontsize=25, fontsize=23)
+        scaling_data = pandas.DataFrame({})
         for mineral in self.variables['precipitated_minerals']: 
             scaling_serie, x_serie = [], []
             mineral_formula = self.minerals[mineral]['formula'] 
@@ -1170,7 +1121,8 @@ SELECTED_OUTPUT
             time, units = time_determination(self.variables['final_time'])
             self.figure_title = f'Scaling from the {self.parameters["water_selection"]} after {sigfigs_conversion(time)} {units}'
 
-        display(data_df)
+        if self.jupyter:
+            display(data_df)
         self._illustrate(pyplot, 'scalants', export_name, export_format, log_scale)
         x_label, y_label = self._determine_labels()
         scaling_data.index.name = x_label
@@ -1203,7 +1155,8 @@ SELECTED_OUTPUT
             self.results['figures'][export_name] = {'figure':figure, 'title':self.figure_title}
 
             # export the plot
-            file_number, figure_path = 0, os.path.join(self.simulation_path, export_name)
+            file_number = 0
+            figure_path = os.path.join(self.simulation_path, export_name)
             if not os.path.exists(f'{figure_path}.{export_format}'):
                 figure.savefig(f'{figure_path}.{export_format}', bbox_inches="tight", transparent=True)
             elif os.path.exists(f'{figure_path}.{export_format}'):
@@ -1216,9 +1169,9 @@ SELECTED_OUTPUT
         pyplot.grid(True)
         if self.parameters['simulation_type'] == 'transport':
             self.figure_title += f' (final CF: {str(sigfigs_conversion(self.variables["simulation_cf"], 4))})'
-        pyplot.title(self.figure_title)
-        pyplot.xlabel(x_label)
-        pyplot.ylabel(y_label)
+        if self.render_figure:
+            pyplot.title(self.figure_title)
+        pyplot.xlabel(x_label) ; pyplot.ylabel(y_label)
         pyplot.legend(title = legend_title, loc='best')
         # pyplot.ticklabel_format(axis="y", useOffset=False)
         if log_scale:

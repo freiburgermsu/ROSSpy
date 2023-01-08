@@ -1,7 +1,7 @@
 ,parameter,value
 0,os,windows
-1,root_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
-2,database_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+1,root_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\rosspy
+2,database_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\rosspy\databases\pitzer.dat
 3,database_selection,pitzer
 4,quantity_of_modules,1
 5,simulation_type,transport
@@ -20,7 +20,7 @@
 18,permeate_approach,linear_permeate
 19,water_selection,mediterranean_sea
 20,solution_elements,"['Mn', 'Fe', 'B', 'Cl', 'Na', 'S(6)', 'Ca', 'K', 'Mg', 'Sr', 'Ba', 'Li', 'Cu', 'Co', 'Ni', 'Pb']"
-21,input_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\feed_comparison\mediterranean_sea scaling\input.pqi
-22,output_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\feed_comparison\mediterranean_sea scaling\selected_output.csv
-23,simulation_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\sensitivity_analyses\geochemistry\feed_comparison\mediterranean_sea scaling
-24,selected_output_file_name,2022-11-27-mediterranean_sea-transport-pitzer-scaling-0.txt
+21,input_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\examples\sensitivity_analyses\geochemistry\feed_comparison\mediterranean_sea scaling\input.pqi
+22,output_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\examples\sensitivity_analyses\geochemistry\feed_comparison\mediterranean_sea scaling\selected_output.csv
+23,simulation_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\examples\sensitivity_analyses\geochemistry\feed_comparison\mediterranean_sea scaling
+24,selected_output_file_name,2023-01-08-mediterranean_sea-transport-pitzer-scaling-0.txt

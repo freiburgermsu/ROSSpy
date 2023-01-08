@@ -8,10 +8,10 @@
 6,feed_moles_cell,60.928415293598455
 7,module 0,"{'cf': 1.1176963344974205, 'permeate (moles/cell)': -0.05603424268698479}"
 8,described_minerals,"{'Aragonite': {'formula': 'CaCO3', 'mass': '100'}, 'Artinite': {'formula': 'Mg2CO3(OH)2:3H2O', 'mass': '200'}, 'Brucite': {'formula': 'Mg(OH)2', 'mass': '41'}, 'Calcite': {'formula': 'CaCO3', 'mass': '100'}, 'Dolomite': {'formula': 'CaMg(CO3)2', 'mass': '120'}, 'Gaylussite': {'formula': 'CaNa2(CO3)2:5H2O', 'mass': '300'}, 'Huntite': {'formula': 'CaMg3(CO3)4', 'mass': '170'}, 'Magnesite': {'formula': 'MgCO3', 'mass': '84'}, 'Natron': {'formula': 'Na2CO3:10H2O', 'mass': '290'}, 'Nesquehonite': {'formula': 'MgCO3:3H2O', 'mass': '140'}, 'Pirssonite': {'formula': 'Na2Ca(CO3)2:2H2O', 'mass': '240'}, 'Portlandite': {'formula': 'Ca(OH)2', 'mass': '57'}}"
-9,simulation_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Lee_et_al\Lee_et_al_wastewater
-10,run_time (s),3.8514079999999993
+9,simulation_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\examples\scaling\scale_validation\Lee_et_al\Lee_et_al_wastewater
+10,run_time (s),5.8093525
 11,initial_solution_mass,13.171724160465171
-12,final_solution_mass,11.822077128442041
-13,simulation_cf,1.1141632741319285
+12,final_solution_mass,11.822077128447532
+13,simulation_cf,1.114163274131411
 14,final_time,200.40436001528005
 15,precipitated_minerals,"{'Calcite': {'formula': 'CaCO3', 'mass': '100'}}"

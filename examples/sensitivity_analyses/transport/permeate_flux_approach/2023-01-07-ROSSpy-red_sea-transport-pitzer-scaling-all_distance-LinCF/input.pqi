@@ -1,0 +1,260 @@
+# C:\Users\Andrew Freiburger\Documents\ROSSpy\examples\sensitivity_analyses\transport\permeate_flux_approach\2023-01-07-ROSSpy-red_sea-transport-pitzer-scaling-all_distance-LinCF-2
+DATABASE C:\Users\Andrew Freiburger\Documents\ROSSpy\rosspy\databases\pitzer.dat
+TITLE	 None
+
+SOLUTION 0	red_sea
+temp 	 24.5 	 #.
+pH 		 8.22 #None
+pe 		 0.2679 	   # // 4.00 is the default (?)
+Alkalinity 	 2  #
+units 	 ppm
+Mn		0.000306		#Al-Taani et al., 2014 for the Northern Gulf of Aqaba
+Fe		0.006281		#Al-Taani et al., 2014 for the Northern Gulf of Aqaba
+B		1.344		#Al-Taani et al., 2014
+Cl		24756		#https://www.lenntech.com/composition-seawater.htm in the Red Sea, and Longinelli and Craig, 1967
+Na		16417.2		#https://www.lenntech.com/composition-seawater.htm in the Red Sea, and Longinelli and Craig, 1967 describes [Na]=15834
+S(6)		9500		#Longinelli and Craig, 1967 and Llyod, 1967
+Ca		774		#Abdel-Aal et al., 2015
+K		301		#Abdel-Aal et al., 2015
+Mg		1646		#Abdel-Aal et al., 2015
+Sr		8.3		#Bernat, Church, and Allegre, 1972 from the Mediterranean
+Ba		0.011		#Bernat, Church, and Allegre, 1972 from the Mediterranean
+Li		0.228		#Stoffyn-Egli and Mackenzie, 1984 for the Mediterranean Sea
+-water 	13.171724160465171
+
+SOLUTION 1-50	Initial solution in the RO module
+temp 	 25
+units 	 ppm
+-water 	13.171724160465171
+
+EQUILIBRIUM_PHASES 1-50
+Anhydrite		0	0
+Aragonite		0	0
+Arcanite		0	0
+Artinite		0	0
+Barite			0	0
+Bischofite		0	0
+Bloedite		0	0
+Brucite		0	0
+Burkeite		0	0
+Calcite		0	0
+Carnallite		0	0
+Celestite		0	0
+Dolomite		0	0
+Epsomite		0	0
+Gaylussite		0	0
+Glaserite		0	0
+Glauberite		0	0
+Goergeyite		0	0
+Gypsum			0	0
+Halite			0	0
+Hexahydrite		0	0
+Huntite		0	0
+Kainite		0	0
+Kieserite		0	0
+Labile_S		0	0
+Leonhardite		0	0
+Leonite		0	0
+Magnesite		0	0
+MgCl2_2H2O		0	0
+MgCl2_4H2O		0	0
+Mirabilite		0	0
+Natron			0	0
+Nesquehonite		0	0
+Pentahydrite		0	0
+Pirssonite		0	0
+Polyhalite		0	0
+Portlandite		0	0
+Schoenite		0	0
+Sylvite		0	0
+Syngenite		0	0
+Thenardite		0	0
+Teepleite		0	0
+
+REACTION 1
+	H2O -1; 1.708273053303742
+
+REACTION 2
+	H2O -1; 1.7003090776332783
+
+REACTION 3
+	H2O -1; 1.6924006645755298
+
+REACTION 4
+	H2O -1; 1.6845472984671233
+
+REACTION 5
+	H2O -1; 1.6767484696151769
+
+REACTION 6
+	H2O -1; 1.6690036742106713
+
+REACTION 7
+	H2O -1; 1.6613124142500055
+
+REACTION 8
+	H2O -1; 1.6536741974530287
+
+REACTION 9
+	H2O -1; 1.6460885371856193
+
+REACTION 10
+	H2O -1; 1.638554952380673
+
+REACTION 11
+	H2O -1; 1.6310729674639788
+
+REACTION 12
+	H2O -1; 1.6236421122763431
+
+REACTION 13
+	H2O -1; 1.6162619220032184
+
+REACTION 14
+	H2O -1; 1.6089319370976227
+
+REACTION 15
+	H2O -1; 1.6016517032136335
+
+REACTION 16
+	H2O -1; 1.5944207711313538
+
+REACTION 17
+	H2O -1; 1.5872386966909744
+
+REACTION 18
+	H2O -1; 1.5801050407222874
+
+REACTION 19
+	H2O -1; 1.5730193689794305
+
+REACTION 20
+	H2O -1; 1.5659812520730156
+
+REACTION 21
+	H2O -1; 1.5589902654068055
+
+REACTION 22
+	H2O -1; 1.5520459891117753
+
+REACTION 23
+	H2O -1; 1.5451480079855173
+
+REACTION 24
+	H2O -1; 1.5382959114268715
+
+REACTION 25
+	H2O -1; 1.5314892933787405
+
+REACTION 26
+	H2O -1; 1.5247277522643117
+
+REACTION 27
+	H2O -1; 1.5180108909302135
+
+REACTION 28
+	H2O -1; 1.5113383165876257
+
+REACTION 29
+	H2O -1; 1.50470964075339
+
+REACTION 30
+	H2O -1; 1.498124479196349
+
+REACTION 31
+	H2O -1; 1.4915824518787986
+
+REACTION 32
+	H2O -1; 1.485083182903395
+
+REACTION 33
+	H2O -1; 1.4786263004583589
+
+REACTION 34
+	H2O -1; 1.4722114367650647
+
+REACTION 35
+	H2O -1; 1.4658382280243814
+
+REACTION 36
+	H2O -1; 1.4595063143669904
+
+REACTION 37
+	H2O -1; 1.4532153398002947
+
+REACTION 38
+	H2O -1; 1.4469649521603287
+
+REACTION 39
+	H2O -1; 1.440754803061509
+
+REACTION 40
+	H2O -1; 1.434584547848317
+
+REACTION 41
+	H2O -1; 1.428453845547324
+
+REACTION 42
+	H2O -1; 1.4223623588204646
+
+REACTION 43
+	H2O -1; 1.4163097539179716
+
+REACTION 44
+	H2O -1; 1.4102957006336965
+
+REACTION 45
+	H2O -1; 1.4043198722586112
+
+REACTION 46
+	H2O -1; 1.3983819455381763
+
+REACTION 47
+	H2O -1; 1.3924816006266383
+
+REACTION 48
+	H2O -1; 1.38661852104633
+
+REACTION 49
+	H2O -1; 1.3807923936428779
+
+REACTION 50
+	H2O -1; 1.3750029085448432
+# linear_cf
+    
+    #Effluent module 1:
+#Estimated CF: 1.117
+#Estimated final water mass: 11.791040483955875
+
+
+
+SELECTED_OUTPUT
+-file		2023-01-07-red_sea-transport-pitzer-scaling-0.txt
+-reaction		true
+-temperature	true
+-totals		Mn Fe B Cl Na S(6) Ca K Mg Sr Ba Li Zn Ni Cu Cd Co Pb
+-saturation_indices	Anhydrite Aragonite Arcanite Artinite Barite Bischofite Bloedite Brucite Burkeite Calcite Carnallite Celestite Dolomite Epsomite Gaylussite Glaserite Glauberite Goergeyite Gypsum Halite Hexahydrite Huntite Kainite Kieserite Labile_S Leonhardite Leonite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Polyhalite Portlandite Schoenite Sylvite Syngenite Thenardite Teepleite
+-equilibrium_phases	Anhydrite Aragonite Arcanite Artinite Barite Bischofite Bloedite Brucite Burkeite Calcite Carnallite Celestite Dolomite Epsomite Gaylussite Glaserite Glauberite Goergeyite Gypsum Halite Hexahydrite Huntite Kainite Kieserite Labile_S Leonhardite Leonite Magnesite MgCl2_2H2O MgCl2_4H2O Mirabilite Natron Nesquehonite Pentahydrite Pirssonite Polyhalite Portlandite Schoenite Sylvite Syngenite Thenardite Teepleite
+-pH			true
+-alkalinity	true
+-solution
+-time		true
+-distance		true
+-simulation		true
+-high_precision	true
+-charge_balance	true
+-ionic_strength	true
+-step
+-water
+        
+
+TRANSPORT
+-cells			50
+-shifts			67
+-lengths		0.02032
+-time_step		2.9911098509743295	# this satisfies the Courant condition with a feed velocity of 0.3397 m/s
+-initial_time		0
+-boundary_conditions	constant	flux 	 # Dirichlet and Cachy boundary conditions, respectively
+
+-punch_cells		1-50
+-punch_frequency	67

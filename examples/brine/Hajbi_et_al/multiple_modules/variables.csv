@@ -12,9 +12,9 @@
 10,module 3,"{'cf': 2.5097116454563584, 'permeate (moles/cell)': -1.5497975827697985}"
 11,module 4,"{'cf': 2.887139556820448, 'permeate (moles/cell)': -1.6254738474400579}"
 12,described_minerals,"{'Anhydrite': {'formula': 'CaSO4', 'mass': '140'}, 'Aragonite': {'formula': 'CaCO3', 'mass': '100'}, 'Artinite': {'formula': 'Mg2CO3(OH)2:3H2O', 'mass': '200'}, 'Bischofite': {'formula': 'MgCl2:6H2O', 'mass': '200'}, 'Bloedite': {'formula': 'Na2Mg(SO4)2:4H2O', 'mass': '330'}, 'Brucite': {'formula': 'Mg(OH)2', 'mass': '41'}, 'Burkeite': {'formula': 'Na6CO3(SO4)2', 'mass': '290'}, 'Calcite': {'formula': 'CaCO3', 'mass': '100'}, 'Celestite': {'formula': 'SrSO4', 'mass': '180'}, 'Dolomite': {'formula': 'CaMg(CO3)2', 'mass': '120'}, 'Epsomite': {'formula': 'MgSO4:7H2O', 'mass': '250'}, 'Gaylussite': {'formula': 'CaNa2(CO3)2:5H2O', 'mass': '300'}, 'Glauberite': {'formula': 'Na2Ca(SO4)2', 'mass': '180'}, 'Gypsum': {'formula': 'CaSO4:2H2O', 'mass': '170'}, 'Halite': {'formula': 'NaCl', 'mass': '58'}, 'Hexahydrite': {'formula': 'MgSO4:6H2O', 'mass': '230'}, 'Huntite': {'formula': 'CaMg3(CO3)4', 'mass': '170'}, 'Kieserite': {'formula': 'MgSO4:H2O', 'mass': '140'}, 'Labile_S': {'formula': 'Na4Ca(SO4)3:2H2O', 'mass': '460'}, 'Leonhardite': {'formula': 'MgSO4:4H2O', 'mass': '190'}, 'Magnesite': {'formula': 'MgCO3', 'mass': '84'}, 'MgCl2_2H2O': {'formula': 'MgCl2:2H2O', 'mass': '130'}, 'MgCl2_4H2O': {'formula': 'MgCl2:4H2O', 'mass': '170'}, 'Mirabilite': {'formula': 'Na2SO4:10H2O', 'mass': '320'}, 'Natron': {'formula': 'Na2CO3:10H2O', 'mass': '290'}, 'Nesquehonite': {'formula': 'MgCO3:3H2O', 'mass': '140'}, 'Pentahydrite': {'formula': 'MgSO4:5H2O', 'mass': '210'}, 'Pirssonite': {'formula': 'Na2Ca(CO3)2:2H2O', 'mass': '240'}, 'Portlandite': {'formula': 'Ca(OH)2', 'mass': '57'}, 'Thenardite': {'formula': 'Na2SO4', 'mass': '140'}}"
-13,simulation_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Hajbi_et_al\multiple_modules
-14,run_time (s),31.7488375
+13,simulation_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\examples\brine\Hajbi_et_al\multiple_modules
+14,run_time (s),44.0777887
 15,initial_solution_mass,13.171724160465171
-16,final_solution_mass,4.5742331984353655
-17,simulation_cf,2.87954802238124
+16,final_solution_mass,4.574233198421999
+17,simulation_cf,2.8795480223896543
 18,final_time,75.35266089506499

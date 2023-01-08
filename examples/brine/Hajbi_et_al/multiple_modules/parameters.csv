@@ -1,7 +1,7 @@
 ,parameter,value
 0,os,windows
-1,root_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy
-2,database_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+1,root_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\rosspy
+2,database_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\rosspy\databases\pitzer.dat
 3,database_selection,pitzer
 4,quantity_of_modules,5
 5,simulation_type,transport
@@ -20,7 +20,7 @@
 18,permeate_approach,linear_cf
 19,water_selection,Hajbi
 20,solution_elements,"['Ca', 'Mg', 'Na', 'Sr', 'Cl', 'S(6)', 'Fe']"
-21,input_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Hajbi_et_al\multiple_modules\input.pqi
-22,output_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Hajbi_et_al\multiple_modules\selected_output.csv
-23,simulation_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Hajbi_et_al\multiple_modules
-24,selected_output_file_name,2022-11-27-Hajbi-transport-pitzer-brine-0.txt
+21,input_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\examples\brine\Hajbi_et_al\multiple_modules\input.pqi
+22,output_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\examples\brine\Hajbi_et_al\multiple_modules\selected_output.csv
+23,simulation_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\examples\brine\Hajbi_et_al\multiple_modules
+24,selected_output_file_name,2023-01-07-Hajbi-transport-pitzer-brine-0.txt

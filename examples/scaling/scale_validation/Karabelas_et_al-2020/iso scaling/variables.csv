@@ -8,10 +8,10 @@
 6,feed_moles_cell,60.928415293598455
 7,module 0,"{'cf': 3.2070414520154795, 'permeate (moles/cell)': -0.36620166331517484}"
 8,described_minerals,"{'Calcite': {'formula': 'CaCO3', 'mass': '100.1'}, 'Dolomite': {'formula': 'CaMg(CO3)2', 'mass': '124.4'}, 'Siderite': {'formula': 'FeCO3', 'mass': '115.9'}, 'Gypsum': {'formula': 'CaSO4:2H2O', 'mass': '172.2'}, 'Anhydrite': {'formula': 'CaSO4', 'mass': '136.1'}, 'Fluorite': {'formula': 'CaF2', 'mass': '78.07'}, 'Halite': {'formula': 'NaCl', 'mass': '58.44'}, 'Melanterite': {'formula': 'FeSO4:7H2O', 'mass': '278.0'}}"
-9,simulation_path,C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\iso scaling
-10,run_time (s),50.16996040000001
+9,simulation_path,C:\Users\Andrew Freiburger\Documents\ROSSpy\examples\scaling\scale_validation\Karabelas_et_al-2020\iso scaling
+10,run_time (s),123.7010454
 11,initial_solution_mass,13.171724160465171
-12,final_solution_mass,4.3464910490089546
-13,simulation_cf,3.030427075990059
+12,final_solution_mass,4.346491049008979
+13,simulation_cf,3.030427075990042
 14,final_time,200.0482755092117
 15,precipitated_minerals,"{'Calcite': {'formula': 'CaCO3', 'mass': '100.1'}}"

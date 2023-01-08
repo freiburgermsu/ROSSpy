@@ -48,7 +48,7 @@ module_characteristics = {
 }   
     
 def test_init():
-    ross = rosspy.ROSSPkg('pitzer', verbose = False)
+    ross = rosspy.ROSSPkg('pitzer', verbose=False, jupyter=False)
 
     # ensure that the dictionaries are created
     for dic in [ross.parameters, ross.variables, ross.results, ross.results['figures']]:
@@ -76,7 +76,7 @@ def test_init():
         assert type(dic) is dict
 
 def test_reactive_transport():
-    ross = rosspy.ROSSPkg('pitzer', verbose = False)
+    ross = rosspy.ROSSPkg('pitzer', verbose=False, jupyter=False)
     ross.reactive_transport(simulation_time, module_characteristics = module_characteristics)
 
     # affirm qualities of the simulation
@@ -100,7 +100,7 @@ def test_feed_geochemistry():
     water_selection = 'michigan_basin'
     ignored_minerals = ['gypsum']
     
-    ross = rosspy.ROSSPkg('pitzer', verbose = False)    
+    ross = rosspy.ROSSPkg('pitzer', verbose=False, jupyter=False)
     ross.reactive_transport(simulation_time)
     ross.feed_geochemistry(water_selection, ignored_minerals = ignored_minerals)
 
@@ -124,7 +124,7 @@ def test_feed_geochemistry():
 def test_execute():
     water_selection = 'michigan_basin'
     
-    ross = rosspy.ROSSPkg('pitzer', verbose = False)    
+    ross = rosspy.ROSSPkg('pitzer', verbose=False, jupyter=False)
     ross.reactive_transport(simulation_time)
     ross.feed_geochemistry(water_selection)
     ross.execute()
@@ -151,7 +151,7 @@ def test_parse_input():
     water_selection = 'palo_duro_basin'
     input_file_path = os.path.join(os.path.dirname(__file__), '2020-09-03_APF_Palo Duro Basin-BW30-400_PE=100%_1.1.pqi')
     
-    ross = rosspy.ROSSPkg('pitzer', simulation, verbose = False)
+    ross = rosspy.ROSSPkg('pitzer', simulation, verbose=False, jupyter=False)
     ross.parse_input(input_file_path, water_selection)
     ross.execute()
     
@@ -166,7 +166,7 @@ def test_all_distance_brine(): #!!! This displays an erroneous plot and x-axis d
     simulation = 'brine'
     simulation_perspective = 'all_distance'
     
-    ross = rosspy.ROSSPkg('pitzer', simulation, verbose = False)    
+    ross = rosspy.ROSSPkg('pitzer', simulation, verbose=False, jupyter=False)
     ross.reactive_transport(simulation_time, simulation_perspective)
     ross.feed_geochemistry(water_selection)
     ross.execute()
@@ -185,7 +185,7 @@ def test_all_time_brine():
     water_selection = 'michigan_basin'
     simulation = 'brine'
 
-    ross = rosspy.ROSSPkg('pitzer', simulation, verbose = False)    
+    ross = rosspy.ROSSPkg('pitzer', simulation, verbose=False, jupyter=False)
     ross.reactive_transport(simulation_time)
     ross.feed_geochemistry(water_selection)
     ross.execute()
@@ -202,7 +202,7 @@ def test_all_time_brine():
 def test_all_distance_scaling():
     water_selection = 'michigan_basin'
     
-    ross = rosspy.ROSSPkg('pitzer', verbose = False)    
+    ross = rosspy.ROSSPkg('pitzer', verbose=False, jupyter=False)
     ross.reactive_transport(simulation_time)
     ross.feed_geochemistry(water_selection)
     ross.execute()
@@ -220,7 +220,7 @@ def test_all_time_scaling():
     water_selection = 'michigan_basin'
     simulation_perspective = 'all_time'
     
-    ross = rosspy.ROSSPkg('pitzer', verbose = False)    
+    ross = rosspy.ROSSPkg('pitzer', verbose=False, jupyter=False)
     ross.reactive_transport(simulation_time, simulation_perspective)
     ross.feed_geochemistry(water_selection)
     ross.execute()
@@ -235,7 +235,7 @@ def test_all_time_scaling():
     shutil.rmtree(ross.simulation_path) 
     
 def test_test():    
-    ross = rosspy.ROSSPkg('pitzer', verbose = False)
+    ross = rosspy.ROSSPkg('pitzer', verbose=False, jupyter=False)
     ross.test()
     
     # affirm the execution of the simulation

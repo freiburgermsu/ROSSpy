@@ -1,5 +1,5 @@
-# C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\brine\Ahmed_et_al\improved_ionic_concentrations
-DATABASE C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\pitzer.dat
+# C:\Users\Andrew Freiburger\Documents\ROSSpy\examples\brine\Ahmed_et_al\improved_ionic_concentrations
+DATABASE C:\Users\Andrew Freiburger\Documents\ROSSpy\rosspy\databases\pitzer.dat
 TITLE	 None
 
 SOLUTION 0	Ahmed
@@ -109,7 +109,7 @@ REACTION 12
 
 
 SELECTED_OUTPUT
--file		2022-11-27-Ahmed-transport-pitzer-brine-0.txt
+-file		2023-01-07-Ahmed-transport-pitzer-brine-0.txt
 -reaction		true
 -temperature	true
 -totals		Ca Mg Na Sr Cl S(6) Fe K

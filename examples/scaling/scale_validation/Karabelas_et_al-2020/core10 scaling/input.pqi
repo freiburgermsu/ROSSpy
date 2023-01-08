@@ -1,5 +1,5 @@
-# C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\examples\scaling\scale_validation\Karabelas_et_al-2020\core10 scaling
-DATABASE C:\Users\Andrew Freiburger\Documents\UVic Civil Engineering\PHREEQC\ROSS\rosspy\databases\core10.dat
+# C:\Users\Andrew Freiburger\Documents\ROSSpy\examples\scaling\scale_validation\Karabelas_et_al-2020\core10 scaling
+DATABASE C:\Users\Andrew Freiburger\Documents\ROSSpy\rosspy\databases\core10.dat
 TITLE	 None
 
 SOLUTION 0	brackish-water
@@ -135,7 +135,7 @@ REACTION 12
 
 
 SELECTED_OUTPUT
--file		2022-11-27-brackish-water-transport-core10-scaling-0.txt
+-file		2023-01-07-brackish-water-transport-core10-scaling-0.txt
 -reaction		true
 -temperature	true
 -totals		Li Na Mg Ca K Mn Fe Co Cu S(6) Cl F N(5) Ba B Sr Si C(4)
