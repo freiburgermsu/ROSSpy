@@ -225,13 +225,10 @@ class ROSSPkg():
             print('permeate_removal_per_cell', self.parameters['permeate_moles_per_cell'])
             print('active_cm_squared_cell', (self.parameters['active_m2_cell']/centi**2))
 
-    def _reaction(self, final_cf = None, permeate_efficiency = 1, head_loss = 0.1, evaporation_steps = 15):     
+    def _reaction(self, final_cf = 2, permeate_efficiency = 1, head_loss = 0.1, evaporation_steps = 15, linear_perm=False):     
         '''Define the REACTION blocks'''
-        self.parameters['permeate_approach'] = 'linear_permeate'
-        if isnumber(final_cf):
-            self.parameters['permeate_approach'] = 'linear_cf'
-        elif final_cf is not None:
-            self._error(f'The final_cf parameter value < {final_cf} > is not a number.', 'value')
+        self.parameters['permeate_approach'] = 'linear_cf' if not linear_perm else "linear_permeate"
+        if not isnumber(final_cf):  self._error(f'The final_cf parameter value < {final_cf} > is not a number.', 'value')
     
         # determine the permeate fluxes
         reaction_parameters, self.results['reaction_block'] = [], []
